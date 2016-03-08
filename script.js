@@ -11,4 +11,4 @@ function myOwnFunction(inVal){
 	var myVar = inVal;
 	return myVar;
 
-}   
+}
