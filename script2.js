@@ -1,2 +1,0 @@
-var asdasd = myOwnFunction();
-

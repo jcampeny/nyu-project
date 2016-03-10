@@ -1,0 +1,17 @@
+{
+  "name": "angularSlides",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "latest",
+    "angular-bootstrap": "latest",
+    "angular-resource": "latest",
+    "angular-ui-router": "latest",
+    "angular-animate": "latest",
+    "angular-sanitize": "~1.4.7",
+    "angular-mocks": "~1.4.5",
+    "bootstrap": "latest",
+    "font-awesome": "^4.5.0",
+    "jquery": "latest",
+    "underscore": "latest"
+  }
+}

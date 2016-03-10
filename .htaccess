@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /
+AddDefaultCharset utf-8
+
+RewriteRule ^([A-Za-z0-9/_-]*)$               /index.html [NC,L]
