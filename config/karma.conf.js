@@ -15,11 +15,7 @@ module.exports = function(config) {
         'bower_components/firebase/firebase.js',
         'bower_components/angularfire/dist/angularfire.js',
         'bower_components/angular-sanitize/angular-sanitize.js',
-        'app/core/*.js',
-        'app/core/*.html',
-        'app/services/*.js',
-		'app/components/**/*.js',
-        'app/components/**/*.html',
+        'dist/app.js',
         'tests/**/*.js'
     ],
     preprocessors: {

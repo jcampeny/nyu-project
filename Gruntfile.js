@@ -76,31 +76,10 @@ module.exports = function(grunt) {
           archive: 'release/<%= pkg.name %>-<%= pkg.version %>.zip'
         },
         files: [{
-          src: [ 'index.html', '.htaccess' ],
-          dest: '/'
-        }, {
-          src: [ 'dist/**' ],
-          dest: '/'
-        }, {
-          src: [ 'assets/**' ],
+          src: [ 'index.html', '.htaccess', 'dist/**', 'assets/**', 'upload/**', 'php/**' ],
           dest: '/'
         }, {
           src: [ 'bower_components/**' ],
-          dest: '/'
-        }, {
-          src: [ 'app/**' ],
-          dest: '/'
-        }, {
-          src: [ 'export/**' ],
-          dest: '/'
-        }, {
-          src: [ 'upload/**' ],
-          dest: '/'
-        }, {
-          src: [ 'php/**' ],
-          dest: '/'
-        }, {
-          src: [ 'data/**' ],
           dest: '/'
         }]
       }
@@ -123,7 +102,6 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  //grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -132,9 +110,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('dev', [ /*'bower','connect:server', */ 'watch:dev' ]);
+  grunt.registerTask('dev', [ 'watch:dev' ]);
   grunt.registerTask('test', [ 'bower', 'jshint', 'karma:continuous' ]);
-  grunt.registerTask('minified', [ 'bower', /*'connect:server', */ 'watch:min' ]);
-  grunt.registerTask('package', [ /*'bower',*/ 'jshint', 'html2js:dist', 'concat:dist', 'uglify:dist',
-    'clean:temp', 'compress:dist', 'karma:unit' ]);
+  grunt.registerTask('minified', [ 'bower', 'watch:min' ]);
+  grunt.registerTask('package', [ 'jshint', 'html2js:dist', 'concat:dist', 'uglify:dist', 'clean:temp', 'compress:dist', 'karma:unit' ]);
 };

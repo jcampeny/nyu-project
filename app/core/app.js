@@ -1,4 +1,4 @@
-var app = angular.module("app",['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource'])
 .controller("mainController", [ '$scope', 'ArrayService', function($scope, ArrayService) {
 
 
@@ -8,8 +8,8 @@ var app = angular.module("app",['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngRes
 		$urlRouterProvider.otherwise("/section");
 
 		$stateProvider
-			.state('app', {url:'/', templateUrl: '/app/core/main.html', abstract: true})
-			.state('app.section', {url:'section', template: '<app-section></app-section>'});
+			.state('app', {url:'/', templateUrl: '../app/core/main.html', abstract: true})
+			.state('app.section', {url:'section', templateUrl: '../app/components/section/section.html'});
 
 		$locationProvider.html5Mode(true);
 		$resourceProvider.defaults.stripTrailingSlashes = false;
