@@ -1,7 +1,28 @@
 /*jslint node: true */
 "use strict";
 
+
 module.exports = function(grunt) {
+  var vendorScripts = [
+    "bower_components/angular/angular.min.js",
+    "bower_components/angular-animate/angular-animate.min.js",
+    "bower_components/angular-bootstrap/ui-bootstrap.min.js",
+    "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+    "bower_components/angular-resource/angular-resource.min.js",
+    "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+    "bower_components/angular-sanitize/angular-sanitize.min.js",
+    "bower_components/jquery/dist/jquery.min.js",
+    "bower_components/bootstrap/dist/js/bootstrap.min.js"
+  ];
+
+  var vendorStyles = [
+    "bower_components/bootstrap/dist/css/bootstrap.min.css",
+    "bower_components/angular-bootstrap/ui-bootstrap-csp.css",
+    "bower_components/font-awesome/css/font-awesome.min.css",
+    "bower_components/font-awesome/css/font-awesome.css"
+  ];
+
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -45,10 +66,18 @@ module.exports = function(grunt) {
         src: [ 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', 'tmp/*.js' ],
         dest: 'dist/app.js'
       },
+      distVendorJs: {
+        src: vendorScripts,
+        dest: 'dist/vendor.js'
+      },
       distCss: {
         src: [ 'app/components/**/*.css', 'assets/css/*.css'],
         dest: 'dist/style.css'
-      }
+      },
+      distVendorCss: {
+        src: vendorStyles,
+        dest: 'dist/vendor.css'
+      },
     },
     jshint: {
       all: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js' ]
@@ -56,14 +85,14 @@ module.exports = function(grunt) {
     watch: {
       dev: {
         files: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', 'app/components/**/*.html', 'app/components/**/*.css', 'app/core/*.html', '*.html', 'assets/css/*.css' ],
-        tasks: [ 'jshint', 'html2js:dist', 'concat:dist', 'concat:distCss', 'clean:temp', 'karma:unit' ],
+        tasks: [ 'jshint', 'html2js:dist', 'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'karma:unit' ],
         options: {
           atBegin: true
         }
       },
       min: {
         files: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', '*.html' ],
-        tasks: [ 'jshint', 'karma:unit', 'html2js:dist', 'concat:dist', 'concat:distCss', 'clean:temp', 'uglify:dist' ],
+        tasks: [ 'jshint', 'karma:unit', 'html2js:dist', 'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'uglify:dist' ],
         options: {
           atBegin: true
         }
@@ -112,6 +141,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', [ 'watch:dev' ]);
   grunt.registerTask('test', [ 'bower', 'jshint', 'karma:continuous' ]);
-  grunt.registerTask('minified', [ 'bower', 'watch:min' ]);
-  grunt.registerTask('package', [ 'jshint', 'html2js:dist', 'concat:dist', 'uglify:dist', 'clean:temp', 'compress:dist', 'karma:unit' ]);
+  grunt.registerTask('package', [ 
+    'jshint', 'html2js:dist', 
+    'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss',
+    'uglify:dist', 'clean:temp', 'compress:dist', 'karma:unit' ]);
 };

@@ -11,7 +11,6 @@
     "angular-mocks": "~1.4.5",
     "bootstrap": "latest",
     "font-awesome": "^4.5.0",
-    "jquery": "latest",
-    "underscore": "latest"
+    "jquery": "latest"
   }
 }
