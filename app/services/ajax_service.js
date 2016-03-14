@@ -1,33 +1,18 @@
 
-angular.module('app').service("AjaxService",['$http', 'UserService', function( $http, UserService ) {
+angular.module('app').service("AjaxService",['$http', function( $http ) {
 	    return({
-				getUserData: getUserData,
-				getInfographicData: getInfographicData,
-			});
+			getData: getData
+		});
 
-			function getUserData(data){
-				var userInfo = UserService.getUser();
-				data.session = userInfo.session;
+		function getData(data){
 	    	return $http({
-            method: "POST",
-            url: "/php/auth.php",
-            data: {
-                'action':'getUserData',
-                'data':data
-            }
-        });
+		        method: "POST",
+		        url: "",
+		        data: {
+		            'action':'',
+		            'data':data
+		        }
+        	});
 	    }
 
-			function getInfographicData(data){
-				var userInfo = UserService.getUser();
-				data.session = userInfo.session;
-				return $http({
-						method: "POST",
-						url: "/php/auth.php",
-						data: {
-								'action':'getInfographicData',
-								'data':data
-						}
-				});
-			}
 	}]);
