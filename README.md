@@ -2,8 +2,7 @@
 
 ## What is this? ##
 
-This is a root angular project to start other web applications based on AngularJS framework.
-It has the most basic file structure and configuration to start any kind of projects.
+This is a fork of the AngularProject repository to implement a slides website for presentations and storytelling websites
 
 Works with:
  - Bootstrap
