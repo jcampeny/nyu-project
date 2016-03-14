@@ -99,16 +99,29 @@ module.exports = function(grunt) {
       }
     },
 
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true, 
+            src: ['index.html', '.htaccess', 'dist/**', 'assets/**', 'upload/**', 'php/**'], 
+            dest: 'release/<%= pkg.name %>-<%= pkg.version %>/'
+          }
+        ]
+      }
+    },
+
     compress: {
       dist: {
         options: {
-          archive: 'release/<%= pkg.name %>-<%= pkg.version %>.zip'
+          archive: 'release/<%= pkg.name %>-<%= pkg.version %>.zip',
+          mode: 'zip'
         },
         files: [{
-          src: [ 'index.html', '.htaccess', 'dist/**', 'assets/**', 'upload/**', 'php/**' ],
-          dest: '/'
-        }, {
-          src: [ 'bower_components/**' ],
+          dot: true,
+          expand: true,
+          src: [ '<%= pkg.name %>-<%= pkg.version %>/**' ],
+          cwd: 'release/',
           dest: '/'
         }]
       }
@@ -134,6 +147,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bower-task');
@@ -144,5 +158,5 @@ module.exports = function(grunt) {
   grunt.registerTask('package', [ 
     'jshint', 'html2js:dist', 
     'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss',
-    'uglify:dist', 'clean:temp', 'compress:dist', 'karma:unit' ]);
+    'uglify:dist', 'clean:temp', 'copy:dist', 'compress:dist', 'karma:unit' ]);
 };
