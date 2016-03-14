@@ -49,7 +49,7 @@ module.exports = function(grunt) {
     },
     html2js: {
       dist: {
-        src: [ 'app/components/**/*.html', 'app/core/*.html' ],
+        src: [ 'app/**/*.html' ],
         dest: 'tmp/templates.js'
       }
     },
@@ -60,39 +60,35 @@ module.exports = function(grunt) {
     },
     concat: {
       options: {
-        separator: '\n;'
+        separator: '\n'
       },
       dist: {
-        src: [ 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', 'tmp/*.js' ],
+        src: [ 'app/core/*.js', 'app/**/*.js', 'tmp/*.js' ], // Include redundant core/*.js to process it first and create angular main module
         dest: 'dist/app.js'
       },
       distVendorJs: {
         src: vendorScripts,
         dest: 'dist/vendor.js'
       },
-      distCss: {
-        src: [ 'app/components/**/*.css', 'assets/css/*.css'],
-        dest: 'dist/style.css'
-      },
       distVendorCss: {
         src: vendorStyles,
         dest: 'dist/vendor.css'
       },
     },
+    sass: {
+      dist: {
+        files: {
+          'dist/style.css' : 'app/core/main.scss'
+        }
+      }
+    },
     jshint: {
-      all: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js' ]
+      all: [ 'Gruntfile.js', 'app/**/*.js' ]
     },
     watch: {
       dev: {
-        files: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', 'app/components/**/*.html', 'app/components/**/*.css', 'app/core/*.html', '*.html', 'assets/css/*.css' ],
-        tasks: [ 'jshint', 'html2js:dist', 'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'karma:unit' ],
-        options: {
-          atBegin: true
-        }
-      },
-      min: {
-        files: [ 'Gruntfile.js', 'app/core/*.js', 'app/services/*.js', 'app/components/**/*.js', '*.html' ],
-        tasks: [ 'jshint', 'karma:unit', 'html2js:dist', 'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'uglify:dist' ],
+        files: [ 'Gruntfile.js', 'app/**/*.js', 'app/**/*.html', 'app/**/*.scss', '*.html' ],
+        tasks: [ 'jshint', 'html2js:dist', 'concat:dist', 'sass:dist', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'karma:unit' ],
         options: {
           atBegin: true
         }
@@ -152,11 +148,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('dev', [ 'watch:dev' ]);
   grunt.registerTask('test', [ 'bower', 'jshint', 'karma:continuous' ]);
   grunt.registerTask('package', [ 
     'jshint', 'html2js:dist', 
-    'concat:dist', 'concat:distCss', 'concat:distVendorJs', 'concat:distVendorCss',
+    'concat:dist', 'sass:dist', 'concat:distVendorJs', 'concat:distVendorCss',
     'uglify:dist', 'clean:temp', 'copy:dist', 'compress:dist', 'karma:unit' ]);
 };
