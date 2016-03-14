@@ -9,7 +9,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 		$stateProvider
 			.state('app', {url:'/', templateUrl: '../app/core/main.html', abstract: true})
-			.state('app.section', {url:'section', templateUrl: '../app/components/section/section.html'});
+			.state('app.section', {url:'section', template: '<app-section></app-section>'});
 
 		$locationProvider.html5Mode(true);
 		$resourceProvider.defaults.stripTrailingSlashes = false;
@@ -21,7 +21,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 .constant("API_CONFIG", {
     "BASE_URL": ""
 })
-.run(['$rootScope', '$location', '$window', 'UserService', '$state', function($rootScope, $location, $window, UserService, $state){
+.run(['$rootScope', '$location', '$window', '$state', function($rootScope, $location, $window, $state){
      $rootScope.$on('$stateChangeSuccess',
         function(event){
             if (!$window.ga)
