@@ -1,13 +1,6 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'pascalprecht.translate'])
 
-	.controller("mainController", [ '$scope', 'ArrayService', 'DataService' ,'$sce', function($scope, ArrayService, DataService,$sce) {
-		//var a  = DataService.all(type, results);
-		//console.log(a);
-		//var a =  DataService.getById("posts", 1);
-
-		DataService.getById("posts", 1).then(function(data){
-      		console.log($sce.valueOf(data.content));
-    	});
+	.controller("mainController", [ '$scope', 'ArrayService', '$sce', function($scope, ArrayService,$sce) {
 		
 	}])
 
