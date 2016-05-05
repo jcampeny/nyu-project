@@ -16,13 +16,13 @@
         };
        
 
-            function all(type, results) {
+            function all(type, results, page) {
                 var pagination = "";
                 if(typeof results !== "undefined"){
                     if(results === "all"){
                         pagination = "&page=1&per_page=100";    
                     }else{
-                        pagination = "&page=1&per_page="+results;
+                        pagination = (typeof page !== "undefined") ? ("&page="+page+"&per_page="+ results) : ("&page=1&per_page="+results);
                     }
                     
                 }
