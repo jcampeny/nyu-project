@@ -1,9 +1,0 @@
-@import 'vars';
-@import 'mixins';
-@import '../components/section/section';
-
-body {
-	margin:0;
-	padding:0;
-	@include opacity(1); 
-}
