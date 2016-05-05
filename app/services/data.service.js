@@ -29,7 +29,7 @@
 
                 return getData(type+"?_embed"+pagination);
             }
-//wordpress/wp-json/wp/v2/posts/1?_embed
+
             // function allByTag(type, tag) {
             //     return getData(type+'?filter[tag]=' + tag);
             // }
@@ -47,9 +47,9 @@
             }
 
             function getData(url) {
-                var test = "/wordpress/wp-json/wp/v2/";
+                var path = "/wordpress/wp-json/wp/v2/";
                 return $http
-                    .get(/*config.API_URL*/ test + url, { cache: true })
+                    .get(path + url, { cache: true })
                     .then(function(response) {
                         if (response.data instanceof Array) {
                             var items = response.data.map(function(item) {
