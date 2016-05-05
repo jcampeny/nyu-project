@@ -12,7 +12,8 @@ module.exports = function(grunt) {
     "bower_components/angular-ui-router/release/angular-ui-router.min.js",
     "bower_components/angular-sanitize/angular-sanitize.min.js",
     "bower_components/jquery/dist/jquery.min.js",
-    "bower_components/bootstrap/dist/js/bootstrap.min.js"
+    "bower_components/bootstrap/dist/js/bootstrap.min.js",
+    "bower_components/angular-translate/angular-translate.min.js"
   ];
 
   var vendorStyles = [
