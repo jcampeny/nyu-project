@@ -64,7 +64,7 @@ function insertToDB($request) {
 	/*  for gmt date:
 	*	$d =  gmdate("Y-m-d H:i:s"); 
 	*/
-	$d =  gmdate("Y-m-d H:i:s"); 
+	$d =  date("Y-m-d H:i:s"); 
 	$date = date($d);
 
 	// setting parameters from request
