@@ -587,48 +587,13 @@ function Custom_post_Article() {
 }
 add_action( 'init', 'Custom_post_Article', 0 );
 add_action("admin_init", "admin_init_article");
-add_action('save_post', 'save_details_article');
 
-function admin_init_article(){
-  add_meta_box("metaBox_article", "Graphic Content", "metaBox_article", "article", "normal", "low");
-}
 
-function metaBox_article() {
-  global $post;
- /* todo
- $custom = get_post_custom($post->ID);
-  $name_article = $custom["name_article"][0];
-  $email_article = $custom["email_article"][0];
-  $company_article = $custom["company_article"][0];
-  $interest_article = $custom["interest_article"][0];
-  $content_article = $custom["content_article"][0];
-  $settings = array(
-    'media_buttons' => false,
-    'teeny' => true
-    );*/
-  /*?> TO DO 
-    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_article ?>" readonly></p>
-    <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_article ?>" readonly></p>
-	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_article ?>" readonly></p>
-	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_article ?>" readonly></p>
-	<p><label>Content:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $content_article ?>" readonly></p>
-  <?php*/
-}
-function save_details_article(){
-  global $post;
-/*todo
-  update_post_meta($post->ID, "name_article", $_POST["name_article"]);
-  update_post_meta($post->ID, "email_article", $_POST["email_article"]);
-  update_post_meta($post->ID, "company_article", $_POST["company_article"]);
-  update_post_meta($post->ID, "interest_article", $_POST["interest_article"]);
-  update_post_meta($post->ID, "content_article", $_POST["content_article"]);
-  */
-}
 
 /**
  *
  *
- *Custom post type Article
+ *Custom post type Book
  *
  *
  */
@@ -658,7 +623,7 @@ function Custom_post_Book() {
         'label'                 => __( 'Book', 'text_domain' ),
         'description'           => __( 'Custom post Book', 'text_domain' ),
         'labels'                => $labels,
-        'supports'              => array( 'editor','thumbnail', ),
+        'supports' 				=> array( 'title', 'editor', 'thumbnail', 'revisions' ),
         'hierarchical'          => false,
         'public'                => true,
         'menu_icon'				=> 'dashicons-book-alt',
@@ -678,40 +643,104 @@ function Custom_post_Book() {
 }
 add_action( 'init', 'Custom_post_Book', 0 );
 add_action("admin_init", "admin_init_book");
-add_action('save_post', 'save_details_book');
+
+/**
+ *
+ *
+ * MetaBox for Custom post
+ *
+ *
+ */
+
+//Custom Posts that use this metabox
+$custom_posts = array(
+		'book',
+		'article'
+	);
 
 function admin_init_book(){
-  add_meta_box("metaBox_book", "Graphic Content", "metaBox_book", "book", "normal", "low");
+	global $custom_posts;
+
+    add_meta_box("metaBox_book", "Other information", "metaBox_book", $custom_posts, "normal", "low");
 }
 
+//Content Metabox
 function metaBox_book() {
   global $post;
- /* todo
- $custom = get_post_custom($post->ID);
-  $name_book = $custom["name_book"][0];
-  $email_book = $custom["email_book"][0];
-  $company_book = $custom["company_book"][0];
-  $interest_book = $custom["interest_book"][0];
-  $content_book = $custom["content_book"][0];
+
+  $custom = get_post_custom($post->ID);
+  $publication_appear = $custom["publication_appear"][0];
+  $identifier = $custom["identifier"][0];
+
   $settings = array(
     'media_buttons' => false,
-    'teeny' => true
-    );*/
-  /*?> TO DO 
-    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_book ?>" readonly></p>
-    <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_book ?>" readonly></p>
-	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_book ?>" readonly></p>
-	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_book ?>" readonly></p>
-	<p><label>Content:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $content_book ?>" readonly></p>
-  <?php*/
+    'teeny' => true,
+    'editor_height' => 15
+  );
+
+  ?>
+  <p><label>Publication within which it appears:</label><br>
+  	<?php wp_editor( $publication_appear, "publication_appear", $settings);?>
+  <p><label>Identifier:</label><br>
+  	<?php wp_editor( $identifier, "identifier", $settings);?>
+  <?php
+
 }
-function save_details_book(){
+
+//Update DB
+function save_details(){
   global $post;
-/*todo
-  update_post_meta($post->ID, "name_book", $_POST["name_book"]);
-  update_post_meta($post->ID, "email_book", $_POST["email_book"]);
-  update_post_meta($post->ID, "company_book", $_POST["company_book"]);
-  update_post_meta($post->ID, "interest_book", $_POST["interest_book"]);
-  update_post_meta($post->ID, "content_book", $_POST["content_book"]);
-  */
+
+  update_post_meta($post->ID, "publication_appear", $_POST["publication_appear"]);
+  update_post_meta($post->ID, "identifier", $_POST["identifier"]);
 }
+
+add_action('save_post', 'save_details');
+
+/**
+ *
+ *
+ *Custom taxonomy Author
+ *
+ *
+ */
+
+add_action( 'init', 'create_author_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_author_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Author, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Authors', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Author', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Authors' ),
+		'popular_items'              => __( 'Popular Authors' ),
+		'all_items'                  => __( 'All Authors' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Author' ),
+		'update_item'                => __( 'Update Author' ),
+		'add_new_item'               => __( 'Add New Author' ),
+		'new_item_name'              => __( 'New Author Name' ),
+		'separate_items_with_commas' => __( 'Separate authors with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove authors' ),
+		'choose_from_most_used'      => __( 'Choose from the most used authors' ),
+		'not_found'                  => __( 'No authors found.' ),
+		'menu_name'                  => __( 'Authors' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => true, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'author' ),
+	);
+	
+	register_taxonomy( 'author', $custom_posts, $args );
+}
+?>
