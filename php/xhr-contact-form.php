@@ -59,7 +59,11 @@ function insertToDB($request) {
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	} 
+
 	// Get actual date
+	/*  for gmt date:
+	*	$d =  gmdate("Y-m-d H:i:s"); 
+	*/
 	$d =  gmdate("Y-m-d H:i:s"); 
 	$date = date($d);
 

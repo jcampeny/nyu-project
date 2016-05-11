@@ -420,11 +420,15 @@ function twentysixteen_widget_tag_cloud_args( $args ) {
 }
 add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 
+/**
+ *
+ *
+ *Custom post type Message
+ *
+ *
+ */
 
 function Custom_post_Message() {
-  global $post;
-  $custom = get_post_custom($post->ID);
-  $name_message = $custom["name_message"][0];
     $labels = array(
         'name'                  => _x( 'Messages', 'Post Type General Name', 'text_domain' ),
         'singular_name'         => _x( 'Message', 'Post Type Singular Name', 'text_domain' ),
@@ -435,7 +439,7 @@ function Custom_post_Message() {
         'add_new_item'          => __( 'Message', 'text_domain' ),
         'add_new'               => __( 'Add New', 'text_domain' ),
         'new_item'              => __( 'New Item', 'text_domain' ),
-        'edit_item'             => __( 'Edit Item', 'text_domain' ),
+        'edit_item'             => __( 'Message information', 'text_domain' ),
         'update_item'           => __( 'Update Item', 'text_domain' ),
         'view_item'             => __( 'View Item', 'text_domain' ),
         'search_items'          => __( 'Search Item', 'text_domain' ),
@@ -449,13 +453,13 @@ function Custom_post_Message() {
         'label'                 => __( 'Message', 'text_domain' ),
         'description'           => __( 'Custom post Message', 'text_domain' ),
         'labels'                => $labels,
-        'supports'              => array( 'editor','thumbnail', ),
+        'supports'              => array(  ),
         'hierarchical'          => false,
         'public'                => true,
         'menu_icon'				=> 'dashicons-email-alt',
         'show_ui'               => true,
         'show_in_menu'          => true,
-        'menu_position'         => 5,
+        'menu_position'         => 28,
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
@@ -476,7 +480,7 @@ add_action("admin_init", "admin_init_message");
 add_action('save_post', 'save_details_message');
 
 function admin_init_message(){
-  add_meta_box("metaBox_message", "Graphic Content", "metaBox_message", "message", "normal", "low");
+  add_meta_box("metaBox_message", "Details", "metaBox_message", "message", "normal", "low");
 }
 
 function metaBox_message() {
@@ -492,7 +496,27 @@ function metaBox_message() {
     'teeny' => true
     );
   ?>
-    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_message ?>" readonly></p>
+  <div style="display: none;">
+  <style type="text/css">
+  	#wp-content-wrap,
+  	#post-body-content,
+  	#publishing-action{
+  		display: none;
+  	}
+
+  </style>
+  <p><label>Analytics:</label><br />
+  <?php wp_editor( $name_message, "name_message", $settings);?>
+  <p><label>Technology:</label><br />
+  <?php wp_editor( $email_message, "email_message", $settings);?>
+  <p><label>Bussines:</label><br />
+  <?php wp_editor( $company_message, "company_message", $settings);?>
+  <p><label>Technology:</label><br />
+  <?php wp_editor( $interest_message, "interest_message", $settings);?>
+  <p><label>Bussines:</label><br />
+  <?php wp_editor( $content_message, "content_message", $settings);?>
+  </div>
+    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_message?>" readonly></p>
     <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_message ?>" readonly></p>
 	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_message ?>" readonly></p>
 	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_message ?>" readonly></p>
@@ -508,4 +532,186 @@ function save_details_message(){
   update_post_meta($post->ID, "interest_message", $_POST["interest_message"]);
   update_post_meta($post->ID, "content_message", $_POST["content_message"]);
   
+}
+
+/**
+ *
+ *
+ *Custom post type Article
+ *
+ *
+ */
+
+function Custom_post_Article() {
+    $labels = array(
+        'name'                  => _x( 'Articles', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Article', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Article', 'text_domain' ),
+        'name_admin_bar'        => __( 'Article', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+        'all_items'             => __( 'All Items', 'text_domain' ),
+        'add_new_item'          => __( 'Article', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Item', 'text_domain' ),
+        'edit_item'             => __( 'Edit Item', 'text_domain' ),
+        'update_item'           => __( 'Update Item', 'text_domain' ),
+        'view_item'             => __( 'View Item', 'text_domain' ),
+        'search_items'          => __( 'Search Item', 'text_domain' ),
+        'not_found'             => __( 'Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+        'items_list'            => __( 'Items list', 'text_domain' ),
+        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Article', 'text_domain' ),
+        'description'           => __( 'Custom post Article', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array( 'editor','thumbnail', ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'menu_icon'				=> 'dashicons-format-aside',
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 26,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,        
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post', 
+    );
+    register_post_type('article', $args );
+
+}
+add_action( 'init', 'Custom_post_Article', 0 );
+add_action("admin_init", "admin_init_article");
+add_action('save_post', 'save_details_article');
+
+function admin_init_article(){
+  add_meta_box("metaBox_article", "Graphic Content", "metaBox_article", "article", "normal", "low");
+}
+
+function metaBox_article() {
+  global $post;
+ /* todo
+ $custom = get_post_custom($post->ID);
+  $name_article = $custom["name_article"][0];
+  $email_article = $custom["email_article"][0];
+  $company_article = $custom["company_article"][0];
+  $interest_article = $custom["interest_article"][0];
+  $content_article = $custom["content_article"][0];
+  $settings = array(
+    'media_buttons' => false,
+    'teeny' => true
+    );*/
+  /*?> TO DO 
+    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_article ?>" readonly></p>
+    <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_article ?>" readonly></p>
+	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_article ?>" readonly></p>
+	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_article ?>" readonly></p>
+	<p><label>Content:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $content_article ?>" readonly></p>
+  <?php*/
+}
+function save_details_article(){
+  global $post;
+/*todo
+  update_post_meta($post->ID, "name_article", $_POST["name_article"]);
+  update_post_meta($post->ID, "email_article", $_POST["email_article"]);
+  update_post_meta($post->ID, "company_article", $_POST["company_article"]);
+  update_post_meta($post->ID, "interest_article", $_POST["interest_article"]);
+  update_post_meta($post->ID, "content_article", $_POST["content_article"]);
+  */
+}
+
+/**
+ *
+ *
+ *Custom post type Article
+ *
+ *
+ */
+
+function Custom_post_Book() {
+    $labels = array(
+        'name'                  => _x( 'Books', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Book', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Book', 'text_domain' ),
+        'name_admin_bar'        => __( 'Book', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+        'all_items'             => __( 'All Items', 'text_domain' ),
+        'add_new_item'          => __( 'Book', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Item', 'text_domain' ),
+        'edit_item'             => __( 'Edit Item', 'text_domain' ),
+        'update_item'           => __( 'Update Item', 'text_domain' ),
+        'view_item'             => __( 'View Item', 'text_domain' ),
+        'search_items'          => __( 'Search Item', 'text_domain' ),
+        'not_found'             => __( 'Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+        'items_list'            => __( 'Items list', 'text_domain' ),
+        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Book', 'text_domain' ),
+        'description'           => __( 'Custom post Book', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array( 'editor','thumbnail', ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'menu_icon'				=> 'dashicons-book-alt',
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 27,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,        
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post', 
+    );
+    register_post_type('book', $args );
+
+}
+add_action( 'init', 'Custom_post_Book', 0 );
+add_action("admin_init", "admin_init_book");
+add_action('save_post', 'save_details_book');
+
+function admin_init_book(){
+  add_meta_box("metaBox_book", "Graphic Content", "metaBox_book", "book", "normal", "low");
+}
+
+function metaBox_book() {
+  global $post;
+ /* todo
+ $custom = get_post_custom($post->ID);
+  $name_book = $custom["name_book"][0];
+  $email_book = $custom["email_book"][0];
+  $company_book = $custom["company_book"][0];
+  $interest_book = $custom["interest_book"][0];
+  $content_book = $custom["content_book"][0];
+  $settings = array(
+    'media_buttons' => false,
+    'teeny' => true
+    );*/
+  /*?> TO DO 
+    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_book ?>" readonly></p>
+    <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_book ?>" readonly></p>
+	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_book ?>" readonly></p>
+	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_book ?>" readonly></p>
+	<p><label>Content:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $content_book ?>" readonly></p>
+  <?php*/
+}
+function save_details_book(){
+  global $post;
+/*todo
+  update_post_meta($post->ID, "name_book", $_POST["name_book"]);
+  update_post_meta($post->ID, "email_book", $_POST["email_book"]);
+  update_post_meta($post->ID, "company_book", $_POST["company_book"]);
+  update_post_meta($post->ID, "interest_book", $_POST["interest_book"]);
+  update_post_meta($post->ID, "content_book", $_POST["content_book"]);
+  */
 }
