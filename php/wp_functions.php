@@ -491,16 +491,20 @@ function metaBox_message() {
   $company_message = $custom["company_message"][0];
   $interest_message = $custom["interest_message"][0];
   $content_message = $custom["content_message"][0];
+  $note_message = $custom["note_message"][0];
+
   $settings = array(
     'media_buttons' => false,
     'teeny' => true
     );
   ?>
+  <p><label>Notes:</label><br />
+  <?php wp_editor( $note_message, "note_message", $settings);?>
   <div style="display: none;">
   <style type="text/css">
   	#wp-content-wrap,
-  	#post-body-content,
-  	#publishing-action{
+  	#post-body-content/*,
+  	#publishing-action*/{
   		display: none;
   	}
 
@@ -526,6 +530,7 @@ function metaBox_message() {
 function save_details_message(){
   global $post;
 
+  update_post_meta($post->ID, "note_message", $_POST["note_message"]);
   update_post_meta($post->ID, "name_message", $_POST["name_message"]);
   update_post_meta($post->ID, "email_message", $_POST["email_message"]);
   update_post_meta($post->ID, "company_message", $_POST["company_message"]);
@@ -533,116 +538,6 @@ function save_details_message(){
   update_post_meta($post->ID, "content_message", $_POST["content_message"]);
   
 }
-
-/**
- *
- *
- *Custom post type Article
- *
- *
- */
-
-function Custom_post_Article() {
-    $labels = array(
-        'name'                  => _x( 'Articles', 'Post Type General Name', 'text_domain' ),
-        'singular_name'         => _x( 'Article', 'Post Type Singular Name', 'text_domain' ),
-        'menu_name'             => __( 'Article', 'text_domain' ),
-        'name_admin_bar'        => __( 'Article', 'text_domain' ),
-        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
-        'all_items'             => __( 'All Items', 'text_domain' ),
-        'add_new_item'          => __( 'Article', 'text_domain' ),
-        'add_new'               => __( 'Add New', 'text_domain' ),
-        'new_item'              => __( 'New Item', 'text_domain' ),
-        'edit_item'             => __( 'Edit Item', 'text_domain' ),
-        'update_item'           => __( 'Update Item', 'text_domain' ),
-        'view_item'             => __( 'View Item', 'text_domain' ),
-        'search_items'          => __( 'Search Item', 'text_domain' ),
-        'not_found'             => __( 'Not found', 'text_domain' ),
-        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
-        'items_list'            => __( 'Items list', 'text_domain' ),
-        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
-        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
-    );
-    $args = array(
-        'label'                 => __( 'Article', 'text_domain' ),
-        'description'           => __( 'Custom post Article', 'text_domain' ),
-        'labels'                => $labels,
-        'supports'              => array( 'editor','thumbnail', ),
-        'hierarchical'          => false,
-        'public'                => true,
-        'menu_icon'				=> 'dashicons-format-aside',
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'menu_position'         => 26,
-        'show_in_admin_bar'     => true,
-        'show_in_nav_menus'     => true,
-        'can_export'            => true,
-        'has_archive'           => true,        
-        'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
-        'capability_type'       => 'post', 
-    );
-    register_post_type('article', $args );
-
-}
-add_action( 'init', 'Custom_post_Article', 0 );
-add_action("admin_init", "admin_init_article");
-
-
-
-/**
- *
- *
- *Custom post type Book
- *
- *
- */
-
-function Custom_post_Book() {
-    $labels = array(
-        'name'                  => _x( 'Books', 'Post Type General Name', 'text_domain' ),
-        'singular_name'         => _x( 'Book', 'Post Type Singular Name', 'text_domain' ),
-        'menu_name'             => __( 'Book', 'text_domain' ),
-        'name_admin_bar'        => __( 'Book', 'text_domain' ),
-        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
-        'all_items'             => __( 'All Items', 'text_domain' ),
-        'add_new_item'          => __( 'Book', 'text_domain' ),
-        'add_new'               => __( 'Add New', 'text_domain' ),
-        'new_item'              => __( 'New Item', 'text_domain' ),
-        'edit_item'             => __( 'Edit Item', 'text_domain' ),
-        'update_item'           => __( 'Update Item', 'text_domain' ),
-        'view_item'             => __( 'View Item', 'text_domain' ),
-        'search_items'          => __( 'Search Item', 'text_domain' ),
-        'not_found'             => __( 'Not found', 'text_domain' ),
-        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
-        'items_list'            => __( 'Items list', 'text_domain' ),
-        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
-        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
-    );
-    $args = array(
-        'label'                 => __( 'Book', 'text_domain' ),
-        'description'           => __( 'Custom post Book', 'text_domain' ),
-        'labels'                => $labels,
-        'supports' 				=> array( 'title', 'editor', 'thumbnail', 'revisions' ),
-        'hierarchical'          => false,
-        'public'                => true,
-        'menu_icon'				=> 'dashicons-book-alt',
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'menu_position'         => 27,
-        'show_in_admin_bar'     => true,
-        'show_in_nav_menus'     => true,
-        'can_export'            => true,
-        'has_archive'           => true,        
-        'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
-        'capability_type'       => 'post', 
-    );
-    register_post_type('book', $args );
-
-}
-add_action( 'init', 'Custom_post_Book', 0 );
-add_action("admin_init", "admin_init_book");
 
 /**
  *
@@ -658,14 +553,14 @@ $custom_posts = array(
 		'article'
 	);
 
-function admin_init_book(){
+function admin_init_metabox(){
 	global $custom_posts;
-
-    add_meta_box("metaBox_book", "Other information", "metaBox_book", $custom_posts, "normal", "low");
+    add_meta_box("metaBox_custom_post", "Other information", "metaBox_custom_post",$custom_posts , "normal", "low");
 }
+add_action("admin_init", "admin_init_metabox");
 
 //Content Metabox
-function metaBox_book() {
+function metaBox_custom_post() {
   global $post;
 
   $custom = get_post_custom($post->ID);
@@ -743,4 +638,107 @@ function create_author_taxonomy() {
 	
 	register_taxonomy( 'author', $custom_posts, $args );
 }
+
+/**
+ *
+ *
+ *Create Custom Post from the array ($custom_posts_list)
+ *
+ *
+ */
+$custom_posts_list = array(
+	array('Article','dashicons-format-aside'),
+	array('Book','dashicons-book-alt')
+);
+
+create_Custom_post($custom_posts_list);
+
+function create_Custom_post($custom_posts_list){
+	foreach ($custom_posts_list as $custom_post) {
+		$custom_post_creator = new CustomPost($custom_post[0], $custom_post[1]);
+	}	
+}
+
+
+/**
+ *Class to create Custom Post Type
+ *
+ *$obj = new CustomPost('the_name', 'the_icon');
+ *
+ *
+ */
+
+class CustomPost {
+    private $name;  // name that appear in labels (and identifier)
+	private $icon; // Icon that appear in admin menu
+
+	//constructor
+	function __construct($name, $icon){
+		$this->name = $name;
+        $this->icon = $icon;
+
+        $this->add();
+	}
+
+	//call add_action to creat the Custom Post
+    private function add(){
+		add_action( 'init', $this->creat_custom_post(), 0 );
+    }
+
+    //set labels and arguments to create the Custom Post
+	private function creat_custom_post() {
+	    $args = $this->set_labels($this->name, $this->icon);
+	    register_post_type($this->name, $args );
+	}
+
+	//Set labels and arg for Custom Post Type
+    private function set_labels(){
+    	$name = $this->name;
+    	$icon = $this->icon;
+
+		$labels = array(
+	        'name'                  => _x( $name.'s', 'Post Type General Name', 'text_domain' ),
+	        'singular_name'         => _x( $name, 'Post Type Singular Name', 'text_domain' ),
+	        'menu_name'             => __( $name, 'text_domain' ),
+	        'name_admin_bar'        => __( $name, 'text_domain' ),
+	        'parent_item_colon'     => __( 'Parent '.$name.':', 'text_domain' ),
+	        'all_items'             => __( 'All '.$name.'s', 'text_domain' ),
+	        'add_new_item'          => __( $name, 'text_domain' ),
+	        'add_new'               => __( 'Add New', 'text_domain' ),
+	        'new_item'              => __( 'New'.$name, 'text_domain' ),
+	        'edit_item'             => __( 'Edit '.$name, 'text_domain' ),
+	        'update_item'           => __( 'Update'.$name, 'text_domain' ),
+	        'view_item'             => __( 'View'.$name, 'text_domain' ),
+	        'search_items'          => __( 'Search'.$name, 'text_domain' ),
+	        'not_found'             => __( 'Not found', 'text_domain' ),
+	        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+	        'items_list'            => __( $name.'s list', 'text_domain' ),
+	        'items_list_navigation' => __( $name.'s list navigation', 'text_domain' ),
+	        'filter_items_list'     => __( 'Filter '.$name.'s list', 'text_domain' ),
+	    );
+
+	    $args = array(
+	        'label'                 => __( $name, 'text_domain' ),
+	        'description'           => __( 'Custom post '.$name, 'text_domain' ),
+	        'labels'                => $labels,
+	        'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
+	        'hierarchical'          => false,
+	        'public'                => true,
+	        'menu_icon'				=> $icon,
+	        'show_ui'               => true,
+	        'show_in_menu'          => true,
+	        'menu_position'         => 26,
+	        'show_in_admin_bar'     => true,
+	        'show_in_nav_menus'     => true,
+	        'can_export'            => true,
+	        'has_archive'           => true,        
+	        'exclude_from_search'   => false,
+	        'publicly_queryable'    => true,
+	        'capability_type'       => 'post', 
+	    );
+
+	    return $args;
+    }
+}
+
 ?>
