@@ -592,6 +592,19 @@ function save_details(){
 
 add_action('save_post', 'save_details');
 
+//send it with WP RESTAPI
+function wpsd_add_custom_posts_args() {
+    global $wp_post_types;
+    global $custom_posts;
+    
+    foreach ($custom_posts as $value) {
+        $wp_post_types[$value]->show_in_rest = true;
+    	$wp_post_types[$value]->rest_base = $value;
+    	$wp_post_types[$value]->rest_controller_class = 'WP_REST_Posts_Controller';	
+    }
+}
+add_action( 'init', 'wpsd_add_custom_posts_args', 30 );
+
 /**
  *
  *
