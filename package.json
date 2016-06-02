@@ -1,5 +1,5 @@
 {
-  "name": "angularProject",
+  "name": "angularWordpress",
   "version": "0.1.0",
   "devDependencies": {
     "connect-modrewrite": "^0.8.2",

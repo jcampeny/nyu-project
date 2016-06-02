@@ -22,7 +22,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 	}])
 
 	.constant("APPLICATION_CONFIG", {
-	    "NAME": "ANGULAR_SLIDES"
+	    "NAME": "ANGULAR_WORDPRESS"
 	})
 
 	.constant("API_CONFIG", {
