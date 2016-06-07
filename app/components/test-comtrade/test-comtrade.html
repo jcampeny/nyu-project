@@ -1,0 +1,46 @@
+<div class="row show-grid">
+	<div class="filters col-sm-3">
+		<div class="filters-item">
+			<label>Country From: </label>
+			<select ng-model="filters.countryFrom" ng-options="c.id as c.text for c in countries"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Country To: </label>
+			<select ng-model="filters.countryTo" ng-options="c.id as c.text for c in countries"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Year: </label>
+			<select ng-model="filters.year" ng-options="y for y in years"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Type: </label>
+			<select ng-model="filters.type" ng-options="t.id as t.text for t in types"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Category: </label>
+			<select ng-model="filters.codification" ng-options="c.id as c.text for c in codificationType" ng-change="fillCategories()"></select>
+			<div class="subfilters-item" ng-if="categories.length > 0">
+				<label>Level 1: </label>
+				<select ng-model="filters.category" ng-options="c.id as c.text for c in categories" ng-change="fillCategories2()"></select>		
+			</div>
+			<div class="subfilters-item" ng-if="categories_2.length > 0">
+				<label>Level 2: </label>
+				<select ng-model="filters.category_2" ng-options="c.id as c.text for c in categories_2" ng-change="fillCategories3()"></select>		
+			</div>
+			<div class="subfilters-item" ng-if="categories_3.length > 0">
+				<label>Level 3: </label>
+				<select ng-model="filters.category_3" ng-options="c.id as c.text for c in categories_3" ng-change="fillCategories4()"></select>		
+			</div>
+			<div class="subfilters-item" ng-if="categories_4.length > 0">
+				<label>Level 4: </label>
+				<select ng-model="filters.category_4" ng-options="c.id as c.text for c in categories_4"></select>		
+			</div>
+		</div>
+		<div>
+			<button class="btn btn-primary" ng-click="getData()">View</button>
+		</div>
+	</div>
+	<div class="data col-sm-9">
+	
+	</div>
+</div>

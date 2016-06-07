@@ -14,7 +14,11 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 			$stateProvider
 				.state('app', {url:'/', templateUrl: '../app/core/main.html', abstract: true})
-				.state('app.section', {url:'', template: '<app-section></app-section>'});
+				.state('app.section', 		{url:'', template: '<app-section></app-section>'})
+				.state('app.test-comtrade', {url:'comtrade', template: '<app-test-comtrade></test-comtrade>'})
+				.state('app.test-worldbank',{url:'worldbank', template: '<app-test-worldbank></app-test-worldbank>'})
+				.state('app.test-imf', 		{url:'imf', template: '<app-test-imf></app-test-imf>'})				
+				;
 
 			$locationProvider.html5Mode(true);
 			$resourceProvider.defaults.stripTrailingSlashes = false;

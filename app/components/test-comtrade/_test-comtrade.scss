@@ -1,0 +1,18 @@
+
+.filters {
+	margin-left: 20px;
+
+	.filters-item{
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid black;
+
+		select {
+			max-width: 100%;
+		}
+
+		.subfilters-item{
+			margin-bottom: 20px;
+		}
+	}
+}

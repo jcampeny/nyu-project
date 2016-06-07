@@ -101,7 +101,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true, 
-            src: ['index.html', '.htaccess', 'dist/**', 'assets/**', 'upload/**', 'php/**'], 
+            src: ['index.html', '.htaccess', 'dist/**', 'assets/**', 'upload/**', 'php/**', 'localdata/**'], 
             dest: 'release/<%= pkg.name %>-<%= pkg.version %>/'
           }
         ]
