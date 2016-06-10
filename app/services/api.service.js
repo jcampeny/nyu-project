@@ -10,129 +10,126 @@
  angular
     .module('app')
     .service('ApiService', ['$http', '$q', function($http, $q){
-        var minYear = 1990;
+        
+        var comtradeConfig = {
+            max  : 5000,
+            freq : "A"
+        };
+
+        var wbConfig = {
+            max  : 5000
+        };        
+
+        var imfConfig = {
+            proxyIMF : "/php/curl-proxy.php"
+        };
 
         return {
-            getCountries : getCountries,
-            getBEC       : getBEC,
-            getHS        : getHS,
-            getSITC      : getSITC,
-            getYears     : getYears,
-            getTypes     : getTypes
+            comtrade  : comtrade,
+            worldBank : worldBank,
+            imf       : imf
         };
        
-        function getCountries() {
+        function comtrade(request) {
+            var url = "http://comtrade.un.org/api/get?"+
+                        "max="+comtradeConfig.max+
+                        "&type="+request.type+
+                        "&freq="+comtradeConfig.freq+
+                        "&px="+request.codification+
+                        "&ps="+request.year+
+                        "&r="+request.countryFrom+
+                        "&p="+request.countryTo+
+                        "&cc="+request.code+
+                        "&rg=all&fmt=json";
+
             var deferred = $q.defer();
 
             $http
-                .get("/localdata/comtrade_countries.json", 
-                    { cache: true })
+                .get(url, { cache: true })
                 .then(function(response) {
-                    if (response.data.results instanceof Array) {
-                        deferred.resolve(response.data.results);
-                    } else {
-                        deferred.reject("Data is not an arrray");
+                    if(response.status == 200){
+                        if(response.data.validation.status.value === 0){
+                            deferred.resolve(response.data.dataset);    
+                        }else{
+                            deferred.reject(response.data.validation.status.description);    
+                        }
+                        
+                    
+                    }else {
+                        deferred.reject(response.statusText);
                     }
                 });
             return deferred.promise;
         }
 
-        function getBEC(parent) {
-            var deferred = $q.defer();
+        function worldBank(request){
+            var url = "http://api.worldbank.org/countries/";
 
-            $http
-                .get("/localdata/bec.json", { cache: true })
-                .then(function(response) {
-                    if (response.data.results instanceof Array) {
-                        var categories = [];
-
-                        angular.forEach(response.data.results,function(c){
-                            if(typeof parent === "undefined" || c.parent === parent || (parent === "ALL" && c.parent === "#")){
-                                categories.push(c);    
-                            }
-                        });
-                        return deferred.resolve(categories);
-                    } else {
-                        deferred.reject("Data is not an arrray");
-                    }
-                });
-
-            return deferred.promise;
-        }
-
-        function getHS(parent) {
-            var deferred = $q.defer();
-
-            $http
-                .get("/localdata/hs.json", { cache: true })
-                .then(function(response) {
-                    if (response.data.results instanceof Array) {
-                        var categories = [];
-
-                        angular.forEach(response.data.results,function(c){
-                            if(typeof parent === "undefined" || parent === "ALL"){
-                                if(c.id.length < 3){
-                                    categories.push(c);
-                                }
-                            }else if(c.id.indexOf(parent) === 0 && c.id.length == parent.length+2){
-                                categories.push(c);
-                            }
-                        });
-                        return deferred.resolve(categories);
-                    } else {
-                        deferred.reject("Data is not an arrray");
-                    }
-                });
-
-            return deferred.promise;
-        }
-
-        function getSITC(parent) {
-            var deferred = $q.defer();
-
-            $http
-                .get("/localdata/sitc.json", { cache: true })
-                .then(function(response) {
-                    if (response.data.results instanceof Array) {
-                        var categories = [];
-
-                        angular.forEach(response.data.results,function(c){
-                            if(typeof parent === "undefined" || parent === "ALL"){
-                                if(c.id.length < 2){
-                                    categories.push(c);
-                                }
-                            }else if(parent.length < 3 && c.id.indexOf(parent) === 0 && c.id.length == parent.length+1){
-                                categories.push(c);
-                            }else if(parent.length === 3 && c.id.indexOf(parent) === 0 && c.id.length > parent.length){
-                                categories.push(c);
-                            }
-                        });
-                        return deferred.resolve(categories);
-                    } else {
-                        deferred.reject("Data is not an arrray");
-                    }
-                });
-
-            return deferred.promise;
-        }
-
-        function getYears(){
-            var years = [];
-            var todayYear = (new Date()).getFullYear();
-
-            for(var i=minYear ; i<=todayYear ; i++){
-                years.push(i);
+            if(request.country !== null){
+                url += request.country+"/";
             }
-            return years;
-        }
+                      
+            url += "indicators/"+request.indicator+"?"+
+                        "per_page="+wbConfig.max+
+                        "&date="+request.yearFrom+":"+request.yearTo+
+                        "&format=jsonp&prefix=JSON_CALLBACK";
 
-        function getTypes(){
-            return [
-                {id:"C", text: "Comodity"},
-                {id:"S", text: "Service"}
-            ];
+            var deferred = $q.defer();
+
+            $http
+                .jsonp(url, { cache: true })
+                .then(function(response) {
+                    if(response.status == 200){
+                        if(response.data[0].total > 0 && response.data[1] !== null){
+                            deferred.resolve(response.data[1]);    
+                        }else{
+                            deferred.reject("NO DATA");    
+                        }
+                    }else {
+                        deferred.reject(response.statusText);
+                    }
+                });
+            return deferred.promise;
         }
         
+        function imf(request){
+            var url = "http://dataservices.imf.org/REST/SDMX_JSON.svc/CompactData/"+request.dataset+"/";
+                      
+            angular.forEach(request.params,function(pv){
+                url += pv+".";
+            });
+
+            url += "?startPeriod="+request.yearFrom+"&endPeriod="+request.yearTo;
+
+            var deferred = $q.defer();
+
+            $http
+                .post(imfConfig.proxyIMF, {url: url}, { cache: true })
+                .then(function(response) {
+                    if(response.status == 200){
+                        if(typeof response.data.CompactData.DataSet.Series !== "undefined"){
+                            if(Array.isArray(response.data.CompactData.DataSet.Series)){
+                                angular.forEach(response.data.CompactData.DataSet.Series,function(serie){
+                                    if(!Array.isArray(serie.Obs)){
+                                        serie.Obs = [serie.Obs];
+                                    }
+                                });
+                                deferred.resolve(response.data.CompactData.DataSet.Series);
+                            }else{
+                                if(!Array.isArray(response.data.CompactData.DataSet.Series.Obs)){
+                                    response.data.CompactData.DataSet.Series.Obs = [response.data.CompactData.DataSet.Series.Obs];
+                                } 
+                                deferred.resolve([response.data.CompactData.DataSet.Series]);
+                            }
+                        }else{
+                            deferred.reject("NO DATA");    
+                        }
+                    }else {
+                        deferred.reject(response.statusText);
+                    }
+                });
+            return deferred.promise;
+        }
     }]);
 
 

@@ -1,3 +1,42 @@
-<div>
-IMF	
+<div class="row show-grid">
+	<div class="filters col-sm-3">
+		<div class="filters-item">
+			<label>Dataset: </label>
+			<select class="form-control" ng-model="filters.dataset" ng-options="d['@id'] as d.Name['#text'] for d in datasets" ng-change="getParameters()"></select>		
+			<div class="subfilters-item" ng-repeat="p in parameters | orderBy:'order'">
+				<label>{{p.Name['#text']}}: </label>
+				<select class="form-control" ng-model="filters.params[p.order]" ng-options="pv['@value'] as pv.Description['#text'] for pv in p.Code"></select>		
+			</div>
+		</div>
+		<div class="filters-item">
+			<label>Year From: </label>
+			<select class="form-control" ng-model="filters.yearFrom" ng-options="y for y in years"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Year To: </label>
+			<select class="form-control" ng-model="filters.yearTo" ng-options="y for y in years"></select>		
+		</div>
+		<div>
+			<button class="btn btn-primary" ng-click="getData()">View</button>
+		</div>
+	</div>
+	<div class="data col-sm-9">
+		<div class="row" ng-if="showLoading">
+			<div class="col-sm-12">LOADING</div>
+		</div>
+		<div ng-repeat="d in data">
+			<div>
+				<div ng-repeat="p in parameters | orderBy:'order'">{{p.Name['#text']}}: {{getSeriesParamValue(d,p)}}</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">Date</div>
+				<div class="col-sm-4">Value</div>
+			</div>
+			<div class="row" ng-repeat="o in d.Obs">
+				<div class="col-sm-4">{{o['@TIME_PERIOD']}}</div>
+				<div class="col-sm-4">{{o['@OBS_VALUE']}}</div>
+			</div>
+		</div>
+		
+	</div>
 </div>

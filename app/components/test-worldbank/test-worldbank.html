@@ -1,3 +1,42 @@
-<div>
-World Bank
+<div class="row show-grid">
+	<div class="filters col-sm-3">
+		<div class="filters-item">
+			<label>Country: </label>
+			<select class="form-control" ng-model="filters.country" ng-options="c.id as c.name for c in countries"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Year From: </label>
+			<select class="form-control" ng-model="filters.yearFrom" ng-options="y for y in years"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Year To: </label>
+			<select class="form-control" ng-model="filters.yearTo" ng-options="y for y in years"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Topic: </label>
+			<select class="" ng-model="topic" ng-options="t.id as t.value for t in topics"></select>		
+		</div>
+		<div class="filters-item">
+			<label>Indicator: </label>
+			<select class="" ng-model="filters.indicator" ng-options="i.id as i.name for i in (indicators | filterByTopic:topic) "></select>		
+		</div>
+		<div>
+			<button class="btn btn-primary" ng-click="getData()">View</button>
+		</div>
+	</div>
+	<div class="data col-sm-9">
+		<div class="row">
+			<div class="col-sm-4">Year</div>
+			<div class="col-sm-4">Country</div>
+			<div class="col-sm-4">Value</div>
+		</div>
+		<div class="row" ng-if="showLoading">
+			<div class="col-sm-12">LOADING</div>
+		</div>
+		<div class="row" ng-repeat="d in data">
+			<div class="col-sm-4">{{d.date}}</div>
+			<div class="col-sm-4">{{d.country.value}}</div>
+			<div class="col-sm-4">{{d.value}}</div>
+		</div>
+	</div>
 </div>

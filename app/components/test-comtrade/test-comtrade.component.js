@@ -3,17 +3,17 @@ angular.module('app').directive('appTestComtrade', function () {
     restrict: 'E',
     templateUrl: '../app/components/test-comtrade/test-comtrade.html',
     controllerAs: 'testComtrade',
-    controller: function ($scope, ApiService) {
+    controller: function ($scope, FiltersService, ApiService) {
     	//code
     	$scope.countries = [];
     	$scope.bec = [];
-    	$scope.years = ApiService.getYears();
-    	$scope.types = ApiService.getTypes();
+    	$scope.years = FiltersService.getComtradeYears();
+    	$scope.types = FiltersService.getTypes();
 
     	$scope.codificationType = [
-			{id : "hs",	  text: "HS"},
-			{id : "bec",  text: "BEC"},
-			{id : "sitc", text: "SITC"}
+			{id : "HS",	  text: "HS"},
+			{id : "BEC",  text: "BEC"},
+			{id : "SITC", text: "SITC"}
     	];
     	$scope.categories   = [];
     	$scope.categories_2 = [];
@@ -32,7 +32,7 @@ angular.module('app').directive('appTestComtrade', function () {
 			category_4	: null
     	};
 
-    	ApiService.getCountries().then(function(countries){
+    	FiltersService.getComtradeCountries().then(function(countries){
     		$scope.countries = countries;
     	},function(error){console.log(error);});  	
 
@@ -78,28 +78,57 @@ angular.module('app').directive('appTestComtrade', function () {
 
 		function fillCategoryArray(catArray, category){
 			if(category !== null){
-				if($scope.filters.codification === "bec"){
-					ApiService.getBEC(category).then(function(bec){
+				if($scope.filters.codification === "BEC"){
+					FiltersService.getBEC(category).then(function(bec){
 	    				$scope['categories'+catArray] = bec;
 	    			},function(error){console.log(error);});
 
-				}else if($scope.filters.codification === "hs"){
-					ApiService.getHS(category).then(function(hs){
+				}else if($scope.filters.codification === "HS"){
+					FiltersService.getHS(category).then(function(hs){
 	    				$scope['categories'+catArray] = hs;
 	    			},function(error){console.log(error);});  
 
-				}else if($scope.filters.codification === "sitc"){
-					ApiService.getSITC(category).then(function(sitc){
+				}else if($scope.filters.codification === "SITC"){
+					FiltersService.getSITC(category).then(function(sitc){
 	    				$scope['categories'+catArray] = sitc;
 	    			},function(error){console.log(error);});  
 				}
 			}
 		}
 
+		$scope.data = [];
+		$scope.showLoading = false;
 
     	$scope.getData = function(){
+    		$scope.data = [];
+    		$scope.showLoading = true;
+    		var request = angular.copy($scope.filters);
+    		request.code = getCodificationCategory();
 
+    		ApiService.comtrade(request).then(function(result){
+    			$scope.data = result;
+    			$scope.showLoading = false;
+    		},function(error){
+    			alert(error);
+    		});
     	};
+
+    	function getCodificationCategory(){
+    		var code = $scope.filters.category_4;
+    		if(code === null){
+    			code = $scope.filters.category_3;
+    		}
+    		if(code === null){
+    			code = $scope.filters.category_2;
+    		}
+    		if(code === null){
+    			code = $scope.filters.category;
+    		}
+    		if(code === null){
+    			code = "ALL";
+    		}
+    		return code;
+    	}
     }
   };
 });
