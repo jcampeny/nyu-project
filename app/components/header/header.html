@@ -1,1 +1,48 @@
-<div>the header</div>
+<header>
+	<div class="header-top" ng-class="{'header-fixed':headerFixed}">
+		<div class="margin-content">
+			<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>
+			<div class="buttons">
+				<div class="buttons-group">
+					<span class="btn-caption">CONNECT</span>
+					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+				</div>
+				<div class="buttons-group">
+					<span class="btn-caption">CONTACT</span>
+					<a href="" class="btn-icon"><i class="fa fa-envelope-o"  aria-hidden="true"></i></a>
+				</div>
+				<div class="buttons-group">
+					<span class="btn-caption">SEARCH</span>
+					<a href="" class="btn-icon"><i class="fa fa-search"  aria-hidden="true"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header-bottom" ng-class="{'header-fixed':headerFixed}">
+		<div class="margin-content">
+			<ul class="main-menu">
+				<li class="logo" ng-style="{'opacity':headerFixed?'1':'0'}"><a ui-sref="app.home"><img src="/assets/img/logo_small.png"/></a></li>
+				<li><a ui-sref="app.about">About</a></li>
+				<li><a ui-sref="app.books" class="has-submenu">Publications</a></li>
+				<li><a ui-sref="app.videos" class="has-submenu">News &amp; Media</a></li>
+				<li><a ui-sref="app.globecourse" class="has-submenu">Teaching Materials</a></li>
+				<li><a ui-sref="#">Maps & Visualizations</a></li>
+				<li><a ui-sref="#">Cage Comparator</a></li>
+				<li><a href="#">Request As Speaker</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="header-mobile">
+		<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>
+		<div class="buton">
+			<div class="icon">
+				<div class="line top"></div>
+				<div class="line med"></div>
+				<div class="line btm"></div>
+				<div class="text">Menu</div>
+			</div>
+		</div>
+	</div>
+</header>

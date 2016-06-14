@@ -1,3 +1,80 @@
-div{
-	//todo footer
+footer {
+	padding: 40px 0 20px 0;
+	background-color: #2D2E2D;
+	color: #FFFFFF;
+	
+	a{
+		color: #FFFFFF;
+
+		&:hover,&:visited,&:focus{
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+
+	}
+
+	.footer-column{
+
+		.footer-title{
+			border-top: 1px solid #FFFFFF;
+			text-transform: uppercase;
+			font-size: 1.4rem;
+			font-weight: 700;
+			padding: 4px 0 10px 0;
+		}
+
+		.footer-subtitle{
+			display:block;
+			margin-top: 10px;
+			font-size: 1.4rem;
+			text-transform: uppercase;
+			font-weight: 300;
+
+		}
+
+		.footer-subsubtitle{
+			display:block;
+			margin-top: 2px;
+			padding-left: 20px;
+			font-size: 1.4rem;
+			font-weight: 100;
+		}
+
+		.btn-icon {
+		    width: 30px;
+		    height: 30px;
+		    margin-top: 10px;
+		    margin-left: 8px;
+		    line-height: 30px;
+		    display: inline-block;
+		    text-align: center;
+		    background-color: #FFFFFF;
+		    border-radius: 100%;
+
+			.fa{
+				color: #2D2E2D;
+			}
+		}
+
+		.email-desc{
+			margin-top: 10px;
+			font-size: 1.4rem;
+			color:#0080FF;
+			font-weight:300;
+		}
+		.email{
+			font-size: 1.4rem;
+		}
+
+		.cta{
+			margin-top: 30px;
+		}
+	}
+
+	.copyright{ 
+		margin-top: 10px;
+		text-align:center;
+		font-weight:300;
+		font-size: 1.4rem;
+	}
 }

@@ -1,1 +1,12 @@
-<div>list item</div>
+<div class="list-item row">
+	<div class="item-image col-sm-5 " ng-if="img !== ''">
+		<img src="{{img}}" />
+	</div>
+	<div class="item-content {{img !== ''?'col-sm-7':'col-sm-12'}}" >
+		<div class="item-author" ng-bind-html="author"></div>
+		<div class="item-title" ng-bind-html="title"></div>
+		<div class="item-subtitle" ng-bind-html="subtitle"></div>
+		<div class="item-content" ng-bind-html="content"></div>
+		<a ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="mainctatext"></a>
+	</div>
+</div> 

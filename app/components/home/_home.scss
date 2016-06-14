@@ -1,3 +1,80 @@
-div{
-	//todo footer
+/**/
+.home-hero {
+	position:relative;
+	width: 100%;
+	min-height: 485px;
+	background-size: cover;
+
+	.home-hero-content{
+		position: absolute;
+		top: 15%;
+		max-width: 30%;
+    	height: 70%;
+    	margin-left: 20px;
+
+    	.line-title{
+    		color:#FFFFFF;
+    		font-size: 2.9em;
+    		line-height: 1.3em;
+    		padding-top: 20px;
+    	}
+
+    	.subtitle{
+    		position: absolute;
+    		bottom:0;
+    		color:#FFFFFF;
+    		font-size: 1.3em;
+    		line-height: 1.3em;
+
+    		.subtitle-top{
+    			font-weight: 700;
+    		}
+    		.subtitle-bottom{
+    			margin-bottom: 30px;
+    		}
+    	}
+	}
+}
+
+.home-section {
+	position: relative;
+	padding: 70px 0;
+
+	.subsection-img{
+		margin-bottom: 20px;
+
+		img{
+			width: 100%;
+		}
+	}
+
+	.home-section-column-right {
+		padding-left: 50px;
+	}
+	.home-section-column-left {
+		padding-right: 50px;
+	}
+
+	.subsection-content{
+		margin-bottom: 20px;
+		font-size:1.7rem
+
+	}
+
+	&.home-blue {
+		background-color: #004182;
+
+		.subsection-content{
+			color:#FFFFFF;
+			margin-bottom: 60px;
+		}
+		.cta{
+			position: absolute;
+			bottom:0;
+		}
+	}
+
+	&.no-padding-top{
+		padding-top: 0;
+	}
 }

@@ -1,10 +1,8 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'pascalprecht.translate'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate'])
 
 	.controller("mainController", [ '$scope', 'ArrayService', '$sce', 'DataService', function($scope, ArrayService,$sce,DataService) {
 		
-		//DataService.all("type", "per_page", "page").then(function(post) {
-			//ex: posts , int || "all", int
-		//});
+		
 
 	}])
 
@@ -19,6 +17,9 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 				.state('app.books', {url:'books', template: '<nyu-list entity="books"></nyu-list>'})
 				.state('app.booksitem', {url:'books/:id/:title', template: '<nyu-item entity="books"></nyu-item>'})
+
+				.state('app.articles', {url:'articles', template: '<nyu-list entity="articles"></nyu-list>'})
+				.state('app.articlesitem', {url:'articles/:id/:title', template: '<nyu-item entity="articles"></nyu-item>'})
 				
 				.state('app.global', {url:'globalization-index-reports', template: '<nyu-list entity="global"></nyu-list>'})
 				.state('app.globalitem', {url:'globalization-index-reports/:id/:title', template: '<nyu-item entity="global"></nyu-item>'})

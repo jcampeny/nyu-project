@@ -2,10 +2,172 @@
 @import 'mixins';
 @import '../components/header/header';
 @import '../components/footer/footer';
+@import '../components/home/home';
+@import '../components/list-item/list-item';
 
 
 body {
 	margin:0;
 	padding:0;
 	@include opacity(1); 
+	font-family: 'Roboto', sans-serif;
 }
+
+a{
+	&:hover,&:focus,&:visited,&:active{
+		text-decoration: none;
+		outline:none;				
+	}
+}
+
+.margin-content {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0 80px;
+}
+
+.line-title{
+	display: block;
+	position: relative;
+	font-family: 'Merriweather', serif;
+	border-style: solid;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+
+	
+	&.lt-normal{
+		margin-bottom: 20px;
+		padding-top: 5px;
+		border-width: 0.5px;
+		font-size: 2.4rem;
+	}
+
+	&.lt-big{
+		border-width: 1.6px;
+	}
+
+	&.lt-white {
+		border-color: #FFFFFF;
+		color: #FFFFFF;
+
+		.buttons {
+			.arrow {
+				color: #FFFFFF;
+				border-color:#FFFFFF;
+
+				&:after{
+					border-color:#FFFFFF;
+				}
+			}
+			.pages {
+				color: #FFFFFF;
+			}
+		}
+	}
+
+	&.lt-gray {
+		border-color: #606362;
+		color: #2D2E2D;
+
+		.buttons {
+			.arrow {
+				color: #2D2E2D;
+				border-color:#2D2E2D;
+
+				&:after{
+					border-color:#2D2E2D;
+				}
+			}
+			.pages {
+				color: #2D2E2D;
+			}
+		}
+		
+	}
+
+	.buttons {
+		position:absolute;
+		top:6px;
+		right:0;
+
+		.arrow {
+			display: inline-block;
+			position: relative;
+			width: 32px;
+			height: 32px;
+			border-radius: 100%;
+			border-width: 1px;
+			border-style: solid;
+			vertical-align: top;
+			cursor:pointer;
+
+			&:after{
+				content: "";
+				position:absolute;
+				top:50%;
+				left:50%;
+				height: 9px;
+				width: 9px;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+				border-left-width: 1px;
+				border-left-style: solid;
+				margin-top: -5px;
+				
+
+			}
+
+			&.left{
+				&:after{
+					margin-left: -3px;
+					transform: rotate(45deg);
+				}
+			}
+			&.right {
+				&:after{
+					margin-left: -6px;
+					transform: rotate(-135deg);
+				}
+			}
+		}
+		
+
+		.pages {
+			display: inline-block;
+			vertical-align: top;
+			margin: 7px 5px;
+			font-family: 'Roboto', sans-serif;
+			font-size: 1.3rem;
+			font-weight: 700;
+		}
+
+		
+	}
+}
+
+.cta {
+	display:inline-block;
+	padding: 10px 20px;
+	text-align:center;
+	font-size: 1.3rem;
+	letter-spacing: 0.2rem;
+	text-transform: uppercase;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: none;
+	}
+
+	&.cta-light-blue{
+		background-color: #0080FF;
+		color: #FFFFFF;
+	}
+
+	&.cta-blue-o{
+		font-size:1.4rem;
+		color:#0080FF;
+		border: 1px solid #0080FF;
+	}
+}
+
