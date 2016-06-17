@@ -1,1 +1,59 @@
-<div>survey gap</div>
+<div class="margin-content">
+	<div class="page-section gap-survey-section survey-section">
+		<div class="line-title lt-normal lt-blue" ng-bind-html="'Global Attitude Protocol (GAP)'"></div>
+		<div class="row page-content">
+			<div class="col-sm-12 main-content">
+				<div class="survey-text">
+					<p>Test your global mindset with the 15-question Global Attitude Protocol (GAP) and compare your results with those from a highly international group of students at a top MBA program.</p>
+					<p>Please select your response below for each of the following fifteen statements:</p>
+				</div>
+				<hr>
+				<div class="survey-question" ng-repeat="q in questions">
+					<div class="question-title" ng-bind-html="($index+1) +'. '+ q.question"></div>
+					<div class="answers">
+						<label ng-if="q.type === 'select'" ng-repeat="o in q.options" for="{{$parent.$parent.$index}}-{{o.id}}">
+							<input id="{{$parent.$parent.$index}}-{{o.id}}" name="q-{{$parent.$parent.$index}}" type="radio" >
+							<span class="answer-text" ng-bind-html="o.text"></span>
+						</label>
+					</div>
+				</div>
+				<div class="survey-form row">
+					<div class="survey-form-title col-sm-12">Please tell us a little about yourself (optional):</div>
+					<form action="#" method="" class="col-sm-6">
+						<div class="form-item select-form-item">
+							<label>A. What country/territory do you live in?</label>
+							<select name="live">
+								<option disabled selected value="">Please select...</option>
+							</select>
+						</div>
+						<div class="form-item select-form-item">
+							<label>B. What country/territory were you born in?</label>
+							<select name="born">
+								<option disabled selected value="">Please select...</option>
+							</select>
+						</div>
+						<div class="form-item select-form-item">
+							<label>C. Which best describes your occupation?</label>
+							<select name="occupation">
+								<option disabled selected value="">Please select...</option>
+							</select>
+						</div>
+						<div class="form-item select-form-item">
+							<label>D. How old are you?</label>
+							<select name="old">
+								<option disabled selected value="">Please select...</option>
+							</select>
+						</div>
+						<div class="form-item select-form-item">
+							<label>E. What is your gender?</label>
+							<select name="gender">
+								<option disabled selected value="">Please select...</option>
+							</select>
+						</div>
+						<a href="#" class="cta cta-light-blue">VIEW RESULT</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -49,7 +49,7 @@ footer {
 		    display: inline-block;
 		    text-align: center;
 		    background-color: #FFFFFF;
-		    border-radius: 100%;
+		    @include border-radius(100%);
 
 			.fa{
 				color: #2D2E2D;
@@ -71,10 +71,26 @@ footer {
 		}
 	}
 
+	.mobile-social{
+		margin: 35px 0;
+		padding-left: 15px;
+
+		.btn-icon {
+		    width: 25px;
+		    height: 25px;
+		    margin-left: 8px;
+		    line-height: 24px;
+		}
+	}
+
 	.copyright{ 
 		margin-top: 10px;
 		text-align:center;
 		font-weight:300;
 		font-size: 1.4rem;
+
+		@media only screen and (max-width: $break-mobile) {
+			text-align: left;
+		}
 	}
 }

@@ -1,0 +1,27 @@
+<div class="list-top-img show-desktop" style="background-image:url('/assets/img/top_globecourse.png')">
+	<div class="margin-content">
+		<div class="line-title lt-huge lt-white" ng-bind-html="'GLOBE Course'"></div>
+	</div>
+</div>
+<div class="margin-content">
+	<div class="page-section globecourse-section">
+	<div class="line-title lt-normal lt-blue show-mobile" ng-bind-html="'GLOBE Course'"></div>
+		<div class="row page-content">
+			<div class="col-sm-8 main-content page-text">
+				<p>This section contains the basic materials required to teach an introductory course on the implications of globalization for businesses and those who lead them.  The materials are based on a 12-session course, the Globalization of Business Enterprise (GLOBE), developed by Pankaj Ghemawat for the first year of the MBA program at IESE Business School.</p>
+				<p>The GLOBE course was developed and refined during the term of Ghemawat’s membership of the AACSB taskforce on the globalization of business education. Chapter 4 from the report issued by that taskforce, Globalization of Management Education: Changing International Structures, Adaptive Strategies, and the Impact on Institutions (Emerald, 2011), provides a detailed discussion of how GLOBE’s design responds to the imperatives identified by the taskforce. But in brief, GLOBE responds to the need identified by academic thought leaders for a course that introduces students of business to a framework for thinking broadly but systematically about the differences between countries. It is not a course on international macroeconomics nor tailored to a particular functional area.  More specifically, this section contains:<br/>Documents (syllabus, assignment questions, supplemental resources, chapter from AACSB report, etc.)<br/>Selected Readings (for students)<br/>Selected Cases (for students; note other cases on syllabus are available from Harvard Business School Publishing)<br/>Additionally, the following materials are available for instructors only by e-mail to globecourse@ghemawat.com:</p>
+				<p>Teaching Notes<br/>Powerpoint Presentations (for in-class use)<br/>Updated materials will be added to this website as they become available.</p>
+				<p>For permission to use these materials to deliver or a course or to sign up for automatic notification of the availability of new/updated materials please e-mail globecourse@ghemawat.com.</p>
+			</div>
+			<div class="col-sm-4 side-content show-desktop">
+				<div class="side-menu">
+					<div class="title" ng-bind-html="entityLabels[entity].group"></div>
+					<div class="side-menu-item" ng-repeat="e in groupItems()">
+						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':entityLabels[entity].name == e.name}" ng-bind-html=e.name></a>	
+						<a ui-sref="{{so.state}}" ng-repeat="so in e.suboptions" class="subitem" ng-bind-html="($index+1) +'. '+so.name"></a>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

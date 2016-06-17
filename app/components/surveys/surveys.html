@@ -1,1 +1,33 @@
-<div>surveys</div>
+<div class="list-top-img show-desktop" style="background-image:url('/assets/img/top_surveys.png')">
+	<div class="margin-content">
+		<div class="line-title lt-huge lt-white" ng-bind-html="'Surveys'"></div>
+	</div>
+</div>
+<div class="margin-content">
+	<div class="page-section surveys-section">
+		<div class="line-title lt-normal lt-blue show-mobile" ng-bind-html="'Surveys'"></div>
+		<div class="row page-content">
+			<div class="col-sm-8 main-content">
+				<div class="survey-item">
+					<div class="line-bottom-title">GAP Survey</div>
+					<div class="item-content-text">The Global Attitude Protocol (GAP) survey is described in Chapter 15 of World 3.0, and can help identify opportunities to improve your global mindset. Take the free online version here and your results will be computed automatically and compared versus the results from students at a leading international business school.</div>
+					<a ui-sref="app.survey-gap" ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="'Take Survey'"></a>
+				</div>
+				<div class="survey-item">
+					<div class="line-bottom-title">Markets and Globalization Survey</div>
+					<div class="item-content-text">The Markets and Globalization Survey is an online survey that was conducted between September 26 and October 29, 2012.</div>
+					<a ui-sref="app.markets-gap" ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="'View Survey'"></a>
+				</div>
+			</div>
+			<div class="col-sm-4 side-content show-desktop">
+				<div class="side-menu">
+					<div class="title" ng-bind-html="'Teaching Materials'"></div>
+					<div class="side-menu-item" ng-repeat="e in groupItems()">
+						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':'Surveys' == e.name}" ng-bind-html=e.name></a>	
+						<a ui-sref="{{so.state}}" class="subitem" ng-class="{''active':isSubitemActive(so.id)}" ng-repeat="so in e.suboptions" ng-bind-html="($index+1) +'. '+so.name"></a>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

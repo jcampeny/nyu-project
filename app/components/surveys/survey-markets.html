@@ -1,1 +1,29 @@
-<div>survey markets</div>
+<div class="margin-content">
+	<div class="page-section gap-survey-section survey-section">
+		<div class="line-title lt-normal lt-blue" ng-bind-html="'Markets and Globalization Survey'"></div>
+		<div class="row page-content">
+			<div class="col-sm-12 main-content">
+				<div class="survey-text">
+					<p>The following online survey was conducted bewteen September 26 and October 29, 2012.</p>
+				</div>
+				<hr>
+				<div class="survey-question" ng-repeat="q in questions">
+					<div class="question-title" ng-bind-html="q.id +'. '+ q.question"></div>
+					<div class="question-hint" ng-if="q.hint !== ''" ng-bind-html="q.hint"></div>
+					<div class="answers">
+						<label ng-if="q.type === 'text'" ng-repeat="o in q.options" for="{{$parent.$parent.$index}}-{{o.id}}">
+							<span class="answer-text" ng-bind-html="o.id+'. '+o.text"></span>
+						</label>
+						<div ng-if="q.type === 'percent'" class="answer-percent"></div>
+					</div>
+				</div>
+				<div class="mobile-social btns-gray">
+					<span class="btn-caption">SHARE</span>
+					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

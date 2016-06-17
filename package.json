@@ -21,5 +21,6 @@
     "karma-jasmine": "~0.3.6",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-phantomjs-launcher": "~0.2.1"
-  }
+  },
+  "dependencies": {}
 }

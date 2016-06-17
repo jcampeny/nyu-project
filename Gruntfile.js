@@ -91,7 +91,8 @@ module.exports = function(grunt) {
         files: [ 'Gruntfile.js', 'app/**/*.js', 'app/**/*.html', 'app/**/*.scss', '*.html' ],
         tasks: [ 'jshint', 'html2js:dist', 'concat:dist', 'sass:dist', 'concat:distVendorJs', 'concat:distVendorCss', 'clean:temp', 'karma:unit' ],
         options: {
-          atBegin: true
+          atBegin: true,
+		  livereload: true
         }
       }
     },

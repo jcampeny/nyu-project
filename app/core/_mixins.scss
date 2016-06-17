@@ -41,5 +41,17 @@
           min-width: $min-width;
 }
 
+@mixin columns($columns, $gap){
+  -webkit-column-count: $columns;
+     -moz-column-count: $columns;
+          column-count: $columns;
 
+  -webkit-column-gap: $gap;
+     -moz-column-gap: $gap;
+          column-gap: $gap;
+
+  -webkit-column-fill: auto;
+     -moz-column-fill: auto;
+          column-fill: auto;
+}
 

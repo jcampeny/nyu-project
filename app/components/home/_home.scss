@@ -4,19 +4,21 @@
 	width: 100%;
 	min-height: 485px;
 	background-size: cover;
+	background-position: center;
 
 	.home-hero-content{
 		position: absolute;
 		top: 15%;
-		max-width: 30%;
     	height: 70%;
     	margin-left: 20px;
 
     	.line-title{
+    		max-width: 60%;
     		color:#FFFFFF;
     		font-size: 2.9em;
     		line-height: 1.3em;
     		padding-top: 20px;
+    		text-align: left;
     	}
 
     	.subtitle{
@@ -25,14 +27,48 @@
     		color:#FFFFFF;
     		font-size: 1.3em;
     		line-height: 1.3em;
+    		text-align: left;
 
     		.subtitle-top{
+    			text-align:left;
     			font-weight: 700;
     		}
     		.subtitle-bottom{
+    			text-align:left;
     			margin-bottom: 30px;
     		}
     	}
+	}
+
+	@media only screen and (max-width: $break-mobile) {
+		min-height: 328px;
+
+		.home-hero-content{
+		    width: 100%;
+		    top: 75px;
+		    left: 0;
+		    margin-left: 0;
+		    padding: 0 20px;
+    		text-align: center;
+
+			.line-title{
+				max-width: 50%;
+				padding-top: 10px;
+				font-size: 2rem;
+			}
+
+			.subtitle{
+				width: 100%;
+			    text-align: center;
+			    left: 0;
+			    padding: 0 20px;
+			    font-size: 1.2rem;
+
+			    .subtitle-bottom{
+					margin-bottom:70px;
+			    }
+			}
+		}
 	}
 }
 
@@ -54,10 +90,31 @@
 	.home-section-column-left {
 		padding-right: 50px;
 	}
+	@media only screen and (max-width: $break-mobile) {
+		padding-top: 40px;
+		text-align:center;
+		font-weight: 300;
+
+		.home-section-column-right {
+			padding-left: 15px;
+			margin-top: 70px;
+		}
+		.home-section-column-left {
+			padding-right: 15px;
+		}
+
+		.mobile-margin-top{
+			margin-top: 70px;
+		}
+		.mobile-margin-top-none{
+			margin-top: 0px;
+		}
+	}
 
 	.subsection-content{
 		margin-bottom: 20px;
-		font-size:1.7rem
+		font-size:1.7rem;
+		text-align:left;
 
 	}
 
@@ -66,15 +123,25 @@
 
 		.subsection-content{
 			color:#FFFFFF;
-			margin-bottom: 60px;
-		}
-		.cta{
-			position: absolute;
-			bottom:0;
 		}
 	}
 
 	&.no-padding-top{
 		padding-top: 0;
 	}
+
+	@media only screen and (max-width: $break-mobile) {
+		.home-about{
+			.subsection-img{
+				float:left;
+			}
+			.subsection-content{
+				padding: 0 15px;
+			}
+		}
+	}
+}
+
+.home-list-item{
+	margin-bottom: 0 !important;
 }

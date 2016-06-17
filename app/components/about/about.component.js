@@ -4,7 +4,7 @@ angular.module('app').directive('nyuAbout', function () {
     templateUrl: '../app/components/about/about.html',
     controllerAs: 'nyuAbout',
     controller: function ($scope) {
-    	//code
+    	$scope.collapsedText = true;
     }
   };
 });

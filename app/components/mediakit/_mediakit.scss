@@ -1,3 +1,51 @@
-div{
-	//todo footer
+.mediakit-list{
+	font-weight:300;
+	font-size: 1.7rem;
+
+	ul{
+		list-style-type: none;
+		padding-left: 0;
+
+		li{
+			font-style: italic;
+		}
+	}
+	.cta{
+		margin-top: 15px;
+	}
+}
+
+.mediakit-section{
+	padding-bottom: 95px;
+
+	.download-title{
+		margin: 40px 0 15px 0;
+		font-size: 1.4rem;
+		font-weight: 300;
+		color:#313231;
+		line-height: 1.5rem;
+	}
+
+	input{
+		display:block;
+		width: 100%;
+		height: 40px;
+		padding-left: 7px;
+		line-height:40px;
+		border:none;
+		background-color: #FFFFFF;
+		border: 1px solid #222221;
+		font-style: italic;
+		font-style: 1.4rem;
+		font-weight: 300;
+	}
+
+	.button-container{
+		margin: 20px 0 0 0;
+		text-align: center;
+
+		.cta{
+			    min-width: 40%;
+		}
+	}
 }

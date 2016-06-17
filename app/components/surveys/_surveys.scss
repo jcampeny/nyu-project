@@ -1,0 +1,139 @@
+.surveys-section{
+	.survey-item{
+		margin-bottom:95px;
+
+		.line-bottom-title{
+			margin-bottom:10px;
+		}
+
+		.item-content-text{
+			margin-bottom:25px;
+			font-weight: 300;
+	    	font-size: 1.7rem;
+		}
+	}
+}
+
+.survey-section{
+	.survey-text{
+		font-size:2rem;
+		font-weight: 300;	
+	}
+	hr{
+		max-width:50%;
+		margin: 30px 0;
+	}
+
+	.survey-question{
+		margin-bottom: 30px;
+		font-size:1.7rem;
+		font-weight: 400;
+		color:#313231;
+
+		.question-title{
+			margin-bottom: 10px;
+		}
+
+		.question-hint {
+			margin: -10px 0 10px 0;
+			font-weight:300;
+			font-style: italic;
+		}
+		.answers{
+			label{
+				display: block;
+				margin-bottom: 4px;
+				font-weight: 300;
+
+				input{
+					display:inline-block;
+					margin-right: 4px;
+					vertical-align:top;
+				}
+
+				.answer-text{
+					display:inline-block;
+					vertical-align:top;
+				}
+			}
+			.answer-percent{
+				position:relative;
+				width: 50px;
+				height:25px;
+				border-bottom:2px solid #313231;
+
+				&:after{
+					content: "%";
+				    margin-left: 5px;
+				    position: absolute;
+				    top: 0;
+				    left: 100%;
+				}
+			}
+		}
+	}	
+
+	.survey-form{
+		padding-bottom:95px;
+
+		.survey-form-title{
+			font-weight:300;
+			font-size:1.7rem;
+			color:#313231;
+		}
+
+		.form-item{
+			position: relative;
+			margin-top: 25px;
+			label{
+				display:block;
+				width: 100%;
+				margin-bottom: 10px;
+				font-weight: 400;
+				font-size: 1.7rem;
+				color:#313231;
+			}
+			select{
+				display:block;
+				width: 100%;
+				height: 49px;
+				padding: 5px 10px;
+				border: 1px solid #616362;
+			    -webkit-appearance: none;
+			    border-radius: 0;
+			    font-weight: 300;
+			    font-style: italic;
+			    background: transparent;
+			    color: #616362;
+			    outline: none;
+			}
+
+
+			&.select-form-item{
+				&:after{
+			    	content: "";
+				    position: absolute;
+				    top: 50px;
+				    right: 17px;
+				    width: 10px;
+				    height: 10px;
+				    border-top: 1px solid #616362;
+				    border-left: 1px solid #616362;
+			    	@include transform(rotate(-135deg));
+			    	z-index: -1;
+			    }
+			}
+		}
+
+		.cta{
+			display:block;
+			width: 100%;
+			margin-top: 35px;
+			line-height: 40px;
+		}
+	}
+
+	.mobile-social{
+		margin: 55px 0 95px 0;
+	}
+}

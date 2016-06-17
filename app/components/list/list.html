@@ -1,1 +1,61 @@
-<div>list</div>
+<div ng-if="hasTopImg()" class="list-top-img show-desktop" style="background-image:url('/assets/img/top_{{entity}}.png')">
+	<div class="margin-content">
+		<div class="line-title lt-huge lt-white" ng-bind-html="entityLabels[entity].name"></div>
+	</div>
+</div>
+<div class="margin-content">
+	<div class="page-section {{entity}}-section">
+		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="entityLabels[entity].name"></div>
+		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="entityLabels[entity].name"></div>
+		<div class="row page-content">
+			<div class="col-sm-8 main-content">
+				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"
+						entity="{{entity}}" 
+						author="{{i.author}}" 
+						title="{{i.title}}" 
+						subtitle="{{i.subtitle}}" 
+						content-short="{{i.content_short}}" 
+						content="{{i.content_short}}" 
+						publication-type="{{i.publicationType}}"
+						publication="{{i.publication}}"
+						publisher="{{i.publisher}}"
+						date="{{i.date}}"
+						pages="{{i.pages}}"
+						other="{{i.other}}"
+						mainctatext="{{i.main_cta}}" 
+						mainctatext2="{{i.main_cta_2}}"
+						other-cta="{{i.other_cta}}"
+						ext-link="{{i.ext_link}}"
+						pdf-link="{{i.pdf_link}}"
+						xls-link="{{i.xls_link}}"
+						other-link="{{i.other_link}}"
+						picture="{{i.picture}}" 
+						audio="{{i.audio}}"
+						share="{{i.share}}">
+				</nyu-list-item>
+				<nyu-list-item-2 ng-repeat="i in items" ng-if="entity === 'books'"
+						entity="{{entity}}" 
+						author="{{i.author}}" 
+						title="{{i.title}}" 
+						subtitle="{{i.subtitle}}" 
+						img="{{i.picture}}" 
+						content="{{i.content_short}}" 
+						mainctatext="{{i.main_cta}}" 
+						mainctatext2="{{i.main_cta_2}}">
+				</nyu-list-item-2>
+			</div>
+			<div class="col-sm-4 side-content show-desktop">
+				<div class="side-menu">
+					<div class="title" ng-bind-html="entityLabels[entity].group"></div>
+					<div class="side-menu-item" ng-repeat="e in groupItems()">
+						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':entityLabels[entity].name == e.name}" ng-bind-html=e.name></a>	
+						<a ui-sref="{{so.state}}" class="subitem" ng-class="{'active':so.id == subentity}" ng-repeat="so in e.suboptions" ng-bind-html="($index+1) +'. '+so.name"></a>	
+					</div>
+				</div>
+				<div class="side-filters">
+					<nyu-filter entity="{{entity}}"></nyu-filter>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>

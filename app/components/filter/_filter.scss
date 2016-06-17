@@ -1,0 +1,138 @@
+.side-filters{
+	margin-top: 40px;
+	.filters{
+		padding:30px 20px;
+		background-color: #F5F5F5;
+
+		.cta{
+			padding: 5px 20px;
+			margin-bottom: 10px;
+			font-size: 1.3rem;
+
+			&:hover{
+				color:#0080FF;
+				border: 1px solid #0080FF;
+				background: transparent;
+			}
+		}
+
+		.filter-item{
+			margin-top:15px;
+
+			label{
+				display: block;
+				text-transform:uppercase;
+				font-size:1.1rem;
+				font-weight:700;
+				color:#575756;
+				letter-spacing: 0.1rem;
+			}
+
+			input{
+				display:block;
+				width: 100%;
+				height: 40px;
+				padding-left: 7px;
+				line-height:40px;
+				border:none;
+				background-color: #FFFFFF;
+				font-style: italic;
+				font-style: 1.4rem;
+				font-weight: 300;
+
+				&.small{
+					display:inline-block;
+					vertical-align: top;
+					width: 40%;
+				}
+			}
+
+			.filter-item-text{
+				display:inline-block;
+				width: 15%;
+				vertical-align:top;
+				line-height:40px;
+				font-size:1.3rem;
+				color:#313231;
+				padding:0 10px;
+				text-align: center;
+			}
+		}
+
+		.clear-filters{
+			display: block;
+			margin-top: 30px;
+			text-transform:uppercase;
+			font-size:1.1rem;
+			font-weight:700;
+			color:#575756;
+			letter-spacing: 0.1rem;
+			text-decoration: underline;
+		}
+
+		.filters-search{
+			margin-top:40px;
+			color:#174380;
+			font-size:1.1rem;
+			font-weight: 700;
+			text-transform: uppercase;
+
+			.filters-search-title{
+				margin-bottom: 10px;
+				.fa{
+					display: inline-block;
+					vertical-align: top;
+					margin-right: 7px;
+					font-size: 2.7rem;
+				}
+
+				span{
+					display: inline-block;
+					vertical-align: top;
+					margin-top: 5px;
+    				letter-spacing: 0.1rem;
+				}
+			}
+
+			.fa{
+				@include transform(rotate(90deg));
+			}
+
+			.buttongroup{
+				text-align: left;
+				cursor:pointer;
+
+				input{
+					display:inline-block;
+					width: 80%;
+					height: 40px;
+					padding-left: 7px;
+					line-height:40px;
+					border:none;
+					background-color: #FFFFFF;
+					font-style: italic;
+					font-style: 1.4rem;
+					font-weight: 300;
+					vertical-align: top;
+				}
+				.buttongroup-button{
+					display:inline-block;
+					vertical-align: top;
+					width:17%;
+					height: 40px;
+					text-align:center;
+					color:#FFFFFF;
+					background-color:#174380;
+					font-size: 2.2rem;
+    				padding-top: 4px;
+
+				}
+			}
+		}
+	}
+
+
+	@media only screen and (max-width: $break-mobile) {
+		
+	}
+}

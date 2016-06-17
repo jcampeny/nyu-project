@@ -1,3 +1,94 @@
-div{
-	//todo footer
+.about-section{
+	padding-bottom: 70px;
+
+	.float-img	{
+		margin: 0 40px 30px 0;
+	}
+
+	.collapsed-text-link{
+		text-transform:uppercase;
+		font-size: 1rem;
+		font-weight: 700;
+		color:#2E80FF;
+
+		.more{
+
+			&:after{
+				content: "";
+				position:absolute;
+				height: 7px;
+				width: 7px;
+				margin: 6px 0 0 7px;
+				border-bottom: 1px solid #2E80FF;
+				border-left: 1px solid #2E80FF;
+				@include transform(rotate(-45deg));
+				@include transition(color 0.4s);
+			}
+		}
+
+		.less{
+			&:after{
+				content: "";
+				position:absolute;
+				height: 7px;
+				width: 7px;
+				margin: 10px 0 0 7px;
+				border-bottom: 1px solid #2E80FF;
+				border-left: 1px solid #2E80FF;
+				@include transform(rotate(135deg));
+				@include transition(color 0.4s);
+			}
+		}
+	}
+
+	.side-quote{
+		font-family: 'Merriweather', serif;
+		font-size:1.8rem;
+		color:#2D2E2D;
+		border-bottom: 1px solid #606362;
+
+		.blue{
+			color:#0080FF;
+		}
+
+		.cta{
+			margin: 50px 0;
+			padding: 20px;
+		}
+	}
+
+	.about-mediakit{
+		margin-top:45px;
+	}
+
+	@media only screen and (max-width: $break-mobile) {
+		.main-content{
+			padding-right: 15px !important;
+
+			.page-text{
+				margin-top: 30px;
+			}
+		}
+		.side-content{
+			margin-top: 60px;
+			padding-left: 15px !important;
+
+			.side-quote{
+				margin-top: 15px;
+
+				.cta{
+					margin: 20px 0 70px 0;
+				}
+			}
+		}
+
+		.about-mediakit{
+			margin-top: 20px;
+		}
+
+		.about-mediakit-cta-container{
+			margin-top: 30px;
+			text-align: center;
+		}
+	}
 }

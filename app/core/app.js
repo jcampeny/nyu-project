@@ -1,7 +1,10 @@
 var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate'])
 
-	.controller("mainController", [ '$scope', 'ArrayService', '$sce', 'DataService', function($scope, ArrayService,$sce,DataService) {
-		
+	.controller("mainController", [ '$rootScope', function($rootScope) {
+		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
+	    	$rootScope.headerOpened = false;
+	    	$rootScope.currentState = toState.name;
+	    });
 		
 
 	}])
@@ -30,7 +33,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.blog', {url:'blog', template: '<nyu-list entity="blog"></nyu-list>'})
 				.state('app.blogitem', {url:'blog/:id/:title', template: '<nyu-item entity="blog"></nyu-item>'})
 
-				.state('app.videos', {url:'videos', template: '<nyu-list-columns entity="global"></nyu-list-columns>'})
+				.state('app.videos', {url:'videos', template: '<nyu-list-columns entity="videos"></nyu-list-columns>'})
 
 				.state('app.podcasts', {url:'podcasts', template: '<nyu-list entity="podcasts"></nyu-list>'})
 				.state('app.podcastsitem', {url:'podcasts/:id/:title', template: '<nyu-item entity="podcasts"></nyu-item>'})
@@ -40,23 +43,23 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 
-				.state('app.globecourse', {url:'globe-course', template: '<nyu-item entity="globecourse"></nyu-item>'})
-				.state('app.globedocuments', {url:'globe-course/documents', template: '<nyu-list entity="globedocuments"></nyu-list>'})
-				.state('app.globedocumentsitem', {url:'globe-course/documents/:id/:title', template: '<nyu-item entity="globedocuments"></nyu-item>'})
-				.state('app.globereadings', {url:'globe-course/readings', template: '<nyu-list entity="globereadings"></nyu-list>'})
-				.state('app.globereadingsitem', {url:'globe-course/readings/:id/:title', template: '<nyu-item entity="globereadings"></nyu-item>'})
-				.state('app.globecases', {url:'globe-course/cases', template: '<nyu-list entity="globecases"></nyu-list>'})
-				.state('app.globecasesitem', {url:'globe-course/cases/:id/:title', template: '<nyu-item entity="globecases"></nyu-item>'})
-				.state('app.globenotes', {url:'globe-course/notes', template: '<nyu-list entity="globenotes"></nyu-list>'})
-				.state('app.globenotesitem', {url:'globe-course/notes/:id/:title', template: '<nyu-item entity="globenotes"></nyu-item>'})
-				.state('app.globepresentations', {url:'globe-course/presentations', template: '<nyu-list entity="globepresentations"></nyu-list>'})
-				.state('app.globepresentationsitem', {url:'globe-course/presentations/:id/:title', template: '<nyu-item entity="globepresentations"></nyu-item>'})
+				.state('app.globecourse', {url:'globe-course', template: '<nyu-globecourse></nyu-globecourse>'})
+				.state('app.globedocuments', {url:'globe-course/documents', template: '<nyu-list entity="globecourse" subentity="globedocuments"></nyu-list>'})
+				.state('app.globedocumentsitem', {url:'globe-course/documents/:id/:title', template: '<nyu-item entity="globecourse" subentity="globedocuments"></nyu-item>'})
+				.state('app.globereadings', {url:'globe-course/readings', template: '<nyu-list entity="globecourse" subentity="globereadings"></nyu-list>'})
+				.state('app.globereadingsitem', {url:'globe-course/readings/:id/:title', template: '<nyu-item entity="globecourse" subentity="globereadings"></nyu-item>'})
+				.state('app.globecases', {url:'globe-course/cases', template: '<nyu-list entity="globecourse" subentity="globecases"></nyu-list>'})
+				.state('app.globecasesitem', {url:'globe-course/cases/:id/:title', template: '<nyu-item entity="globecourse" subentity="globecases"></nyu-item>'})
+				.state('app.globenotes', {url:'globe-course/notes', template: '<nyu-list entity="globecourse" subentity="globenotes"></nyu-list>'})
+				.state('app.globenotesitem', {url:'globe-course/notes/:id/:title', template: '<nyu-item entity="globecourse" subentity="globenotes"></nyu-item>'})
+				.state('app.globepresentations', {url:'globe-course/presentations', template: '<nyu-list entity="globecourse" subentity="globepresentations"></nyu-list>'})
+				.state('app.globepresentationsitem', {url:'globe-course/presentations/:id/:title', template: '<nyu-item entity="globecourse" subentity="globepresentations"></nyu-item>'})
 				
 				.state('app.cases', {url:'cases-teaching-notes', template: '<nyu-list entity="cases"></nyu-list>'})
 				.state('app.casesitem', {url:'cases-teaching-notes/:id/:title', template: '<nyu-item entity="cases"></nyu-item>'})
 
-				.state('app.notes', {url:'globalization-notes', template: '<nyu-list entity="press"></nyu-list>'})
-				.state('app.notesitem', {url:'globalization-notes/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
+				.state('app.notes', {url:'globalization-notes', template: '<nyu-list entity="notes"></nyu-list>'})
+				.state('app.notesitem', {url:'globalization-notes/:id/:title', template: '<nyu-item entity="notes"></nyu-item>'})
 
 				.state('app.other', {url:'other-teaching-materials', template: '<nyu-list entity="other"></nyu-list>'})
 				.state('app.otheritem', {url:'other-teaching-materials/:id/:title', template: '<nyu-item entity="other"></nyu-item>'})
