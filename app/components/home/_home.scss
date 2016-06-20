@@ -90,6 +90,10 @@
 	.home-section-column-left {
 		padding-right: 50px;
 	}
+	.home-section-column-twitter{
+		max-height: 410px;
+		overflow: scroll;
+	}
 	@media only screen and (max-width: $break-mobile) {
 		padding-top: 40px;
 		text-align:center;

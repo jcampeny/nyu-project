@@ -5,8 +5,6 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 	    	$rootScope.headerOpened = false;
 	    	$rootScope.currentState = toState.name;
 	    });
-		
-
 	}])
 
 	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$resourceProvider', '$httpProvider',

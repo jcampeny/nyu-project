@@ -3,7 +3,7 @@ angular.module('app').directive('ngHeader', function () {
     restrict: 'E',
     templateUrl: '../app/components/header/header.html',
     controllerAs: 'header',
-    controller: function ($scope, $rootScope, $window) {
+    controller: function ($scope, $rootScope, $window, PopupService) {
     	$scope.headerFixed = false;
 	    angular.element($window).bind("scroll", function(e) {
 	       if($window.scrollY > 87){
@@ -12,7 +12,7 @@ angular.module('app').directive('ngHeader', function () {
 	         $scope.headerFixed = false;
 	       }
 	       $scope.$apply();
-	   });
+	   	});
 
 	    $rootScope.headerOpened = false;
 	    $scope.toggleMenu = function(){
@@ -56,6 +56,11 @@ angular.module('app').directive('ngHeader', function () {
 
 	    	return current;
 	    };
+
+
+	    $scope.showSpeakerPopup = function(){
+			PopupService.showSpeakerPopup();
+		};
     }
   };
 });
