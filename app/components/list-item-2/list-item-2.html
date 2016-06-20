@@ -8,13 +8,15 @@
 	</div>
 	<div class="row">
 		<div class="item-image col-sm-8" ng-if="img !== ''">
-			<img src="/localdata/img/{{img}}" />
+			<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
+				<img src="/localdata/img/{{img}}" />
+			</a>
 		</div>
 	</div>
 	<div class="row">
 		<div class="item-content col-xs-12" >
 			<div class="item-author show-desktop" ng-bind-html="author"></div>
-			<div class="item-title show-desktop" ng-bind-html="title"></div>
+			<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-title show-desktop" ng-bind-html="title"></a>
 			<div class="item-subtitle show-desktop" ng-bind-html="subtitle"></div>
 			<div class="item-content" ng-bind-html="content"></div>
 			<a ng-if="mainctatext !== ''" class="cta cta-light-blue show-desktop-inline" ng-bind-html="mainctatext"></a>

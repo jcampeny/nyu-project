@@ -4,6 +4,7 @@ angular.module('app').directive('nyuListItem2', function () {
     templateUrl: '../app/components/list-item-2/list-item-2.html',
     controllerAs: 'nyuListItem2',
     scope: {
+    	entity 		 : '@',
 		author       : '@',
 		title        : '@',
 		subtitle     : '@',
@@ -13,7 +14,9 @@ angular.module('app').directive('nyuListItem2', function () {
 		mainctatext2 : '@'
     },
     controller: function ($scope) {
-    	//code
+    	$scope.getTitleUrl = function(){
+    		return window.encodeURIComponent($scope.title).replace(/%20/g,'+');
+    	};
     	
     }
   };

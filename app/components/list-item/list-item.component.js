@@ -62,6 +62,10 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     	$scope.toggleAudio = function(){
     		$scope.audioPlaying = !$scope.audioPlaying;
     	};
+
+    	$scope.getTitleUrl = function(){
+    		return window.encodeURIComponent($scope.title).replace(/%20/g,'+');
+    	};
     }
   };
 });

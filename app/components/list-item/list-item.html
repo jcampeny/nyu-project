@@ -1,7 +1,7 @@
 <div class="list-item list-item-{{entity}} row" ng-class="{'last':last=='true'}">
 	<div class="item-content col-xs-12">
 		<div ng-if="author !==''" class="item-author" ng-bind-html="author"></div>
-		<div ui-sref="app.{{entity}}item({id:1,title:'asd'})" ng-if="title !==''" class="item-title" ng-bind-html="title"></div>
+		<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
 		<div ng-if="subtitle !==''" class="item-subtitle" ng-bind-html="subtitle"></div>
 		<div ng-if="hasItemInfo()" class="item-info">
 			<span ng-if="publicationType !==''" class="publicationType" ng-bind-html="publicationType">
@@ -23,9 +23,9 @@
 		</div>
 	</div>
 	<div class="item-image {{entity !== 'videos' && content !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
-		<div>
+		<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
 			<img class="{{content===''?'':'full-img'}}" src="/localdata/img/{{picture}}" />	
-		</div>
+		</a>
 		<div><a ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
 		<div ng-if="share === 'true' && content === ''" class="mobile-social btns-gray">
 			<span class="btn-caption">SHARE</span>

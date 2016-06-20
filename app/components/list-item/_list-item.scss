@@ -3,9 +3,14 @@
 	margin-bottom: 95px;
 
 	.item-image	{
-		img {
-			display: block;
-			max-width: 100%;
+		.item-image-container{
+			display:block;
+
+			img {
+				display: block;
+				max-width: 100%;
+				cursor:pointer;
+			}
 		}
 
 		.cta{
@@ -33,6 +38,7 @@
 			margin-bottom:10px;
 		}
 		.item-title{
+			display: block;
 			font-size:2.6rem;
 			line-height: 2.6rem;
 			font-weight: 700;
