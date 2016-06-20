@@ -9,6 +9,10 @@
     }
 }
 
+.modal.fade:not(.in) .modal-dialog {
+    @include transform(translate3d(0, 25%, 0));
+}
+
 .request-popup-container{
 	padding:25px;
 	position: relative;
