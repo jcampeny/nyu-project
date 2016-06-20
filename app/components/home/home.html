@@ -44,15 +44,17 @@
 				</div>
 				<div class="list-item home-list-item row">
 					<div class="item-image col-xs-5" ng-if="img !== ''">
-						<img src="/localdata/img/generic_book.png" />
+						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="item-image-container">
+							<img src="/localdata/img/generic_book.png" />
+						</a>
 						<a class="cta cta-light-blue show-mobile">read more</a>
 					</div>
 					<div class="item-content {{img !== ''?'col-xs-7':'col-xs-12'}}" >
 						<div class="item-author">Pankaj Ghemawat</div>
-						<div class="item-title">World 3.0</div>
+						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" ng-if="title !==''" class="item-title">World 3.0</a>
 						<div class="item-subtitle">Global Prosperity and How to Achieve it</div>
 						<div class="item-content">Now available in bookstores! In the aftermath of the financial crisis, does market integration still promise the best path to prosperity, or should we slow down or reverse globalization to deal with our problems on a more manageable scale? In World 3.0, Pankaj Ghemawat takes stock of today's cross-border reality and makes the case for a new approach to globalization.</div>
-						<a class="cta cta-light-blue show-desktop-inline">read more</a>
+						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="cta cta-light-blue show-desktop-inline">read more</a>
 					</div>
 				</div> 
 			</div>
