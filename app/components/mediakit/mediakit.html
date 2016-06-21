@@ -41,6 +41,20 @@
 				<div class="button-container">
 					<a href="#" class="cta cta-light-blue">SEND</a>
 				</div>
+				<div class="or">
+					<hr>
+					<span class="text">or</span>
+				</div>
+				<div class="download-title">Select which individual file you’d like to download: -{{resourceSelected}}-</div>
+				<div class="mediakit-resources row">
+					<div class="resource col-xs-4" ng-class="{'selected': r.file==resourceSelected}" ng-repeat="r in resources" ng-click="selectResource(r.file)">
+						<div class="image-container" style="background-image:url('/localdata/img/{{r.file}}')"></div>
+						<div class="title">{{r.label}}</div>
+					</div>
+				</div>
+				<div class="button-container">
+					<a href="#" class="cta cta-light-blue" ng-click="downloadResource()">Download</a>
+				</div>
 			</div>
 		</div>
 	</div>

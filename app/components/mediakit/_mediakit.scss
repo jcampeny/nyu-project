@@ -48,4 +48,58 @@
 			    min-width: 40%;
 		}
 	}
+
+	.or{
+		margin-top: 50px;
+		text-align: center;
+
+		hr{
+			border-color: #616362;
+			margin-bottom: -15px;
+		}
+
+		.text{
+			padding: 5px 11px;
+			display:inline-block;
+			font-size:1.4rem;
+			font-weight: 300;
+			background: #FFFFFF;
+			text-transform: uppercase;
+		}
+	}
+
+	.mediakit-resources{
+		.resource{
+			position: relative;
+		    text-align: center;
+		    margin-top: 20px;
+		    padding: 0 3% 30% 3%;
+		    cursor: pointer;
+		    overflow: hidden;
+
+			.image-container{
+				position: absolute;
+			    width: 100%;
+			    height: calc(33vw - 23px);
+			    top: 16px;
+			    left: 0;
+			    border: 4px solid #FFFFFF;
+			    background-size: cover;
+			    background-position: center;
+			}
+
+			&.selected {
+				.image-container{
+					border-color: #2E80FF;	
+				}
+		    }
+
+			.title{
+				font-size:1rem;
+				font-weight: 300;
+				color:#313231;
+			}	
+
+		}
+	}
 }
