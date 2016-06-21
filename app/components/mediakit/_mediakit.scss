@@ -70,19 +70,13 @@
 
 	.mediakit-resources{
 		.resource{
-			position: relative;
 		    text-align: center;
 		    margin-top: 20px;
-		    padding: 0 3% 30% 3%;
+		    padding: 0;
 		    cursor: pointer;
-		    overflow: hidden;
 
 			.image-container{
-				position: absolute;
 			    width: 100%;
-			    height: calc(33vw - 23px);
-			    top: 16px;
-			    left: 0;
 			    border: 4px solid #FFFFFF;
 			    background-size: cover;
 			    background-position: center;
@@ -96,6 +90,7 @@
 
 			.title{
 				font-size:1rem;
+				line-height: 1rem;
 				font-weight: 300;
 				color:#313231;
 			}	

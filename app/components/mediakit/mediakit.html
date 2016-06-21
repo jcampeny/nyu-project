@@ -45,11 +45,11 @@
 					<hr>
 					<span class="text">or</span>
 				</div>
-				<div class="download-title">Select which individual file you’d like to download: -{{resourceSelected}}-</div>
+				<div class="download-title">Select which individual file you’d like to download:</div>
 				<div class="mediakit-resources row">
 					<div class="resource col-xs-4" ng-class="{'selected': r.file==resourceSelected}" ng-repeat="r in resources" ng-click="selectResource(r.file)">
-						<div class="image-container" style="background-image:url('/localdata/img/{{r.file}}')"></div>
 						<div class="title">{{r.label}}</div>
+						<img class="image-container" src="/localdata/img/{{r.file}}" />
 					</div>
 				</div>
 				<div class="button-container">
