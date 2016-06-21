@@ -89,13 +89,14 @@
 			a{
 				display: block;
 				position: relative;
-				padding: 15px 20px;
+				padding: 15px 11px;
 				font-weight: 700;
 				color: #FFFFFF;
 				letter-spacing: 0.05em;
 				@include transition(color 0.4s);
 
 				&.has-submenu{
+					padding-right: 22px;
 					&:after{
 						content: "";
 						position:absolute;
@@ -155,6 +156,19 @@
 				}
 			}
 		}
+
+		@media only screen and (max-width: $break-desktop) {
+			li{
+				a{
+					font-size: 1.3rem;
+					padding: 15px 7px;
+
+					&.has-submenu{
+						padding-right: 18px;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -162,7 +176,7 @@
 	display:none;
 }
 
-@media only screen and (max-width: $break-mobile) {
+@media only screen and (max-width: $break-laptop) {
 	.header-bottom, .header-top {
 		display:none;
 	}
