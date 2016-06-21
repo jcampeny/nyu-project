@@ -1,7 +1,7 @@
 <div class="list-item list-item-{{entity}} row" ng-class="{'last':last=='true'}">
 	<div class="item-content col-xs-12">
 		<div ng-if="author !==''" class="item-author" ng-bind-html="author"></div>
-		<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
+		<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
 		<div ng-if="subtitle !==''" class="item-subtitle" ng-bind-html="subtitle"></div>
 		<div ng-if="hasItemInfo()" class="item-info">
 			<span ng-if="publicationType !==''" class="publicationType" ng-bind-html="publicationType">

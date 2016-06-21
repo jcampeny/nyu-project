@@ -1,27 +1,6 @@
 {
   "results": [
-  	{
-		"author"          : "",
-		"title"           : "Table of Contents",
-		"subtitle"        : "",
-		"content_short"	  : "",
-		"content"         : "",
-		"publicationType" : "",
-		"publication"     : "",
-		"publisher"       : "",
-		"date"            : "",
-		"pages"           : "",
-		"other"           : "",
-		"main_cta"        : "",
-		"main_cta_2"      : "",
-		"other_cta"       : "",
-		"ext_link"        : "",
-		"pdf_link"        : "View PDF",
-		"xls_link"        : "",
-		"picture"         : "globedocuments1.png",
-		"audio"           : "",
-		"share"           : true
-  	},
+  	
   	{
 		"author"          : "",
 		"title"           : "Globalization of Management Education",
@@ -41,6 +20,28 @@
 		"pdf_link"        : "View PDF",
 		"xls_link"        : "",
 		"picture"         : "globedocuments2.png",
+		"audio"           : "",
+		"share"           : true
+  	},
+  	{
+		"author"          : "",
+		"title"           : "Table of Contents",
+		"subtitle"        : "",
+		"content_short"	  : "",
+		"content"         : "",
+		"publicationType" : "",
+		"publication"     : "",
+		"publisher"       : "",
+		"date"            : "",
+		"pages"           : "",
+		"other"           : "",
+		"main_cta"        : "",
+		"main_cta_2"      : "",
+		"other_cta"       : "",
+		"ext_link"        : "",
+		"pdf_link"        : "View PDF",
+		"xls_link"        : "",
+		"picture"         : "globedocuments1.png",
 		"audio"           : "",
 		"share"           : true
   	},

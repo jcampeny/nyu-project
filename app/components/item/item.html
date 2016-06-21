@@ -1,6 +1,77 @@
 <div class="margin-content">
 	<div class="page-section item-section {{entity}}-item">
-		<div class="line-title lt-return lt-blue" ng-bind-html="entityLabels[entity].name"></div>
-
+		<div ng-if="entity!=='books'" class="line-title lt-return lt-blue">
+			<a ui-sref="app.{{entity}}">Return TO {{entityLabels[entity].name}}</a>
+		</div>
+		<div ng-if="entity==='books'" class="line-title lt-return-books lt-blue">
+			{{entityLabels[entity].name}}
+		</div>
+		<div class="row page-content">
+			<div class="col-sm-4 side-item-content">
+				<div class="item-info">
+					<div ng-if="item.author !==''" class="item-info-author" ng-bind-html="item.author"></div>
+					<div ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType"></div>
+					<div ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication"></div>
+					<div ng-if="item.publisher !==''" class="publisher" ng-bind-html="item.publisher"></div>
+					<div ng-if="item.date !==''" class="date" ng-bind-html="item.date"></div>
+					<div ng-if="item.pages !==''" class="pages" ng-bind-html="item.pages"></div>
+					<div ng-if="item.other !==''" class="other" ng-bind-html="item.other"></div>
+					<div class="mobile-social btns-gray">
+						<span class="btn-caption">SHARE</span>
+						<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+						<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+						<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					</div>
+				</div>
+				<div ng-if="entity !== 'books'" class="item-related">
+					<div class="title">Related {{entityLabels[entity].name}}</div>
+					<div class="related-items" ng-repeat="r in related">
+						<hr>
+						<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})">{{r.title}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8 main-item-content">
+				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ===''}"></h1>
+				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle"></h2>
+				<div ng-if="item.picture !== ''" class="item-image" ng-class="{'item-image-books':entity==='books'}">
+					<img src="/localdata/img/{{item.picture}}" />	
+					<a ng-if="item.mainctatext !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
+				</div>
+				<div class="item-audio col-sm-12 show-desktop" ng-if="entity == 'podcasts'">
+					<a href="#" class="button" ng-click="toggleAudio()">
+						<span class="play" ng-show="!audioPlaying"></span>
+						<span class="pause" ng-show="audioPlaying"></span>
+					</a><div class="play-bar">
+						<div class="play-bar-range"></div>
+						<div class="time-played">1:44</div>
+						<div class="time-total">10:50</div>
+					</div>
+				</div>
+				<div class="item-content-text" ng-bind-html="item.content===''?item.content_short:item.content"></div>
+				<!-- <a ng-if="item.main_cta !== '' && entity !== 'books'" class="cta cta-light-blue" ng-bind-html="item.main_cta"></a>
+				<a ng-if="item.main_cta_2 !== '' && entity !== 'books'" class="cta cta-light-blue cat-2" ng-bind-html="item.mainctatext2"></a> -->
+				<div><a href="{{item.xls_link}}" ng-if="item.xls_link !== ''  && entity !== 'books'" class="link-dark-blue xls-link" ng-bind-html="item.xls_link"></a></div>
+				<div><a href="{{item.pdf_link}}" ng-if="item.pdf_link !== ''" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
+				<div><a href="{{item.ext_link}}" ng-if="item.ext_link !== '' && entity !== 'videos'" class="link-dark-blue" ng-bind-html="'Download Online Appendix Data (EXCEL)'"></a></div>
+				<div><a href="{{item.other_link}}" ng-if="item.other_link !== ''" class="other-link" ng-bind-html="item.other_link"></a></div>
+				<div class="mobile-social btns-gray">
+					<span class="btn-caption">SHARE</span>
+					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				</div>
+			</div>
+		</div>
+		<div ng-if="entity === 'books'" class="row related-books">
+			<div class="col-sm-12">
+				<div ng-if="entity==='books'" class="line-title lt-return-books lt-blue">
+					Other Books
+				</div>	
+			</div>
+			<div class="col-sm-8">
+				<nyu-book-list-item ng-repeat="i in related" item="i"></nyu-book-list-item>
+			</div>
+		</div>
 	</div>
 </div>

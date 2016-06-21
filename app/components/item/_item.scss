@@ -1,3 +1,133 @@
 .item-section{
-	
+	padding-bottom: 95px;
+
+
+	.item-info{
+		div {
+			padding: 14px 0;
+			margin-top:0;
+			border-bottom: 1px dotted #606362;
+			font-size:1.6rem;
+			font-weight: 300;
+			color:#6F6F6E;
+
+			&:first-child{
+				margin-top:0 !important; /*mobile-social first child*/
+				padding-top: 0;
+			}
+			&:last-child{
+				border: none;
+			}
+
+			&.mobile-social{
+				margin-top: 20px;
+			}
+		}
+
+		.publicationType{
+			font-weight: 700;
+		}
+
+		.item-info-author{
+			font-size: 1.7rem;
+			color:#6BB5FE;
+			font-weight: 300;
+		}
+	}
+
+	.item-related{
+		margin-top: 90px;
+
+		.title{
+			font-family: 'Merriweather', serif;
+			font-size:1.7rem;
+			color:#575756;
+		}
+
+		.related-items{
+			margin-top:20px;
+
+			a{
+				display:block;
+				padding-top: 15px;
+				font-size: 1.6rem;
+				color:#2D2E2D;
+				font-weight: 700;
+			}
+
+			hr{
+				margin:0;
+				max-width: 70%;
+			}
+		}	
+	}
+
+	.main-item-content{
+		.item-title{
+			margin:0 0 5px 0;
+			font-size:2.6rem;
+			line-height:2.6rem;
+			font-weight: 700;
+			color:#2D2E2D;
+
+			&.no-sub{
+				margin-bottom: 25px;
+			}
+			
+		}
+
+		.item-subtitle{
+			margin: 0 0 20px 0;
+			font-size:1.8rem;
+			line-height:1.8rem;
+			font-weight: 400;
+			color:#2D2E2D;
+		}
+
+		.item-image{
+			.cta{
+				max-width: 25%;
+    			margin-left: 4%;
+				vertical-align: top;
+			}
+			img{
+				width: 100%;
+				margin-bottom: 40px;
+				vertical-align: top;
+			}
+
+			&.item-image-books{
+				img{
+					width: 70%;
+				}
+
+				.cta{
+
+				}
+			}
+		}
+
+		.item-content-text{
+			margin-bottom: 35px;
+		}
+
+		.link-dark-blue{
+			display:inline-block;
+			margin-bottom: 20px;
+			color:#174380;
+
+		}
+
+		.item-audio{
+			margin-left: 0;
+		}
+
+		.other-link{
+			display: inline-block;
+			font-size: 1.7rem;
+			font-weight: 300;
+			font-style: italic;
+			color:#313231;
+		}
+	}
 }

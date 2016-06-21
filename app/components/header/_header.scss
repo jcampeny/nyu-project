@@ -44,6 +44,10 @@
 				}
 			}
 		}
+
+		@media only screen and (max-width: $break-desktop) {
+			right: 50px;
+		}
 	}
 }
 
@@ -161,10 +165,10 @@
 			li{
 				a{
 					font-size: 1.3rem;
-					padding: 15px 7px;
+					padding: 15px 5px;
 
 					&.has-submenu{
-						padding-right: 18px;
+						padding-right: 16px;
 					}
 				}
 			}
@@ -185,57 +189,58 @@
 		display:block;
 		position:fixed;
 		width:100%;
-		height:37px;
+		height:50px;
 		
 		background-color:#174380;
 		z-index: 2;
 			
 		.logo{
 			position:absolute;
-			right: 10px;
+			right: 26px;
 			
 			img{
-				max-height: 27px;
-    			margin-top: 5px;
+				max-height: 34px;
+    			margin-top: 9px;
 			}
 		}
 
 		.buton{
 			position:absolute;
-			width: 52px;
+			width: 62px;
 			height: 100%;
 			border-right: 1px solid #999A9A;
 			cursor:pointer;
 
 			.icon{
-				height:37px;
+				height:50px;
 
 				.line{
 					position: absolute;
-					left:13px;
-					height: 2px;
-					background-color:#A5A7A6;
+					left:17px;
+					height: 3px;
+					background-color:#FFFFFF;
 					@include transition(all 0.5s);	
 				}
 				.top{
-					top:7px;
-					width:22px;
+					top:10px;
+					width:26px;
 				}
 				.med{
-					top:12px;
-					width:16px;
+					top:17px;
+					width:18px;
 				}
 				.btm{
-					top:17px;
-					width:19px;	
+					top:24px;
+					width:23px;	
 				}
 				.text{
 					position: absolute;
-					top: 21px;
-    				width: 100%;
-				    font-size: 1rem;
-				    text-align: center;
-				    color: #A5A7A6;
+					top: 31px;
+    				left: 17px;
+				    font-size: 0.9rem;
+				    text-align: left;
+				    color: #FFFFFF;
+				    text-transform: uppercase;
 				    @include transition(all 0.5s);
 				}
 			}

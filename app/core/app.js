@@ -32,7 +32,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.blogitem', {url:'blog/:id/:title', template: '<nyu-item entity="blog"></nyu-item>'})
 
 				.state('app.videos', {url:'videos', template: '<nyu-list-columns entity="videos"></nyu-list-columns>'})
-
+				.state('app.videositem', {url:'videos/:id/:title', template: '<nyu-item entity="videos"></nyu-item>'})
+				
 				.state('app.podcasts', {url:'podcasts', template: '<nyu-list entity="podcasts"></nyu-list>'})
 				.state('app.podcastsitem', {url:'podcasts/:id/:title', template: '<nyu-item entity="podcasts"></nyu-item>'})
 

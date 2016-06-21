@@ -13,6 +13,7 @@
 @import '../components/surveys/surveys';
 @import '../components/filter/filter';
 @import '../components/request-popup/request-popup';
+@import '../components/item/item';
 
 
 body {
@@ -33,6 +34,10 @@ a{
 	max-width: 1280px;
 	margin: 0 auto;
 	padding: 0 80px;
+
+	@media only screen and (max-width: $break-desktop) {
+		padding: 0 50px;
+	}
 
 	@media only screen and (max-width: $break-mobile) {
 		padding: 0 25px;
@@ -57,31 +62,47 @@ a{
 		font-weight: 400;
 	}
 
+	&.lt-return-books{
+		padding-top: 5px;
+    	margin-bottom: 40px;
+		font-size: 2.6rem;
+		font-weight: 400;
+		border-width: 1px;
+	}
+
 	&.lt-return{
-		font-size:1.3rem;
-		font-weight:700;
-		text-transform:uppercase;
-		padding: 0 0 0 40px;
+		padding: 20px 0 50px 40px;
+		border-width: 0.5px;
 
-		&:after{
-			content: "";
-			width: 30px;
-			height: 30px;
-			border: 1px solid #FFFFFF;
-			border-radius: 100%;
+		a{
+			font-family: 'Roboto', sans-serif;
+			font-size:1.3rem;
+			font-weight:700;
+			text-transform:uppercase;
+			color:#2E80FF;
 
-		}
-		&:before{
-			content: "";
-			position: absolute;
-			top: 50%;
-			left:50%;
-			width: 10px;
-			height: 10px;
-			margin: -5px;
-			border-bottom: 1px solid #FFFFFF;
-			border-left: 1px solid #FFFFFF;
-			@include transform(rotate(45deg));
+			&:after{
+				content: "";
+				position: absolute;
+				left: 0;
+	    		top: 13px;
+				width: 30px;
+				height: 30px;
+				border: 1px solid #606362;
+				border-radius: 100%;
+
+			}
+			&:before{
+				content: "";
+				position: absolute;
+				top: 24px;
+	    		left: 13px;
+	    		width: 8px;
+	    		height: 8px;
+				border-bottom: 1px solid #606362;
+				border-left: 1px solid #606362;
+				@include transform(rotate(45deg));
+			}
 		}
 	}
 

@@ -11,6 +11,7 @@
 			<div class="col-sm-8 main-content">
 				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"
 						entity="{{entity}}" 
+						subentity="{{subentity}}"
 						author="{{i.author}}" 
 						title="{{i.title}}" 
 						subtitle="{{i.subtitle}}" 
@@ -35,6 +36,7 @@
 				</nyu-list-item>
 				<nyu-list-item-2 ng-repeat="i in items" ng-if="entity === 'books'"
 						entity="{{entity}}" 
+						subentity="{{subentity}}"
 						author="{{i.author}}" 
 						title="{{i.title}}" 
 						subtitle="{{i.subtitle}}" 

@@ -6,6 +6,7 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     scope: {
     	last 			: '@',
     	entity 			: '@',
+    	subentity 		: '@',
 		author       	: '@',
 		title        	: '@',
 		subtitle     	: '@',
