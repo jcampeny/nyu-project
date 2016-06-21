@@ -420,6 +420,7 @@ function twentysixteen_widget_tag_cloud_args( $args ) {
 }
 add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 
+
 /**
  *
  *
@@ -542,100 +543,336 @@ function save_details_message(){
 /**
  *
  *
- * MetaBox for Custom post
+ * Settings metaboox
  *
  *
  */
+/*
+function my_connection_types() {
+    p2p_register_connection_type( array(
+        'name' => 'posts_to_pages',
+        'from' => 'case',
+        'to' => 'project',
+        'title' => 'Other projects',
+        'sortable' => true
+    ) );
+}
+add_action( 'p2p_init', 'my_connection_types' );
 
-//Custom Posts that use this metabox
-$custom_posts = array(
+
+
+
+add_action( 'rest_api_init', 'slug_register_success_story_services' );
+function slug_register_success_story_services() {
+    register_api_field( 'case',
+        'project',
+        array(
+            'get_callback'    => 'slug_get_services',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+
+}
+
+function slug_get_services( $object, $field_name, $request ) {
+  return get_posts( array(
+    'connected_type' => 'posts_to_pages',
+    'connected_items' => $object,
+    'nopaging' => true,
+    'suppress_filters' => false,
+    'post_status' => 'any'
+  ));
+}
+*/
+/**/
+$custom_posts = array( //create metabox
 		'book',
-		'article'
+		'global',
+		'article',
+		'working',
+		'video',
+		'podcast',
+		'press',
+		'mediakit',
+		'globecases',
+		'globedocuments',
+		'globereadings',
+		'globenotes',
+		'globepresentations',
+		'cases',
+		'other'
+
 	);
 
+$custom_posts_list = array( //Name and icon
+	array('Books','dashicons-book-alt'),
+	array('Globalization Index Reports','dashicons-analytics'),
+	array('Articles & Book Chapters', 'dashicons-media-document'),
+	array('Working Papers', 'dashicons-format-aside'),
+	array('Videos', 'dashicons-format-video'),
+	array('Podcasts','dashicons-megaphone'),
+	array('Press', 'dashicons-media-text'),
+	array('Media kit', 'dashicons-images-alt2'),
+	array('GLOBE Cases', 'dashicons-id-alt'),
+	array('GLOBE Documents', 'dashicons-media-document'),
+	array('GLOBE Readings', 'dashicons-media-text'),
+	array('GLOBE Notes', 'dashicons-clipboard'),
+	array('GLOBE Presentations', 'dashicons-media-interactive'),
+	array('Cases & Teaching Notes', 'dashicons-list-view'),
+	array('Globalization Notes', 'dashicons-admin-site'),
+	array('Other', 'dashicons-archive')
+);
+
+$metabox_list = array( // metaboxs list
+		array("author"            , "Author: "                ),
+		array("title_metabox"     , "Title: "                 ),
+		array("subtitle"          , "Subtitle: "              ),
+		array("content_short"	  , "Content short: "	      , true),
+		array("content_metabox"   , "Content: "               , true),
+		array("publicationType"   , "Publication Type: "      ),
+		array("publication"       , "Publication: "           ),
+		array("publisher"         , "Publisher: "             ),
+		array("date_metabox"      , "Date: "                  ),
+		array("pages"             , "Pages: "                 ),
+		array("other"             , "Other: "                 ),
+		array("main_cta"          , "Main call to action: "   ),
+		array("main_cta_2"        , "Main call to action 2: " ),
+		array("other_cta"         , "Other call to action: "  ),
+		array("ext_link"          , "Ext link: "              ),
+		array("pdf_link"          , "Pdf link: "              ),
+		array("xls_link"          , "Xls link: "              ),
+		array("picture"           , "Picture: "               ),
+		array("audio"             , "Audio: "                 ),
+		array("share"             , "Share: "                 )
+	);
+/*
+* one function for each metabox (same name)
+*/
+
+function author ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["author"][0];
+};
+
+function title_metabox ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["title_metabox"][0];
+};
+
+function subtitle ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["subtitle"][0];
+};
+
+function content_short ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["content_short"][0];
+};
+
+function content_metabox ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["content_metabox"][0];
+};
+
+function publicationType ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["publicationType"][0];
+};
+
+function publication ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["publication"][0];
+};
+
+function publisher ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["publisher"][0];
+};
+
+function date_metabox ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["date_metabox"][0];
+};
+
+function pages ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["pages"][0];
+};
+
+function other ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["other"][0];
+};
+
+function main_cta ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["main_cta"][0];
+};
+/**/
+function main_cta_2 ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["main_cta_2"][0];
+};
+
+function other_cta ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["other_cta"][0];
+};
+
+function ext_link ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["ext_link"][0];
+};
+
+function pdf_link ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["pdf_link"][0];
+};
+
+function xls_link ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["xls_link"][0];
+};
+
+function picture ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["picture"][0];
+};
+
+function audio ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["audio"][0];
+};
+
+function share ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["share"][0];
+};
+/**
+ *
+ *
+ * Create Metabox
+ *
+ *
+ */
 function admin_init_metabox(){
 	global $custom_posts;
     add_meta_box("metaBox_custom_post", "Other information", "metaBox_custom_post",$custom_posts , "normal", "low");
 }
+
 add_action("admin_init", "admin_init_metabox");
 
 //Content Metabox
 function metaBox_custom_post() {
   global $post;
+  global $metabox_list;
 
   $custom = get_post_custom($post->ID);
-  $publication_appear = $custom["publication_appear"][0];
-  $identifier = $custom["identifier"][0];
+
 
   $settings = array(
-    'media_buttons' => false,
+    'media_buttons' => true,
     'teeny' => true,
-    'editor_height' => 15
+    'editor_height' => 205
   );
 
-  ?>
-  <p><label>Publication within which it appears:</label><br>
-  	<?php wp_editor( $publication_appear, "publication_appear", $settings);?>
-  <p><label>Identifier:</label><br>
-  	<?php wp_editor( $identifier, "identifier", $settings);?>
-  <?php
+  foreach ($metabox_list as $value) {
+  	$metabox_container = $custom[$value[0]][0];
+  	$text = isset( $custom[$value[0]] ) ? esc_attr( $custom[$value[0]][0] ) : ”;
+  	if($value[2]){
+	  	?><p><label><?php echo $value[1] ?></label><br>
+	  		<?php wp_editor( $metabox_container, $value[0], $settings);?>
+	  	<?php
+  	}else{
+  		?><p><label><?php echo $value[1] ?></label><br>
+  			 <input style="width:100%;" type="text" name="<?php echo $value[0]; ?>" id="<?php echo $value[0]; ?>" value="<?php echo $text; ?>" />
+  		<?php
+  	}
+
+  }
 
 }
 
 //Update DB
 function save_details(){
   global $post;
+  global $metabox_list;
 
-  update_post_meta($post->ID, "publication_appear", $_POST["publication_appear"]);
-  update_post_meta($post->ID, "identifier", $_POST["identifier"]);
+  foreach ($metabox_list as $value) {
+  	update_post_meta($post->ID, $value[0], $_POST[$value[0]]);
+  }
+  
 }
 
 add_action('save_post', 'save_details');
+
 
 //send it with WP RESTAPI
 function wpsd_add_custom_posts_args() {
     global $wp_post_types;
     global $custom_posts;
-    
+
     foreach ($custom_posts as $value) {
-        $wp_post_types[$value]->show_in_rest = true;
-    	$wp_post_types[$value]->rest_base = $value;
-    	$wp_post_types[$value]->rest_controller_class = 'WP_REST_Posts_Controller';	
+    	$wp_post_types[$value]->show_in_rest = true;
+	   	$wp_post_types[$value]->rest_base = $value;
+	   	$wp_post_types[$value]->rest_controller_class = 'WP_REST_Posts_Controller';		
     }
 }
 add_action( 'init', 'wpsd_add_custom_posts_args', 30 );
 
+//send metabox
+function register_metabox(){
+	global $metabox_list;
+	global $custom_posts;
+	$functions = array();
+	foreach ($custom_posts as $i) {
+		foreach ($metabox_list as $key => $value) {
+			register_api_field( $i, $value[0] ,
+				array(
+					'get_callback' => $value[0],
+					'update_callback' => null,
+					'schema' => null
+					)
+				);
+		}
+	}
+}
+
+add_action( 'rest_api_init', 'register_metabox' );	
+
+
 /**
  *
  *
- *Custom taxonomy Author
+ *Custom taxonomy Category
  *
  *
  */
-
-add_action( 'init', 'create_author_taxonomy', 0 );
+/*
+add_action( 'init', 'create_category_taxonomy', 0 );
 
 // create taxonomy, genres and writers for the post type "book"
-function create_author_taxonomy() {
+function create_category_taxonomy() {
 	global $custom_posts;
-	// Add new taxonomy called Author, make it hierarchical (like categories)
+	// Add new taxonomy called Category, make it hierarchical (like categories)
 	$labels = array(
-		'name'                       => _x( 'Authors', 'taxonomy general name' ),
-		'singular_name'              => _x( 'Author', 'taxonomy singular name' ),
-		'search_items'               => __( 'Search Authors' ),
-		'popular_items'              => __( 'Popular Authors' ),
-		'all_items'                  => __( 'All Authors' ),
+		'name'                       => _x( 'Categories', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Category', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Categories' ),
+		'popular_items'              => __( 'Popular Categories' ),
+		'all_items'                  => __( 'All Categorys' ),
 		'parent_item'                => null,
 		'parent_item_colon'          => null,
-		'edit_item'                  => __( 'Edit Author' ),
-		'update_item'                => __( 'Update Author' ),
-		'add_new_item'               => __( 'Add New Author' ),
-		'new_item_name'              => __( 'New Author Name' ),
-		'separate_items_with_commas' => __( 'Separate authors with commas' ),
-		'add_or_remove_items'        => __( 'Add or remove authors' ),
-		'choose_from_most_used'      => __( 'Choose from the most used authors' ),
-		'not_found'                  => __( 'No authors found.' ),
-		'menu_name'                  => __( 'Authors' ),
+		'edit_item'                  => __( 'Edit Category' ),
+		'update_item'                => __( 'Update Category' ),
+		'add_new_item'               => __( 'Add New Category' ),
+		'new_item_name'              => __( 'New Category Name' ),
+		'separate_items_with_commas' => __( 'Separate categories with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove categories' ),
+		'choose_from_most_used'      => __( 'Choose from the most used categories' ),
+		'not_found'                  => __( 'No categories found.' ),
+		'menu_name'                  => __( 'Categories' ),
 	);
 
 	//Hierarchical (false -> tag / true -> category)
@@ -646,11 +883,108 @@ function create_author_taxonomy() {
 		'show_admin_column'     => true,
 		'update_count_callback' => '_update_post_term_count',
 		'query_var'             => true,
-		'rewrite'               => array( 'slug' => 'author' ),
+		'rewrite'               => array( 'slug' => 'category' ),
 	);
 	
-	register_taxonomy( 'author', $custom_posts, $args );
+	register_taxonomy( 'category', $custom_posts, $args );
 }
+
+*/
+/**
+ *
+ *
+ *Custom taxonomy Other
+ *
+ *
+ */
+/*
+add_action( 'init', 'create_other_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_other_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Others', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Other', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Others' ),
+		'popular_items'              => __( 'Popular Others' ),
+		'all_items'                  => __( 'All Others' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Other' ),
+		'update_item'                => __( 'Update Other' ),
+		'add_new_item'               => __( 'Add New Other' ),
+		'new_item_name'              => __( 'New Other Name' ),
+		'separate_items_with_commas' => __( 'Separate Others with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Others' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Others' ),
+		'not_found'                  => __( 'No Others found.' ),
+		'menu_name'                  => __( 'Others' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => true, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'other' ),
+	);
+	
+	register_taxonomy( 'other', $custom_posts, $args );
+}
+*/
+/**
+ *
+ *
+ *Custom taxonomy Client
+ *
+ *
+ */
+/*
+add_action( 'init', 'create_client_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_client_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Client', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Client', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Clients' ),
+		'popular_items'              => __( 'Popular Clients' ),
+		'all_items'                  => __( 'All Clients' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Client' ),
+		'update_item'                => __( 'Update Client' ),
+		'add_new_item'               => __( 'Add New Client' ),
+		'new_item_name'              => __( 'New Client Name' ),
+		'separate_items_with_commas' => __( 'Separate Clients with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Clients' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Clients' ),
+		'not_found'                  => __( 'No Clients found.' ),
+		'menu_name'                  => __( 'Clients' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => true, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'client' ),
+	);
+	
+	register_taxonomy( 'client', $custom_posts, $args );
+}
+
+*/
 
 /**
  *
@@ -659,16 +993,12 @@ function create_author_taxonomy() {
  *
  *
  */
-$custom_posts_list = array(
-	array('Article','dashicons-format-aside'),
-	array('Book','dashicons-book-alt')
-);
 
-create_Custom_post($custom_posts_list);
+create_Custom_post($custom_posts, $custom_posts_list);
 
-function create_Custom_post($custom_posts_list){
-	foreach ($custom_posts_list as $custom_post) {
-		$custom_post_creator = new CustomPost($custom_post[0], $custom_post[1]);
+function create_Custom_post($custom_posts, $custom_posts_list){
+	foreach ($custom_posts_list as $key => $custom_post) {
+		$custom_post_creator = new CustomPost($custom_posts[$key], $custom_post[1], $custom_post[0]);
 	}	
 }
 
@@ -684,11 +1014,13 @@ function create_Custom_post($custom_posts_list){
 class CustomPost {
     private $name;  // name that appear in labels (and identifier)
 	private $icon; // Icon that appear in admin menu
+	private $label; // Labels
 
 	//constructor
-	function __construct($name, $icon){
+	function __construct($name, $icon, $label){
 		$this->name = $name;
         $this->icon = $icon;
+        $this->label = $label;
 
         $this->add();
 	}
@@ -706,7 +1038,7 @@ class CustomPost {
 
 	//Set labels and arg for Custom Post Type
     private function set_labels(){
-    	$name = $this->name;
+    	$name = $this->label;
     	$icon = $this->icon;
 
 		$labels = array(
@@ -746,7 +1078,7 @@ class CustomPost {
 	        'can_export'            => true,
 	        'has_archive'           => true,        
 	        'exclude_from_search'   => false,
-	        'publicly_queryable'    => true,
+	        'publicly_queryable'    => false,
 	        'capability_type'       => 'post', 
 	    );
 
