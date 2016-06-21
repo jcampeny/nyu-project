@@ -28,6 +28,14 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
  
         };
 
+        var entityFilters = {
+    		articles: {name: "Articles and Book Chapters", fields:["target","topic","country","date","language"]},
+    		blog: {name: "Blog", fields:["topic","country","date","language"]},
+    		videos: {name: "Videos", fields:["topic","country","date","language"]},
+    		podcasts: {name: "Podcasts", fields:["topic","country","date","language"]},
+    		press: {name: "Press", fields:["topic","country","date","language"]}
+    	};
+
     	function getEntityLabels(){
     		return entityLabels;
     	}
@@ -49,10 +57,20 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
     		return entitiesImgTop.indexOf(entity) >= 0;
     	}
 
+    	function showFilter(entity){
+    		return (typeof entityFilters[entity] !== "undefined");
+    	}
+
+    	function hasFilter(entity, field){
+    		return entityFilters[entity].fields.indexOf(field) >= 0;
+    	}
+
 	    return({
 			groupItems      : groupItems,
 			hasTopImg       : hasTopImg,
-			getEntityLabels : getEntityLabels
+			getEntityLabels : getEntityLabels,
+			showFilter      : showFilter,
+			hasFilter       : hasFilter
 		});
 
 
