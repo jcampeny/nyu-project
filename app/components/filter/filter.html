@@ -1,31 +1,34 @@
-<div class="filters show-desktop" ng-if="showFilter()">
-	<div class="results cta cta-blue-o">134 results</div>
-	<div class="filter-item" ng-if="hasFilter('target')">
-		<label>Target Audience</label>
-		<input type="text" name="topic" placeholder="Filter by Target Audience"/>
-	</div>
-	<div class="filter-item" ng-if="hasFilter('topic')">
-		<label>Topic</label>
-		<input type="text" name="topic" placeholder="Filter by Topic"/>
-	</div>
-	<div class="filter-item" ng-if="hasFilter('country')">
-		<label>Country / Region</label>
-		<input type="text" name="country" placeholder="Filter by Country/Region"/>
-	</div>
-	<div class="filter-item" ng-if="hasFilter('date')">
-		<label>Publication Date</label>
-		<input class="small" type="text" name="start" placeholder="Start Year"/><span class="filter-item-text">to
-		</span><input class="small" type="text" name="end" placeholder="End Year"/>
-	</div>
-	<div class="filter-item" ng-if="hasFilter('language')">
-		<label>Language</label>
-		<input type="text" name="language" placeholder="Filter by Language"/>
-	</div>
-	<a class="clear-filters">Clear all filters</a>
-	<div class="filters-search">
-		<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"></i><span>Search</span></div>
-		<div class="buttongroup">
-			<input type="text" name="search" placeholder="Search {{entityFilters[entity].name}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
+<div ng-if="showFilter()">
+	<div class="filters">
+		<div class="close-popup show-mobile" ng-click="root.mobileShowFilters = false;"></div>
+		<div class="results cta cta-blue-o">134 results</div>
+		<div class="filter-item" ng-if="hasFilter('target')">
+			<label>Target Audience</label>
+			<input type="text" name="topic" placeholder="Filter by Target Audience"/>
+		</div>
+		<div class="filter-item" ng-if="hasFilter('topic')">
+			<label>Topic</label>
+			<input type="text" name="topic" placeholder="Filter by Topic"/>
+		</div>
+		<div class="filter-item" ng-if="hasFilter('country')">
+			<label>Country / Region</label>
+			<input type="text" name="country" placeholder="Filter by Country/Region"/>
+		</div>
+		<div class="filter-item" ng-if="hasFilter('date')">
+			<label>Publication Date</label>
+			<input class="small" type="text" name="start" placeholder="Start Year"/><span class="filter-item-text">to
+			</span><input class="small" type="text" name="end" placeholder="End Year"/>
+		</div>
+		<div class="filter-item" ng-if="hasFilter('language')">
+			<label>Language</label>
+			<input type="text" name="language" placeholder="Filter by Language"/>
+		</div>
+		<a class="clear-filters">Clear all filters</a>
+		<div class="filters-search">
+			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"></i><span>Search</span></div>
+			<div class="buttongroup">
+				<input type="text" name="search" placeholder="Search {{entityFilters[entity].name}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -6,8 +6,8 @@ angular.module('app').directive('nyuFilter', function () {
     scope: {
     	entity: '@'
     },
-    controller: function ($scope) {
-
+    controller: function ($scope, $rootScope) {
+    	$scope.root = $rootScope;
     	$scope.entityFilters = {
     		articles: {name: "Articles and Book Chapters", fields:["target","topic","country","date","language"]},
     		blog: {name: "Blog", fields:["topic","country","date","language"]},

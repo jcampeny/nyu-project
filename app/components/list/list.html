@@ -4,7 +4,14 @@
 	</div>
 </div>
 <div class="margin-content">
-	<div class="page-section {{entity}}-section">
+	<div class="page-section {{entity}}-section" ng-class="{'show-filters':root.mobileShowFilters}">
+		<div class="mobile-filter show-mobile">
+			<nyu-filter entity="{{entity}}"></nyu-filter>	
+		</div>
+		<div class="filter-button show-mobile" ng-click="root.mobileShowFilters = !root.mobileShowFilters">
+			<span class="text">Filter</span>
+			<img src="/assets/img/filter-icon.png" />
+		</div>
 		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="entityLabels[entity].name"></div>
 		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="entityLabels[entity].name"></div>
 		<div class="row page-content">

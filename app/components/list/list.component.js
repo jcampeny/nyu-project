@@ -7,7 +7,10 @@ angular.module('app').directive('nyuList', function () {
     	entity: '@',
     	subentity: '@'
     },
-    controller: function ($scope, $http, EntitiesService) {
+    controller: function ($scope, $rootScope, $http, EntitiesService) {
+    	$scope.root = $rootScope;
+    	$rootScope.mobileShowFilters = false;
+
     	$scope.items = [];
     	var dataFile = $scope.entity;
     	if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
