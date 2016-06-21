@@ -436,6 +436,10 @@ a{
 		}
 	}
 
+	@media only screen and (max-width: $break-desktop) {
+		padding-top: 83px;
+	}
+
 	@media only screen and (max-width: $break-mobile) {
 		&.books-section{
 			.page-content{
