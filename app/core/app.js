@@ -1,4 +1,4 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput'])
 
 	.controller("mainController", [ '$rootScope', '$timeout', function($rootScope, $timeout) {
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
