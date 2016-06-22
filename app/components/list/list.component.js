@@ -10,6 +10,7 @@ angular.module('app').directive('nyuList', function () {
     controller: function ($scope, $rootScope, $http, EntitiesService) {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
+    	$scope.entitiesService = EntitiesService;
 
     	$scope.items = [];
     	var dataFile = $scope.entity;
