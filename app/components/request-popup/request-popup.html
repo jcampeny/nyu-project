@@ -4,33 +4,34 @@
 		<div class="col-sm-6 col-sm-offset-3">
 			<div class="form-title">Request as Speaker</div>
 			<div class="form-container">
-				<form method="" action="">
+				<div class="message-send">Message here...</div>
+				<form>
 					<div class="form-item">
 						<label for="name">Full name</label>
-						<input type="text" name="name" id="name">
+						<input type="text" name="name" id="name" ng-model="msg.name">
 					</div>
 					<div class="form-item">
 						<label for="organization">Organization / Meeting</label>
-						<input type="text" name="organization" id="organization">
+						<input type="text" name="organization" id="organization" ng-model="msg.organization">
 					</div>
 					<div class="form-item">
 						<label for="date">Anticipated Date</label>
-						<input type="date" name="date" id="date">
+						<input type="date" name="date" id="date" ng-model="msg.date">
 					</div>
 					<div class="form-item">
 						<label for="email">E-mail</label>
-						<input type="email" name="email" id="email">
+						<input type="text" name="email" id="email" ng-model="msg.email">
 					</div>
 					<div class="form-item">
 						<label for="phone">Phone number</label>
-						<input type="phone" name="phone" id="phone">
+						<input type="phone" name="phone" id="phone" ng-model="msg.phone">
 					</div>
 					<div class="form-item">
 						<label for="message">Message</label>
-						<textarea id="message"></textarea>
+						<textarea id="message" ng-model="msg.msg"></textarea>
 					</div>
 					<div class="button-container">
-						<a class="cta cta-light-blue">Send request</a>
+						<a class="cta cta-light-blue" ng-click="submitForm()">{{btntxt}}</a>
 					</div>
 				</form>
 			</div>

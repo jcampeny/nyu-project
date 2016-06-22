@@ -25,7 +25,9 @@
 
 	.form-container{
 		margin: 20px 0;
-
+		.message-send{
+			display: none;
+		}
 		.form-item{
 			margin-top: 15px;
 
