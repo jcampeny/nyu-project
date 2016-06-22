@@ -192,7 +192,7 @@
 		height:50px;
 		
 		background-color:#174380;
-		z-index: 2;
+		z-index: 3;
 			
 		.logo{
 			position:absolute;
@@ -208,7 +208,7 @@
 			position:absolute;
 			width: 62px;
 			height: 100%;
-			border-right: 1px solid #999A9A;
+			border-right: 1px solid #335A81;
 			cursor:pointer;
 
 			.icon{
@@ -269,7 +269,7 @@
 		.menu-mobile{
 			position:absolute;
 			right: 100%;
-			top:37px;
+			top:50px;
 			width:105%;
 			height: 100vh;
 			padding-bottom: 85px;

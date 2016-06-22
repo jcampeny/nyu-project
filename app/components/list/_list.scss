@@ -95,3 +95,43 @@
 		}
 	}
 }
+
+.filter-button{
+    position: absolute;
+    top: 101px;
+    right: 0;
+    padding: 5px 8px;
+    background-color: #E7E8E8;
+    white-space: nowrap;
+	line-height: 0;
+	cursor: pointer;
+	z-index: 2;
+
+	.text{
+		display:inline-block;
+		vertical-align: top;
+		margin: 8px 5px 0 0;
+		font-weight:700;
+		font-size: 1rem;
+		letter-spacing: 0.1rem;
+		color:#174380;
+		text-transform: uppercase;
+	}
+
+	img{
+		display:inline-block;
+		vertical-align: top;
+	}
+
+}
+	
+.page-section{
+
+	&.show-filters {
+
+		.filters{
+			top: 0vh;
+			opacity: 1;
+		}
+	}
+}

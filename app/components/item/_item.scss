@@ -2,7 +2,7 @@
 	padding-bottom: 95px;
 
 
-	.item-info{
+	.side-item-info{
 		div {
 			padding: 14px 0;
 			margin-top:0;
@@ -63,6 +63,13 @@
 	}
 
 	.main-item-content{
+		.item-author{
+			margin-bottom:5px;
+			font-size:1.6rem;
+			line-height: 1.6rem;
+			color: #6BB5FE;
+		}
+
 		.item-title{
 			margin:0 0 5px 0;
 			font-size:2.6rem;
@@ -77,11 +84,15 @@
 		}
 
 		.item-subtitle{
-			margin: 0 0 20px 0;
+			margin: 0 0 10px 0;
 			font-size:1.8rem;
 			line-height:1.8rem;
 			font-weight: 400;
 			color:#2D2E2D;
+
+			&.no-sub{
+				margin-bottom: 20px;
+			}
 		}
 
 		.item-image{
@@ -91,19 +102,21 @@
 				vertical-align: top;
 			}
 			img{
-				width: 100%;
+				width: 70%;
 				margin-bottom: 40px;
 				vertical-align: top;
 			}
 
-			&.item-image-books{
-				img{
-					width: 70%;
-				}
-
+			@media only screen and (max-width: $break-mobile) {
 				.cta{
-
+	    			margin-left: 0;
+	    			margin-bottom: 15px;
 				}
+				img{
+					width: 100%;
+					margin-bottom: 20px;
+				}
+				
 			}
 		}
 
@@ -130,4 +143,124 @@
 			color:#313231;
 		}
 	}
+
+	@media only screen and (max-width: $break-mobile) {
+		margin-bottom:60px;
+
+		.main-item-content {
+			font-size: 1.6rem;
+
+			.item-author{
+				margin-bottom:5px;
+				font-size:1.6rem;
+				line-height: 1.6rem;
+			}
+			.item-title{
+				font-size: 2.4rem;
+				line-height: 3rem;
+				margin-bottom: 5px;
+			}
+			.item-subtitle{
+				font-size:1.6rem;
+				line-height: 1.8rem;
+				font-weight: 700;
+			}
+			.item-content-text{
+				font-size:1.6rem;
+				font-weight: 300;
+			}
+			.cta {
+				margin-top: 15px;
+			}
+
+			.link-dark-blue {
+				font-size: 1.3rem;
+				margin-top: 0px;
+
+				&.xls-link{
+					&:after{
+					    width: 18px;
+					    height: 21px;
+					    margin-top: -3px;
+					    margin-left: 7px;
+					}
+				}
+
+				&.ext-link{
+					&:after{
+						width: 21px;
+					    height: 21px;
+					    margin-top: -3px;
+					    margin-left: 7px;
+					}
+				}
+
+			}
+			.other-link{
+				margin-top: 0px;
+				font-size: 1.3rem;
+			}
+		} 
+
+		.item-image{
+			margin:12px 0 15px 0;
+		}
+	}
+}
+
+.item-info{
+	margin-bottom: 25px;
+	font-size:1.6rem;
+	line-height: 1.6rem;
+	color:#6F6F6E;
+	font-weight: 300;
+
+	.publicationType{
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	span{
+		position: relative;
+		display: inline-block;
+		padding: 0;
+		margin-right: 18px;
+
+		&:after{
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 100%;
+			width: 1px;
+			height:100%;
+			margin-left: 9px;
+			background: #0983FD;
+		}
+
+		&:last-child{
+			&:after{
+				display: none;
+			}
+		}	
+	}
+	
+	@media only screen and (max-width: $break-mobile) {
+		margin-bottom: 15px;
+		font-size:1.3rem;
+		line-height: 1.7rem;
+		font-weight: 300;
+
+		span{
+			padding: 0 6px 0 0;
+			margin-right: 12px;
+
+			&:after{
+				height: 1.3rem;
+				top: 0.2rem;
+				margin-left: 6px;
+			}
+		}
+
+	}
+
 }

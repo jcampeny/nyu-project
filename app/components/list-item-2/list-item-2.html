@@ -2,7 +2,7 @@
 	<div class="row show-mobile">
 		<div class="mobile-head-content item-content col-xs-12" >
 			<div class="item-author" ng-bind-html="author"></div>
-			<div class="item-title" ng-bind-html="title"></div>
+			<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-title" ng-bind-html="title"></a>
 			<div class="item-subtitle" ng-bind-html="subtitle"></div>
 		</div>
 	</div>

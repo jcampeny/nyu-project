@@ -7,8 +7,9 @@ angular.module('app').directive('nyuItem', function () {
 		entity    : '@',
 		subentity : '@'
     },
+
     controller: function ($scope, $http, EntitiesService, ArrayService, DataService, $stateParams) {
-    	$scope.item = {};
+    	$scope.item = null;
     	$scope.related = [];
 
     	var dataFile = $scope.entity;
@@ -46,6 +47,18 @@ angular.module('app').directive('nyuItem', function () {
     	};
 
     	$scope.entityLabels = EntitiesService.getEntityLabels();
+
+    	$scope.hasItemInfo = function(){
+    		return $scope.item !== null && (
+    				$scope.item.publicationType !== "" ||
+    				$scope.item.publication !== "" ||
+    				$scope.item.publisher !== "" ||
+    				$scope.item.date !== "" ||
+    				$scope.item.pages !== "" ||
+    				$scope.item.other !== ""
+    			);
+    			
+    	};
     }
   };
 });

@@ -1,9 +1,23 @@
 var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate'])
 
-	.controller("mainController", [ '$rootScope', function($rootScope) {
+	.controller("mainController", [ '$rootScope', '$timeout', function($rootScope, $timeout) {
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
 	    	$rootScope.headerOpened = false;
 	    	$rootScope.currentState = toState.name;
+	    	$rootScope.mobileShowFilters = false;
+	    	$rootScope.mobileFiltersLeft = '200%';
+
+			$rootScope.toggleMobileFilters = function(){
+				
+				if($rootScope.mobileShowFilters){
+					$timeout(function(){
+						$rootScope.mobileFiltersLeft = '200%';
+					},500);	
+				}else{
+					$rootScope.mobileFiltersLeft = '0';
+				}
+				$rootScope.mobileShowFilters = !$rootScope.mobileShowFilters;
+			};
 	    });
 	}])
 
@@ -33,12 +47,12 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 				.state('app.videos', {url:'videos', template: '<nyu-list-columns entity="videos"></nyu-list-columns>'})
 				.state('app.videositem', {url:'videos/:id/:title', template: '<nyu-item entity="videos"></nyu-item>'})
-				
+
 				.state('app.podcasts', {url:'podcasts', template: '<nyu-list entity="podcasts"></nyu-list>'})
 				.state('app.podcastsitem', {url:'podcasts/:id/:title', template: '<nyu-item entity="podcasts"></nyu-item>'})
 
 				.state('app.press', {url:'press', template: '<nyu-list entity="press"></nyu-list>'})
-				.state('app.presstsitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
+				.state('app.pressitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
 
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 

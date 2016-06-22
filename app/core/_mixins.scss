@@ -5,7 +5,7 @@
           border-radius: $radius;
 }
 
-@mixin transition($time) {
+@mixin transition($time...) {
   -webkit-transition: $time;
      -moz-transition: $time;
       -ms-transition: $time;
