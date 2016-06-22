@@ -62,34 +62,6 @@
 			margin-right: 15px;
 		}
 
-		.item-info{
-			margin-bottom: 25px;
-			font-size:1.6rem;
-			line-height: 1.6rem;
-			color:#6F6F6E;
-			font-weight: 300;
-
-			.publicationType{
-				font-weight: 700;
-				text-transform: uppercase;
-			}
-
-			span{
-				display: inline-block;
-				padding: 0 9px;
-				border-right: 1px solid #0983FD;
-
-				&:first-child{
-					padding-left: 0;
-				}
-				&:last-child{
-					border: none;
-				}	
-			}
-			
-
-		}
-
 		.link-dark-blue {
 			display: inline-block;
 			margin-top: 25px;
@@ -163,18 +135,6 @@
 			}
 			.cta {
 				margin-top: 15px;
-			}
-
-			.item-info{
-				margin-bottom: 15px;
-				font-size:1.3rem;
-				line-height: 1.7rem;
-				font-weight: 300;
-
-				span{
-					padding: 0 6px;
-				}
-
 			}
 
 			.link-dark-blue {

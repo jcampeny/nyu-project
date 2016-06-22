@@ -35,7 +35,7 @@
 				<div ng-if="item.author !==''" class="item-author show-mobile" ng-bind-html="item.author"></div>
 				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ==='' && !hasItemInfo()}"></h1>
 				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle" ng-class="{'no-sub':!hasItemInfo()}"></h2>
-				<div ng-if="hasItemInfo()" class="item-info">
+				<div ng-if="hasItemInfo()" class="item-info show-mobile">
 					<span ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType">
 					</span><span ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication">
 					</span><span ng-if="item.publisher !==''" class="publisher" ng-bind-html="item.publisher">
