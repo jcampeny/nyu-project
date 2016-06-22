@@ -1,5 +1,5 @@
 <div ng-if="entitiesService.showFilter(entity)">
-	<div class="filters">
+	<div class="filters" ng-style="{'left':root.mobileFiltersLeft}">
 		<div class="close-popup show-mobile" ng-click="root.mobileShowFilters = false;"></div>
 		<div class="results cta cta-blue-o">134 results</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'target')">

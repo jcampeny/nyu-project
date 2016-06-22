@@ -3,12 +3,12 @@
 		<div ng-if="entity!=='books'" class="line-title lt-return lt-blue">
 			<a ui-sref="app.{{entity}}">Return TO {{entityLabels[entity].name}}</a>
 		</div>
-		<div ng-if="entity==='books'" class="line-title lt-return-books lt-blue">
+		<div ng-if="entity==='books'" class="line-title lt-return-books lt-blue show-desktop">
 			{{entityLabels[entity].name}}
 		</div>
 		<div class="row page-content">
 			<div class="col-sm-4 side-item-content">
-				<div class="item-info">
+				<div class="side-item-info show-desktop">
 					<div ng-if="item.author !==''" class="item-info-author" ng-bind-html="item.author"></div>
 					<div ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType"></div>
 					<div ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication"></div>
@@ -23,7 +23,7 @@
 						<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
 					</div>
 				</div>
-				<div ng-if="entity !== 'books'" class="item-related">
+				<div ng-if="entity !== 'books'" class="item-related show-desktop">
 					<div class="title">Related {{entityLabels[entity].name}}</div>
 					<div class="related-items" ng-repeat="r in related">
 						<hr>
@@ -32,13 +32,22 @@
 				</div>
 			</div>
 			<div class="col-sm-8 main-item-content">
-				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ===''}"></h1>
-				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle"></h2>
+				<div ng-if="item.author !==''" class="item-author show-mobile" ng-bind-html="item.author"></div>
+				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ==='' && !hasItemInfo()}"></h1>
+				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle" ng-class="{'no-sub':!hasItemInfo()}"></h2>
+				<div ng-if="hasItemInfo()" class="item-info">
+					<span ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType">
+					</span><span ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication">
+					</span><span ng-if="item.publisher !==''" class="publisher" ng-bind-html="item.publisher">
+					</span><span ng-if="item.date !==''" class="date" ng-bind-html="item.date">
+					</span><span ng-if="item.pages !==''" class="pages" ng-bind-html="item.pages">
+					</span><span ng-if="item.other !==''" class="other" ng-bind-html="item.other"></span>
+				</div> 
 				<div ng-if="item.picture !== ''" class="item-image" ng-class="{'item-image-books':entity==='books'}">
 					<img src="/localdata/img/{{item.picture}}" />	
 					<a ng-if="item.mainctatext !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
 				</div>
-				<div class="item-audio col-sm-12 show-desktop" ng-if="entity == 'podcasts'">
+				<div class="item-audio col-sm-12" ng-if="entity == 'podcasts'">
 					<a href="#" class="button" ng-click="toggleAudio()">
 						<span class="play" ng-show="!audioPlaying"></span>
 						<span class="pause" ng-show="audioPlaying"></span>
@@ -54,7 +63,7 @@
 				<div><a href="{{item.xls_link}}" ng-if="item.xls_link !== ''  && entity !== 'books'" class="link-dark-blue xls-link" ng-bind-html="item.xls_link"></a></div>
 				<div><a href="{{item.pdf_link}}" ng-if="item.pdf_link !== ''" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
 				<div><a href="{{item.ext_link}}" ng-if="item.ext_link !== '' && entity !== 'videos'" class="link-dark-blue" ng-bind-html="'Download Online Appendix Data (EXCEL)'"></a></div>
-				<div><a href="{{item.other_link}}" ng-if="item.other_link !== ''" class="other-link" ng-bind-html="item.other_link"></a></div>
+				<div><a href="{{item.other_link}}" ng-if="item.other_link && item.other_link !== ''" class="other-link" ng-bind-html="'Read more about the DHL Global Connectedness Index on DHL’s website &gt;&gt;'"></a></div>
 				<div class="mobile-social btns-gray">
 					<span class="btn-caption">SHARE</span>
 					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
