@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="item-image col-sm-8" ng-if="img !== ''">
 			<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
-				<img src="/localdata/img/{{img}}" />
+				<img ng-src="{{img}}" />
 			</a>
 		</div>
 	</div>

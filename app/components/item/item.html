@@ -35,7 +35,7 @@
 				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ===''}"></h1>
 				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle"></h2>
 				<div ng-if="item.picture !== ''" class="item-image" ng-class="{'item-image-books':entity==='books'}">
-					<img src="/localdata/img/{{item.picture}}" />	
+					<img ng-src="{{item.picture}}" />	
 					<a ng-if="item.mainctatext !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
 				</div>
 				<div class="item-audio col-sm-12 show-desktop" ng-if="entity == 'podcasts'">

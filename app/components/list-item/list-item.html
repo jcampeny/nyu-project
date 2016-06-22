@@ -24,7 +24,7 @@
 	</div>
 	<div class="item-image {{entity !== 'videos' && content !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
 		<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
-			<img class="{{content===''?'':'full-img'}}" src="/localdata/img/{{picture}}" />	
+			<img class="{{content===''?'':'full-img'}}" ng-src="{{picture}}" />	
 		</a>
 		<div><a ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
 		<div ng-if="share === 'true' && content === ''" class="mobile-social btns-gray">
