@@ -26,21 +26,33 @@
 				font-size: 0.8em;
     			letter-spacing: 0.2em;
     			font-weight: 700;
+    			color: #2E80FF;
 			}
 
 			.btn-icon {
-				    width: 30px;
-				    height: 30px;
-				    margin-left: 8px;
-				    line-height: 29px;
-				    display: inline-block;
-				    text-align: center;
-				    background-color: #004182;
-				    @include border-radius(100%);
-				    border:1px solid #FFFFFF;
+			    width: 30px;
+			    height: 30px;
+			    margin-left: 8px;
+			    line-height: 29px;
+			    display: inline-block;
+			    text-align: center;
+			    background-color: #004182;
+			    @include border-radius(100%);
+			    @include transition(all 0.4s);
+			    border:1px solid #FFFFFF;
+
 
 				.fa{
 					color: #FFFFFF;
+				}
+
+				&:hover{
+					border-color:#05427F;
+					background-color:#FFFFFF;
+
+					.fa{
+						color: #05427F;
+					}
 				}
 			}
 		}
@@ -135,7 +147,7 @@
 				position:absolute;
 				min-width: 100%;
     			max-height: 0px;
-				padding: 0 25px;
+				padding: 0 25px 5px 25px;
 				background-color: #003162;
 				z-index: 2;
 				overflow: hidden;
@@ -144,7 +156,7 @@
 
 				li{
 					display: block;
-					border-bottom: 1px solid #FFFFFF;
+					border-bottom: 1px solid #335A81;
 
 					a{
 						padding: 0;

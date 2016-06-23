@@ -64,7 +64,7 @@
 				<div><a href="{{item.pdf_link}}" ng-if="item.pdf_link !== ''" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
 				<div><a href="{{item.ext_link}}" ng-if="item.ext_link !== '' && entity !== 'videos'" class="link-dark-blue" ng-bind-html="'Download Online Appendix Data (EXCEL)'"></a></div>
 				<div><a href="{{item.other_link}}" ng-if="item.other_link && item.other_link !== ''" class="other-link" ng-bind-html="'Read more about the DHL Global Connectedness Index on DHL’s website &gt;&gt;'"></a></div>
-				<div class="mobile-social btns-gray">
+				<div ng-if="entity ==='blog'" class="mobile-social btns-gray">
 					<span class="btn-caption">SHARE</span>
 					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
 					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>

@@ -40,13 +40,13 @@
 			</div>
 		</div>
 		<div class="item-content {{picture !== '' && entity !== 'videos'?'col-sm-7':'col-sm-12'}}" >
-			<div><a ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="'Watch video on external site'"></a></div>
+			<div><a ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div class="item-content-text" ng-bind-html="content"></div>
 			<a ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="mainctatext"></a>
 			<a ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="mainctatext2"></a>
 			<div><a ng-if="pdfLink !== '' && content !== ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
 			<div><a ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="xlsLink"></a></div>
-			<div><a ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="'Watch video on external site'"></a></div>
+			<div><a ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div><a ng-if="otherLink !== ''" class="other-link" ng-bind-html="otherLink"></a></div>
 			<div ng-if="share === 'true' && content !== ''" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>

@@ -99,13 +99,13 @@
 				height: 49px;
 				padding: 5px 10px;
 				border: 1px solid #616362;
-			    -webkit-appearance: none;
 			    border-radius: 0;
 			    font-weight: 300;
 			    font-style: italic;
 			    background: transparent;
 			    color: #616362;
 			    outline: none;
+			    @include appearance(none);
 			}
 
 

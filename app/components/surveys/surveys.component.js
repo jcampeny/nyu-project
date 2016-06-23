@@ -3,16 +3,13 @@ angular.module('app').directive('nyuSurveys', function () {
     restrict: 'E',
     templateUrl: '../app/components/surveys/surveys.html',
     controllerAs: 'nyuSurveys',
-    controller: function ($scope) {
-    	var groups = {
-			cases:{name: "Cases & Teaching Notes", group: "Teaching Materials", state: "app.cases", suboptions: []},
-            notes:{name: "Globalization Notes", group: "Teaching Materials", state: "app.notes", suboptions: []},
-            surveys:{name: "Surveys", group: "Teaching Materials", state: "app.surveys", suboptions: []},
-            other:{name: "Other Teaching Materials", group: "Teaching Materials", state: "app.other", suboptions: []}
+    controller: function ($scope, EntitiesService) {
+    	$scope.entity = "surveys";
+        $scope.groupItems = function(){
+            return EntitiesService.groupItems($scope.entity);
         };
-    	$scope.groupItems = function(){
-    		return groups;
-    	};
+
+        $scope.entityLabels = EntitiesService.getEntityLabels();
     }
   };
 });

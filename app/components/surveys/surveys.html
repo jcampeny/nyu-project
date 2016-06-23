@@ -21,10 +21,10 @@
 			</div>
 			<div class="col-sm-4 side-content show-desktop">
 				<div class="side-menu">
-					<div class="title" ng-bind-html="'Teaching Materials'"></div>
+					<div class="title" ng-bind-html="entityLabels[entity].group"></div>
 					<div class="side-menu-item" ng-repeat="e in groupItems()">
-						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':'Surveys' == e.name}" ng-bind-html=e.name></a>	
-						<a ui-sref="{{so.state}}" class="subitem" ng-class="{''active':isSubitemActive(so.id)}" ng-repeat="so in e.suboptions" ng-bind-html="($index+1) +'. '+so.name"></a>	
+						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':entityLabels[entity].name == e.name}" ng-bind-html=e.name></a>	
+						<a ui-sref="{{so.state}}" ng-repeat="so in e.suboptions" class="subitem" ng-bind-html="($index+1) +'. '+so.name"></a>	
 					</div>
 				</div>
 			</div>

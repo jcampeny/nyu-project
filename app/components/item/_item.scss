@@ -122,12 +122,16 @@
 
 		.item-content-text{
 			margin-bottom: 35px;
+			text-align: left;
+    		font-weight: 300;
+    		font-size: 1.7rem;
 		}
 
 		.link-dark-blue{
 			display:inline-block;
 			margin-bottom: 20px;
 			color:#174380;
+			cursor:pointer;
 
 		}
 
@@ -141,6 +145,7 @@
 			font-weight: 300;
 			font-style: italic;
 			color:#313231;
+			cursor:pointer;
 		}
 	}
 
