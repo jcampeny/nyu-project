@@ -1,5 +1,66 @@
-<div class="margin-content">
-	<div class="page-section gap-survey-section survey-section">
+<div class="margin-content gap-survey-container">
+	<div class="page-section gap-results-section survey-section generic_fade" ng-show="page === 'results'">
+		<div class="line-title lt-normal lt-blue" ng-bind-html="'GAP Result'"></div>
+		<div class="row page-content">
+			<div class="col-sm-8 main-content">
+				<div class="score">
+					<div class="text">Your GAP Score is:</div>
+					<div class="number">{{score()}}</div>
+					<div class="score-text">This score indicates you have <span class="blue">{{scoreText}}</span> in your global mindset.</div>
+				</div>
+				<div class="explanation">
+					<p>This score is out of a possible range of -30 to +30.</p>
+					<p>Below, you can compare your responses to the average responses from a large group of MBA students</p>
+					<div class="legend">
+						<div class="legend-item">
+							<span class="circle circle-avg"></span>
+							<span class="text">Average</span>
+						</div>
+						<div class="legend-item">
+							<span class="circle circle-you"></span>
+							<span class="text">You</span>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="score-answer" ng-repeat="q in questions">
+					<div class="title" ng-bind-html="($index+1) +'. '+ q.question"></div>
+					<div class="score-bars">
+						<div class="score-bar score-bar-1 score-bar-dark"></div>
+						<div class="score-bar score-bar-2 score-bar-dark"></div>
+						<div class="score-bar score-bar-3 score-bar-light"></div>
+						<div class="score-bar score-bar-4 score-bar-light"></div>
+						<div class="circle circle-avg" style="left:{{(avg[$index]*25) + 50}}%"></div>
+						<div ng-if="answers[$index] !== null" class="circle circle-you" style="left:{{(answers['q'+($index+1)]*25) + 50}}%"></div>
+					</div>
+					<div class="score-texts">
+						<div class="score-text score-text-{{$index}}" ng-repeat="o in q.options" ng-bind-html="o.text"></div>
+					</div>
+					<div class="score-texts">
+						<div class="score-text score-text-number score-text-{{$index}}" ng-repeat="o in q.options" ng-bind-html="($index - 2)"></div>
+					</div>
+				</div>
+				<hr class="thanks-hr">
+				<div class="thanks">
+					<p>Thank you very much for taking the Global Attitude Protocol (GAP).</p>
+					<p>Explore further teaching resources available:</p>
+					<div class="links">
+						<a ui-sref="app.globecourse">GLOBE Course</a>
+						<a ui-sref="app.cases">Cases & Teaching Notes</a>
+						<a ui-sref="app.notes">Globalization Notes</a>
+						<a ui-sref="app.other">Other Teaching Materials</a>
+					</div>
+					<p>Discover available visualization tools:</p>
+					<div class="links">
+						<a href="#">Maps & Visualizations</a>
+						<a href="#">CAGE Comparator&trade;</a>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="page-section gap-survey-section survey-section generic_fade" ng-show="page === 'questions'">
 		<div class="line-title lt-normal lt-blue" ng-bind-html="'Global Attitude Protocol (GAP)'"></div>
 		<div class="row page-content">
 			<div class="col-sm-12 main-content">
@@ -12,7 +73,7 @@
 					<div class="question-title" ng-bind-html="($index+1) +'. '+ q.question"></div>
 					<div class="answers">
 						<label ng-if="q.type === 'select'" ng-repeat="o in q.options" for="{{$parent.$parent.$index}}-{{o.id}}">
-							<input id="{{$parent.$parent.$index}}-{{o.id}}" name="q-{{$parent.$parent.$index}}" type="radio" >
+							<input ng-model="answers['q'+($parent.$parent.$index+1)]" id="{{$parent.$parent.$index}}-{{o.id}}" name="q-{{$parent.$parent.$index}}" type="radio" value="{{(o.id - 3)}}">
 							<span class="answer-text" ng-bind-html="o.text"></span>
 						</label>
 					</div>
@@ -50,7 +111,7 @@
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
-						<a href="#" class="cta cta-light-blue">VIEW RESULT</a>
+						<a href="#" ng-click="showResults()" class="cta cta-light-blue">VIEW RESULT</a>
 					</form>
 				</div>
 			</div>

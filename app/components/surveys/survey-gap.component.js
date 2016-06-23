@@ -3,7 +3,27 @@ angular.module('app').directive('nyuGapsurvey', function () {
     restrict: 'E',
     templateUrl: '../app/components/surveys/survey-gap.html',
     controllerAs: 'nyuGapsurvey',
-    controller: function ($scope) {
+    controller: function ($scope, $timeout) {
+    	$scope.page = "questions";
+    	$scope.score = function(){
+    		var s = 0;
+    		for(var a in $scope.answers){
+    			if($scope.answers[a] !== null){
+    				s += (+$scope.answers[a]);
+    			}
+    		}
+    		return s;
+    	};
+    	$scope.scoreText = "some gap";
+
+    	$scope.showResults = function(){
+			$scope.page = "results";    	
+			document.body.scrollTop = document.documentElement.scrollTop = 0;
+			$timeout(function(){
+				
+			},500);
+    	};
+
     	$scope.questions = [
     		{question: "I speak multiple languages.", type:"select", options:[
     			{id:1,text:"Strongly Disagree"},
@@ -111,6 +131,25 @@ angular.module('app').directive('nyuGapsurvey', function () {
     			{id:5,text:"Strongly Agree"}]
     		}
     	];
+
+    	$scope.answers = {
+    		q1:  null,
+    		q2:  null,
+    		q3:  null,
+    		q4:  null,
+    		q5:  null,
+    		q6:  null,
+    		q7:  null,
+    		q8:  null,
+    		q9:  null,
+    		q10: null,
+    		q11: null,
+    		q12: null,
+    		q13: null,
+    		q14: null,
+    		q15: null
+    	};
+    	$scope.avg = [1.35, 1.1, 1.8, 1.2, 1.45, 1.8, 1.3, 0.85, 1.25,1.55,1.05,1.03,0.7,1.55,0.85];
     }
   };
 });
