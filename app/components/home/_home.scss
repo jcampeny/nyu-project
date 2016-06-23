@@ -154,11 +154,18 @@
 /*****SLIDE*****/
 div.slider-home-books{
 	position: relative;
-	@include transition(left 1s ease-in-out);
+	width: 100%;
+	//@include transition(left 1s ease-in-out);
 	div[ng-repeat]{
-		display:inline;
-		float: left;
+		//display:inline;
+		//float: left;
 		//width: 33%;
+		position: absolute;
+		width: 100%;
+		left: 100%;
+		&[book="0"]{
+			left: 0%;
+		}
 		span{
 		display: block;
 		clear: both;

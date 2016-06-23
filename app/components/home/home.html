@@ -46,7 +46,7 @@
 			<!--books-->
 				<div class="list-item home-list-item row">
 					<div class="slider-home-books">
-						<div ng-repeat="book in books.items" class="book-item">
+						<div ng-repeat="(key, book) in books.items" class="book-item" book="{{key}}">
 							<div class="item-image col-xs-5" ng-if="img !== ''">
 								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" class="item-image-container">
 									<img ng-src="{{book.picture}}" />
