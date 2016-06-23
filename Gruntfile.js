@@ -13,14 +13,16 @@ module.exports = function(grunt) {
     "bower_components/angular-sanitize/angular-sanitize.min.js",
     "bower_components/jquery/dist/jquery.min.js",
     "bower_components/bootstrap/dist/js/bootstrap.min.js",
-    "bower_components/angular-translate/angular-translate.min.js"
+    "bower_components/angular-translate/angular-translate.min.js",
+    "bower_components/ng-tags-input/ng-tags-input.min.js"
   ];
 
   var vendorStyles = [
     "bower_components/bootstrap/dist/css/bootstrap.min.css",
     "bower_components/angular-bootstrap/ui-bootstrap-csp.css",
     "bower_components/font-awesome/css/font-awesome.min.css",
-    "bower_components/font-awesome/css/font-awesome.css"
+    "bower_components/font-awesome/css/font-awesome.css",
+    "bower_components/ng-tags-input/ng-tags-input.min.css"
   ];
 
 

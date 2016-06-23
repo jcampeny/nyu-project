@@ -41,9 +41,13 @@
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'date')">
 			<label>Publication Date</label>
-			<select class="small" type="text" ng-model="filterData.yearFrom" name="start" placeholder="Start Year" ng-options="y for y in dataSRC.years"></select>
+			<select class="small" type="text" ng-model="filterData.yearFrom" ng-class="{'is-placeholder':filterData.yearFrom === ''}" name="start" ng-options="y for y in dataSRC.years">
+				<option value=''>Start Year</option>
+			</select>
 			<span class="filter-item-text">to</span>
-			<select class="small" type="text" ng-model="filterData.yearTo" name="end" placeholder="End Year" ng-options="y for y in dataSRC.years"></select>
+			<select class="small" type="text" ng-model="filterData.yearTo" ng-class="{'is-placeholder':filterData.yearTo === ''}" name="end" ng-options="y for y in dataSRC.years">
+				<option value=''>End Year</option>
+			</select>
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'language')">
 			<label>Language</label>
@@ -61,7 +65,7 @@
 		<div class="filters-search">
 			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"></i><span>Search</span></div>
 			<div class="buttongroup">
-				<input type="text" name="search" placeholder="Search {{entityFilters[entity].name}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
+				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
 			</div>
 		</div>
 	</div>
