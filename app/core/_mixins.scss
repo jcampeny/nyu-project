@@ -41,6 +41,12 @@
           min-width: $min-width;
 }
 
+@mixin appearance($value){
+  -webkit-appearance: value;
+  -moz-appearance:    value;
+  appearance:         value;
+}
+
 @mixin columns($columns, $gap){
   -webkit-column-count: $columns;
      -moz-column-count: $columns;
