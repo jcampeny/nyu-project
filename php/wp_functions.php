@@ -587,12 +587,13 @@ function slug_get_services( $object, $field_name, $request ) {
 */
 /**/
 $custom_posts = array( //create metabox
-		'book',
+		'books',
 		'global',
-		'article',
+		'articles',
 		'working',
-		'video',
-		'podcast',
+		'blog',
+		'videos',
+		'podcasts',
 		'press',
 		'mediakit',
 		'globecases',
@@ -601,6 +602,7 @@ $custom_posts = array( //create metabox
 		'globenotes',
 		'globepresentations',
 		'cases',
+		'notes',
 		'other'
 
 	);
@@ -610,6 +612,7 @@ $custom_posts_list = array( //Name and icon
 	array('Globalization Index Reports','dashicons-analytics'),
 	array('Articles & Book Chapters', 'dashicons-media-document'),
 	array('Working Papers', 'dashicons-format-aside'),
+	array('Blog', 'dashicons-media-document'),
 	array('Videos', 'dashicons-format-video'),
 	array('Podcasts','dashicons-megaphone'),
 	array('Press', 'dashicons-media-text'),
@@ -628,9 +631,10 @@ $metabox_list = array( // metaboxs list
 		array("author"            , "Author: "                ),
 		array("title_metabox"     , "Title: "                 ),
 		array("subtitle"          , "Subtitle: "              ),
-		array("content_short"	  , "Content short: "	      , true),
-		array("content_metabox"   , "Content: "               , true),
-		array("publicationType"   , "Publication Type: "      ),
+		array("content_short"	  , "Content short: "	      , 'editor'),
+		array("content_metabox"   , "Content: "               , 'editor'),
+		array("publication_type"   , "Publication Type: "      , 'select',
+			array("books", "globalization_index_report", "articles", "book_chapters", "working_papers", "blog_post", "videos", "podcasts", "press", "globe_documents", "cases_and_teaching_notes", "globalization_notes", "other_teaching_materials")),
 		array("publication"       , "Publication: "           ),
 		array("publisher"         , "Publisher: "             ),
 		array("date_metabox"      , "Date: "                  ),
@@ -642,9 +646,8 @@ $metabox_list = array( // metaboxs list
 		array("ext_link"          , "Ext link: "              ),
 		array("pdf_link"          , "Pdf link: "              ),
 		array("xls_link"          , "Xls link: "              ),
-		array("picture"           , "Picture: "               ),
 		array("audio"             , "Audio: "                 ),
-		array("share"             , "Share: "                 )
+		array("share"             , "Share: "                 , 'checkbox')
 	);
 /*
 * one function for each metabox (same name)
@@ -675,9 +678,9 @@ function content_metabox ($object, $field_name, $request){
 	return $custom["content_metabox"][0];
 };
 
-function publicationType ($object, $field_name, $request){
+function publication_type ($object, $field_name, $request){
 	$custom = get_post_custom($object->ID);
-	return $custom["publicationType"][0];
+	return $custom["publication_type"][0];
 };
 
 function publication ($object, $field_name, $request){
@@ -735,11 +738,6 @@ function xls_link ($object, $field_name, $request){
 	return $custom["xls_link"][0];
 };
 
-function picture ($object, $field_name, $request){
-	$custom = get_post_custom($object->ID);
-	return $custom["picture"][0];
-};
-
 function audio ($object, $field_name, $request){
 	$custom = get_post_custom($object->ID);
 	return $custom["audio"][0];
@@ -779,17 +777,41 @@ function metaBox_custom_post() {
 
   foreach ($metabox_list as $value) {
   	$metabox_container = $custom[$value[0]][0];
-  	$text = isset( $custom[$value[0]] ) ? esc_attr( $custom[$value[0]][0] ) : ”;
-  	if($value[2]){
-	  	?><p><label><?php echo $value[1] ?></label><br>
-	  		<?php wp_editor( $metabox_container, $value[0], $settings);?>
-	  	<?php
-  	}else{
-  		?><p><label><?php echo $value[1] ?></label><br>
-  			 <input style="width:100%;" type="text" name="<?php echo $value[0]; ?>" id="<?php echo $value[0]; ?>" value="<?php echo $text; ?>" />
-  		<?php
+  	$actual_value = isset( $custom[$value[0]] ) ? esc_attr( $custom[$value[0]][0] ) : '';
+  	/**/
+  	switch ($value[2]) {
+  	    case 'editor':
+  	        ?><p><label><?php echo $value[1] ?></label><br>
+  	        	<?php wp_editor( $metabox_container, $value[0], $settings);?>
+  	        <?php
+  	        break;
+  	    case 'checkbox':
+  	        ?>
+  	        <label for="<?php echo $value[0]; ?>"><?php echo $value[1]; ?></label>
+  	        <input type="checkbox" id="<?php echo $value[0]; ?>" name="<?php echo $value[0]; ?>" <?php checked( $check, 'on' ); if($actual_value == 'on'){echo 'checked="checked"';}?>/>
+  	        <?php
+  	        break;
+  	    case 'select':
+     		?>	<br>
+   	  		<label for="<?php echo $value[0]; ?>"><?php echo $value[1]; ?></label>
+   	  		<select name="<?php echo $value[0]; ?>" id="<?php echo $value[0]; ?>">
+   	  		<?php
+   	  			foreach ($value[3] as $option) {
+   	  				?><option 
+   	  					value="<?php echo $option; ?>" <?php selected( $selected, $option );  
+     						if($option == $actual_value){echo 'selected="selected"';}?>>
+     							<?php echo $option; ?>
+   	  				</option><?php
+   	  			}
+   	  		?>
+   	  		</select>
+     		<?php
+  	        break;
+        default:
+           ?><p><label><?php echo $value[1] ?></label><br>
+           	 <input style="width:100%;" type="text" name="<?php echo $value[0]; ?>" id="<?php echo $value[0]; ?>" value="<?php echo $actual_value; ?>" />
+           <?php
   	}
-
   }
 
 }
@@ -1066,7 +1088,7 @@ class CustomPost {
 	        'label'                 => __( $name, 'text_domain' ),
 	        'description'           => __( 'Custom post '.$name, 'text_domain' ),
 	        'labels'                => $labels,
-	        'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions' ),
+	        'supports'              => array('thumbnail', 'revisions' ),
 	        'hierarchical'          => false,
 	        'public'                => true,
 	        'menu_icon'				=> $icon,
@@ -1085,5 +1107,16 @@ class CustomPost {
 	    return $args;
     }
 }
+
+function remove_menus () {
+global $menu;
+	$restricted = array(__('Posts'),);
+	end ($menu);
+	while (prev($menu)){
+		$value = explode(' ',$menu[key($menu)][0]);
+		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
+	}
+}
+add_action('admin_menu', 'remove_menus');
 
 ?>

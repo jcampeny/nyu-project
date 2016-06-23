@@ -1,19 +1,15 @@
 
-function ContactService($http, config) {
-    function sendContact(data) {
-        return $http
-            .post('/php/xhr-contact-form.php', data)
-            .then(function(response) {
-                //console.log(response);
-                return parseInt(response.data);
-            });
-    }
+angular.module('app')
+    .service('ContactService', ['$http' , function($http) {
+        return {
+            sendContact : sendContact
+        };
 
-    return {
-        sendContact: sendContact
-    };
-}
-
-angular
-    .module('app')
-    .factory('ContactService', ContactService);
+        function sendContact (data){
+            return $http
+                .post('/php/xhr-contact-form.php', data)
+                .then( function(response) {
+                    return response.data;
+                });
+        }
+    }]);

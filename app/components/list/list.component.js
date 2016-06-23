@@ -7,10 +7,12 @@ angular.module('app').directive('nyuList', function () {
     	entity: '@',
     	subentity: '@'
     },
-    controller: function ($scope, $rootScope, $http, EntitiesService) {
+
+    controller: function ($scope, $rootScope, $http, EntitiesService, DataService) {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
+
 
     	$scope.items = [];
     	var dataFile = $scope.entity;
@@ -19,11 +21,15 @@ angular.module('app').directive('nyuList', function () {
     	}
 
 
-    	$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
+    	/*$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
             .then(function(response) {
                 $scope.items = response.data.results;
-            });
+            });*/
 
+        DataService.all(dataFile, "all", 0, true).then(function(posts){
+            $scope.items = posts;
+        });
+        
 		$scope.hasTopImg = function(){
     		return EntitiesService.hasTopImg($scope.entity);
     	};

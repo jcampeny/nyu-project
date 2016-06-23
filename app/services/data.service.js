@@ -16,7 +16,7 @@
         };
        
 
-            function all(type, results, page) {
+            function all(type, results, page, decorateCustom) {
                 var pagination = "";
                 if(typeof results !== "undefined"){
                     if(results === "all"){
@@ -26,8 +26,7 @@
                     }
                     
                 }
-
-                return getData(type+"?_embed"+pagination);
+                return getData(type+"?_embed"+pagination, decorateCustom);
             }
 
             // function allByTag(type, tag) {
@@ -46,18 +45,18 @@
                 return getData(type+'/' + id + '?_embed');
             }
 
-            function getData(url) {
+            function getData(url, decorateCustom) {
                 var path = "/wordpress/wp-json/wp/v2/";
                 return $http
                     .get(path + url, { cache: true })
                     .then(function(response) {
                         if (response.data instanceof Array) {
                             var items = response.data.map(function(item) {
-                                return decorateResult(item);
+                                return decorateResult(item, decorateCustom);
                             });
                             return items;
                         } else {
-                            return decorateResult(response.data);
+                            return decorateResult(response.data, decorateCustom);
                         }
                     });
             }
@@ -67,13 +66,13 @@
              * @param result
              * @returns {*}
              */
-            function decorateResult(result) {
+            function decorateResult(result, decorateCustom) {
                 if(typeof result.taxonomy === "undefined"){
-                    result.title = $sce.trustAsHtml(result.title.rendered);
-                    result.excerpt = $sce.trustAsHtml(result.excerpt.rendered);
+                    result.title = (result.title) ? $sce.trustAsHtml(result.title.rendered) : '';
+                    //result.excerpt = $sce.trustAsHtml(result.excerpt.rendered);
                     result.date = Date.parse(result.date);
-                    result.content_untrust = result.content.rendered;
-                    result.content = $sce.trustAsHtml(result.content.rendered);
+                    //result.content_untrust = result.content.rendered;
+                    result.content = (result.content) ? $sce.trustAsHtml(result.content.rendered) : '';
 
 
                     if(typeof result._embedded !== "undefined" && typeof result._embedded['wp:featuredmedia'] !== "undefined" && result._embedded['wp:featuredmedia'].length > 0){
@@ -94,12 +93,44 @@
                         });
                     }
                 }
-
-                return result;
+                if(decorateCustom){
+                    return decoratePankaj(result);
+                }else{
+                    return result;
+                }
+                
             }
 
-
-        
+            /**
+             * Decorate a post to make it play nice with Pankaj
+             * @param result
+             * @returns {*}
+             */
+            function decoratePankaj(result) {
+                return {
+                    id              : result.id,
+                    author          : result.author,
+                    title           : result.title_metabox,
+                    subtitle        : result.subtitle,
+                    content_short   : result.content_short,  
+                    content         : result.content_metabox,
+                    publicationType : result.publication_type,
+                    publication     : result.publication,
+                    publisher       : result.publisher,
+                    date            : result.date_metabox,
+                    pages           : result.pages     ,
+                    other           : result.other     ,
+                    main_cta        : result.main_cta  ,
+                    main_cta_2      : result.main_cta_2,
+                    other_cta       : result.other_cta ,
+                    ext_link        : result.ext_link  ,
+                    pdf_link        : result.pdf_link  ,
+                    xls_link        : result.xls_link  ,
+                    picture         : (result.image) ? result.image : '',
+                    audio           : result.audio     ,
+                    share           : (result.share === 'on') ? true : false
+                };
+            }
     }]);
 
 

@@ -6,7 +6,7 @@ angular.module('app').directive('nyuListColumns', function () {
     scope:{
     	entity: '@'
     },
-    controller: function ($scope, $http, EntitiesService) {
+    controller: function ($scope, $http, EntitiesService, DataService) {
     	$scope.items = [];
     	$scope.leftColumn = [];
     	$scope.rightColumn = [];
@@ -15,14 +15,18 @@ angular.module('app').directive('nyuListColumns', function () {
     	$scope.leftHeight = 0;
     	$scope.rightHeight = 0;
 
-    	$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
+    	/*$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
             .then(function(response) {
         		if(response.data.results.length > 0){
         			results = response.data.results;
         			placeItemInColumn(results.shift());
         		}
-            });
-
+            });*/
+        DataService.all($scope.entity, "all", 0, true).then(function(posts){
+            results = posts;
+            placeItemInColumn(results.shift());
+        });
+        
         function placeItemInColumn(item){
         	if(typeof item !== "undefined"){
 	        	if($scope.leftHeight <= $scope.rightHeight){

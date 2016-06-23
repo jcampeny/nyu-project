@@ -34,27 +34,34 @@
 				</div>
 			</div>
 			<div class="col-sm-12 mobile-margin-top">
+			<!--header-->
 				<div class="line-title lt-normal lt-gray">
 					Books
 					<div class="buttons">
-						<a href="#" class="arrow left"></a>
-						<div class="pages">1/6</div>
-						<a href="#" class="arrow right"></a>
+						<a href="#" class="arrow left" ng-click="bookNextPrev('left')"></a>
+						<div class="pages">{{books.actual + 1}}/{{books.length}}</div>
+						<a href="#" class="arrow right" ng-click="bookNextPrev('right')"></a>
 					</div>
 				</div>
+			<!--books-->
 				<div class="list-item home-list-item row">
-					<div class="item-image col-xs-5" ng-if="img !== ''">
-						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="item-image-container">
-							<img src="/localdata/img/generic_book.png" />
-						</a>
-						<a class="cta cta-light-blue show-mobile">read more</a>
-					</div>
-					<div class="item-content {{img !== ''?'col-xs-7':'col-xs-12'}}" >
-						<div class="item-author">Pankaj Ghemawat</div>
-						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" ng-if="title !==''" class="item-title">World 3.0</a>
-						<div class="item-subtitle">Global Prosperity and How to Achieve it</div>
-						<div class="item-content">Now available in bookstores! In the aftermath of the financial crisis, does market integration still promise the best path to prosperity, or should we slow down or reverse globalization to deal with our problems on a more manageable scale? In World 3.0, Pankaj Ghemawat takes stock of today's cross-border reality and makes the case for a new approach to globalization.</div>
-						<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="cta cta-light-blue show-desktop-inline">read more</a>
+					<div class="slider-home-books">
+						<div ng-repeat="book in books.items" class="book-item">
+							<div class="item-image col-xs-5" ng-if="img !== ''">
+								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" class="item-image-container">
+									<img ng-src="{{book.picture}}" />
+								</a>
+								<a  class="cta cta-light-blue show-mobile">read more</a>
+							</div>
+							<div class="item-content {{img !== ''?'col-xs-7':'col-xs-12'}}" >
+								<div class="item-author">{{book.author}}</div>
+								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" ng-if="title !==''" class="item-title">{{book.title}}</a>
+								<div class="item-subtitle">{{book.subtitle}}</div>
+								<div class="item-content">{{book.content_short}}</div>
+								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" class="cta cta-light-blue show-desktop-inline">read more</a>
+							</div>
+							<span></span>
+						</div>
 					</div>
 				</div> 
 			</div>

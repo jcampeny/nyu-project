@@ -149,4 +149,22 @@
 
 .home-list-item{
 	margin-bottom: 0 !important;
+	overflow: hidden;
 }
+
+/*****SLIDE*****/
+div.slider-home-books{
+	position: relative;
+	@include transition(left 1s ease-in-out);
+	div[ng-repeat]{
+		display:inline;
+		float: left;
+		//width: 33%;
+		span{
+		display: block;
+		clear: both;
+		}
+	}		
+}
+
+
