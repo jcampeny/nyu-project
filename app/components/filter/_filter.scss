@@ -9,7 +9,7 @@
 	.cta{
 		padding: 5px 20px;
 		margin-bottom: 10px;
-		font-size: 1.3rem;
+		font-size: 1.2rem !important;
 
 		&:hover{
 			color:#0080FF;
@@ -20,6 +20,7 @@
 
 	.filter-item{
 		margin-top:15px;
+		white-space: nowrap;
 
 		label{
 			display: block;
@@ -33,19 +34,40 @@
 		input{
 			display:block;
 			width: 100%;
-			height: 40px;
-			padding-left: 7px;
+			height: 15px;
+			padding-left: 1px;
 			line-height:40px;
 			border:none;
 			background-color: #FFFFFF;
 			font-style: italic;
-			font-style: 1.4rem;
+			font-size: 1.4rem;
 			font-weight: 300;
+			outline: none;
+		}
+
+		select {
+			height: 33px;
+		    border-radius: 0;
+		    border: none;
+		    background-color: #FFFFFF;
+		    font-size: 1.3rem;
+		    outline: none;
+		    color:#2E80FF;
+		    -webkit-appearance: none;
+		    -moz-appearance: none;
 
 			&.small{
 				display:inline-block;
 				vertical-align: top;
-				width: 44%;
+				width: 42%;
+				padding-left: 10px;
+			}
+
+			&.is-placeholder{
+				font-size: 1.4rem;
+				color:#9C9B9B;
+				font-style: italic;
+				font-weight: 300;
 			}
 		}
 
@@ -53,10 +75,10 @@
 			display:inline-block;
 			width: 11.5%;
 			vertical-align:top;
-			line-height:40px;
+			line-height:33px;
 			font-size:1.3rem;
 			color:#313231;
-			padding:0 10px;
+			padding:0 7px;
 			text-align: center;
 		}
 	}
@@ -70,6 +92,7 @@
 		color:#575756;
 		letter-spacing: 0.1rem;
 		text-decoration: underline;
+		cursor: pointer;
 	}
 
 	.filters-search{
@@ -104,6 +127,11 @@
 			text-align: left;
 			cursor:pointer;
 
+			input[placeholder]          {text-overflow:ellipsis;}
+			input::-moz-placeholder     {text-overflow:ellipsis;}
+			input:-moz-placeholder      {text-overflow:ellipsis;}
+			input:-ms-input-placeholder {text-overflow:ellipsis;}
+			
 			input{
 				display:inline-block;
 				width: 80%;
@@ -113,7 +141,7 @@
 				border:none;
 				background-color: #FFFFFF;
 				font-style: italic;
-				font-style: 1.4rem;
+				font-size: 1.4rem;
 				font-weight: 300;
 				vertical-align: top;
 
@@ -159,5 +187,44 @@
 		opacity:0;
 		@include transition(top 0.5s, opacity 0.5s);
 		z-index: 3;
+	}
+}
+
+tags-input .tags {
+	padding: 8px 8px 8px 8px;
+	box-shadow: none;
+	border: none;
+
+	&.focused{
+		outline: none;
+		box-shadow: none;
+	}
+
+	.tag-item{
+		height: auto;
+		margin: 0 8px 8px 0;
+		padding: 3px 7px 0px 7px;
+		border-radius:0;
+		border: none;
+		background: #2E80FF;
+		color:#FFFFFF;
+		font-family: 'Roboto', sans-serif;
+		font-size: 1.2rem;
+		line-height: 1.2rem;;
+		font-weight: 400;
+		color:#FFFFFF;
+
+		.remove-button{
+			color:#FFFFFF;
+			font-weight: 300;
+
+			&:active{
+				color:#FFFFFF;
+			}
+		}
+
+		&.selected{
+			background: #4C4D4D;
+		}
 	}
 }

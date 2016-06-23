@@ -17,26 +17,26 @@ angular.module('app').directive('nyuItem', function () {
     		dataFile = $scope.subentity;
     	}
 
-    	/*$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
+    	$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
             .then(function(response) {
         		if(response.data.results.length > 0){
     				$scope.item = response.data.results.shift();
         			$scope.related = response.data.results;
         		}
-            });*/
+            });
 
-        DataService.all(dataFile, "all", 0, true).then(function(posts){
-            var log = [];
-            angular.forEach(posts, function(post, i){
-                if($stateParams.id == post.id){
-                    console.log(post);
-                    $scope.item = post;
-                }else{
-                    this.push(post);
-                }
-            }, log);
-            $scope.related = log;
-        });
+        // DataService.all(dataFile, "all", 0, true).then(function(posts){
+        //     var log = [];
+        //     angular.forEach(posts, function(post, i){
+        //         if($stateParams.id == post.id){
+        //             console.log(post);
+        //             $scope.item = post;
+        //         }else{
+        //             this.push(post);
+        //         }
+        //     }, log);
+        //     $scope.related = log;
+        // });
 
     	$scope.hasTopImg = function(){
     		return EntitiesService.hasTopImg($scope.entity);

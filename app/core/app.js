@@ -1,4 +1,4 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput'])
 
 	.controller("mainController", [ '$rootScope', '$timeout', function($rootScope, $timeout) {
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
@@ -95,12 +95,14 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 	})
 
 	.run(['$rootScope', '$location', '$window', '$state', function($rootScope, $location, $window, $state){
-	     $rootScope.$on('$stateChangeSuccess',
-	        function(event){
+	     $rootScope.$on('$stateChangeSuccess',function(event){
+	        	document.body.scrollTop = document.documentElement.scrollTop = 0;
 	            if (!$window.ga)
 	            return;
 	            //$window.ga('send', 'pageview', { page: $location.path() });
 	    });
+
+
 
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
 

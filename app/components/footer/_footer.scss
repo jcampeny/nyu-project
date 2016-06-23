@@ -5,10 +5,15 @@ footer {
 	
 	a{
 		color: #FFFFFF;
+		@include transition(all 0.4s);
 
-		&:hover,&:visited,&:focus{
+		&:visited,&:focus{
 			color: #FFFFFF;
 			text-decoration: none;
+		}
+
+		&:hover{
+			color:#0080FF;
 		}
 
 	}
@@ -50,9 +55,14 @@ footer {
 		    text-align: center;
 		    background-color: #FFFFFF;
 		    @include border-radius(100%);
+		    @include transition(all 0.4s);
 
 			.fa{
 				color: #2D2E2D;
+			}
+
+			&:hover{
+				background-color: #0080FF;
 			}
 		}
 

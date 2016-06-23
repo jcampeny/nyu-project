@@ -34,23 +34,45 @@ angular.module('app').directive('ngHeader', function () {
 	    		current = "about";
 
 	    	}else if($rootScope.currentState == "app.books" || 
+	    			 	$rootScope.currentState == "app.booksitem" || 
 	    				$rootScope.currentState == "app.articles" || 
+	    				$rootScope.currentState == "app.articlesitem" || 
 	    				$rootScope.currentState == "app.global" || 
-	    				$rootScope.currentState == "app.working" || 
-	    				$rootScope.currentState == "app.blog"){
+	    				$rootScope.currentState == "app.globalitem" || 
+	    				$rootScope.currentState == "app.working" ||
+	    				$rootScope.currentState == "app.workingitem" || 
+	    				$rootScope.currentState == "app.blog" ||
+	    				$rootScope.currentState == "app.blogitem"){
 	    		current = "publications";
 	    	
 	    	}else if($rootScope.currentState == "app.videos" || 
+	    				$rootScope.currentState == "app.videositem" || 
 	    				$rootScope.currentState == "app.podcasts" || 
+	    				$rootScope.currentState == "app.podcastsitem" || 
 	    				$rootScope.currentState == "app.press" || 
+	    				$rootScope.currentState == "app.pressitem" || 
 	    				$rootScope.currentState == "app.mediakit"){
 	    		current = "news";
 
 	    	}else if($rootScope.currentState == "app.globecourse" || 
+	    				$rootScope.currentState == "app.globedocuments" || 
+	    				$rootScope.currentState == "app.globedocumentsitem" || 
+	    				$rootScope.currentState == "app.globereadings" || 
+	    				$rootScope.currentState == "app.globereadingsitem" || 
+	    				$rootScope.currentState == "app.globecases" || 
+	    				$rootScope.currentState == "app.globenotes" || 
+	    				$rootScope.currentState == "app.globenotesitem" || 
+	    				$rootScope.currentState == "app.globepresentations" || 
+	    				$rootScope.currentState == "app.globepresentationsitem" || 
 	    				$rootScope.currentState == "app.cases" || 
+	    				$rootScope.currentState == "app.casesitem" || 
 	    				$rootScope.currentState == "app.notes" || 
+	    				$rootScope.currentState == "app.notesitem" || 
 	    				$rootScope.currentState == "app.other" || 
-	    				$rootScope.currentState == "app.surveys"){
+	    				$rootScope.currentState == "app.otheritem" || 
+	    				$rootScope.currentState == "app.surveys" ||
+	    				$rootScope.currentState == "app.survey-gap" ||
+	    				$rootScope.currentState == "app.markets-gap"){
 	    		current = "teaching";
 	    	}
 

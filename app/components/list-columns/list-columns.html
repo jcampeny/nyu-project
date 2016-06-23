@@ -3,7 +3,7 @@
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-6 videos-column-left">
 						<nyu-list-item ng-repeat="i in leftColumn" ng-if="entity !== 'books'"
 							last="{{$index == rightColumn.length-1}}"
 							entity="{{entity}}"
@@ -31,7 +31,7 @@
 							calbackrender="i.finishRendered">
 						</nyu-list-item>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-6 videos-column-right">
 						<nyu-list-item ng-repeat="i in rightColumn" ng-if="entity !== 'books'"
 							last="{{$index == rightColumn.length-1}}"
 							entity="{{entity}}"

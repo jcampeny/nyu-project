@@ -12,7 +12,8 @@
     "bootstrap": "latest",
     "font-awesome": "^4.5.0",
     "jquery": "latest",
-    "angular-translate": "^2.11.0"
+    "angular-translate": "^2.11.0",
+    "ng-tags-input": "^3.1.1"
   },
   "devDependencies": {}
 }

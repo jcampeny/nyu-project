@@ -60,6 +60,7 @@
 		.cta {
 			margin-top:25px;
 			margin-right: 15px;
+			cursor:pointer;
 		}
 
 		.link-dark-blue {
@@ -68,6 +69,7 @@
 			font-size: 1.7rem;
 			color:#174380;
 			font-weight: 400;
+			cursor:pointer;
 
 			&:after{
 				content: "";
@@ -101,6 +103,7 @@
 			font-weight: 300;
 			font-style: italic;
 			color:#313231;
+			cursor:pointer;
 		}
 
 		.mobile-social{

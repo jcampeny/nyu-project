@@ -4,30 +4,68 @@
 		<div class="results cta cta-blue-o">134 results</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'target')">
 			<label>Target Audience</label>
-			<input type="text" name="topic" placeholder="Filter by Target Audience"/>
+			<tags-input 
+				ng-model="filterData.targetAudience" 
+				placeholder="Filter by Target Audience"
+				add-from-autocomplete-only="true">
+		        <auto-complete 
+		        	source="filterAutocomplete($query, 'targetAudience')"
+		        	min-length="1">
+		        </auto-complete>
+		    </tags-input>
+			<!-- <input type="text" name="topic" placeholder="Filter by Target Audience"/> -->
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'topic')">
 			<label>Topic</label>
-			<input type="text" name="topic" placeholder="Filter by Topic"/>
+			<tags-input 
+				ng-model="filterData.topic" 
+				placeholder="Filter by Topic"
+				add-from-autocomplete-only="true">
+		        <auto-complete 
+		        	source="filterAutocomplete($query, 'topic')"
+		        	min-length="1">
+		        </auto-complete>
+		    </tags-input>
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'country')">
 			<label>Country / Region</label>
-			<input type="text" name="country" placeholder="Filter by Country/Region"/>
+			<tags-input 
+				ng-model="filterData.country" 
+				placeholder="Filter by Country / Region"
+				add-from-autocomplete-only="true">
+		        <auto-complete 
+		        	source="filterAutocomplete($query, 'country')"
+		        	min-length="1">
+		        </auto-complete>
+		    </tags-input>
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'date')">
 			<label>Publication Date</label>
-			<input class="small" type="text" name="start" placeholder="Start Year"/><span class="filter-item-text">to
-			</span><input class="small" type="text" name="end" placeholder="End Year"/>
+			<select class="small" type="text" ng-model="filterData.yearFrom" ng-class="{'is-placeholder':filterData.yearFrom === ''}" name="start" ng-options="y for y in dataSRC.years">
+				<option value=''>Start Year</option>
+			</select>
+			<span class="filter-item-text">to</span>
+			<select class="small" type="text" ng-model="filterData.yearTo" ng-class="{'is-placeholder':filterData.yearTo === ''}" name="end" ng-options="y for y in dataSRC.years">
+				<option value=''>End Year</option>
+			</select>
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'language')">
 			<label>Language</label>
-			<input type="text" name="language" placeholder="Filter by Language"/>
+			<tags-input 
+				ng-model="filterData.language" 
+				placeholder="Filter by Language"
+				add-from-autocomplete-only="true">
+		        <auto-complete 
+		        	source="filterAutocomplete($query, 'language')"
+		        	min-length="1">
+		        </auto-complete>
+		    </tags-input>
 		</div>
-		<a class="clear-filters">Clear all filters</a>
+		<a class="clear-filters" ng-click="clearFilters()">Clear all filters</a>
 		<div class="filters-search">
 			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"></i><span>Search</span></div>
 			<div class="buttongroup">
-				<input type="text" name="search" placeholder="Search {{entityFilters[entity].name}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
+				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
 			</div>
 		</div>
 	</div>
