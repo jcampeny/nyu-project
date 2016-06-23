@@ -15,17 +15,17 @@ angular.module('app').directive('nyuListColumns', function () {
     	$scope.leftHeight = 0;
     	$scope.rightHeight = 0;
 
-    	/*$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
+    	$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
             .then(function(response) {
         		if(response.data.results.length > 0){
         			results = response.data.results;
         			placeItemInColumn(results.shift());
         		}
-            });*/
-        DataService.all($scope.entity, "all", 0, true).then(function(posts){
-            results = posts;
-            placeItemInColumn(results.shift());
-        });
+            });
+        // DataService.all($scope.entity, "all", 0, true).then(function(posts){
+        //     results = posts;
+        //     placeItemInColumn(results.shift());
+        // });
         
         function placeItemInColumn(item){
         	if(typeof item !== "undefined"){
