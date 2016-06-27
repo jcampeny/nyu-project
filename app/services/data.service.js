@@ -107,7 +107,7 @@
              * @returns {*}
              */
             function decoratePankaj(result) {
-                return {
+                var item = {
                     id              : result.id,
                     author          : result.author,
                     title           : result.title_metabox,
@@ -130,9 +130,20 @@
                     audio           : result.audio     ,
                     share           : (result.share === 'on') ? true : false
                 };
+                if(result.type === 'latest'){
+                    item = {
+                        id      : result.id,
+                        content : result.content,
+                        link    : htmlToPlaintext(result.excerpt.rendered),
+                        picture : (result.image) ? result.image : ''
+                    };
+                }
+                return item;
+            }
+            function htmlToPlaintext(text){
+
+                return  text ? String(text).replace(/<[^>]+>/gm, '') : ''; 
+
             }
     }]);
-
-
-
 
