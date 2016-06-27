@@ -8,7 +8,7 @@ angular.module('app').directive('nyuList', function () {
     	subentity: '@'
     },
 
-    controller: function ($scope, $rootScope, $http, EntitiesService, DataService) {
+    controller: function ($scope, $rootScope, $http, $window, EntitiesService, DataService) {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
