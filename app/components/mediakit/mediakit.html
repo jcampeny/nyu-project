@@ -21,7 +21,7 @@
 								<li>- World 3.0 Cover Image</li>
 								<li>- Advance praise for World 3.0</li>
 							</ul>
-							<a class="cta cta-huge cta-light-blue">DOWNLOAD MEDIA KIT</a>
+							<a href="/localdata/mediakit/MediaKit.zip" target="_blank" class="cta cta-huge cta-light-blue">DOWNLOAD MEDIA KIT</a>
 						</div>	
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 				</div>
 				<div class="download-title">Select which individual file you’d like to download:</div>
 				<div class="mediakit-resources row">
-					<div class="resource col-xs-4" ng-class="{'selected': r.file==resourceSelected}" ng-repeat="r in resources" ng-click="selectResource(r.file)">
+					<div class="resource col-xs-4" ng-class="{'selected': r.url==resourceSelected}" ng-repeat="r in resources" ng-click="selectResource(r.url)">
 						<div class="title">{{r.label}}</div>
 						<img class="image-container" src="/localdata/img/{{r.file}}" />
 					</div>
