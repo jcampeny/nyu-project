@@ -486,13 +486,14 @@ function admin_init_message(){
 
 function metaBox_message() {
   global $post;
-  $custom = get_post_custom($post->ID);
-  $name_message = $custom["name_message"][0];
-  $email_message = $custom["email_message"][0];
-  $company_message = $custom["company_message"][0];
-  $interest_message = $custom["interest_message"][0];
-  $content_message = $custom["content_message"][0];
-  $note_message = $custom["note_message"][0];
+	$custom               = get_post_custom($post->ID);
+	$name_message         = $custom["name_message"][0];
+	$organization_message = $custom["organization_message"][0];
+	$date_sent_message    = $custom["date_sent_message"][0];
+	$email_message        = $custom["email_message"][0];
+	$phone_message        = $custom["phone_message"][0];
+	$message_message      = $custom["message_message"][0];
+	$note_message         = $custom["note_message"][0];
 
   $settings = array(
     'media_buttons' => false,
@@ -510,33 +511,37 @@ function metaBox_message() {
   	}
 
   </style>
-  <p><label>Analytics:</label><br />
+  <p><label>FULL NAME:</label><br />
   <?php wp_editor( $name_message, "name_message", $settings);?>
-  <p><label>Technology:</label><br />
+  <p><label>ORGANIZATION / MEETING:</label><br />
+  <?php wp_editor( $organization_message, "organization_message", $settings);?>
+  <p><label>ANTICIPATED DATE:</label><br />
+  <?php wp_editor( $date_sent_message, "date_sent_message", $settings);?>
+  <p><label>E-MAIL:</label><br />
   <?php wp_editor( $email_message, "email_message", $settings);?>
-  <p><label>Bussines:</label><br />
-  <?php wp_editor( $company_message, "company_message", $settings);?>
-  <p><label>Technology:</label><br />
-  <?php wp_editor( $interest_message, "interest_message", $settings);?>
-  <p><label>Bussines:</label><br />
-  <?php wp_editor( $content_message, "content_message", $settings);?>
+  <p><label>PHONE NUMBER:</label><br />
+  <?php wp_editor( $phone_message, "phone_message", $settings);?>
+  <p><label>MESSAGE:</label><br />
+  <?php wp_editor( $message_message, "message_message", $settings);?>
   </div>
-    <p><label>Name:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_message?>" readonly></p>
-    <p><label>Email:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $email_message ?>" readonly></p>
-	<p><label>Company:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $company_message ?>" readonly></p>
-	<p><label>Interest:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $interest_message ?>" readonly></p>
-	<p><label>Content:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $content_message ?>" readonly></p>
+    <p><label>FULL NAME:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_message?>" readonly></p>
+    <p><label>ORGANIZATION / MEETING:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $organization_message ?>" readonly></p>
+	<p><label>ANTICIPATED DATE:</label><input style="width: 100%; min-height: 30px;" type="text" name="company" value="<?php echo $date_sent_message ?>" readonly></p>
+	<p><label>E-MAIL:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $email_message ?>" readonly></p>
+	<p><label>PHONE NUMBER:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $phone_message ?>" readonly></p>
+	<p><label>MESSAGE:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $message_message ?>" readonly></p>
   <?php
 }
 function save_details_message(){
   global $post;
 
-  update_post_meta($post->ID, "note_message", $_POST["note_message"]);
   update_post_meta($post->ID, "name_message", $_POST["name_message"]);
+  update_post_meta($post->ID, "organization_message", $_POST["organization_message"]);
+  update_post_meta($post->ID, "date_sent_message", $_POST["date_sent_message"]);
   update_post_meta($post->ID, "email_message", $_POST["email_message"]);
-  update_post_meta($post->ID, "company_message", $_POST["company_message"]);
-  update_post_meta($post->ID, "interest_message", $_POST["interest_message"]);
-  update_post_meta($post->ID, "content_message", $_POST["content_message"]);
+  update_post_meta($post->ID, "phone_message", $_POST["phone_message"]);
+  update_post_meta($post->ID, "message_message", $_POST["message_message"]);
+  update_post_meta($post->ID, "note_message", $_POST["note_message"]);
   
 }
 
@@ -840,6 +845,9 @@ function wpsd_add_custom_posts_args() {
 	   	$wp_post_types[$value]->rest_base = $value;
 	   	$wp_post_types[$value]->rest_controller_class = 'WP_REST_Posts_Controller';		
     }
+     	$wp_post_types['latest']->show_in_rest = true;
+	$wp_post_types['latest']->rest_base = 'latest';
+	$wp_post_types['latest']->rest_controller_class = 'WP_REST_Posts_Controller';	
 }
 add_action( 'init', 'wpsd_add_custom_posts_args', 30 );
 
@@ -1024,7 +1032,11 @@ function create_Custom_post($custom_posts, $custom_posts_list){
 	}	
 }
 
+create_latest_thinking();
+function create_latest_thinking(){
+	$custom_post_creator = new NormalCustomPost('latest', 'dashicons-format-status','Latest Thinking');
 
+}
 /**
  *Class to create Custom Post Type
  *
@@ -1088,7 +1100,7 @@ class CustomPost {
 	        'label'                 => __( $name, 'text_domain' ),
 	        'description'           => __( 'Custom post '.$name, 'text_domain' ),
 	        'labels'                => $labels,
-	        'supports'              => array('thumbnail', 'revisions' ),
+	        'supports'              => array('title', 'thumbnail', 'revisions' ),
 	        'hierarchical'          => false,
 	        'public'                => true,
 	        'menu_icon'				=> $icon,
@@ -1107,10 +1119,84 @@ class CustomPost {
 	    return $args;
     }
 }
+class NormalCustomPost extends CustomPost{
+    private $name;  // name that appear in labels (and identifier)
+	private $icon; // Icon that appear in admin menu
+	private $label; // Labels
 
+	//constructor
+	function __construct($name, $icon, $label){
+		$this->name = $name;
+        $this->icon = $icon;
+        $this->label = $label;
+
+        $this->add();
+	}
+
+	//call add_action to creat the Custom Post
+    private function add(){
+		add_action( 'init', $this->creat_custom_post(), 0 );
+    }
+
+    //set labels and arguments to create the Custom Post
+	private function creat_custom_post() {
+	    $args = $this->set_labels($this->name, $this->icon);
+	    register_post_type($this->name, $args );
+	}
+
+	//Set labels and arg for Custom Post Type
+    private function set_labels(){
+    	$name = $this->label;
+    	$icon = $this->icon;
+
+		$labels = array(
+	        'name'                  => _x( $name.'s', 'Post Type General Name', 'text_domain' ),
+	        'singular_name'         => _x( $name, 'Post Type Singular Name', 'text_domain' ),
+	        'menu_name'             => __( $name, 'text_domain' ),
+	        'name_admin_bar'        => __( $name, 'text_domain' ),
+	        'parent_item_colon'     => __( 'Parent '.$name.':', 'text_domain' ),
+	        'all_items'             => __( 'All '.$name.'s', 'text_domain' ),
+	        'add_new_item'          => __( $name, 'text_domain' ),
+	        'add_new'               => __( 'Add New', 'text_domain' ),
+	        'new_item'              => __( 'New'.$name, 'text_domain' ),
+	        'edit_item'             => __( 'Edit '.$name, 'text_domain' ),
+	        'update_item'           => __( 'Update'.$name, 'text_domain' ),
+	        'view_item'             => __( 'View'.$name, 'text_domain' ),
+	        'search_items'          => __( 'Search'.$name, 'text_domain' ),
+	        'not_found'             => __( 'Not found', 'text_domain' ),
+	        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+	        'items_list'            => __( $name.'s list', 'text_domain' ),
+	        'items_list_navigation' => __( $name.'s list navigation', 'text_domain' ),
+	        'filter_items_list'     => __( 'Filter '.$name.'s list', 'text_domain' ),
+	    );
+
+	    $args = array(
+	        'label'                 => __( $name, 'text_domain' ),
+	        'description'           => __( 'Custom post '.$name, 'text_domain' ),
+	        'labels'                => $labels,
+	        'supports'              => array('title', 'editor', 'thumbnail', 'revisions','excerpt' ),
+	        'hierarchical'          => false,
+	        'public'                => true,
+	        'menu_icon'				=> $icon,
+	        'show_ui'               => true,
+	        'show_in_menu'          => true,
+	        'menu_position'         => 26,
+	        'show_in_admin_bar'     => true,
+	        'show_in_nav_menus'     => true,
+	        'can_export'            => true,
+	        'has_archive'           => true,        
+	        'exclude_from_search'   => false,
+	        'publicly_queryable'    => false,
+	        'capability_type'       => 'post', 
+	    );
+
+	    return $args;
+    }
+}/*
 function remove_menus () {
 global $menu;
-	$restricted = array(__('Posts'),);
+global $custom_posts;
+	$restricted = $custom_posts;
 	end ($menu);
 	while (prev($menu)){
 		$value = explode(' ',$menu[key($menu)][0]);
@@ -1118,5 +1204,5 @@ global $menu;
 	}
 }
 add_action('admin_menu', 'remove_menus');
-
+*/
 ?>
