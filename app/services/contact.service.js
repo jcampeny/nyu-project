@@ -2,7 +2,8 @@
 angular.module('app')
     .service('ContactService', ['$http' , function($http) {
         return {
-            sendContact : sendContact
+            sendContact : sendContact,
+            sendFiles : sendFiles
         };
 
         function sendContact (data){
@@ -11,5 +12,15 @@ angular.module('app')
                 .then( function(response) {
                     return response.data;
                 });
+        }
+
+        function sendFiles(email){
+            return $http
+                .post('/php/send-file.php', email)
+                .then(function(response){
+                    console.log(response);
+                    return response.data;
+                });
+
         }
     }]);
