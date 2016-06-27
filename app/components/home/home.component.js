@@ -62,3 +62,38 @@ angular.module('app').directive('sliderDirectiveLatest', function (DataService, 
             }
         };
     });
+
+angular.module('app').directive('sliderDirectiveLatestMobile', function (DataService, slideService, $timeout){
+        return{
+            restrict: 'C',
+            link : function(s, e, a){
+                var item = a.item;
+                DataService.all('latest', "all", 0, true).then(function(obj){
+                    s.latestmobile = {
+                        items : obj,
+                        length : obj.length,
+                        actual : 0,
+                        name : item,
+                        move : function (d){
+                            this.actual = slideService.getDataSlide(this, d);
+                        }
+                    };
+                    $timeout(function(){
+                        var name = s.latestmobile.name;
+                        var len = s.latestmobile.items;
+                        var h = $('.latestmobile-item').height();
+                        
+                        angular.forEach(len, function(book, i){
+                            var hContainer = $('[slider-id-mobile="'+name+'-'+i+'"]').height();
+                            h = (hContainer > h) ? hContainer : h;
+                            console.log(hContainer);
+                        });
+                        $('[slider-id="'+name+'-'+0+'"]').css({left: '0%'});
+                        $('.slide-container-mobile').css({ height : h + 'px' });
+                        
+
+                    },500);
+                }); 
+            }
+        };
+    });
