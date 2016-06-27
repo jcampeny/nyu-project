@@ -1,10 +1,9 @@
 <div class="request-popup-container">
 	<div class="close-popup" ng-click="close()"></div>
 	<div class="row">
-		<div class="col-sm-6 col-sm-offset-3">
+		<div class="col-sm-6 col-sm-offset-3 generic_fade" ng-show="requestSent === false">
 			<div class="form-title">Request as Speaker</div>
 			<div class="form-container">
-				<div class="message-send">Message here...</div>
 				<form>
 					<div class="form-item">
 						<label for="name">Full name</label>
@@ -35,6 +34,11 @@
 					</div>
 				</form>
 			</div>
+		</div>
+		<div class="col-sm-6 col-sm-offset-3 generic_fade request-sent" ng-show="requestSent === true">
+			<div class="form-title">Thank you for your request.</div>
+			<div class="small-text">Your message has been sent successfully and we will be in contact soon.</div>
+			<img class="fade_logo" src="/assets/img/fade_logo.png"/>
 		</div>
 	</div>
 </div>
