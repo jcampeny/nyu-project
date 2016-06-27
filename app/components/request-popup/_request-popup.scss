@@ -79,6 +79,24 @@
 		}
 	}
 
+	.request-sent{
+		padding-top: 50px;
+
+		.small-text{
+			margin-top: 15px;
+			font-size:1.3rem;
+			font-weight: 300;
+			color:#000000;
+		}
+
+		img{
+			display: block;
+			width: 80%;
+    		margin: 30% auto;
+		}
+
+	}
+	
 
 	@media only screen and (max-width: $break-mobile) {
 		

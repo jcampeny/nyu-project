@@ -14,9 +14,11 @@ angular.module('app')
 	$scope.btntxt = 'Send request';
     var canSend = true;
 	var allOk = true;
+	$scope.requestSent = false;
 
     $scope.submitForm = function(){
         if(canSend){
+        	allOk = true;
             //canSend = false;
             $scope.btntxt = 'Sending...';
             
@@ -57,15 +59,15 @@ angular.module('app')
 			if(allOk){
 				ContactService.sendContact($scope.msg).then(function(response){
 				    if(response > 0){
-				        $( "form" ).fadeOut( "slow", function() {
-					        $(".message-send").fadeIn("slow");
-				        });
+				    	$scope.requestSent = true;
 				    }else{
 				    	canSend = true;
 				    	allOk = false;
 				    	$scope.btntxt = 'Retry';
 				    }
 				}); 
+			}else{
+				$scope.btntxt = 'Send request';
 			}
         }
 	};
