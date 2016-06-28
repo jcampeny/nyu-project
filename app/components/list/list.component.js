@@ -12,23 +12,37 @@ angular.module('app').directive('nyuList', function () {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
+        var dataFile = $scope.entity;
+        if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
+            dataFile = $scope.subentity;
+        }
 
 
-    	$scope.items = [];
-    	var dataFile = $scope.entity;
-    	if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
-    		dataFile = $scope.subentity;
-    	}
+        $scope.items = [];
+        $rootScope.change = 0;
+        var filter = DataService.getFilter();
 
+        DataService.all(dataFile, "all", 0, true, filter).then(function(posts){
+            DataService.setPosts(posts);
+        });
 
-    	$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
-            .then(function(response) {
-                $scope.items = response.data.results;
+        $rootScope.$watch('change',
+            function(value){
+                filter = DataService.getFilter();
+                $scope.items = DataService.getPostsFiltered();
             });
 
-        // DataService.all(dataFile, "all", 0, true).then(function(posts){
-        //     $scope.items = posts;
-        // });
+
+
+
+
+
+    	//$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
+        //    .then(function(response) {
+        //        $scope.items = response.data.results;
+        //    });
+
+
         
 		$scope.hasTopImg = function(){
     		return EntitiesService.hasTopImg($scope.entity);

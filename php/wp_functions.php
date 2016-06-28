@@ -970,52 +970,248 @@ function create_other_taxonomy() {
 /**
  *
  *
- *Custom taxonomy Client
+ *Custom taxonomy TARGET AUDIENCE
  *
  *
  */
-/*
-add_action( 'init', 'create_client_taxonomy', 0 );
+
+add_action( 'init', 'create_target_audience_taxonomy', 30 );
 
 // create taxonomy, genres and writers for the post type "book"
-function create_client_taxonomy() {
+function create_target_audience_taxonomy() {
 	global $custom_posts;
 	// Add new taxonomy called Category, make it hierarchical (like categories)
 	$labels = array(
-		'name'                       => _x( 'Client', 'taxonomy general name' ),
-		'singular_name'              => _x( 'Client', 'taxonomy singular name' ),
-		'search_items'               => __( 'Search Clients' ),
-		'popular_items'              => __( 'Popular Clients' ),
-		'all_items'                  => __( 'All Clients' ),
+		'name'                       => _x( 'Target Audience', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Target Audience', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Target Audience' ),
+		'popular_items'              => __( 'Popular Target Audience' ),
+		'all_items'                  => __( 'All Target Audience' ),
 		'parent_item'                => null,
 		'parent_item_colon'          => null,
-		'edit_item'                  => __( 'Edit Client' ),
-		'update_item'                => __( 'Update Client' ),
-		'add_new_item'               => __( 'Add New Client' ),
-		'new_item_name'              => __( 'New Client Name' ),
-		'separate_items_with_commas' => __( 'Separate Clients with commas' ),
-		'add_or_remove_items'        => __( 'Add or remove Clients' ),
-		'choose_from_most_used'      => __( 'Choose from the most used Clients' ),
-		'not_found'                  => __( 'No Clients found.' ),
-		'menu_name'                  => __( 'Clients' ),
+		'edit_item'                  => __( 'Edit Target Audience' ),
+		'update_item'                => __( 'Update Target Audience' ),
+		'add_new_item'               => __( 'Add New Target Audience' ),
+		'new_item_name'              => __( 'New Target Audience Name' ),
+		'separate_items_with_commas' => __( 'Separate Target Audiences with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Target Audiences' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Target Audiences' ),
+		'not_found'                  => __( 'No Target Audiences found.' ),
+		'menu_name'                  => __( 'Target Audiences' ),
 	);
 
 	//Hierarchical (false -> tag / true -> category)
 	$args = array(
-		'hierarchical'          => true, 
-		'labels'                => $labels,
-		'show_ui'               => true,
-		'show_admin_column'     => true,
-		'update_count_callback' => '_update_post_term_count',
-		'query_var'             => true,
-		'rewrite'               => array( 'slug' => 'client' ),
+        'hierarchical'      => false,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+		'show_in_menu' 			=> false,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'audience' ),
 	);
 	
-	register_taxonomy( 'client', $custom_posts, $args );
+	register_taxonomy( 'audience', $custom_posts, $args );
 }
 
-*/
+function sb_add_tax_to_api() {
+    $mytax = get_taxonomy( 'audience' );
+    $mytax->show_in_rest = true;
+}
+add_action( 'init', 'sb_add_tax_to_api', 30 );
 
+/**
+ *
+ *
+ *Custom taxonomy TOPIC
+ *
+ *
+ */
+
+add_action( 'init', 'create_topic_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_topic_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Topic', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Topic', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Topic' ),
+		'popular_items'              => __( 'Popular Topic' ),
+		'all_items'                  => __( 'All Topic' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Topic' ),
+		'update_item'                => __( 'Update Topic' ),
+		'add_new_item'               => __( 'Add New Topic' ),
+		'new_item_name'              => __( 'New Topic Name' ),
+		'separate_items_with_commas' => __( 'Separate Topics with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Topics' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Topics' ),
+		'not_found'                  => __( 'No Topics found.' ),
+		'menu_name'                  => __( 'Topics' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => false, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_in_rest'			=> true,
+		'show_admin_column'     => true,
+		'show_in_menu' 			=> false,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'topic' ),
+	);
+	
+	register_taxonomy( 'topic', $custom_posts, $args );
+}
+
+/**
+ *
+ *
+ *Custom taxonomy Country
+ *
+ *
+ */
+
+add_action( 'init', 'create_country_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_country_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Country', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Country', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Country' ),
+		'popular_items'              => __( 'Popular Country' ),
+		'all_items'                  => __( 'All Country' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Country' ),
+		'update_item'                => __( 'Update Country' ),
+		'add_new_item'               => __( 'Add New Country' ),
+		'new_item_name'              => __( 'New Country Name' ),
+		'separate_items_with_commas' => __( 'Separate Countrys with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Countrys' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Countrys' ),
+		'not_found'                  => __( 'No Countrys found.' ),
+		'menu_name'                  => __( 'Countrys' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => false, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_in_rest'			=> true,
+		'show_admin_column'     => true,
+		'show_in_menu' 			=> false,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'country' ),
+	);
+	
+	register_taxonomy( 'country', $custom_posts, $args );
+}
+/**
+ *
+ *
+ *Custom taxonomy Language
+ *
+ */
+
+add_action( 'init', 'create_language_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_language_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Language', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Language', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Language' ),
+		'popular_items'              => __( 'Popular Language' ),
+		'all_items'                  => __( 'All Language' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Language' ),
+		'update_item'                => __( 'Update Language' ),
+		'add_new_item'               => __( 'Add New Language' ),
+		'new_item_name'              => __( 'New Language Name' ),
+		'separate_items_with_commas' => __( 'Separate Languages with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Languages' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Languages' ),
+		'not_found'                  => __( 'No Languages found.' ),
+		'menu_name'                  => __( 'Languages' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => false, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_in_rest'			=> true,
+		'show_admin_column'     => true,
+		'show_in_menu' 			=> false,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'language' ),
+	);
+	
+	register_taxonomy( 'language', $custom_posts, $args );
+}
+/**
+ *
+ *
+ *Custom taxonomy Year
+ *
+ */
+
+add_action( 'init', 'create_year_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_year_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Year', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Year', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Year' ),
+		'popular_items'              => __( 'Popular Year' ),
+		'all_items'                  => __( 'All Year' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Year' ),
+		'update_item'                => __( 'Update Year' ),
+		'add_new_item'               => __( 'Add New Year' ),
+		'new_item_name'              => __( 'New Year Name' ),
+		'separate_items_with_commas' => __( 'Separate Years with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Years' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Years' ),
+		'not_found'                  => __( 'No Years found.' ),
+		'menu_name'                  => __( 'Years' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => false, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_in_rest'			=> true,
+		'show_admin_column'     => true,
+		'show_in_menu' 			=> false,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'years' ),
+	);
+	
+	register_taxonomy( 'years', $custom_posts, $args );
+}
 /**
  *
  *
@@ -1192,7 +1388,8 @@ class NormalCustomPost extends CustomPost{
 
 	    return $args;
     }
-}/*
+}
+/*
 function remove_menus () {
 global $menu;
 global $custom_posts;
@@ -1205,4 +1402,5 @@ global $custom_posts;
 }
 add_action('admin_menu', 'remove_menus');
 */
+
 ?>

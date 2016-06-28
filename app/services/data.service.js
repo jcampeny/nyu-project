@@ -10,23 +10,144 @@
  angular
     .module('app')
     .service('DataService', ['$http', '$sce'/*, 'config'*/, function($http, $sce/*, config*/){
+        var filterData = {
+                targetAudience: [],
+                topic: [],
+                country: [],
+                language: [],
+                yearFrom: "",
+                yearTo: ""
+            };
+        var posts = [];
         return {
             all     : all,
-            getById : getById
+            getById : getById,
+            setFilter  : setFilter,
+            getFilter   : getFilter,
+            setPosts  : setPosts,
+            getPosts  : getPosts,
+            getPostsFiltered   : getPostsFiltered
         };
-       
+        
+        function setFilter(filter){
+            filterData = filter;
+        }
+        function getFilter(){
+            return decorateFilter(filterData);
+        }
+        function setPosts(postArray){
+            posts = postArray;
+        }
+        function getPostsFiltered(){
+            return filterPosts();
+        }
+        function getPosts(){
+            return posts;
+        }
+        function filterPosts(){
+            var filteredPosts = [];
+            var actualFilter = filterData;
+            angular.forEach(posts, function(post){
+                var found = true;
+                if(found){found = searchTag(post, actualFilter.targetAudience, 'audience') ;}
+                if(found){found = searchTag(post, actualFilter.topic, 'topic') ;}
+                if(found){found = searchTag(post, actualFilter.country, 'country') ;}
+                if(found){found = searchTag(post, actualFilter.language, 'language') ;}
+                if(found){found = checkYear(post, actualFilter.yearFrom, actualFilter.yearTo);}
+               // found = (!found) ? searchTag(post, actualFilter.targetAudience, 'audience') : false;
 
-            function all(type, results, page, decorateCustom) {
-                var pagination = "";
-                if(typeof results !== "undefined"){
-                    if(results === "all"){
-                        pagination = "&page=1&per_page=100";    
-                    }else{
-                        pagination = (typeof page !== "undefined") ? ("&page="+page+"&per_page="+ results) : ("&page=1&per_page="+results);
-                    }
-                    
+                if(found){
+                    filteredPosts.push(post);
+                    //remove from posts
                 }
-                return getData(type+"?_embed"+pagination, decorateCustom);
+                
+            });
+            /*if(filteredPosts.length <= 0){
+                filteredPosts = posts;
+            }*/
+            function checkYear(post, from, to){
+                
+                var valueReturn = false;
+                if(from <= to && to){
+                    var yearStrings = '';
+                    if(!from){from = 1990;}
+                    angular.forEach(post.tags.years, function(yearItem){
+                        if(from == to){
+                            if(yearItem.slug == from){
+                                valueReturn = true;
+                            }
+                        }else if(yearItem.slug >= from && yearItem.slug <= to ){
+                            valueReturn = true;
+                        }
+                    });
+                }else{valueReturn = true;}
+                return valueReturn;
+            }
+
+            return filteredPosts;
+        }
+        function searchTag(post, filter, tag){
+            var found = false;
+            if(filter.length > 0){
+                if(post.tags[tag]){
+                    angular.forEach(post.tags[tag], function(tagItem){
+                        angular.forEach(filter, function(filterItem){
+                            if(tagItem.slug.toLowerCase() == filterItem.text.toLowerCase()){
+                                found = true;                        
+                            }
+                        });
+                        
+                    });
+                }
+            }else {found = true;}
+            return found;
+
+        }
+        function decorateFilter(filter){
+            var filterString = '';
+            filterString += (filter.targetAudience.length === 0) ? '': getTagFilter(filter.targetAudience,'audience', filterString);
+            filterString += (filter.topic.length === 0) ? '': getTagFilter(filter.topic,'topic', filterString);
+            filterString += (filter.country.length === 0) ? '': getTagFilter(filter.country,'country', filterString);
+            filterString += (filter.language.length === 0) ? '': getTagFilter(filter.language,'language', filterString);
+            filterString += getTagFilter({from : filter.yearFrom, to : filter.yearTo},'years', filterString);
+            return filterString;
+        }
+        function getTagFilter(tags, nameTag, filterString ){
+            var decoratedFilter = '';
+            if(nameTag === 'years'){
+                if(tags.from < tags.to){
+                    var yearStrings = '';
+                    if(!tags.from){tags.from = 1990;}
+                    for(var y = tags.from; y <= tags.to; y++ ){
+                        yearStrings += y + ',';
+                    }
+                    decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+yearStrings : '?_embed&filter['+nameTag+']='+yearStrings; 
+                }else{/*catch error*/}
+                
+            }else{
+                angular.forEach(tags, function(tag){
+                    decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tag.text : '?_embed&filter['+nameTag+']='+tag.text;
+                });                
+            }
+
+            return decoratedFilter;
+        }
+            function all(type, results, page, decorateCustom, filter) {
+                var pagination = "";
+                if(filter){
+                    return getData(type+filter, decorateCustom);   
+                }else{
+                    if(typeof results !== "undefined"){
+                        if(results === "all"){
+                            pagination = "&page=1&per_page=100";    
+                        }else{
+                            pagination = (typeof page !== "undefined") ? ("&page="+page+"&per_page="+ results) : ("&page=1&per_page="+results);
+                        }
+                        
+                    }
+                    return getData(type+"?_embed"+pagination, decorateCustom);                    
+                }
+
             }
 
             // function allByTag(type, tag) {
@@ -67,6 +188,7 @@
              * @returns {*}
              */
             function decorateResult(result, decorateCustom) {
+
                 if(typeof result.taxonomy === "undefined"){
                     result.title = (result.title) ? $sce.trustAsHtml(result.title.rendered) : '';
                     //result.excerpt = $sce.trustAsHtml(result.excerpt.rendered);
@@ -107,6 +229,7 @@
              * @returns {*}
              */
             function decoratePankaj(result) {
+                //s.log(result);
                 var item = {
                     id              : result.id,
                     author          : result.author,
@@ -128,7 +251,14 @@
                     xls_link        : result.xls_link  ,
                     picture         : (result.image) ? result.image : '',
                     audio           : result.audio     ,
-                    share           : (result.share === 'on') ? true : false
+                    share           : (result.share === 'on') ? true : false,
+                    tags            : {
+                        audience : result.pure_taxonomies.audience,
+                        country  : result.pure_taxonomies.country,
+                        language : result.pure_taxonomies.language,
+                        topic    : result.pure_taxonomies.topic,
+                        years    : result.pure_taxonomies.years
+                    }
                 };
                 if(result.type === 'latest'){
                     item = {
