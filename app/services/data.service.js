@@ -9,16 +9,18 @@
  */
  angular
     .module('app')
-    .service('DataService', ['$http', '$sce'/*, 'config'*/, function($http, $sce/*, config*/){
+    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', function($http, $sce/*, config*/, $state){
         var filterData = {
                 targetAudience: [],
                 topic: [],
                 country: [],
                 language: [],
                 yearFrom: "",
-                yearTo: ""
+                yearTo: "",
+                type : $state.current.url
             };
         var posts = [];
+        var filters = [];
         return {
             all     : all,
             getById : getById,
@@ -26,41 +28,83 @@
             getFilter   : getFilter,
             setPosts  : setPosts,
             getPosts  : getPosts,
-            getPostsFiltered   : getPostsFiltered
+            getPostsFiltered   : getPostsFiltered,
+            getStateFilter : getStateFilter,
+            resetFilter : resetFilter
         };
-        
+        function resetFilter (filter){
+            angular.forEach(filters, function(filterItem, i){
+                if(filterItem.type == filter.type){
+                    filters[i] = filter;
+                }
+            });
+        }
         function setFilter(filter){
-            filterData = filter;
+            getStateFilter(filter);
+
         }
-        function getFilter(){
-            return decorateFilter(filterData);
+        function getStateFilter(filter){
+            var found = false;
+            angular.forEach(filters, function(filterItem, i){
+                if(filter && filterItem.type && filter.type && (filterItem.type == filter.type) ){
+                    filter = filterItem;
+                    filters[i] = filter;
+                    found = true;
+
+                }
+            });
+            if(!found && filter){
+                filters.push(filter);
+            }
+            
+            return filter;
         }
-        function setPosts(postArray){
-            posts = postArray;
+
+        function getFilter(filter){
+            var actualFilter = getStateFilter(filter);
+            //return decorateFilter(actualFilter);
+            return actualFilter;
         }
-        function getPostsFiltered(){
-            return filterPosts();
+        function setPosts(postArray, state){
+            var newPost = {
+                posts : postArray,
+                state : state
+            };
+            var found = false;
+
+            angular.forEach(posts, function(postItem, i){
+                if(postItem.state == newPost.state) found = true;
+            });
+
+            if(!found) posts.push(newPost);
+        }
+        function getPostsFiltered(filter){
+            var actualFilter = getStateFilter(filter);
+            return filterPosts(actualFilter);
         }
         function getPosts(){
             return posts;
         }
-        function filterPosts(){
+        function filterPosts(actualFilter){
             var filteredPosts = [];
-            var actualFilter = filterData;
-            angular.forEach(posts, function(post){
-                var found = true;
-                if(found){found = searchTag(post, actualFilter.targetAudience, 'audience') ;}
-                if(found){found = searchTag(post, actualFilter.topic, 'topic') ;}
-                if(found){found = searchTag(post, actualFilter.country, 'country') ;}
-                if(found){found = searchTag(post, actualFilter.language, 'language') ;}
-                if(found){found = checkYear(post, actualFilter.yearFrom, actualFilter.yearTo);}
-               // found = (!found) ? searchTag(post, actualFilter.targetAudience, 'audience') : false;
+           // var actualFilter = filterData;
+            angular.forEach(posts, function(post){   
+                if(actualFilter && (actualFilter.type == post.state)){
 
-                if(found){
-                    filteredPosts.push(post);
-                    //remove from posts
+                    angular.forEach(post.posts, function(postItem){
+                        var found = true;
+                        if(actualFilter){
+                            if(found){found = searchTag(postItem, actualFilter.targetAudience, 'audience') ;}
+                            if(found){found = searchTag(postItem, actualFilter.topic, 'topic') ;}
+                            if(found){found = searchTag(postItem, actualFilter.country, 'country') ;}
+                            if(found){found = searchTag(postItem, actualFilter.language, 'language') ;}
+                            if(found){found = checkYear(postItem, actualFilter.yearFrom, actualFilter.yearTo);}                    
+                        }
+                        if(found) filteredPosts.push(postItem);
+
+                    });
                 }
-                
+
             });
             /*if(filteredPosts.length <= 0){
                 filteredPosts = posts;
@@ -71,35 +115,35 @@
                 if(from <= to && to){
                     var yearStrings = '';
                     if(!from){from = 1990;}
+
                     angular.forEach(post.tags.years, function(yearItem){
                         if(from == to){
-                            if(yearItem.slug == from){
-                                valueReturn = true;
-                            }
+                            if(yearItem.slug == from) valueReturn = true;
                         }else if(yearItem.slug >= from && yearItem.slug <= to ){
                             valueReturn = true;
                         }
                     });
+
                 }else{valueReturn = true;}
+
                 return valueReturn;
             }
 
             return filteredPosts;
         }
         function searchTag(post, filter, tag){
+            
             var found = false;
             if(filter.length > 0){
                 if(post.tags[tag]){
                     angular.forEach(post.tags[tag], function(tagItem){
                         angular.forEach(filter, function(filterItem){
-                            if(tagItem.slug.toLowerCase() == filterItem.text.toLowerCase()){
-                                found = true;                        
-                            }
+                            if(tagItem.slug.toLowerCase() == filterItem.text.toLowerCase()) found = true;                        
                         });
                         
                     });
                 }
-            }else {found = true;}
+            }else found = true;
             return found;
 
         }

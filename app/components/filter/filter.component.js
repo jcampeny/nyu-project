@@ -9,7 +9,17 @@ angular.module('app').directive('nyuFilter', function () {
     controller: function ($scope, $rootScope, $filter, $q, EntitiesService, DataService, $state) {
     	$scope.root = $rootScope;
     	$scope.entitiesService = EntitiesService;
-    	$scope.filterData = {};
+    	//$scope.filterData = {}; //getfilternormla
+		$scope.filterData = {
+    		targetAudience: [],
+    		topic: [],
+    		country: [],
+    		language: [],
+    		yearFrom: "",
+    		yearTo: "",
+    		type : $state.current.url
+    	};
+    	$scope.filterData = DataService.getStateFilter($scope.filterData);
     	$scope.itemsFound = 0;
     	$scope.clearFilters = function(){
 			$scope.filterData = {
@@ -18,11 +28,14 @@ angular.module('app').directive('nyuFilter', function () {
 	    		country: [],
 	    		language: [],
 	    		yearFrom: "",
-	    		yearTo: ""
+	    		yearTo: "",
+	    		type : $state.current.url
 	    	};
+	    	DataService.resetFilter($scope.filterData);
+	    	$rootScope.change++;//possible comment
+	    	$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
     	};
-    	$scope.clearFilters();
-
+    	//$scope.clearFilters();
     	//Get all targetAudience
     	DataService.all('audience', 'all', 0, false).then(function(tags){
     		angular.forEach(tags, function(tag){
@@ -69,20 +82,24 @@ angular.module('app').directive('nyuFilter', function () {
 
         $scope.$watch(
         	function (){
-        		return  $scope.filterData.country.length + 
-        				$scope.filterData.targetAudience.length +
-        				$scope.filterData.language.length + 
-        				$scope.filterData.topic.length +
-        				$scope.filterData.yearFrom +
-        				$scope.filterData.yearTo +
-        				DataService.getPosts().length;
+        		if(!$scope.filterData){
+        			return -1;
+        		}else{
+	        		return  $scope.filterData.country.length + 
+	        				$scope.filterData.targetAudience.length +
+	        				$scope.filterData.language.length + 
+	        				$scope.filterData.topic.length +
+	        				$scope.filterData.yearFrom +
+	        				$scope.filterData.yearTo +
+	        				DataService.getPosts().length;
+        			}
         	},
             function(value){
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
-                $scope.itemsFound = (DataService.getPostsFiltered()) ? DataService.getPostsFiltered().length : 0;
+                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
             });
-        
+
     	$scope.dataSRC = {
     		targetAudience: [
 	    		/*{id: 1, text: "Instructors"},

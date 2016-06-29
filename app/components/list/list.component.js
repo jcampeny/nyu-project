@@ -8,7 +8,7 @@ angular.module('app').directive('nyuList', function () {
     	subentity: '@'
     },
 
-    controller: function ($scope, $rootScope, $http, $window, EntitiesService, DataService) {
+    controller: function ($scope, $rootScope, $http, $window, EntitiesService, DataService, $state) {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
@@ -20,16 +20,26 @@ angular.module('app').directive('nyuList', function () {
 
         $scope.items = [];
         $rootScope.change = 0;
-        var filter = DataService.getFilter();
+        //var filter = DataService.getFilter($state.current.url);
 
-        DataService.all(dataFile, "all", 0, true, filter).then(function(posts){
-            DataService.setPosts(posts);
+        DataService.all(dataFile, "all", 0, true).then(function(posts){
+            DataService.setPosts(posts, $state.current.url);
         });
 
         $rootScope.$watch('change',
             function(value){
-                filter = DataService.getFilter();
-                $scope.items = DataService.getPostsFiltered();
+                var filter = {
+                    targetAudience: [],
+                    topic: [],
+                    country: [],
+                    language: [],
+                    yearFrom: "",
+                    yearTo: "",
+                    type : $state.current.url
+                };
+                filter = DataService.getFilter(filter);
+                $scope.items = DataService.getPostsFiltered(filter);
+
             });
 
 

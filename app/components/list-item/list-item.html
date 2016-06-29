@@ -41,7 +41,8 @@
 		</div>
 		<div class="item-content {{picture !== '' && entity !== 'videos'?'col-sm-7':'col-sm-12'}}" >
 			<div><a href="{{extLink}}" ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
-			<div class="item-content-text" ng-bind-html="content"></div>
+			<div class="item-content-text" ng-bind-html="contentShort"></div>
+			<div ng-if="contentShort === ''" ng-bind-html="content"></div>
 			<a ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="mainctatext"></a>
 			<a ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="mainctatext2"></a>
 			<div><a href="{{pdfLink}}" ng-if="pdfLink !== '' && content !== ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
