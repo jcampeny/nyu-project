@@ -35,7 +35,10 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
 
     	function checkHeight(){
 			$timeout(function(){
+
 			    var height = $(element).children()[0].offsetHeight;
+
+                $(element).animate({opacity:1},300);
 			    if(height > 0){
 			    	if(typeof scope.calbackrender !== "undefined"){
 			    		scope.calbackrender(height);	
