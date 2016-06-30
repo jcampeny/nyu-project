@@ -126,14 +126,13 @@
             for (var key in temporalPost){
                 if(typeof temporalPost[key] == 'string'){
                     var theString  = temporalPost[key].toString();
+                    var haveSpan = theString.search('<span class="highlight-class">');
                     var rgxp = new RegExp(word, 'gi');
                     var position = theString.search(rgxp);
-                    var haveSpan = theString.search('<span class="highlight-class">');
                     if(position >= 0 && postDataLetSearch.indexOf(key) >= 0){
                         found = true;
-                        
                         if(haveSpan < 0){                       
-                            temporalPost[key] = highlightIt(theString, word, position);
+                            temporalPost[key] = highlightIt(theString, word);
                         }
                     }                 
                 }
@@ -143,21 +142,23 @@
                 post : temporalPost
             };
             /*EXTRAIBLE*/
-            function highlightIt(theString, word, position) {
+            function highlightIt(theString, word) {
                 var tags = [];
                 var tagLocations = [];
                 var htmlTagRegEx = /(<([^>]+)>)/ig;
+                var rgxp = new RegExp(word, 'gi');
 
                 //Extraemos las etiquetas HTML i los guardamos para volverlos a poner posteriormente
                 angular.forEach(theString.match(htmlTagRegEx), function(htmlTag){
-                    tagLocations[tagLocations.length] = theString.search(htmlTagRegEx);
-                    tags[tags.length] = htmlTag;
+                    tagLocations.push(theString.search(htmlTagRegEx));
+                    tags.push(htmlTag);
                     theString = theString.replace(htmlTag, '');
                 });
 
                 //Buscamos la palabra en el texto sin etiquetas
                 var highlightHTMLStart = '<span class="highlight-class">';
                 var highlightHTMLEnd = '</span>';
+                var position = theString.search(rgxp);
                 theString = [
                     theString.slice(0, position), 
                     highlightHTMLStart, 
