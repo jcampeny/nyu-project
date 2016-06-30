@@ -4,6 +4,7 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     templateUrl: '../app/components/list-item/list-item.html',
     controllerAs: 'nyuListItem',
     scope: {
+        id              : '@',
     	last 			: '@',
     	entity 			: '@',
     	subentity 		: '@',
@@ -61,7 +62,6 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     				$scope.pages !== "" ||
     				$scope.other !== "";
     	};
-
     	$scope.audioPlaying = false;
     	$scope.toggleAudio = function(){
     		$scope.audioPlaying = !$scope.audioPlaying;

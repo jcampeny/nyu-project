@@ -14,7 +14,8 @@ module.exports = function(grunt) {
     "bower_components/jquery/dist/jquery.min.js",
     "bower_components/bootstrap/dist/js/bootstrap.min.js",
     "bower_components/angular-translate/angular-translate.min.js",
-    "bower_components/ng-tags-input/ng-tags-input.min.js"
+    "bower_components/ng-tags-input/ng-tags-input.min.js",
+    "bower_components/angular-socialshare/dist/angular-socialshare.min.js"
   ];
 
   var vendorStyles = [
