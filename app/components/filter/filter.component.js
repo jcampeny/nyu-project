@@ -10,6 +10,30 @@ angular.module('app').directive('nyuFilter', function () {
     	$scope.root = $rootScope;
     	$scope.entitiesService = EntitiesService;
     	//$scope.filterData = {}; //getfilternormla
+
+        /**/
+        function ekdHighLight(word, theString){
+        	var rgxp = new RegExp(word, 'gi');
+        	var position = theString.search(rgxp);
+        	var output = [
+        		theString.slice(0, position), 
+        		'<span class="highlight-class">', 
+        		theString.slice(position, position+word.length), 
+        		'</span>', 
+        		theString.slice(position+word.length)
+        		].join('');
+        	return output;
+        }
+        /**/
+        $scope.searchIt = function(){
+        	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam nobis sapiente, sint ad. Dolorum nisi earum voluptate incidunt, excepturi neque iusto dolores inventore, officia esse. Ducimus quae voluptas sit itaque!';
+
+            //DataService.searchOnPosts($scope.filterData);
+            $rootScope.change++;//possible comment
+            $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
+
+        };
+        
 		$scope.filterData = {
     		targetAudience: [],
     		topic: [],
@@ -17,6 +41,7 @@ angular.module('app').directive('nyuFilter', function () {
     		language: [],
     		yearFrom: "",
     		yearTo: "",
+    		text : "",
     		type : $state.current.url
     	};
     	$scope.filterData = DataService.getStateFilter($scope.filterData);
@@ -29,6 +54,7 @@ angular.module('app').directive('nyuFilter', function () {
 	    		language: [],
 	    		yearFrom: "",
 	    		yearTo: "",
+	    		text : "",
 	    		type : $state.current.url
 	    	};
 	    	DataService.resetFilter($scope.filterData);
@@ -91,6 +117,7 @@ angular.module('app').directive('nyuFilter', function () {
 	        				$scope.filterData.topic.length +
 	        				$scope.filterData.yearFrom +
 	        				$scope.filterData.yearTo +
+	        				$scope.filterData.text +
 	        				DataService.getPosts().length;
         			}
         	},
@@ -142,9 +169,6 @@ angular.module('app').directive('nyuFilter', function () {
 		    deferred.resolve( $filter('filter')($scope.dataSRC[field], query));
 		    return deferred.promise;
     	};
-
-
-
     }
   };
 });

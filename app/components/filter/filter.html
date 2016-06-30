@@ -65,7 +65,8 @@
 		<div class="filters-search">
 			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true" ></i><span>Search</span></div>
 			<div class="buttongroup">
-				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}"/><div class="buttongroup-button"><i class="fa fa-search"  aria-hidden="true"></i></div>
+				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}" ng-model="filterData.text" id="filter-input-search"/>
+				<div class="buttongroup-button" ng-click="searchIt();"><i class="fa fa-search"  aria-hidden="true"></i></div>
 			</div>
 		</div>
 	</div>

@@ -10,17 +10,9 @@
  angular
     .module('app')
     .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', function($http, $sce/*, config*/, $state){
-        var filterData = {
-                targetAudience: [],
-                topic: [],
-                country: [],
-                language: [],
-                yearFrom: "",
-                yearTo: "",
-                type : $state.current.url
-            };
         var posts = [];
         var filters = [];
+
         return {
             all     : all,
             getById : getById,
@@ -30,8 +22,18 @@
             getPosts  : getPosts,
             getPostsFiltered   : getPostsFiltered,
             getStateFilter : getStateFilter,
-            resetFilter : resetFilter
+            resetFilter : resetFilter,
+            //searchOnPosts : searchOnPosts
         };
+        /*function searchOnPosts(filter){
+            var postsArray = getPostsFiltered(filter);
+
+            angular.forEach(postsArray, function(postItem){
+                postItem.content = ekdHighLight(filter.text, postItem.content);
+            });
+
+        }*/
+
         function resetFilter (filter){
             angular.forEach(filters, function(filterItem, i){
                 if(filterItem.type == filter.type){
@@ -85,30 +87,129 @@
         function getPosts(){
             return posts;
         }
+        function ekdHighLight(word, theString){
+            //theString sera POST
+            var rgxp = new RegExp(word, 'gi');
+            var position = theString.search(rgxp);
+            var output = theString;
+            if(position >= 0){
+                output = output.replace('<span class="highlight-class">', '');
+                output = [
+                    output.slice(0, position), 
+                    '<span class="highlight-class">', 
+                    output.slice(position, position+word.length), 
+                    '</span>', 
+                    output.slice(position+word.length)
+                    ].join('');
+
+            }
+
+            return output;
+            //return {POST : modificado o no, found : false/true}
+        }
+
+        function searchWord(word, temporalPost){
+            var found = false;
+            var postDataLetSearch = [        
+                'author',
+                'title',
+                'subtitle',
+                'content_short',
+                'content',
+                'publicationType',
+                'publication',
+                'publisher',
+                'pages',
+                'other'
+                ];
+                
+            for (var key in temporalPost){
+                if(typeof temporalPost[key] == 'string'){
+                    var theString  = temporalPost[key].toString();
+                    var rgxp = new RegExp(word, 'gi');
+                    var position = theString.search(rgxp);
+                    var haveSpan = theString.search('<span class="highlight-class">');
+                    if(position >= 0 && postDataLetSearch.indexOf(key) >= 0){
+                        found = true;
+                        
+                        if(haveSpan < 0){                       
+                            temporalPost[key] = highlightIt(theString, word, position);
+                        }
+                    }                 
+                }
+            }
+            return {
+                found : found,
+                post : temporalPost
+            };
+            /*EXTRAIBLE*/
+            function highlightIt(theString, word, position) {
+                var tags = [];
+                var tagLocations = [];
+                var htmlTagRegEx = /(<([^>]+)>)/ig;
+
+                //Extraemos las etiquetas HTML i los guardamos para volverlos a poner posteriormente
+                angular.forEach(theString.match(htmlTagRegEx), function(htmlTag){
+                    tagLocations[tagLocations.length] = theString.search(htmlTagRegEx);
+                    tags[tags.length] = htmlTag;
+                    theString = theString.replace(htmlTag, '');
+                });
+
+                //Buscamos la palabra en el texto sin etiquetas
+                var highlightHTMLStart = '<span class="highlight-class">';
+                var highlightHTMLEnd = '</span>';
+                theString = [
+                    theString.slice(0, position), 
+                    highlightHTMLStart, 
+                    theString.slice(position, position+word.length), 
+                    highlightHTMLEnd, 
+                    theString.slice(position+word.length)
+                ].join('');
+
+                //Volvemos a poner las etiquetas que hemos extraido anteriomente
+                var textEndLocation = position + word.length;
+
+                for(i=tagLocations.length-1; i>=0; i--){
+                    var location = tagLocations[i];
+                    if(location > textEndLocation){
+                        location += highlightHTMLStart.length + highlightHTMLEnd.length;
+                    } else if(location > position){
+                        location += highlightHTMLStart.length;
+                    }
+                    theString = theString.substring(0,location) + tags[i] + theString.substring(location);
+                }                    
+
+                return  theString;
+            }
+            /*END EXTRAIBLE*/
+        }
         function filterPosts(actualFilter){
             var filteredPosts = [];
            // var actualFilter = filterData;
             angular.forEach(posts, function(post){   
                 if(actualFilter && (actualFilter.type == post.state)){
-
                     angular.forEach(post.posts, function(postItem){
                         var found = true;
+                        var temporalPost;
+                        temporalPost = angular.copy(postItem);
                         if(actualFilter){
                             if(found){found = searchTag(postItem, actualFilter.targetAudience, 'audience') ;}
                             if(found){found = searchTag(postItem, actualFilter.topic, 'topic') ;}
                             if(found){found = searchTag(postItem, actualFilter.country, 'country') ;}
                             if(found){found = searchTag(postItem, actualFilter.language, 'language') ;}
-                            if(found){found = checkYear(postItem, actualFilter.yearFrom, actualFilter.yearTo);}                    
+                            if(found){found = checkYear(postItem, actualFilter.yearFrom, actualFilter.yearTo);}
+                            if(found && actualFilter.text){
+                                var searchController = searchWord(actualFilter.text, temporalPost);
+                                found = searchController.found;
+                                temporalPost = searchController.post;
+                            }                    
                         }
-                        if(found) filteredPosts.push(postItem);
-
+                        if(found) filteredPosts.push(temporalPost);
                     });
                 }
 
             });
-            /*if(filteredPosts.length <= 0){
-                filteredPosts = posts;
-            }*/
+
             function checkYear(post, from, to){
                 
                 var valueReturn = false;

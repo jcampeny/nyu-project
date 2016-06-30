@@ -39,6 +39,7 @@ angular.module('app').directive('nyuListColumns', function () {
                     language: [],
                     yearFrom: "",
                     yearTo: "",
+                    text: "",
                     type : $state.current.url
                 };
                 
