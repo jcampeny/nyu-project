@@ -199,7 +199,7 @@
                             if(found){found = searchTag(postItem, actualFilter.country, 'country') ;}
                             if(found){found = searchTag(postItem, actualFilter.language, 'language') ;}
                             if(found){found = checkYear(postItem, actualFilter.yearFrom, actualFilter.yearTo);}
-                            if(found && actualFilter.text){
+                            if(found && actualFilter.text && actualFilter.text.length > 1){
                                 var searchController = searchWord(actualFilter.text, temporalPost);
                                 found = searchController.found;
                                 temporalPost = searchController.post;
