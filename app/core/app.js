@@ -18,6 +18,18 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				}
 				$rootScope.mobileShowFilters = !$rootScope.mobileShowFilters;
 			};
+
+			$timeout(function(){
+				$('.main-menu li').hover(function(){
+					$(this).addClass("showsubmenu");
+				},function(){
+					$(this).removeClass("showsubmenu");
+				});
+
+				$('.submenu li').click(function(){
+					$('.main-menu li').removeClass("showsubmenu");
+				});
+			},0);
 	    });
 	}])
 
@@ -110,4 +122,3 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 		});
 
 	}]);
-
