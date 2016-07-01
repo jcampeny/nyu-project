@@ -16,7 +16,7 @@
 @import '../components/request-popup/request-popup';
 @import '../components/item/item';
 @import '../components/social-share/social-share';
-
+@import '../components/search/search';
 body {
 	margin:0;
 	padding:0;
@@ -42,10 +42,12 @@ input {
 
 	@media only screen and (max-width: $break-desktop) {
 		padding: 0 50px;
+		overflow: hidden;
 	}
 
 	@media only screen and (max-width: $break-mobile) {
 		padding: 0 25px;
+		overflow: hidden;
 	}
 }
 
@@ -466,7 +468,7 @@ input {
 
 /*SEARCH*/
 span.highlight-class{
-	background-color: yellow;
+	background-color: #6BB5FE;
 }
 
 

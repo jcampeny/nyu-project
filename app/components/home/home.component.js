@@ -86,7 +86,6 @@ angular.module('app').directive('sliderDirectiveLatestMobile', function (DataSer
                         angular.forEach(len, function(book, i){
                             var hContainer = $('[slider-id-mobile="'+name+'-'+i+'"]').height();
                             h = (hContainer > h) ? hContainer : h;
-                            console.log(hContainer);
                         });
                         $('[slider-id="'+name+'-'+0+'"]').css({left: '0%'});
                         $('.slide-container-mobile').css({ height : h + 'px' });

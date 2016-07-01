@@ -41,9 +41,10 @@ angular.module('app').directive('nyuFilter', function () {
     		language: [],
     		yearFrom: "",
     		yearTo: "",
-    		text : "",
+    		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
     		type : $state.current.url
-    	};
+    	};//app.search
+
     	$scope.filterData = DataService.getStateFilter($scope.filterData);
     	$scope.itemsFound = 0;
     	$scope.clearFilters = function(){
@@ -54,7 +55,7 @@ angular.module('app').directive('nyuFilter', function () {
 	    		language: [],
 	    		yearFrom: "",
 	    		yearTo: "",
-	    		text : "",
+	    		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
 	    		type : $state.current.url
 	    	};
 	    	DataService.resetFilter($scope.filterData);
@@ -118,10 +119,12 @@ angular.module('app').directive('nyuFilter', function () {
 	        				$scope.filterData.yearFrom +
 	        				$scope.filterData.yearTo +
 	        				$scope.filterData.text +
-	        				DataService.getPosts().length;
+	        				DataService.getPosts().length +
+                            DataService.getGlobalSearch().length;
         			}
         	},
             function(value){
+                $scope.filterData.text = ($state.current.url == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
                 $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;

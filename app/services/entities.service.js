@@ -11,6 +11,7 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
         };
 
     	var entityLabels = {
+            search:{name: "SEARCH RESULTS", group: "Publications", state: "app.search", suboptions: []},
             books:{name: "Books", group: "Publications", state: "app.books", suboptions: []},
             global:{name: "Globalization Index Reports", group: "Publications", state: "app.global", suboptions: []},
             articles:{name: "Articles & Book Chapters", group: "Publications", state: "app.articles", suboptions: []},
@@ -37,11 +38,12 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
         };
 
         var entityFilters = {
-    		articles: {name: "Articles and Book Chapters", fields:["target","topic","country","date","language"]},
-    		blog: {name: "Blog", fields:["topic","country","date","language"]},
-    		videos: {name: "Videos", fields:["topic","country","date","language"]},
-    		podcasts: {name: "Podcasts", fields:["topic","country","date","language"]},
-    		press: {name: "Press", fields:["topic","country","date","language"]}
+            search: {name: "SEARCH RESULTS", fields:["target","topic","country","date","language"], search:false},
+    		articles: {name: "Articles and Book Chapters", fields:["target","topic","country","date","language"], search:true},
+    		blog: {name: "Blog", fields:["topic","country","date","language"], search:true},
+    		videos: {name: "Videos", fields:["topic","country","date","language"], search:true},
+    		podcasts: {name: "Podcasts", fields:["topic","country","date","language"], search:true},
+    		press: {name: "Press", fields:["topic","country","date","language"], search:true}
     	};
 
     	function getEntityLabels(){
@@ -72,6 +74,9 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
     	function hasFilter(entity, field){
     		return entityFilters[entity].fields.indexOf(field) >= 0;
     	}
+        function hasSearch(entity){
+            return entityFilters[entity].search;
+        }
 
     	function getFilterLabel(entity){
     		return entityFilters[entity].name;
@@ -83,7 +88,8 @@ angular.module('app').service("EntitiesService",['$http', function( $http ) {
 			getEntityLabels : getEntityLabels,
 			showFilter      : showFilter,
 			hasFilter       : hasFilter,
-			getFilterLabel  : getFilterLabel
+			getFilterLabel  : getFilterLabel,
+            hasSearch       : hasSearch
 		});
 
 

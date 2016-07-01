@@ -35,6 +35,7 @@ angular.module('app').directive('nyuList', function () {
                     language: [],
                     yearFrom: "",
                     yearTo: "",
+                    text : "",
                     type : $state.current.url
                 };
                 filter = DataService.getFilter(filter);

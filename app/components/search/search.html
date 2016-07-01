@@ -60,7 +60,7 @@
 				</nyu-list-item-2>
 			</div>
 			<div class="col-sm-4 side-content show-desktop">
-				<div class="side-menu">
+				<div class="side-menu" ng-if="groupItems()">
 					<div class="title" ng-bind-html="entityLabels[entity].group"></div>
 					<div class="side-menu-item" ng-repeat="e in groupItems()">
 						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':entityLabels[entity].name == e.name}" ng-bind-html=e.name></a>	

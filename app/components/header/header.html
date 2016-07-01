@@ -16,7 +16,7 @@
 					<a href="" class="btn-caption">CONTACT</a>
 					<a href="" class="btn-icon"><i class="fa fa-envelope-o"  aria-hidden="true"></i></a>
 				</div>
-				<div class="buttons-group">
+				<div class="buttons-group" ng-click="showSearch('open')" >
 					<a href="#" class="btn-caption">SEARCH</a>
 					<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true"></i></a>
 				</div>
@@ -24,6 +24,13 @@
 		</div>
 	</div>
 	<div class="header-bottom" ng-class="{'header-fixed':headerFixed}">
+		<div class="search-input" ng-class="stateName">
+			<div class="input-container">			
+				<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+				<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+				<div class="close-cross" ng-click="showSearch('close')"></div>
+			</div>
+		</div>
 		<div class="margin-content">
 			<ul class="main-menu">
 				<li class="logo" ng-style="{'opacity':headerFixed?'1':'0'}"><a ui-sref="app.home"><img src="/assets/img/logo_small.png"/></a></li>
@@ -64,6 +71,11 @@
 		</div>
 	</div>
 	<div class="header-mobile">
+		<div class="input-container-mobile" ng-class="stateName">			
+			<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+			<div class="close-cross" ng-click="showSearch('close')"></div>
+		</div>
 		<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>
 		<div class="buton" ng-class="{'opened':headerOpened}" ng-click="toggleMenu()">
 			<div class="icon">
@@ -108,7 +120,10 @@
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}">Maps & Visualizations</a></li>
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}">CAGE Comparator&trade;</a></li>
 				<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>
-				<li class="search-option"><a href=""></a></li>
+				<li class="search-option">
+					<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+					<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+				</li>
 			</ul>
 		</div>
 	</div>

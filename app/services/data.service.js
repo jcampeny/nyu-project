@@ -9,12 +9,14 @@
  */
  angular
     .module('app')
-    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', function($http, $sce/*, config*/, $state){
+    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', function($http, $sce/*, config*/, $state, $q){
         var posts = [];
         var filters = [];
-
+        var globalSearch = "";
+        var customPosts = ['books','global','articles','working','blog','videos','podcasts','press','mediakit','globecases','globedocuments','globereadings','globenotes','globepresentations','cases','notes','other'];
         return {
             all     : all,
+            allCustomPosts : allCustomPosts,
             getById : getById,
             setFilter  : setFilter,
             getFilter   : getFilter,
@@ -23,6 +25,9 @@
             getPostsFiltered   : getPostsFiltered,
             getStateFilter : getStateFilter,
             resetFilter : resetFilter,
+            setGlobalSearch : setGlobalSearch,
+            customPosts : customPosts,
+            getGlobalSearch : getGlobalSearch
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -33,7 +38,12 @@
             });
 
         }*/
-
+        function setGlobalSearch(search){
+            globalSearch = search;
+        }
+        function getGlobalSearch(){
+            return globalSearch;
+        }
         function resetFilter (filter){
             angular.forEach(filters, function(filterItem, i){
                 if(filterItem.type == filter.type){
@@ -51,8 +61,10 @@
                 if(filter && filterItem.type && filter.type && (filterItem.type == filter.type) ){
                     filter = filterItem;
                     filters[i] = filter;
-                    found = true;
-
+                    found = true; 
+                    if($state.current.url == 'state'){
+                        filters[i].text = getGlobalSearch();
+                    }
                 }
             });
             if(!found && filter){
@@ -192,6 +204,7 @@
                     angular.forEach(post.posts, function(postItem){
                         var found = true;
                         var temporalPost;
+
                         temporalPost = angular.copy(postItem);
                         if(actualFilter){
                             if(found){found = searchTag(postItem, actualFilter.targetAudience, 'audience') ;}
@@ -295,7 +308,22 @@
                 }
 
             }
+            function allCustomPosts(results, page, decorateCustom, filter) {
 
+                var defered = $q.defer();
+                var promise = defered.promise;
+                var postsLoadeds = [];
+
+                angular.forEach(customPosts, function(customPost, i){
+                    postsLoadeds[customPost] = getData(customPost+"?_embed" , decorateCustom);
+                });
+
+                $q.all(postsLoadeds).then(function(){
+                    defered.resolve(postsLoadeds); 
+                });
+
+                return promise;
+            }
             // function allByTag(type, tag) {
             //     return getData(type+'?filter[tag]=' + tag);
             // }
@@ -327,7 +355,7 @@
                         }
                     });
             }
-
+ 
             /**
              * Decorate a post to make it play nice with AngularJS
              * @param result
@@ -375,7 +403,6 @@
              * @returns {*}
              */
             function decoratePankaj(result) {
-                //s.log(result);
                 var item = {
                     id              : result.id,
                     author          : result.author,
@@ -398,6 +425,7 @@
                     picture         : (result.image) ? result.image : '',
                     audio           : result.audio     ,
                     share           : (result.share === 'on') ? true : false,
+                    type            : result.type,
                     tags            : {
                         audience : result.pure_taxonomies.audience,
                         country  : result.pure_taxonomies.country,

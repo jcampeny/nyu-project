@@ -2,13 +2,13 @@
 	<div class="row show-mobile">
 		<div class="mobile-head-content item-content col-xs-12" >
 			<div class="item-author" ng-bind-html="author"></div>
-			<a ui-sref="app.{{entity}}item({id:id,title:getTitleUrl()})" class="item-title" ng-bind-html="title"></a>
+			<a ui-sref="app.{{(entity && entity != 'search')?entity : type}}item({id:id,title:getTitleUrl()})" class="item-title" ng-bind-html="title"></a>
 			<div class="item-subtitle" ng-bind-html="subtitle"></div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="item-image col-sm-8" ng-if="img !== ''">
-			<a ui-sref="app.{{entity}}item({id:id,title:getTitleUrl()})" class="item-image-container">
+			<a ui-sref="app.{{(entity && entity != 'search')?entity : type}}item({id:id,title:getTitleUrl()})" class="item-image-container">
 				<img ng-src="/localdata/img/{{img}}" />
 			</a>
 		</div>
@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="item-content col-xs-12" >
 			<div class="item-author show-desktop" ng-bind-html="author"></div>
-			<a ui-sref="app.{{entity}}item({id:id,title:getTitleUrl()})" class="item-title show-desktop" ng-bind-html="title"></a>
+			<a ui-sref="app.{{(entity && entity != 'search')?entity : type}}item({id:id,title:getTitleUrl()})" class="item-title show-desktop" ng-bind-html="title"></a>
 			<div class="item-subtitle show-desktop" ng-bind-html="subtitle"></div>
 			<div class="item-content" ng-bind-html="content"></div>
 			<a ng-if="mainctatext !== ''" class="cta cta-light-blue show-desktop-inline" ng-bind-html="mainctatext"></a>

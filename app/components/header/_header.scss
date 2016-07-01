@@ -67,7 +67,62 @@
 	width:100%;
 	background-color: #003162;
 	color: #FFFFFF;
+	position: relative;
 
+	.search-input{
+		position: absolute;
+		width: 100%;
+		height: 0px;
+		top: 100%;
+		left: 0%;
+		background-color: white;
+		z-index: 2;
+		text-align: center;		    
+		-webkit-box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+		-moz-box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+		box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+		&.search{
+			height: 50px;
+			.input-container{
+				opacity: 1 !important;	
+				height: 50px !important;			
+			}
+			.close-cross{
+				display: none;
+			}
+		}
+		.input-container{
+		    height: 100%;
+		    position: relative;
+		    opacity: 0;
+		    max-width: 1280px;
+		    margin: 0 auto;
+		    padding: 0 80px;
+
+			input{
+				color: #2D2E2D;
+				border: none;
+				font-size: 2em;	
+				width: 100%;
+				height: 100%;
+				padding-left: 30px;		
+				font-family: 'Merriweather', serif;
+			}
+			a{
+				color: #2D2E2D !important;
+				position: absolute;
+				left: 80px;	
+				top: 10px;
+				font-size: 1.5em;
+			}
+			.close-cross{
+				position: absolute;
+				@include cross(0.8);	
+				top: 15px;			
+			}
+
+		}
+	}
 	&.header-fixed{
 		position:fixed;
 		top:0;
@@ -205,7 +260,47 @@
 		
 		background-color:#174380;
 		z-index: 3;
-			
+		.input-container-mobile{
+			display: none;
+			&.search{
+				display: block !important;
+				position: absolute;
+				top: 100%;
+				width: 100%;
+				height: 40px;
+				background-color: white;
+				-webkit-box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+				-moz-box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+				box-shadow: 0px 7px 25px -3px rgba(117,117,117,1);
+				input{
+					width: 100%;
+					height: 100%;
+					border: none;
+					background: none;
+						font-family: 'Merriweather', serif;
+					@media only screen and (max-width: $break-desktop) {
+						padding: 0 70px;
+					}
+
+					@media only screen and (max-width: $break-mobile) {
+						padding: 0 45px;
+					}
+				}
+				a{
+					position: absolute;
+					top: 12px;
+					color: #2D2E2D;
+					i{font-size: 1.2em;}
+					@media only screen and (max-width: $break-desktop) {
+						left: 50px;
+					}
+
+					@media only screen and (max-width: $break-mobile) {
+						left: 25px;
+					}
+				}
+			}
+		}
 		.logo{
 			position:absolute;
 			right: 26px;
@@ -328,7 +423,18 @@
 					}
 
 					&.search-option{
-						
+						position: relative;
+					    padding-left: 30px;
+					    input{
+							background: none;
+						    border: none;
+						    color: white;
+						   	font-family: 'Merriweather', serif;				    	
+					    }
+					    a{
+					    	position: absolute;
+					    	left: 0;
+					    }
 					}
 
 					.submenu{

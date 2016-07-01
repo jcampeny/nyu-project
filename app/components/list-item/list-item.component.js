@@ -29,6 +29,7 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
 		picture 		: '@',
 		audio 			: '@',
 		share 			: '@',
+        type           : '@',
 		calbackrender	: '='
 
     },

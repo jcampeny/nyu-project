@@ -12,7 +12,8 @@ angular.module('app').directive('nyuListItem2', function () {
 		img          : '@',
 		content      : '@',
 		mainctatext  : '@',
-		mainctatext2 : '@'
+		mainctatext2 : '@',
+        type         : '@'
     },
     controller: function ($scope) {
     	$scope.getTitleUrl = function(){
