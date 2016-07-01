@@ -13,6 +13,7 @@
         var posts = [];
         var filters = [];
         var globalSearch = "";
+        var postsCountStart = 2;
         var customPosts = ['books','global','articles','working','blog','videos','podcasts','press','mediakit','globecases','globedocuments','globereadings','globenotes','globepresentations','cases','notes','other'];
         return {
             all     : all,
@@ -27,7 +28,9 @@
             resetFilter : resetFilter,
             setGlobalSearch : setGlobalSearch,
             customPosts : customPosts,
-            getGlobalSearch : getGlobalSearch
+            getGlobalSearch : getGlobalSearch,
+            postsToShow : postsToShow,
+            postsCountStart : postsCountStart
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -38,6 +41,13 @@
             });
 
         }*/
+        function postsToShow(state, newValue){
+            angular.forEach(filters, function(filterItem, i){
+                if(state && filterItem.type && (filterItem.type == state) ){
+                        filters[i].toShow = newValue;
+                }
+            });
+        }
         function setGlobalSearch(search){
             globalSearch = search;
         }
@@ -244,7 +254,7 @@
                 return valueReturn;
             }
 
-            return filteredPosts;
+            return filteredPosts.slice(0, actualFilter.toShow);
         }
         function searchTag(post, filter, tag){
             

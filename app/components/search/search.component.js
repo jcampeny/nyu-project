@@ -15,6 +15,7 @@ angular.module('app').directive('nyuSearch', function () {
         $scope.allItems = [];
         $rootScope.change = 0;
         $scope.order = 'relevant';
+        $scope.allPostsFound = 0;
 
         DataService.allCustomPosts( "all", 0, true).then(function(posts){
             angular.forEach(DataService.customPosts, function(customPost, i){
@@ -37,13 +38,20 @@ angular.module('app').directive('nyuSearch', function () {
                     }
                     if(Object.keys($scope.allItems).length == DataService.customPosts.length){
                         DataService.setPosts(temporalCP, $state.current.url);
+                        $scope.allPostsFound = temporalCP.length;
                     }  
                     break;
                 default:
                     $scope.items = [];
             }
         }
-
+        
+        $scope.postShowed = DataService.postsCountStart;
+        $scope.loadMore = function(){
+            $scope.postShowed += 5;
+            DataService.postsToShow($state.current.url, $scope.postShowed);
+            //console.log("loadingmore");
+        };
         $scope.$watch(function(){return Object.keys($scope.allItems).length;},
             function(){
                 decoratePosts();
@@ -58,7 +66,8 @@ angular.module('app').directive('nyuSearch', function () {
                     yearFrom: "",
                     yearTo: "",
                     text : DataService.getGlobalSearch(),
-                    type : $state.current.url
+                    type : $state.current.url,
+                    toShow : 5
                 };
                 filter = DataService.getFilter(filter);
                 $scope.items = DataService.getPostsFiltered(filter);

@@ -470,7 +470,26 @@ input {
 span.highlight-class{
 	background-color: #6BB5FE;
 }
-
+.load-more-button{
+	background-color: #0080FF;
+	color: #FFFFFF;
+	margin: 50px auto;
+	display: block;
+	width: 200px;
+    padding: 10px 20px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+	@include transition(all 0.4s);
+    &:hover{
+    	background-color: #003162;
+    	color: white;
+    }
+}
 
 
 

@@ -41,6 +41,7 @@ angular.module('app').directive('nyuFilter', function () {
     		language: [],
     		yearFrom: "",
     		yearTo: "",
+            toShow : DataService.postsCountStart,
     		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
     		type : $state.current.url
     	};//app.search
@@ -55,6 +56,7 @@ angular.module('app').directive('nyuFilter', function () {
 	    		language: [],
 	    		yearFrom: "",
 	    		yearTo: "",
+                toShow : DataService.postsCountStart,
 	    		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
 	    		type : $state.current.url
 	    	};
@@ -119,6 +121,7 @@ angular.module('app').directive('nyuFilter', function () {
 	        				$scope.filterData.yearFrom +
 	        				$scope.filterData.yearTo +
 	        				$scope.filterData.text +
+                            $scope.filterData.toShow + 
 	        				DataService.getPosts().length +
                             DataService.getGlobalSearch().length;
         			}
