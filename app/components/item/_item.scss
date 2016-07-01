@@ -107,7 +107,18 @@
 				vertical-align: top;
 			}
 
+			@media only screen and (max-width: $break-laptop) {
+				white-space: nowrap;
+				.cta{
+					max-width: none;
+				}
+				img{
+					width: 65%;
+				}
+			}
+
 			@media only screen and (max-width: $break-mobile) {
+				white-space: normal;
 				.cta{
 	    			margin-left: 0;
 	    			margin-bottom: 15px;
@@ -216,7 +227,7 @@
 .item-info{
 	margin-bottom: 25px;
 	font-size:1.6rem;
-	line-height: 1.6rem;
+	line-height: 1.8rem;
 	color:#6F6F6E;
 	font-weight: 300;
 
@@ -227,26 +238,18 @@
 
 	span{
 		position: relative;
-		display: inline-block;
+		display: inline;
 		padding: 0;
-		margin-right: 18px;
+		margin-right:8px;
 
-		&:after{
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 100%;
-			width: 1px;
-			height:100%;
-			margin-left: 9px;
-			background: #0983FD;
-		}
+		&.vertical-blue-line{
+			color: #0983FD;
+		    font-weight: 300;
 
-		&:last-child{
-			&:after{
+		    &:last-child{
 				display: none;
-			}
-		}	
+			}	
+		}
 	}
 	
 	@media only screen and (max-width: $break-mobile) {
@@ -256,14 +259,8 @@
 		font-weight: 300;
 
 		span{
-			padding: 0 6px 0 0;
-			margin-right: 12px;
-
-			&:after{
-				height: 1.3rem;
-				top: 0.2rem;
-				margin-left: 6px;
-			}
+			padding: 0;
+			margin-right: 6px;
 		}
 
 	}

@@ -12,7 +12,7 @@ angular.module('app').directive('nyuList', function () {
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
-
+        $scope.entityLabels = EntitiesService.getEntityLabels();
 
     	$scope.items = [];
     	var dataFile = $scope.entity;
@@ -30,15 +30,27 @@ angular.module('app').directive('nyuList', function () {
         //     $scope.items = posts;
         // });
         
+        $scope.getTopTitle = function(){
+            var title = $scope.entityLabels[$scope.entity].name;
+            
+            if($scope.entity === "globecourse" && dataFile !== $scope.entity){
+                angular.forEach($scope.entityLabels[$scope.entity].suboptions, function(option){
+                    if(option.id == dataFile){
+                        title = option.name;
+                    }
+                });
+            }
+
+            return title;
+        };
+
 		$scope.hasTopImg = function(){
-    		return EntitiesService.hasTopImg($scope.entity);
+    		return EntitiesService.hasTopImg(dataFile);
     	};
 
     	$scope.groupItems = function(){
     		return EntitiesService.groupItems($scope.entity);
     	};
-
-    	$scope.entityLabels = EntitiesService.getEntityLabels();
     }
   };
 });

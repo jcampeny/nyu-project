@@ -132,6 +132,8 @@ input {
 
 	&.lt-huge{
 		font-size: 5.8rem;
+		line-height: 5.8rem;
+    	padding-top: 15px;
 	}
 
 	&.lt-white {
@@ -390,6 +392,7 @@ input {
 .mobile-social{
 	margin: 25px 0;
 	text-align:left;
+	white-space: nowrap;
 
 	.btn-caption {		
 	    display: inline-block;
@@ -409,6 +412,10 @@ input {
 	    display: inline-block;
 	    text-align: center;
 	    @include border-radius(100%);
+	    
+	    @media only screen and (max-width: $break-laptop) {
+			margin-left: 6px;
+	    }
 	}
 
 	&.btns-gray{

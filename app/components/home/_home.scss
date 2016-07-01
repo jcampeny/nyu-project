@@ -94,7 +94,21 @@
 	.home-section-column-twitter{
 		max-height: 410px;
 		overflow: scroll;
+
 	}
+
+	@media only screen and (max-width: $break-laptop) {
+		.home-section-column-right {
+			padding-left: 20px;
+		}
+		.home-section-column-left {
+			padding-right: 20px;
+		}
+		.home-section-column-twitter{
+			-webkit-overflow-scrolling:touch; overflow:auto;
+		}
+	}
+
 	@media only screen and (max-width: $break-mobile) {
 		padding-top: 40px;
 		text-align:center;
@@ -106,6 +120,11 @@
 		}
 		.home-section-column-left {
 			padding-right: 15px;
+		}
+
+		.home-section-column-twitter{
+			-webkit-overflow-scrolling:auto; 
+			overflow:hidden; 
 		}
 
 		.mobile-margin-top{

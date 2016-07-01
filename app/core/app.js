@@ -109,3 +109,4 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 		});
 
 	}]);
+

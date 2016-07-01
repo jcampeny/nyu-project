@@ -1,7 +1,7 @@
 <div class="margin-content">
 	<div class="page-section item-section {{entity}}-item">
 		<div ng-if="entity!=='books'" class="line-title lt-return lt-blue">
-			<a ui-sref="app.{{entity}}">Return TO {{entityLabels[entity].name}}</a>
+			<a ui-sref="app.{{subentity?subentity:entity}}">Return TO {{getTopTitle()}}</a>
 		</div>
 		<div ng-if="entity==='books'" class="line-title lt-return-books lt-blue show-desktop">
 			{{entityLabels[entity].name}}
@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div ng-if="entity !== 'books'" class="item-related show-desktop">
-					<div class="title">Related {{entityLabels[entity].name}}</div>
+					<div class="title">Related {{entityLabels[entity].altName}}</div>
 					<div class="related-items" ng-repeat="r in related">
 						<hr>
 						<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})">{{r.title}}</a>
@@ -36,12 +36,18 @@
 				<h1 ng-if="item.title !==''" class="item-title" ng-bind-html="item.title" ng-class="{'no-sub':item.subtitle ==='' && !hasItemInfo()}"></h1>
 				<h2 ng-if="item.subtitle !==''" class="item-subtitle" ng-bind-html="item.subtitle" ng-class="{'no-sub':!hasItemInfo()}"></h2>
 				<div ng-if="hasItemInfo()" class="item-info show-mobile">
-					<span ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType">
-					</span><span ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication">
-					</span><span ng-if="item.publisher !==''" class="publisher" ng-bind-html="item.publisher">
-					</span><span ng-if="item.date !==''" class="date" ng-bind-html="item.date">
-					</span><span ng-if="item.pages !==''" class="pages" ng-bind-html="item.pages">
-					</span><span ng-if="item.other !==''" class="other" ng-bind-html="item.other"></span>
+					<span ng-if="item.publicationType !==''" class="publicationType" ng-bind-html="item.publicationType"></span>
+					<span ng-if="publicationType !==''" class="vertical-blue-line">&#124;</span>
+					<span ng-if="item.publication !==''" class="publication" ng-bind-html="item.publication"></span>
+					<span ng-if="item.publication !==''" class="vertical-blue-line">&#124;</span>
+					<span ng-if="item.publisher !==''" class="publisher" ng-bind-html="item.publisher"></span>
+					<span ng-if="item.publisher !==''" class="vertical-blue-line">&#124;</span>
+					<span ng-if="item.date !==''" class="date" ng-bind-html="item.date"></span>
+					<span ng-if="item.date !==''" class="vertical-blue-line">&#124;</span>
+					<span ng-if="item.pages !==''" class="pages" ng-bind-html="item.pages"></span>
+					<span ng-if="item.pages !==''" class="vertical-blue-line">&#124;</span>
+					<span ng-if="item.other !==''" class="other" ng-bind-html="item.other"></span>
+					<span ng-if="item.other !==''" class="vertical-blue-line">&#124;</span>
 				</div> 
 				<div ng-if="item.picture !== ''" class="item-image" ng-class="{'item-image-books':entity==='books'}">
 					<img ng-src="{{item.picture}}" />	
@@ -78,7 +84,7 @@
 					Other Books
 				</div>	
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-12">
 				<nyu-book-list-item ng-repeat="i in related" item="i"></nyu-book-list-item>
 			</div>
 		</div>

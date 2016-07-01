@@ -5,12 +5,18 @@
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
 			<div ng-if="subtitle !==''" class="item-subtitle" ng-bind-html="subtitle"></div>
 			<div ng-if="hasItemInfo()" class="item-info">
-				<span ng-if="publicationType !==''" class="publicationType" ng-bind-html="publicationType">
-				</span><span ng-if="publication !==''" class="publication" ng-bind-html="publication">
-				</span><span ng-if="publisher !==''" class="publisher" ng-bind-html="publisher">
-				</span><span ng-if="date !==''" class="date" ng-bind-html="date">
-				</span><span ng-if="pages !==''" class="pages" ng-bind-html="pages">
-				</span><span ng-if="other !==''" class="other" ng-bind-html="other"></span>
+				<span ng-if="publicationType !==''" class="publicationType" ng-bind-html="publicationType"></span>
+				<span ng-if="publicationType !==''" class="vertical-blue-line">&#124;</span>
+				<span ng-if="publication !==''" class="publication" ng-bind-html="publication"></span>
+				<span ng-if="publication !==''" class="vertical-blue-line">&#124;</span>
+				<span ng-if="publisher !==''" class="publisher" ng-bind-html="publisher"></span>
+				<span ng-if="publisher !==''" class="vertical-blue-line">&#124;</span>
+				<span ng-if="date !==''" class="date" ng-bind-html="date"></span>
+				<span ng-if="date !==''" class="vertical-blue-line">&#124;</span>
+				<span ng-if="pages !==''" class="pages" ng-bind-html="pages"></span>
+				<span ng-if="pages !==''" class="vertical-blue-line">&#124;</span>
+				<span ng-if="other !==''" class="other" ng-bind-html="other"></span>
+				<span ng-if="other !==''" class="vertical-blue-line">&#124;</span>
 			</div> 
 		</div>
 	</div>
@@ -28,7 +34,7 @@
 	</div>
 	<div class="row">
 		<div class="item-image {{entity !== 'videos' && content !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
-			<a ui-sref="app.{{entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
+			<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
 				<img class="{{content===''?'':'full-img'}}" src="/localdata/img/{{picture}}" />	
 			</a>
 			<div><a ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
@@ -48,7 +54,7 @@
 			<div><a ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="xlsLink"></a></div>
 			<div><a ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div><a ng-if="otherLink !== ''" class="other-link" ng-bind-html="otherLink"></a></div>
-			<div ng-if="share === 'true' && content !== ''" class="mobile-social btns-gray">
+			<div ng-if="share === 'true'" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>
 				<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
 				<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
