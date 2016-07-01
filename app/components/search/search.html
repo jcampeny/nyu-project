@@ -14,8 +14,8 @@
 			<span class="text">Filter</span>
 			<img src="/assets/img/filter-icon.png" />
 		</div>
-		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="getTopTitle()"></div>
-		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="getTopTitle()"></div>
+		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="entityLabels[entity].name"></div>
+		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="entityLabels[entity].name"></div>
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
 				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"
@@ -58,10 +58,10 @@
 						mainctatext2="{{i.main_cta_2}}"
 						type="{{i.type}}">
 				</nyu-list-item-2>
-				<a class="load-more-button"  href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsFound">LOAD MORE</a>
+				<a class="load-more-button" href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsFound">LOAD MORE</a>
 			</div>
 			<div class="col-sm-4 side-content show-desktop">
-				<div class="side-menu">
+				<div class="side-menu" ng-if="groupItems()">
 					<div class="title" ng-bind-html="entityLabels[entity].group"></div>
 					<div class="side-menu-item" ng-repeat="e in groupItems()">
 						<a ui-sref="{{e.state}}" class="item" ng-class="{'active':entityLabels[entity].name == e.name}" ng-bind-html=e.name></a>	

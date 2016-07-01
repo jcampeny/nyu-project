@@ -172,9 +172,15 @@
 }
 
 /*****SLIDE*****/
-div.slider-home-books{
+div.the-slider{
 	position: relative;
 	width: 100%;
+	&.slide-container, 
+	.slide-container{
+		overflow: hidden;		
+	}
+
+
 	//@include transition(left 1s ease-in-out);
 	div[ng-repeat]{
 		//display:inline;
@@ -183,9 +189,6 @@ div.slider-home-books{
 		position: absolute;
 		width: 100%;
 		left: 100%;
-		&[book="0"]{
-			left: 0%;
-		}
 		span{
 		display: block;
 		clear: both;

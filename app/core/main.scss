@@ -15,8 +15,8 @@
 @import '../components/filter/filter';
 @import '../components/request-popup/request-popup';
 @import '../components/item/item';
-
-
+@import '../components/social-share/social-share';
+@import '../components/search/search';
 body {
 	margin:0;
 	padding:0;
@@ -42,10 +42,12 @@ input {
 
 	@media only screen and (max-width: $break-desktop) {
 		padding: 0 50px;
+		overflow: hidden;
 	}
 
 	@media only screen and (max-width: $break-mobile) {
 		padding: 0 25px;
+		overflow: hidden;
 	}
 }
 
@@ -453,7 +455,6 @@ input {
 	}
 }
 
-
 .page-section {
     position: relative;
     padding-top: 70px;
@@ -531,8 +532,30 @@ input {
 
 
 
-
-
+/*SEARCH*/
+span.highlight-class{
+	background-color: #6BB5FE;
+}
+.load-more-button{
+	background-color: #0080FF;
+	color: #FFFFFF;
+	margin: 50px auto;
+	display: block;
+	width: 200px;
+    padding: 10px 20px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+	@include transition(all 0.4s);
+    &:hover{
+    	background-color: #003162;
+    	color: white;
+    }
+}
 
 
 

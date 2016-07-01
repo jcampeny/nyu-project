@@ -3,15 +3,20 @@ angular.module('app').directive('ngHeader', function () {
     restrict: 'E',
     templateUrl: '../app/components/header/header.html',
     controllerAs: 'header',
-    controller: function ($scope, $rootScope, $window, PopupService) {
+    controller: function ($scope, $rootScope, $window, PopupService, DataService, $state) {
     	$scope.headerFixed = false;
+    	$scope.stateName = $state.current.url;
+    	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+    		$scope.stateName = $state.current.url;
+    	});
+    	
 	    angular.element($window).bind("scroll", function(e) {
-	       if($window.scrollY > 87){
-	         $scope.headerFixed = true;
-	       }else{
-	         $scope.headerFixed = false;
-	       }
-	       $scope.$apply();
+	        if($window.scrollY > 87){
+	        	$scope.headerFixed = true;
+	        }else{
+	        	$scope.headerFixed = false;
+	        }
+	        $scope.$apply();
 	   	});
 
 	    $rootScope.headerOpened = false;
@@ -82,6 +87,26 @@ angular.module('app').directive('ngHeader', function () {
 
 	    $scope.showSpeakerPopup = function(){
 			PopupService.showSpeakerPopup();
+		};
+		$scope.searchSubmit = function(searchInput){
+			$state.go('app.search');
+			DataService.setGlobalSearch(searchInput);
+		};
+		$scope.showSearch = function(toState){
+			if(toState == 'open'){
+				$('.search-input').animate({
+					height : '100%'
+				}, 400, function(){
+					$('.input-container').animate({opacity : '1'}, 400);
+				});
+			}else{
+				$('.input-container').animate({
+					opacity : '0'
+				}, 400, function(){
+					$('.search-input').animate({height : '0%'}, 400);
+				});
+			}
+
 		};
     }
   };

@@ -14,39 +14,43 @@
 	<div class="margin-content">
 		<div class="row">
 			<div class="col-sm-6 show-mobile">
-				<div class="line-title lt-normal lt-gray">
+				<div class="line-title lt-normal lt-gray slider-directive-latest-mobile" item="latestmobile">
 					Latest Thinking
 					<div class="buttons">
-						<a href="#" class="arrow left"></a>
-						<div class="pages">1/2</div>
-						<a href="#" class="arrow right"></a>
+						<a href="#" class="arrow left" ng-click="latestmobile.move('left')"></a>
+						<div class="pages">{{latestmobile.actual + 1}}/{{latestmobile.length}}</div>
+						<a href="#" class="arrow right" ng-click="latestmobile.move('right')"></a>
 					</div>
 				</div>
-				<div class="subsection-img">
-					<img src="/localdata/img/latest_thinking_1.png" />
-				</div>
-				<div class="subsection-content">DHL Global Connectedness Index 2014 tracks globalization’s post-crisis recovery globally, by region, and in 140 countries. It also examines how the rise of emerging economies is reshaping trade, capital, information, and people flows. </div>
-				<div class="mobile-social btns-gray show-mobile">
-					<span class="btn-caption">CONNECT</span>
-					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-					<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				<div class="the-slider slide-container slide-container-mobile">
+					<div ng-repeat="(key, lat) in latestmobile.items" class="{{latestmobile.name}}-item" slider-id="{{latestmobile.name}}-{{key}}" slider-id-mobile="{{latestmobile.name}}-{{key}}">
+						<div class="subsection-img">
+							<img ng-src="{{lat.picture}}" />
+						</div>
+						<div class="subsection-content" ng-bind-html="lat.content"></div>
+						<div class="mobile-social btns-gray show-mobile">
+							<span class="btn-caption">CONNECT</span>
+							<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+							<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+							<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 mobile-margin-top">
+			<div class="col-sm-12 mobile-margin-top slider-directive" item="books">
 			<!--header-->
 				<div class="line-title lt-normal lt-gray">
 					Books
 					<div class="buttons">
-						<a href="#" class="arrow left" ng-click="bookNextPrev('left')"></a>
-						<div class="pages">{{books.actual + 1}}/{{books.length}}</div>
-						<a href="#" class="arrow right" ng-click="bookNextPrev('right')"></a>
+						<a href="#" class="arrow left" ng-click="items.move('left')"></a>
+						<div class="pages">{{items.actual + 1}}/{{items.length}}</div>
+						<a href="#" class="arrow right" ng-click="items.move('right')"></a>
 					</div>
 				</div>
 			<!--books-->
-				<div class="list-item home-list-item row">
-					<div class="slider-home-books">
-						<div ng-repeat="(key, book) in books.items" class="book-item" book="{{key}}">
+				<div class="list-item home-list-item row slide-container">
+					<div class="the-slider">
+						<div ng-repeat="(key, book) in items.items" class="{{items.name}}-item" slider-id="{{items.name}}-{{key}}">
 							<div class="item-image col-xs-5" ng-if="img !== ''">
 								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" class="item-image-container">
 									<img ng-src="{{book.picture}}" />
@@ -71,20 +75,24 @@
 <section class="home-section home-blue">
 	<div class="margin-content">
 		<div class="row">
-			<div class="col-sm-6 home-section-column-left show-desktop">
+			<div class="col-sm-6 home-section-column-left show-desktop slider-directive-latest" item="latest">
 				<div class="line-title lt-normal lt-white">
 					Latest Thinking
 					<div class="buttons">
-						<a href="#" class="arrow left"></a>
-						<div class="pages">1/2</div>
-						<a href="#" class="arrow right"></a>
+						<a href="#" class="arrow left" ng-click="latest.move('left')"></a>
+						<div class="pages">{{latest.actual + 1}}/{{latest.length}}</div>
+						<a href="#" class="arrow right" ng-click="latest.move('right')"></a>
 					</div>
 				</div>
-				<div class="subsection-img">
-					<img src="/localdata/img/latest_thinking_1.png" />
+				<div class="the-slider slide-container">
+					<div ng-repeat="(key, lat) in latest.items" class="{{latest.name}}-item" slider-id="{{latest.name}}-{{key}}">
+						<div class="subsection-img">
+							<img ng-src="{{lat.picture}}" />
+						</div>
+						<div class="subsection-content" ng-bind-html="lat.content"></div>
+						<a class="cta cta-light-blue" href="{{lat.link}}">READ MORE</a>
+					</div>
 				</div>
-				<div class="subsection-content">DHL Global Connectedness Index 2014 tracks globalization’s post-crisis recovery globally, by region, and in 140 countries. It also examines how the rise of emerging economies is reshaping trade, capital, information, and people flows. </div>
-				<a class="cta cta-light-blue">READ MORE</a>
 			</div>
 			<div class="col-sm-6 home-section-column-right mobile-margin-top-none">
 				<div class="line-title lt-normal lt-white">Maps &amp; Visualizations</div>

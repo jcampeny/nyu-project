@@ -3,9 +3,11 @@ angular.module('app').directive('nyuMediakit', function () {
     restrict: 'E',
     templateUrl: '../app/components/mediakit/mediakit.html',
     controllerAs: 'nyuMediakit',
-    controller: function ($scope, $window, EntitiesService) {
+    controller: function ($scope, $window, EntitiesService, ContactService) {
     	$scope.resourceSelected = "null";
     	$scope.entity = "mediakit";
+        $scope.sendMedia = 'SEND';
+        var sending = false;
     	$scope.resources = [
     		{label: "1", file: "mediakit_1.png", url: "1.jpg"},
     		{label: "2", file: "mediakit_2.png", url: "2.jpg"},
@@ -39,6 +41,24 @@ angular.module('app').directive('nyuMediakit', function () {
     	$scope.groupItems = function(){
     		return EntitiesService.groupItems($scope.entity);
     	};
+
+        $scope.sendFiles = function(){
+            var email = $('#file-email').val();
+            $scope.sendMedia = 'SENDING...';
+            if(!sending && email !== ''){
+                sending = true;
+                ContactService.sendFiles(email).then(function(response){
+                    if(response > 0){//todo
+                        $('#file-email').fadeOut(1000);
+                        $('.button-container').fadeOut(1000);
+                    }else{
+                        sending = false;
+                        $scope.sendMedia = 'RETRY';
+                    }
+                });
+            }
+
+        };
 
     	$scope.entityLabels = EntitiesService.getEntityLabels();
     }

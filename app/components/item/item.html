@@ -18,9 +18,14 @@
 					<div ng-if="item.other !==''" class="other" ng-bind-html="item.other"></div>
 					<div class="mobile-social btns-gray">
 						<span class="btn-caption">SHARE</span>
-						<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-						<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-						<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+						<social-share 
+							entity="{{subentity?subentity:entity}}" 
+							title="{{item.title}}"
+							content="{{item.contentShort?item.contentShort:item.content}}" 
+							id="{{item.id}}"
+							picture="{{item.picture}}"
+							type = "item"
+							></social-share>
 					</div>
 				</div>
 				<div ng-if="entity !== 'books'" class="item-related show-desktop">
@@ -72,9 +77,14 @@
 				<div><a href="{{item.other_link}}" ng-if="item.other_link && item.other_link !== ''" class="other-link" ng-bind-html="'Read more about the DHL Global Connectedness Index on DHL’s website &gt;&gt;'"></a></div>
 				<div ng-if="entity ==='blog'" class="mobile-social btns-gray">
 					<span class="btn-caption">SHARE</span>
-					<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-					<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-					<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+					<social-share 
+						entity="{{subentity?subentity:entity}}" 
+						title="{{item.title}}"
+						content="{{item.contentShort?item.contentShort:item.content}}" 
+						id="{{item.id}}"
+						picture="{{item.picture}}"
+						type = "item"
+						></social-share>
 				</div>
 			</div>
 		</div>

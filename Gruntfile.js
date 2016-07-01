@@ -14,7 +14,8 @@ module.exports = function(grunt) {
     "bower_components/angular-ui-router/release/angular-ui-router.min.js",
     "bower_components/angular-sanitize/angular-sanitize.min.js",
     "bower_components/angular-translate/angular-translate.min.js",
-    "bower_components/ng-tags-input/ng-tags-input.min.js"
+    "bower_components/ng-tags-input/ng-tags-input.min.js",
+    "bower_components/angular-socialshare/dist/angular-socialshare.min.js"
   ];
 
   var vendorStyles = [

@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="item-content col-xs-12">
 			<div ng-if="author !==''" class="item-author" ng-bind-html="author"></div>
-			<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
+			<a ui-sref="app.{{subentity?((subentity != 'search')?subentity:type):((entity != 'search')?entity:type)}}item({id:id,title:getTitleUrl()})" ng-if="title !==''" class="item-title" ng-bind-html="title"></a>
 			<div ng-if="subtitle !==''" class="item-subtitle" ng-bind-html="subtitle"></div>
 			<div ng-if="hasItemInfo()" class="item-info">
 				<span ng-if="publicationType !==''" class="publicationType" ng-bind-html="publicationType"></span>
@@ -35,30 +35,39 @@
 	<div class="row">
 		<div class="item-image {{entity !== 'videos' && content !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
-				<img class="{{content===''?'':'full-img'}}" src="/localdata/img/{{picture}}" />	
+				<img class="{{content===''?'':'full-img'}}" src="{{picture}}" />	
 			</a>
 			<div><a ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
 			<div ng-if="share === 'true' && content === ''" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>
-				<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-				<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-				<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				<social-share
+					entity="{{subentity?subentity:entity}}" 
+					title="{{title}}"
+					content="{{contentShort?contentShort:content}}" 
+					id="{{id}}"
+					picture="{{picture}}"
+					></social-share>
 			</div>
 		</div>
 		<div class="item-content {{picture !== '' && entity !== 'videos'?'col-sm-7':'col-sm-12'}}" >
-			<div><a ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
-			<div class="item-content-text" ng-bind-html="content"></div>
+			<div><a href="{{extLink}}" ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
+			<div class="item-content-text" ng-bind-html="contentShort"></div>
+			<div ng-if="contentShort === ''" ng-bind-html="content"></div>
 			<a ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="mainctatext"></a>
 			<a ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="mainctatext2"></a>
-			<div><a ng-if="pdfLink !== '' && content !== ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
-			<div><a ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="xlsLink"></a></div>
-			<div><a ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
+			<div><a href="{{pdfLink}}" ng-if="pdfLink !== '' && content !== ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
+			<div><a href="{{xlsLink}}" ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="xlsLink"></a></div>
+			<div><a href="{{extLink}}" ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div><a ng-if="otherLink !== ''" class="other-link" ng-bind-html="otherLink"></a></div>
 			<div ng-if="share === 'true'" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>
-				<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-				<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-				<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				<social-share 
+					entity="{{subentity?subentity:entity}}" 
+					title="{{title}}"
+					content="{{contentShort?contentShort:content}}" 
+					id="{{id}}"
+					picture="{{picture}}"
+					></social-share>
 			</div>
 		</div>
 	</div>

@@ -4,6 +4,7 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     templateUrl: '../app/components/list-item/list-item.html',
     controllerAs: 'nyuListItem',
     scope: {
+        id              : '@',
     	last 			: '@',
     	entity 			: '@',
     	subentity 		: '@',
@@ -28,6 +29,7 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
 		picture 		: '@',
 		audio 			: '@',
 		share 			: '@',
+        type           : '@',
 		calbackrender	: '='
 
     },
@@ -35,7 +37,10 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
 
     	function checkHeight(){
 			$timeout(function(){
+
 			    var height = $(element).children()[0].offsetHeight;
+
+                $(element).animate({opacity:1},300);
 			    if(height > 0){
 			    	if(typeof scope.calbackrender !== "undefined"){
 			    		scope.calbackrender(height);	
@@ -58,7 +63,6 @@ angular.module('app').directive('nyuListItem', function ($timeout) {
     				$scope.pages !== "" ||
     				$scope.other !== "";
     	};
-
     	$scope.audioPlaying = false;
     	$scope.toggleAudio = function(){
     		$scope.audioPlaying = !$scope.audioPlaying;

@@ -4,6 +4,7 @@ angular.module('app').directive('nyuListItem2', function () {
     templateUrl: '../app/components/list-item-2/list-item-2.html',
     controllerAs: 'nyuListItem2',
     scope: {
+        id           : '@',
     	entity 		 : '@',
 		author       : '@',
 		title        : '@',
@@ -11,7 +12,8 @@ angular.module('app').directive('nyuListItem2', function () {
 		img          : '@',
 		content      : '@',
 		mainctatext  : '@',
-		mainctatext2 : '@'
+		mainctatext2 : '@',
+        type         : '@'
     },
     controller: function ($scope) {
     	$scope.getTitleUrl = function(){

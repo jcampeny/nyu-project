@@ -6,27 +6,67 @@ angular.module('app').directive('nyuListColumns', function () {
     scope:{
     	entity: '@'
     },
-    controller: function ($scope, $http, EntitiesService, DataService) {
+    controller: function ($scope, $http, EntitiesService, DataService, $rootScope, $state) {
     	$scope.items = [];
     	$scope.leftColumn = [];
     	$scope.rightColumn = [];
-
+        var lastLen = 0;
     	var results = [];
     	$scope.leftHeight = 0;
     	$scope.rightHeight = 0;
+        $rootScope.change = 0;
+        $scope.allPostsFound = 0;
+    	//$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
+        //    .then(function(response) {
+        //		if(response.data.results.length > 0){
+        //			results = response.data.results;
+        //			placeItemInColumn(results.shift());
+        //		}
+        //    });
+        DataService.all($scope.entity, "all", 0, true).then(function(posts){
+            DataService.setPosts(posts, $state.current.url);
+            $scope.allPostsFound = posts.length;
+            //results = posts;
+            //placeItemInColumn(results.shift());
+        });
 
-    	$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
-            .then(function(response) {
-        		if(response.data.results.length > 0){
-        			results = response.data.results;
-        			placeItemInColumn(results.shift());
-        		}
-            });
-        // DataService.all($scope.entity, "all", 0, true).then(function(posts){
-        //     results = posts;
-        //     placeItemInColumn(results.shift());
-        // });
+        $scope.postShowed = DataService.postsCountStart;
+        $scope.loadMore = function(){
+            $scope.postShowed += 5;
+            DataService.postsToShow($state.current.url, $scope.postShowed);
+            //console.log("loadingmore");
+        };
         
+        $rootScope.$watch('change',
+            function(value){
+                var filter = {
+                    targetAudience: [],
+                    topic: [],
+                    country: [],
+                    language: [],
+                    yearFrom: "",
+                    yearTo: "",
+                    text: "",
+                    type : $state.current.url,
+                    toShow : DataService.postsCountStart
+                };
+                
+                filter = DataService.getFilter(filter);
+
+                var items = DataService.getPostsFiltered(filter);
+                if(lastLen != items.length){
+                    lastLen = items.length;
+                    results = items;
+                    $scope.items = [];
+                    $scope.leftColumn = [];
+                    $scope.rightColumn = [];
+                    $scope.leftHeight = 0;
+                    $scope.rightHeight = 0;
+                    placeItemInColumn(results.shift());                    
+                }
+
+            });
+
         function placeItemInColumn(item){
         	if(typeof item !== "undefined"){
 	        	if($scope.leftHeight <= $scope.rightHeight){
