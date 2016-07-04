@@ -8,7 +8,12 @@ angular.module('app').directive('ngHeader', function () {
     	$scope.stateName = $state.current.url;
     	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     		$scope.stateName = $state.current.url;
+    		var stateCurrent = $scope.getCurrentStateGroup();
+    		$scope.toggleCollapsed(stateCurrent);
+    		$('[ui-sref="'+fromState.name+'"]').removeClass('active');
+    		$('[ui-sref="'+toState.name+'"]').addClass('active');
     	});
+    	$('[ui-sref="'+$rootScope.currentState+'"]').addClass('active');
 	    $scope.openRequest = function(){
     		PopupService.openPopUp(true);
     	};
@@ -42,6 +47,9 @@ angular.module('app').directive('ngHeader', function () {
 
 	    	}else if($rootScope.currentState == "app.about"){
 	    		current = "about";
+
+	    	}else if($rootScope.currentState == "app.search"){
+	    		current = "search";
 
 	    	}else if($rootScope.currentState == "app.books" || 
 	    			 	$rootScope.currentState == "app.booksitem" || 
@@ -88,11 +96,12 @@ angular.module('app').directive('ngHeader', function () {
 
 	    	return current;
 	    };
-
-
 	    /*$scope.showSpeakerPopup = function(){
 			PopupService.showSpeakerPopup();
 		};*/
+		var stateCurrent = $scope.getCurrentStateGroup();
+		$scope.toggleCollapsed(stateCurrent);
+
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
 			DataService.setGlobalSearch(searchInput);
