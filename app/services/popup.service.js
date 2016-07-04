@@ -1,4 +1,4 @@
-
+/*
 function PopupService($uibModal) {
     function showSpeakerPopup() {
         var modalInstance = $uibModal.open({
@@ -16,3 +16,17 @@ function PopupService($uibModal) {
 angular
     .module('app')
     .factory('PopupService', PopupService);
+*/
+angular.module('app')
+    .service('PopupService', function($http, $rootScope, $q){
+        var popUpIsOpen = false;
+        return {
+            openPopUp : openPopUp
+        };
+        function openPopUp(newState) {
+            popUpIsOpen = newState;
+            $rootScope.$broadcast('openPopUp', {
+                state: popUpIsOpen
+            });
+        }
+    });

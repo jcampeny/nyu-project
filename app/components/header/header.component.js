@@ -9,7 +9,9 @@ angular.module('app').directive('ngHeader', function () {
     	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     		$scope.stateName = $state.current.url;
     	});
-    	
+	    $scope.openRequest = function(){
+    		PopupService.openPopUp(true);
+    	};
 	    angular.element($window).bind("scroll", function(e) {
 	        if($window.scrollY > 87){
 	        	$scope.headerFixed = true;
@@ -85,9 +87,9 @@ angular.module('app').directive('ngHeader', function () {
 	    };
 
 
-	    $scope.showSpeakerPopup = function(){
+	    /*$scope.showSpeakerPopup = function(){
 			PopupService.showSpeakerPopup();
-		};
+		};*/
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
 			DataService.setGlobalSearch(searchInput);
