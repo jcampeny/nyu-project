@@ -96,7 +96,7 @@ input {
 	    		top: 13px;
 				width: 30px;
 				height: 30px;
-				border: 1px solid #606362;
+				box-shadow: inset 0px 0px 0.5px 1px #2D2E2D;
 				border-radius: 100%;
 				@include transition(all 0.4s);
 
@@ -147,6 +147,7 @@ input {
 				color: #FFFFFF;
 				border-color:#FFFFFF;
 				background-color: #004182;
+				box-shadow: inset 0px 0px 0.5px 1px #FFF;
 				@include transition(all 0.4s);
 
 				&:after{
@@ -217,8 +218,10 @@ input {
 			width: 32px;
 			height: 32px;
 			@include border-radius(100%);
-			border-width: 1px;
-			border-style: solid;
+			/*border-width: 1px;
+			border-style: solid;*/
+
+			box-shadow: inset 0px 0px 0.5px 1px #2D2E2D;
 			vertical-align: top;
 			cursor:pointer;
 
