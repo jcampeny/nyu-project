@@ -37,7 +37,10 @@ angular.module('app').directive('ngHeader', function () {
 
 	    $scope.getCurrentStateGroup = function(){
 	    	var current = "";
-	    	if($rootScope.currentState == "app.about"){
+	    	if($rootScope.currentState == "app.home"){
+	    		current = "home";
+
+	    	}else if($rootScope.currentState == "app.about"){
 	    		current = "about";
 
 	    	}else if($rootScope.currentState == "app.books" || 

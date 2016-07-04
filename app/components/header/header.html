@@ -89,6 +89,7 @@
 		</div>
 		<div class="menu-mobile" ng-class="{'opened':headerOpened}">
 			<ul>
+				<li><a ng-class="{'active': getCurrentStateGroup() == 'home'}" ui-sref="app.home">Home</a></li>
 				<li><a ng-class="{'active': getCurrentStateGroup() == 'about'}" ui-sref="app.about">About</a></li>
 				<li ng-click="toggleCollapsed('publications')">
 					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'publications'}">Publications</a>
