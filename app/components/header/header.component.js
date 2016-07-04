@@ -1,9 +1,9 @@
-angular.module('app').directive('ngHeader', function () {
+angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/header/header.html',
     controllerAs: 'header',
-    controller: function ($scope, $rootScope, $window, PopupService, DataService, $state) {
+    controller: function ($scope) {
     	$scope.headerFixed = false;
     	$scope.stateName = $state.current.url;
     	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
@@ -122,6 +122,12 @@ angular.module('app').directive('ngHeader', function () {
 			}
 
 		};
+    },
+    link: function (s,e,a){
+    	$document.bind('touchmove', function(element){
+    		var dir = scrollService.getDirectionOnTouchMove(element);
+    		s.hideOnScroll = (dir == "down") ? true : false;
+    	});
     }
   };
 });

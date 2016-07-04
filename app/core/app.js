@@ -1,4 +1,4 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector'])
 
 	.controller("mainController", [ '$rootScope', '$timeout', function($rootScope, $timeout) {
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
@@ -29,7 +29,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				$('.submenu li').click(function(){
 					$('.main-menu li').removeClass("showsubmenu");
 				});
-				
+
 			},0);
 	    });
 	}])

@@ -261,9 +261,13 @@
 		position:fixed;
 		width:100%;
 		height:50px;
-		
+		top: 0px;
 		background-color:#174380;
 		z-index: 3;
+		@include transition(top 0.4s ease-in-out);
+		&.hide-menu{
+			top: -80px;
+		}
 		.input-container-mobile{
 			display: none;
 			&.search{
