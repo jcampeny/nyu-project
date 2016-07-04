@@ -92,10 +92,17 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
     	    console.log(data);
     	    if(data.state){
     	    	$(e).addClass('show-pop-up');
-    	    	$('body').addClass('overflow');
+    	    	$('body')
+    	    		.addClass('overflow')
+    	    		.delay(400)
+    	    		.find('#main-content > *:first-child')
+    	    		.css({display : 'none'});
     	    }else{
     	    	$(e).removeClass('show-pop-up');
-    	    	$('body').removeClass('overflow');
+    	    	$('body')
+    	    		.removeClass('overflow')
+    	    		.find('#main-content > *:first-child')
+    	    		.css({display : 'block'});
     	    }
     	});
     }
