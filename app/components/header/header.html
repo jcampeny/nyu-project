@@ -36,7 +36,7 @@
 				<li class="logo" ng-style="{'opacity':headerFixed?'1':'0'}"><a ui-sref="app.home"><img src="/assets/img/logo_small.png"/></a></li>
 				<li><a ng-class="{'active': getCurrentStateGroup() == 'about'}" ui-sref="app.about">About</a></li>
 				<li>
-					<a ng-class="{'active': getCurrentStateGroup() == 'publications'}" ui-sref="app.books" class="has-submenu">Publications</a>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'publications'}" class="has-submenu">Publications</a>
 					<ul class="submenu">
 						<li><a ui-sref="app.books">Books</a></li>
 						<li><a ui-sref="app.global">Globalization Index Reports</a></li>
@@ -46,7 +46,7 @@
 					</ul>
 				</li>
 				<li>
-					<a ng-class="{'active': getCurrentStateGroup() == 'news'}" ui-sref="app.videos" class="has-submenu">News &amp; Media</a>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'news'}" class="has-submenu">News &amp; Media</a>
 					<ul class="submenu">
 						<li><a ui-sref="app.videos">Videos</a></li>
 						<li><a ui-sref="app.podcasts">Podcasts</a></li>
@@ -55,7 +55,7 @@
 					</ul>
 				</li>
 				<li>
-					<a ng-class="{'active': getCurrentStateGroup() == 'teaching'}" ui-sref="app.globecourse" class="has-submenu">Teaching Materials</a>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'teaching'}" class="has-submenu">Teaching Materials</a>
 					<ul class="submenu">
 						<li><a ui-sref="app.globecourse">GLOBE Course</a></li>
 						<li><a ui-sref="app.cases">Cases & Teaching Notes</a></li>

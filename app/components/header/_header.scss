@@ -69,6 +69,10 @@
 	color: #FFFFFF;
 	position: relative;
 
+	.margin-content{
+		overflow:visible;
+	}
+
 	.search-input{
 		position: absolute;
 		width: 100%;
@@ -191,7 +195,7 @@
 				}
 			}
 
-			&:hover {
+			&.showsubmenu {
 				.submenu{
 						max-height: 300px;
 						@include opacity(1);
@@ -207,7 +211,7 @@
 				z-index: 2;
 				overflow: hidden;
 				@include opacity(0);
-				@include transition(opacity 0.4s);
+				@include transition(all 0.4s);
 
 				li{
 					display: block;

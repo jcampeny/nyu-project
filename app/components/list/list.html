@@ -14,8 +14,8 @@
 			<span class="text">Filter</span>
 			<img src="/assets/img/filter-icon.png" />
 		</div>
-		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="entityLabels[entity].name"></div>
-		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="entityLabels[entity].name"></div>
+		<div ng-if="!hasTopImg()" class="line-title lt-normal lt-blue" ng-bind-html="getTopTitle()"></div>
+		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="getTopTitle()"></div>
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
 				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"

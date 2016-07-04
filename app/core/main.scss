@@ -134,6 +134,8 @@ input {
 
 	&.lt-huge{
 		font-size: 5.8rem;
+		line-height: 5.8rem;
+    	padding-top: 15px;
 	}
 
 	&.lt-white {
@@ -386,6 +388,70 @@ input {
 	    	font-size: 1.2rem;
     		line-height: 1.2rem;
 	    }
+	}
+}
+
+.mobile-social{
+	margin: 25px 0;
+	text-align:left;
+	white-space: nowrap;
+
+	.btn-caption {		
+	    display: inline-block;
+	    vertical-align: top;
+	    margin-top: 8px;	
+		font-size: 1.3rem;
+		letter-spacing: 0.2em;
+		font-weight: 700;
+		color:#2E80FF;
+	}
+
+	.btn-icon {
+		width: 35px;
+	    height: 35px;
+	    margin-left: 8px;
+	    line-height: 34px;
+	    display: inline-block;
+	    text-align: center;
+	    @include border-radius(100%);
+	    
+	    @media only screen and (max-width: $break-laptop) {
+			margin-left: 6px;
+	    }
+	}
+
+	&.btns-gray{
+		.btn-icon {
+		    background-color: #d9d9d9;
+		    border:1px solid #d9d9d9;
+		}
+		.fa{
+			color: #FFFFFF;
+		}
+	}
+
+	&.btns-white{
+		.btn-icon {
+		    background-color: #FFFFFF;
+		    border:1px solid #FFFFFF;
+		}
+		.fa{
+			color: #313231;
+		}
+	}
+
+	@media only screen and (max-width: $break-mobile) {
+		.btn-icon {
+			width: 27px;
+		    height: 27px;
+		    line-height: 26px;
+		}
+
+		.btn-caption {		
+		    margin-top: 6px;	
+			font-size: 1rem;
+			letter-spacing: 0.2em;
+		}
 	}
 }
 

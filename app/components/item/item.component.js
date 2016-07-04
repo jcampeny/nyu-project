@@ -45,6 +45,20 @@ angular.module('app').directive('nyuItem', function () {
     		return EntitiesService.groupItems($scope.entity);
     	};
 
+        $scope.getTopTitle = function(){
+            var title = $scope.entityLabels[$scope.entity].name;
+            
+            if($scope.entity === "globecourse" && dataFile !== $scope.entity){
+                angular.forEach($scope.entityLabels[$scope.entity].suboptions, function(option){
+                    if(option.id == dataFile){
+                        title = option.name;
+                    }
+                });
+            }
+
+            return title;
+        };
+
     	$scope.entityLabels = EntitiesService.getEntityLabels();
 
     	$scope.hasItemInfo = function(){
