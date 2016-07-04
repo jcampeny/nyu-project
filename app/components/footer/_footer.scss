@@ -2,7 +2,13 @@ footer {
 	padding: 40px 0 20px 0;
 	background-color: #2D2E2D;
 	color: #FFFFFF;
-	
+	.request-mobile{
+		margin: 35px 80px;
+		margin-left: 0px;
+		@media only screen and (max-width: $break-mobile) {
+			display:block;
+		}
+	}
 	a{
 		color: #FFFFFF;
 		@include transition(all 0.4s);
