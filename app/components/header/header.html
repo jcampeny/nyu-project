@@ -78,7 +78,7 @@
 			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
 			<div class="close-cross" ng-click="showSearch('close')"></div>
 		</div>
-		<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>
+		<a class="logo" ui-sref="app.home" ng-click="headerOpened && toggleMenu()"><img src="/assets/img/logo.png" /></a>
 		<div class="buton" ng-class="{'opened':headerOpened}" ng-click="toggleMenu()">
 			<div class="icon">
 				<div class="line top"></div>
@@ -89,16 +89,16 @@
 		</div>
 		<div class="menu-mobile" ng-class="{'opened':headerOpened}">
 			<ul>
-				<li><a ng-class="{'active': getCurrentStateGroup() == 'home'}" ui-sref="app.home">Home</a></li>
-				<li><a ng-class="{'active': getCurrentStateGroup() == 'about'}" ui-sref="app.about">About</a></li>
+				<li><a ng-class="{'active': getCurrentStateGroup() == 'home'}" ui-sref="app.home" ng-click=" getCurrentStateGroup() == 'home' && toggleMenu()">Home</a></li>
+				<li><a ng-class="{'active': getCurrentStateGroup() == 'about'}" ui-sref="app.about" ng-click=" getCurrentStateGroup() == 'about' && toggleMenu()">About</a></li>
 				<li ng-click="toggleCollapsed('publications')">
 					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'publications'}">Publications</a>
 					<ul class="submenu" uib-collapse="collapsed != 'publications'">
-						<li><a ui-sref="app.books">Books</a></li>
-						<li><a ui-sref="app.global">Globalization Index Reports</a></li>
-						<li><a ui-sref="app.articles">Articles & Book Chapters</a></li>
-						<li><a ui-sref="app.working">Working Papers</a></li>
-						<li><a ui-sref="app.blog">Blog</a></li>
+						<li><a ui-sref="app.books" >Books</a></li>
+						<li><a ui-sref="app.global" >Globalization Index Reports</a></li>
+						<li><a ui-sref="app.articles" >Articles & Book Chapters</a></li>
+						<li><a ui-sref="app.working" >Working Papers</a></li>
+						<li><a ui-sref="app.blog" >Blog</a></li>
 					</ul>
 				</li>
 				<li ng-click="toggleCollapsed('news')">
@@ -120,13 +120,13 @@
 						<li><a ui-sref="app.other">Other Teaching Materials</a></li>
 					</ul>
 				</li>
-				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}">Maps & Visualizations</a></li>
-				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}">CAGE Comparator&trade;</a></li>
+				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}" ng-click=" getCurrentStateGroup() == 'visualizations' && toggleMenu()">Maps & Visualizations</a></li>
+				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
 				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
 				<li><a href="#" ng-click="openRequest()">Request As Speaker</a></li>
-				<li class="search-option">
-					<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
-					<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+				<li class="search-option" ng-click="searchSubmit(searchInput)">
+					<input type="text" name="search" placeholder="Type to search..." ng-model="searchInput">
+					<a ui-sref="app.search" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
 				</li>
 			</ul>
 		</div>

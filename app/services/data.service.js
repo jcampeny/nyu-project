@@ -52,7 +52,12 @@
             globalSearch = search;
         }
         function getGlobalSearch(){
-            return globalSearch;
+            if(globalSearch){
+                return globalSearch;                
+            }else{
+                return "";
+            }
+
         }
         function resetFilter (filter){
             angular.forEach(filters, function(filterItem, i){
