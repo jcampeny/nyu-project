@@ -30,7 +30,7 @@ angular.module('app').directive('nyuFilter', function () {
 
             //DataService.searchOnPosts($scope.filterData);
             $rootScope.change++;//possible comment
-            $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
+            $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
 
         };
         
@@ -62,7 +62,7 @@ angular.module('app').directive('nyuFilter', function () {
 	    	};
 	    	DataService.resetFilter($scope.filterData);
 	    	$rootScope.change++;//possible comment
-	    	$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
+	    	$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
     	};
     	//$scope.clearFilters();
     	//Get all targetAudience
@@ -130,7 +130,7 @@ angular.module('app').directive('nyuFilter', function () {
                 $scope.filterData.text = ($state.current.url == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
-                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).length : 0;
+                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
             });
 
     	$scope.dataSRC = {

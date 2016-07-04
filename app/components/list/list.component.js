@@ -44,8 +44,9 @@ angular.module('app').directive('nyuList', function () {
                     toShow : DataService.postsCountStart
                 };
                 filter = DataService.getFilter(filter);
-                $scope.items = DataService.getPostsFiltered(filter);
-
+                var postsController = DataService.getPostsFiltered(filter);
+                $scope.items = postsController.filter;
+                $scope.allPostsShowed = postsController.total.length; 
             });
 
         $scope.postShowed = DataService.postsCountStart;

@@ -53,7 +53,10 @@ angular.module('app').directive('nyuListColumns', function () {
                 
                 filter = DataService.getFilter(filter);
 
-                var items = DataService.getPostsFiltered(filter);
+                var postsController = DataService.getPostsFiltered(filter);
+                var items = postsController.filter;
+                $scope.allPostsShowed = postsController.total.length; 
+
                 if(lastLen != items.length){
                     lastLen = items.length;
                     results = items;

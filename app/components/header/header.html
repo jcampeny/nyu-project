@@ -66,7 +66,9 @@
 				</li>
 				<li><a ui-sref="#">Maps &amp; Visualizations</a></li>
 				<li><a ui-sref="#">CAGE Comparator&trade;</a></li>
-				<li><a ng-click="showSpeakerPopup()" href="#">Request As Speaker</a></li>
+				<!--<li><a ng-click="showSpeakerPopup()" href="#">Request As Speaker</a></li>-->
+				<li><a ng-click="openRequest()" href="#">Request As Speaker</a></li>
+				
 			</ul>
 		</div>
 	</div>
@@ -119,7 +121,8 @@
 				</li>
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}">Maps & Visualizations</a></li>
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}">CAGE Comparator&trade;</a></li>
-				<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>
+				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
+				<li><a href="#" ng-click="openRequest()">Request As Speaker</a></li>
 				<li class="search-option">
 					<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
 					<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>

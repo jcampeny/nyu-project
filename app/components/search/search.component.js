@@ -70,7 +70,9 @@ angular.module('app').directive('nyuSearch', function () {
                     toShow : 5
                 };
                 filter = DataService.getFilter(filter);
-                $scope.items = DataService.getPostsFiltered(filter);
+                var postsController = DataService.getPostsFiltered(filter);
+                $scope.items = postsController.filter;
+                $scope.allPostsShowed = postsController.total.length; 
         });
       
         $scope.hasTopImg = function(){

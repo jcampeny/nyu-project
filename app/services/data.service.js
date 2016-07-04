@@ -254,7 +254,10 @@
                 return valueReturn;
             }
 
-            return filteredPosts.slice(0, actualFilter.toShow);
+            return {
+                filter : filteredPosts.slice(0, actualFilter.toShow),
+                total : filteredPosts
+            };
         }
         function searchTag(post, filter, tag){
             
