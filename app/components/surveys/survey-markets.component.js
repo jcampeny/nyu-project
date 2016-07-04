@@ -5,7 +5,7 @@ angular.module('app').directive('nyuMarketssurvey', function () {
     controllerAs: 'nyuMarketssurvey',
     controller: function ($scope) {
     	$scope.questions = [
-    		{id:"1a", question: "1a.  What is your Master degree in?", type: "text", hint:"(Master group)", options:[
+    		{id:"1a", question: "What is your Master degree in?", type: "text", hint:"(Master group)", options:[
     			{id:"a",text:"Business administration"},
     			{id:"b",text:"Finance"},
     			{id:"c",text:"Economics"},

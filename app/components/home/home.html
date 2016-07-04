@@ -5,9 +5,9 @@
 			<div class="subtitle">
 				<div class="subtitle-top">TED Talk</div>
 				<div class="subtitle-bottom">June 2012</div>
-				<a class="cta cta-light-blue">LEARN MORE</a>
 			</div>
 		</div>
+		<a class="cta cta-light-blue">LEARN MORE</a>
 	</div>
 </div>
 <section class="home-section">
@@ -29,7 +29,7 @@
 						</div>
 						<div class="subsection-content" ng-bind-html="lat.content"></div>
 						<div class="mobile-social btns-gray show-mobile">
-							<span class="btn-caption">CONNECT</span>
+							<span class="btn-caption">SHARE</span>
 							<a href="" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
 							<a href="" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
 							<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
@@ -61,7 +61,7 @@
 								<div class="item-author">{{book.author}}</div>
 								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" ng-if="title !==''" class="item-title">{{book.title}}</a>
 								<div class="item-subtitle">{{book.subtitle}}</div>
-								<div class="item-content">{{book.content_short}}</div>
+								<div class="item-content" ng-bind-html="book.content_short"></div>
 								<a ui-sref="app.booksitem({id: book.id ,title: book.title})" class="cta cta-light-blue show-desktop-inline">read more</a>
 							</div>
 							<span></span>
