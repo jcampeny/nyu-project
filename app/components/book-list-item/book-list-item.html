@@ -1,7 +1,7 @@
 <div class="list-item book-list-item row">
 	<div class="item-image col-xs-5" ng-if="img !== ''">
 		<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="item-image-container">
-			<img ng-src="{{item.picture === ''?'/localdata/img/generic_book.png':'/localdata/img/'+item.picture}}" />
+			<img ng-src="{{item.picture === ''?'/localdata/img/generic_book.png':item.picture}}" />
 		</a>
 		<a class="cta cta-light-blue show-mobile">read more</a>
 	</div>
