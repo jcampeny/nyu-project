@@ -24,13 +24,18 @@ $subject = "Contact Web";
 $headers = "From: $fromEmail\r\n";
 $mail = "jordicampeny12@gmail.com";
 
-if(mail($mail, $subject, $message, $headers)) {
-	//insertToDB($request);
-	echo 1;
+if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
+  	echo -1;
+}else{
+	if(mail($mail, $subject, $message, $headers)) {
+		//insertToDB($request);
+		echo 1;
+	}
+	else {
+		echo 0;
+	}
 }
-else {
-	echo 0;
-}
+
 
 /*for test*/
 /*

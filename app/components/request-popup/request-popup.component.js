@@ -25,7 +25,7 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 	    $scope.submitForm = function(){
 	        if(canSend){
 	        	allOk = true;
-	            //canSend = false;
+
 	            $scope.btntxt = 'Sending...';
 	            
 
@@ -67,6 +67,9 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 					    if(response > 0){
 					    	$scope.requestSent = true;
 					    }else{
+					    	if(response == -1){
+					    		toRed('#email');
+					    	}
 					    	canSend = true;
 					    	allOk = false;
 					    	$scope.btntxt = 'Retry';
@@ -89,7 +92,6 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
     },
     link : function(s, e, a){
     	$rootScope.$on('openPopUp', function(event, data) {
-    	    console.log(data);
     	    if(data.state){
     	    	$(e).addClass('show-pop-up');
     	    	$('body')
