@@ -29,6 +29,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				$('.submenu li').click(function(){
 					$('.main-menu li').removeClass("showsubmenu");
 				});
+				
 			},0);
 	    });
 	}])

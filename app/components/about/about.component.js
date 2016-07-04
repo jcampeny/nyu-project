@@ -7,7 +7,7 @@ angular.module('app').directive('nyuAbout', function () {
     	$scope.collapsedText = true;
 
     	$scope.showSpeakerPopup = function(){
-  			PopupService.showSpeakerPopup();
+  			PopupService.openPopUp(true);
 
         if( navigator.userAgent.match(/iPhone|iPad|iPod/i) ) {
             $('.modal').on('show.bs.modal', function() {

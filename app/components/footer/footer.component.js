@@ -5,8 +5,8 @@ angular.module('app').directive('ngFooter', function () {
     controllerAs: 'footer',
     controller: function ($scope, PopupService) {
     	$scope.showSpeakerPopup = function(){
-			PopupService.showSpeakerPopup();
-		};
+			 PopupService.openPopUp(true);
+		  };
     }
   };
 });

@@ -185,7 +185,7 @@ input {
 					border-color:#2D2E2D;
 				}
 
-				&:hover{
+				&:hover:active{
 					background-color:#2D2E2D;
 					color: #FFFFFF;
 					border-color:#FFFFFF;
@@ -193,6 +193,18 @@ input {
 					&:after{
 						border-color:#FFFFFF;
 					}
+				}
+
+				@media only screen and (min-width: $break-mobile){
+					&:hover{
+						background-color:#2D2E2D;
+						color: #FFFFFF;
+						border-color:#FFFFFF;
+
+						&:after{
+							border-color:#FFFFFF;
+						}
+					}					
 				}
 			}
 			.pages {
@@ -344,7 +356,7 @@ input {
 	cursor: pointer;
 	@include transition(all 0.4s);
 
-	&:hover {
+	&:hover:active {
 		text-decoration: none;
 		
 		&.cta-light-blue{
@@ -358,7 +370,22 @@ input {
 			color:#FFFFFF;
 		}
 	}
-
+	@media only screen and (min-width: $break-mobile){
+		&:hover {
+			text-decoration: none;
+			
+			&.cta-light-blue{
+				background-color: #003162;
+			}
+			&.cta-dark-blue{
+				background-color: #002141;
+			}
+			&.cta-blue-o{
+				background-color: #0080FF;
+				color:#FFFFFF;
+			}
+		}
+	}
 	&.cta-light-blue{
 		background-color: #0080FF;
 		color: #FFFFFF;
@@ -554,9 +581,15 @@ span.highlight-class{
     text-transform: uppercase;
     cursor: pointer;
 	@include transition(all 0.4s);
-    &:hover{
+    &:hover:active{
     	background-color: #003162;
     	color: white;
+    }
+    @media only screen and (min-width: $break-mobile){
+    	&:hover{
+    		background-color: #003162;
+    		color: white;
+    	}
     }
 }
 
