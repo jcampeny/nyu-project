@@ -1,17 +1,17 @@
 <div class="list-item book-list-item row">
 	<div class="item-image col-xs-5" ng-if="img !== ''">
-		<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="item-image-container">
+		<a ui-sref="app.booksitem({id: item.id,title:item.title})" class="item-image-container">
 			<img ng-src="{{item.picture === ''?'/localdata/img/generic_book.png':item.picture}}" />
 		</a>
 		<a class="cta cta-light-blue show-mobile">read more</a>
 	</div>
 	<div class="item-content {{img !== ''?'col-xs-7':'col-xs-12'}}" >
 		<div class="item-author" ng-bind-html="item.author"></div>
-		<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" ng-if="title !==''" class="item-title" ng-bind-html="item.title"></a>
+		<a ui-sref="app.booksitem({id: item.id,title: item.title})" ng-if="title !==''" class="item-title" ng-bind-html="item.title"></a>
 		<div class="item-subtitle" ng-bind-html="item.subtitle"></div>
 		<div class="item-content" ng-bind-html="item.content_short"></div>
 		<a ng-if="item.mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="'Purchase'"></a>
-		<a ui-sref="app.booksitem({id:1,title:'World+3.0'})" class="cta cta-light-blue show-desktop-inline">read more</a>
+		<a ui-sref="app.booksitem({id: item.id,title: item.title})" class="cta cta-light-blue show-desktop-inline">read more</a>
 		
 	</div>
 </div> 

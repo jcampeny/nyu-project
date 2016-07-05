@@ -45,11 +45,11 @@ angular.module('app').directive('nyuList', function () {
                 };
                 filter = DataService.getFilter(filter);
                 var postsController = DataService.getPostsFiltered(filter);
-                $scope.items = postsController.filter;
+                $scope.items = ($state.current.url == 'books') ? postsController.total : postsController.filter;
                 $scope.allPostsShowed = postsController.total.length; 
             });
 
-        $scope.postShowed = DataService.postsCountStart;
+        $scope.postShowed = ($state.current.url == 'books') ? 20 :  DataService.postsCountStart;
         $scope.loadMore = function(){
             $scope.postShowed += 5;
             DataService.postsToShow($state.current.url, $scope.postShowed);
@@ -57,7 +57,7 @@ angular.module('app').directive('nyuList', function () {
         };
 
 
-
+console.log($state);
 
     	//$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
         //    .then(function(response) {

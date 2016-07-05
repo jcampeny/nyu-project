@@ -34,7 +34,7 @@
 	</div>
 	<div class="row">
 		<div class="item-image {{entity !== 'videos' && content !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
-			<a ui-sref="app.{{subentity?subentity:entity}}item({id:1,title:getTitleUrl()})" class="item-image-container">
+			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" class="item-image-container">
 				<img class="{{content===''?'':'full-img'}}" src="{{picture}}" />	
 			</a>
 			<div><a ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="pdfLink"></a></div>
