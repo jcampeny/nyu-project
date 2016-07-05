@@ -775,6 +775,7 @@ function metaBox_custom_post() {
 
 
   $settings = array(
+  	'wpautop' => false,
     'media_buttons' => true,
     'teeny' => true,
     'editor_height' => 205
