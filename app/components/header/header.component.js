@@ -1,4 +1,4 @@
-angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document) {
+angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document, $location) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/header/header.html',
@@ -129,6 +129,9 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
     		var dir = scrollService.getDirectionOnTouchMove(element);
     		s.hideOnScroll = (dir == "down") ? true : false;
     	});
+    	s.getUrl = function (){
+    		return $location.$$absUrl;
+    	};
     }
   };
 });
