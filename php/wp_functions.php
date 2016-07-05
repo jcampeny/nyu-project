@@ -591,6 +591,130 @@ function slug_get_services( $object, $field_name, $request ) {
 }
 */
 /**/
+/*HOME CONTENT CUSTOM POST*/
+/**
+ *
+ *
+ *Custom post type Message
+ *
+ *
+ */
+
+function Custom_post_home() {
+    $labels = array(
+        'name'                  => _x( 'Home', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Home', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Home', 'text_domain' ),
+        'name_admin_bar'        => __( 'Home', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+        'all_items'             => __( 'All Items', 'text_domain' ),
+        'add_new_item'          => __( 'Home', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Item', 'text_domain' ),
+        'edit_item'             => __( 'Home information', 'text_domain' ),
+        'update_item'           => __( 'Update Item', 'text_domain' ),
+        'view_item'             => __( 'View Item', 'text_domain' ),
+        'search_items'          => __( 'Search Item', 'text_domain' ),
+        'not_found'             => __( 'Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+        'items_list'            => __( 'Items list', 'text_domain' ),
+        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Home', 'text_domain' ),
+        'description'           => __( 'Custom post home', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'revisions','excerpt' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'menu_icon'				=> 'dashicons-admin-multisite',
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 28,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,        
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page', 
+        'capabilities' => array(
+		    'create_posts' => true // Removes support for the "Add New" function ( use 'do_not_allow' instead of false for multisite set ups )
+		  ),
+  		'map_meta_cap' => true
+    );
+    register_post_type('home', $args );
+
+}
+add_action( 'init', 'Custom_post_home', 0 );
+add_filter( 'gettext', 'wpse22764_gettext', 10, 2 );
+function wpse22764_gettext( $translation, $original )
+{
+    if ( 'Excerpt' == $original ) {
+        return 'Learn More';
+    }else{
+        $pos = strpos($original, 'Excerpts are optional hand-crafted summaries of your');
+        if ($pos !== false) {
+            return  '';
+        }
+    }
+    return $translation;
+}
+add_action("admin_init", "admin_init_home");
+add_action('save_post', 'save_details_home');
+
+function admin_init_home(){
+  add_meta_box("metaBox_home", "Details", "metaBox_home", "home", "normal", "low");
+}
+
+function metaBox_home() {
+  global $post;
+	$custom        = get_post_custom($post->ID);
+	$home_favorite = $custom["home_favorite"][0];
+
+	$metabox_container = $custom[$value[0]][0];
+
+    ?>
+    <input type="checkbox" id="home_favorite" name="home_favorite" <?php checked( $check, 'on' ); if($home_favorite == 'on'){echo 'checked="checked"';}?>/>
+    <label for="home_favorite"> Show in home page</label>
+    <?php
+}
+function save_details_home(){
+  global $post;
+  update_post_meta($post->ID, "home_favorite", $_POST["home_favorite"]);
+}
+
+//send it with WP RESTAPI
+function wpsd_add_home() {
+    global $wp_post_types;
+
+    $wp_post_types['home']->show_in_rest = true;
+	$wp_post_types['home']->rest_base = 'home';
+	$wp_post_types['home']->rest_controller_class = 'WP_REST_Posts_Controller';	
+}
+add_action( 'init', 'wpsd_add_home', 30 );
+
+//send metabox
+function register_metabox_home_favorite(){
+	global $post;
+	$custom        = get_post_custom($post->ID);
+
+	register_api_field( 'home', 'home_favorite' ,
+		array(
+			'get_callback' => 'home_callback',
+			'update_callback' => null,
+			'schema' => null
+			)
+		);
+
+}
+function home_callback ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["home_favorite"][0];
+};
+add_action( 'rest_api_init', 'register_metabox_home_favorite' );	
+/************************************************************************************/
 $custom_posts = array( //create metabox
 		'books',
 		'global',
@@ -629,7 +753,7 @@ $custom_posts_list = array( //Name and icon
 	array('GLOBE Presentations', 'dashicons-media-interactive'),
 	array('Cases & Teaching Notes', 'dashicons-list-view'),
 	array('Globalization Notes', 'dashicons-admin-site'),
-	array('Other', 'dashicons-archive')
+	array('Other Teaching Materials', 'dashicons-archive')
 );
 
 $metabox_list = array( // metaboxs list
@@ -639,7 +763,7 @@ $metabox_list = array( // metaboxs list
 		array("content_short"	  , "Content short: "	      , 'editor'),
 		array("content_metabox"   , "Content: "               , 'editor'),
 		array("publication_type"   , "Publication Type: "      , 'select',
-			array("books", "globalization_index_report", "articles", "book_chapters", "working_papers", "blog_post", "videos", "podcasts", "press", "globe_documents", "cases_and_teaching_notes", "globalization_notes", "other_teaching_materials")),
+			array("BOOKS", "GLOBALIZATION INDEX REPORTS", "ARTICLES", "BOOK CHAPTERS", "WORKING PAPERS", "BLOG POST", "VIDEOS", "PODCASTS", "PRESS", "GLOBE DOCUMENTS","GLOBE READINGS", "GLOBE CASES", "GLOBE NOTES", "GLOBE PRESENTATIONS", "CASES & TEACHING NOTES", "GLOBALIZATION NOTES", "OTHER TEACHING MATERIALS")),
 		array("publication"       , "Publication: "           ),
 		array("publisher"         , "Publisher: "             ),
 		array("date_metabox"      , "Date: "                  ),
@@ -1273,12 +1397,12 @@ class CustomPost {
     	$icon = $this->icon;
 
 		$labels = array(
-	        'name'                  => _x( $name.'s', 'Post Type General Name', 'text_domain' ),
+	        'name'                  => _x( $name.'', 'Post Type General Name', 'text_domain' ),
 	        'singular_name'         => _x( $name, 'Post Type Singular Name', 'text_domain' ),
 	        'menu_name'             => __( $name, 'text_domain' ),
 	        'name_admin_bar'        => __( $name, 'text_domain' ),
 	        'parent_item_colon'     => __( 'Parent '.$name.':', 'text_domain' ),
-	        'all_items'             => __( 'All '.$name.'s', 'text_domain' ),
+	        'all_items'             => __( 'All '.$name.'', 'text_domain' ),
 	        'add_new_item'          => __( $name, 'text_domain' ),
 	        'add_new'               => __( 'Add New', 'text_domain' ),
 	        'new_item'              => __( 'New'.$name, 'text_domain' ),
@@ -1288,9 +1412,9 @@ class CustomPost {
 	        'search_items'          => __( 'Search'.$name, 'text_domain' ),
 	        'not_found'             => __( 'Not found', 'text_domain' ),
 	        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
-	        'items_list'            => __( $name.'s list', 'text_domain' ),
-	        'items_list_navigation' => __( $name.'s list navigation', 'text_domain' ),
-	        'filter_items_list'     => __( 'Filter '.$name.'s list', 'text_domain' ),
+	        'items_list'            => __( $name.' list', 'text_domain' ),
+	        'items_list_navigation' => __( $name.' list navigation', 'text_domain' ),
+	        'filter_items_list'     => __( 'Filter '.$name.' list', 'text_domain' ),
 	    );
 
 	    $args = array(
