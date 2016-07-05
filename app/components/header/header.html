@@ -26,7 +26,7 @@
 	<div class="header-bottom" ng-class="{'header-fixed':headerFixed}">
 		<div class="search-input" ng-class="stateName">
 			<div class="input-container">			
-				<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+				<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode === 13 ? searchSubmit(searchInput) : null" ng-model="searchInput">
 				<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
 				<div class="close-cross" ng-click="showSearch('close')"></div>
 			</div>

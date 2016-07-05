@@ -104,6 +104,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
+			$scope.showSearch('close');
 			DataService.setGlobalSearch(searchInput);
 		};
 		$scope.showSearch = function(toState){
