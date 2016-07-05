@@ -13,7 +13,7 @@
         var posts = [];
         var filters = [];
         var globalSearch = "";
-        var postsCountStart = 2;
+        var postsCountStart = 5;
         var customPosts = ['books','global','articles','working','blog','videos','podcasts','press','mediakit','globecases','globedocuments','globereadings','globenotes','globepresentations','cases','notes','other'];
         return {
             all     : all,
