@@ -5,5 +5,17 @@ nyu-search{
 	.line-title{
 		font-family: 'Roboto', sans-serif !important;
 		color: #174380 !important;
+		font-size: 18px !important;
+		border-top: transparent !important;
+		margin-bottom: 40px !important;
+		&:after{
+			content : "";
+			position: absolute;
+			bottom: -5px;left: 0;
+			width: 80px;
+			border-bottom: 1px solid #606362;
+			opacity: 0.5;
+		}
 	}
+
 }
