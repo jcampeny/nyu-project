@@ -1,13 +1,11 @@
-<div class="home-hero" style="background-image:url('/localdata/img/home.png')">
+<div class="home-hero" ng-style="{'background-image': 'url('+featured.img+')'}">
 	<div class="margin-content">
 		<div class="home-hero-content">
-			<div class="line-title lt-big lt-white">Actually the world isn’t flat</div>
-			<div class="subtitle">
-				<div class="subtitle-top">TED Talk</div>
-				<div class="subtitle-bottom">June 2012</div>
+			<div class="line-title lt-big lt-white" ng-bind-html="featured.title"></div>
+			<div class="subtitle" ng-bind-html="featured.content">
 			</div>
 		</div>
-		<a class="cta cta-light-blue">LEARN MORE</a>
+		<a class="cta cta-light-blue" href="{{featured.link}}">LEARN MORE</a>
 	</div>
 </div>
 <section class="home-section">

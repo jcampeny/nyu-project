@@ -31,7 +31,8 @@
             getGlobalSearch : getGlobalSearch,
             postsToShow : postsToShow,
             postsCountStart : postsCountStart,
-            getMedia : getMedia
+            getMedia : getMedia,
+            htmlToPlaintext : htmlToPlaintext
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){

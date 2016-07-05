@@ -10,7 +10,27 @@ angular.module('app').
         			twttr.widgets.load();		
         		}
         	},0);
+            $scope.featured = {
+                title : '',
+                content : '',
+                img : '',
+                link : '',
+            };
+            DataService.all('home', '', '', false, '?_embed').then(function(homePages){
+                angular.forEach(homePages, function(homeItem, i){
+                    if(homeItem.home_favorite == 'on'){
+                        
+                        $scope.featured = {
+                            title : homeItem.title,
+                            content : homeItem.content,
+                            img : homeItem._embedded['wp:featuredmedia'][0].source_url,
+                            link : DataService.htmlToPlaintext(homeItem.excerpt.rendered),
+                        };
+                        console.log($scope.featured);
+                    }
+                });
 
+            });
         },
       };
     });
