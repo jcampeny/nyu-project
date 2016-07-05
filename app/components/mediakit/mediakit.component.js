@@ -19,7 +19,7 @@ angular.module('app').directive('nyuMediakit', function () {
     		{label: "8", file: "mediakit_8.png", url: "8.jpg"},
     		{label: "9", file: "mediakit_9.png", url: "9.jpg"},
     		{label: "10", file: "mediakit_10.png", url: "10.jpg"},
-    		{label: "World 3.0 Cover Image", file: "mediakit_11.png", url: "world3.0.jpg"},
+    		{label: "World 3.0 Cover Image", file: "mediakit_11.png", url: "http://nyu.com/wordpress/wp-content/uploads/2016/07/Senior-Front-End-Developer_V1.docx"},
     		{label: "Full Biography", file: "mediakit_12.png", url: "Pankaj Ghemawat bio.doc"},
     		{label: "Advance praise for World 3.0", file: "mediakit_13.png", url: "Advance Praise for World 3 0.pdf"}
     	];
@@ -30,7 +30,7 @@ angular.module('app').directive('nyuMediakit', function () {
 
     	$scope.downloadResource = function(){
     		if($scope.resourceSelected !== 'null'){
-    			$window.open("/localdata/mediakit/"+$scope.resourceSelected,"_blank");
+    			$window.open(/*"/localdata/mediakit/"+*/$scope.resourceSelected,"_blank");
     		}
     	};
 

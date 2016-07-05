@@ -3,8 +3,17 @@ angular.module('app').directive('nyuAbout', function () {
     restrict: 'E',
     templateUrl: '../app/components/about/about.html',
     controllerAs: 'nyuAbout',
-    controller: function ($scope, PopupService) {
+    controller: function ($scope, PopupService, DataService) {
     	$scope.collapsedText = true;
+
+        var slug = 'about';
+        $scope.content = '';
+        $scope.excerpt = '';
+        DataService.all('pages', '', '', false, '?slug='+slug).then(function(page){
+            console.log(page);
+            $scope.content = page[0].content;
+            $scope.excerpt = page[0].excerpt.rendered;
+        });
 
     	$scope.showSpeakerPopup = function(){
   			PopupService.openPopUp(true);

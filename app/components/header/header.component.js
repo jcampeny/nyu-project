@@ -109,7 +109,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		$scope.showSearch = function(toState){
 			if(toState == 'open'){
 				$('.search-input').animate({
-					height : '100%'
+					height : '190%'
 				}, 400, function(){
 					$('.input-container').animate({opacity : '1'}, 400);
 				});

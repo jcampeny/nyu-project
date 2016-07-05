@@ -24,7 +24,11 @@ angular.module('app').directive('nyuItem', function () {
         			$scope.related = response.data.results;
         		}
             });*/
-
+            DataService.getMedia('file').then(function(files){
+              angular.forEach(files, function(file, i){
+                console.log(file);
+              });
+            });
          DataService.all(dataFile, "all", 0, true).then(function(posts){
              var log = [];
              angular.forEach(posts, function(post, i){

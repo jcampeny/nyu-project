@@ -30,7 +30,8 @@
             customPosts : customPosts,
             getGlobalSearch : getGlobalSearch,
             postsToShow : postsToShow,
-            postsCountStart : postsCountStart
+            postsCountStart : postsCountStart,
+            getMedia : getMedia
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -353,7 +354,20 @@
             // function featuredPosts() {
             //     return getData('posts?filter[category_name]=post%2Bfeatured');
             // }
-
+            function getMedia(type){
+                var path = "/wordpress/wp-json/wp/v2/";
+                return $http.get(path + 'media').then(function(response){
+                    if (response.data instanceof Array) {
+                        var items = [];
+                        angular.forEach(response.data, function(item, i){
+                            if(item.media_type == 'file'){
+                                items.push(item);
+                            }
+                        });
+                        return items;
+                    } 
+                });
+            }
             function getById(type, id) {
                 return getData(type+'/' + id + '?_embed');
             }
