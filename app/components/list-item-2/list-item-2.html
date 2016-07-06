@@ -19,8 +19,8 @@
 			<a ui-sref="app.{{(entity && entity != 'search')?entity : type}}item({id:id,title:getTitleUrl()})" class="item-title show-desktop" ng-bind-html="title"></a>
 			<div class="item-subtitle show-desktop" ng-bind-html="subtitle"></div>
 			<div class="item-content" ng-bind-html="content"></div>
-			<a ng-if="mainctatext !== ''" class="cta cta-light-blue show-desktop-inline" ng-bind-html="mainctatext"></a>
-			<a ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="mainctatext2"></a>
+			<a href="{{mainctatext}}" target="_blank" ng-if="mainctatext !== ''" class="cta cta-light-blue show-desktop-inline" ng-bind-html="'Purchase'"></a>
+			<a ui-sref="app.{{(entity && entity != 'search')?entity : type}}item({id:id,title:getTitleUrl()})" ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="'Read More'"></a>
 		</div>
 	</div>
 </div> 
