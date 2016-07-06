@@ -27,17 +27,18 @@
 	}
 
 	input{
-		display:block;
+		display: block;
 		width: 100%;
 		height: 40px;
 		padding-left: 7px;
-		line-height:40px;
-		border:none;
+		line-height: 40px;
 		background-color: #FFFFFF;
 		border: 1px solid #222221;
 		font-style: italic;
-		font-style: 1.4rem;
+		font-size: 1.4rem;
 		font-weight: 300;
+		-webkit-appearance: none;
+		border-radius: 0;
 	}
 
 	.button-container{
