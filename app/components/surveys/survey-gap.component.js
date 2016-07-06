@@ -3,7 +3,7 @@ angular.module('app').directive('nyuGapsurvey', function () {
     restrict: 'E',
     templateUrl: '../app/components/surveys/survey-gap.html',
     controllerAs: 'nyuGapsurvey',
-    controller: function ($scope, $timeout) {
+    controller: function ($scope, $timeout, $http) {
     	$scope.page = "questions";
     	$scope.score = function(){
     		var s = 0;
@@ -150,6 +150,40 @@ angular.module('app').directive('nyuGapsurvey', function () {
     		q15: null
     	};
     	$scope.avg = [1.35, 1.1, 1.8, 1.2, 1.45, 1.8, 1.3, 0.85, 1.25,1.55,1.05,1.03,0.7,1.55,0.85];
+
+        $scope.surveyUserData = {
+            living: null,
+            born: null,
+            occupation: null,
+            age: null,
+            gender: null
+        };
+
+        $scope.countries = [];
+        $http.get("/localdata/content/countries.json").then(function(result){
+            $scope.countries = result.data;
+        });
+
+        $scope.occupations = [
+            {name :"Business / Private Sector", code: "BPS"},
+            {name :"Educator / Researcher", code: "EDR"},
+            {name :"Government / Non-profit / NGO", code: "GNP"},
+            {name :"Student", code: "STD"}
+        ];
+
+        $scope.ages = [
+            {name: "10 - 19", code: "10"},
+            {name: "20 - 29", code: "20"},
+            {name: "30 - 39", code: "30"},
+            {name: "40 - 49", code: "40"},
+            {name: "50 - 59", code: "50"},
+            {name: "60 - 69", code: "60"},
+            {name: "70 - 79", code: "70"}
+        ];
+        $scope.genders = [
+            {name: "Male", code: "M"},
+            {name: "Female", code: "F"}
+        ];
     }
   };
 });
