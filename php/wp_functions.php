@@ -1100,6 +1100,59 @@ function create_other_taxonomy() {
  *
  */
 
+add_action( 'init', 'create_header_media_taxonomy', 30 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_header_media_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Media Header', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Media Header', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Media Header' ),
+		'popular_items'              => __( 'Popular Media Header' ),
+		'all_items'                  => __( 'All Media Header' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Media Header' ),
+		'update_item'                => __( 'Update Media Header' ),
+		'add_new_item'               => __( 'Add New Media Header' ),
+		'new_item_name'              => __( 'New Media Header Name' ),
+		'separate_items_with_commas' => __( 'Separate Media Headers with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Media Headers' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Media Headers' ),
+		'not_found'                  => __( 'No Media Headers found.' ),
+		'menu_name'                  => __( 'Media Headers' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+		'show_in_menu' 			=> true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'header_media' ),
+	);
+	
+	register_taxonomy( 'header_media', "attachment", $args );
+}
+
+function sb_add_head_media_to_api() {
+    $mytax = get_taxonomy( 'header_media' );
+    $mytax->show_in_rest = true;
+}
+add_action( 'init', 'sb_add_head_media_to_api', 30 );
+/**
+ *
+ *
+ *Custom taxonomy TARGET AUDIENCE
+ *
+ *
+ */
+
 add_action( 'init', 'create_target_audience_taxonomy', 30 );
 
 // create taxonomy, genres and writers for the post type "book"
