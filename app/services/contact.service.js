@@ -14,9 +14,13 @@ angular.module('app')
                 });
         }
 
-        function sendFiles(email){
+        function sendFiles(email, zip){
+            var items = {
+                email : email,
+                zip : zip
+            };
             return $http
-                .post('/php/send-file.php', email)
+                .post('/php/send-file.php', items)
                 .then(function(response){
                     console.log(response);
                     return response.data;
