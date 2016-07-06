@@ -83,31 +83,31 @@
 					<form action="#" method="" class="col-sm-6">
 						<div class="form-item select-form-item">
 							<label>A. What country/territory do you live in?</label>
-							<select name="live">
+							<select name="living" ng-model="surveyUserData.living" ng-options="c.name as c.name for c in countries">
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
 						<div class="form-item select-form-item">
 							<label>B. What country/territory were you born in?</label>
-							<select name="born">
+							<select name="born" ng-model="surveyUserData.born" ng-options="c.name as c.name for c in countries">
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
 						<div class="form-item select-form-item">
 							<label>C. Which best describes your occupation?</label>
-							<select name="occupation">
+							<select name="occupation" ng-model="surveyUserData.occupation"  ng-options="o.name as o.name for o in occupations">
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
 						<div class="form-item select-form-item">
 							<label>D. How old are you?</label>
-							<select name="old">
+							<select name="old" ng-model="surveyUserData.age" ng-options="a.name as a.name for a in ages">
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
 						<div class="form-item select-form-item">
 							<label>E. What is your gender?</label>
-							<select name="gender">
+							<select name="gender" ng-model="surveyUserData.gender" ng-options="g.name as g.name for g in genders">
 								<option disabled selected value="">Please select...</option>
 							</select>
 						</div>
