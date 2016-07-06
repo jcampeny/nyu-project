@@ -26,7 +26,7 @@ angular.module('app').
                             img : homeItem._embedded['wp:featuredmedia'][0].source_url,
                             link : DataService.htmlToPlaintext(homeItem.excerpt.rendered),
                         };
-                        console.log($scope.featured);
+                        //console.log($scope.featured);
                     }
                 });
 

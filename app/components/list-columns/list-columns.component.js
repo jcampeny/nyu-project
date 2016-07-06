@@ -16,6 +16,31 @@ angular.module('app').directive('nyuListColumns', function () {
     	$scope.rightHeight = 0;
         $rootScope.change = 0;
         $scope.allPostsFound = 0;
+
+        $scope.picture = '';
+        $scope.picture = DataService.getMediaHeader($scope.entity);
+        $rootScope.$on('mediaLoaded', function(event, data) {
+            if(!$scope.picture){
+                $scope.picture = DataService.getMediaHeader($scope.entity);
+            }
+            fadeInTitle();
+        });
+        function fadeInTitle(){
+            if($scope.picture){
+                setTimeout(function(){
+                    $('.gradient').delay(400).animate({
+                        opacity : '1'
+                    },500);
+                    $('.line-title').delay(600).animate({
+                        opacity : '1',
+                        y : '20px'
+                    },500);    
+                },300);            
+            }
+        }
+        $rootScope.$on('$stateChangeSuccess',function(){fadeInTitle();});
+        fadeInTitle();
+        
     	//$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
         //    .then(function(response) {
         //		if(response.data.results.length > 0){

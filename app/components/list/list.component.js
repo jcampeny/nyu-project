@@ -19,7 +19,31 @@ angular.module('app').directive('nyuList', function () {
         if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
             dataFile = $scope.subentity;
         }
-
+        /*MEDIA CONTROLLER*/
+        $scope.picture = '';
+        $scope.picture = DataService.getMediaHeader($scope.entity);
+        $rootScope.$on('mediaLoaded', function(event, data) {
+            if(!$scope.picture){console.log('no deberia entrar');
+                $scope.picture = DataService.getMediaHeader($scope.entity);
+                fadeInTitle();
+            }
+        });
+        function fadeInTitle(){
+            if($scope.picture){
+                setTimeout(function(){
+                    $('.gradient').delay(400).animate({
+                        opacity : '1'
+                    },500);
+                    $('.line-title').delay(600).animate({
+                        opacity : '1',
+                        y : '20px'
+                    },500);    
+                },300);            
+            }
+        }
+        $rootScope.$on('$stateChangeSuccess',function(){fadeInTitle();});
+        fadeInTitle();
+        /*END MEDIA CONTROLLER*/
         $scope.allPostsFound = 0;
         $scope.items = [];
         $rootScope.change = 0;
@@ -57,7 +81,6 @@ angular.module('app').directive('nyuList', function () {
         };
 
 
-console.log($state);
 
     	//$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
         //    .then(function(response) {

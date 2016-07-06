@@ -1,5 +1,5 @@
 <div ng-if="hasTopImg()" class="list-top-img show-desktop">
-	<div class="bg-image" style="background-image:url('/assets/img/top_{{entity}}.png');" ></div>
+	<div class="bg-image" ng-style="{'background-image': 'url('+picture+')'}"></div>
 	<div class="gradient"></div>
 	<div class="margin-content">
 		<div class="line-title lt-huge lt-white" ng-bind-html="entityLabels[entity].name"></div>
