@@ -672,10 +672,13 @@ function metaBox_home() {
   global $post;
 	$custom        = get_post_custom($post->ID);
 	$home_favorite = $custom["home_favorite"][0];
+	$home_label = $custom["home_label"][0];
 
-	$metabox_container = $custom[$value[0]][0];
 
-    ?>
+    ?><br>
+    <label for="home_label"> Call to action Label</label>
+    <input type="text" id="home_label" name="home_label" value="<?php echo $home_label;?>"/><br><br>
+    
     <input type="checkbox" id="home_favorite" name="home_favorite" <?php checked( $check, 'on' ); if($home_favorite == 'on'){echo 'checked="checked"';}?>/>
     <label for="home_favorite"> Show in home page</label>
     <?php
@@ -683,6 +686,7 @@ function metaBox_home() {
 function save_details_home(){
   global $post;
   update_post_meta($post->ID, "home_favorite", $_POST["home_favorite"]);
+  update_post_meta($post->ID, "home_label", $_POST["home_label"]);
 }
 
 //send it with WP RESTAPI
@@ -698,7 +702,7 @@ add_action( 'init', 'wpsd_add_home', 30 );
 //send metabox
 function register_metabox_home_favorite(){
 	global $post;
-	$custom        = get_post_custom($post->ID);
+	$custom = get_post_custom($post->ID);
 
 	register_api_field( 'home', 'home_favorite' ,
 		array(
@@ -707,13 +711,29 @@ function register_metabox_home_favorite(){
 			'schema' => null
 			)
 		);
+};
+function register_metabox_home_label(){
+	global $post;
+	$custom = get_post_custom($post->ID);
 
+	register_api_field( 'home', 'home_label' ,
+		array(
+			'get_callback' => 'home_label_callback',
+			'update_callback' => null,
+			'schema' => null
+			)
+		);
 }
 function home_callback ($object, $field_name, $request){
 	$custom = get_post_custom($object->ID);
 	return $custom["home_favorite"][0];
 };
-add_action( 'rest_api_init', 'register_metabox_home_favorite' );	
+function home_label_callback ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["home_label"][0];
+};
+add_action( 'rest_api_init', 'register_metabox_home_favorite' );
+add_action( 'rest_api_init', 'register_metabox_home_label' );	
 /************************************************************************************/
 $custom_posts = array( //create metabox
 		'books',
