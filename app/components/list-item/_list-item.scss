@@ -30,9 +30,13 @@ nyu-list-item{
 
 	.item-content{
 		text-align: left;
-		font-weight: 300;
+		font-weight: 400;
 	    font-size: 1.7rem;
+		line-height: 2.9rem;
 
+		p{
+			margin-bottom: 25px;
+		}
 		
 		.item-author{
 			font-size:1.7rem;
@@ -47,19 +51,20 @@ nyu-list-item{
 			line-height: 2.6rem;
 			font-weight: 700;
 			color: #2D2E2D;
-			margin-bottom:10px;
+			margin-bottom:5px;
 		}
 		.item-subtitle{
-			font-size:1.8rem;
+			font-size:1.9rem;
 			line-height: 1.8rem;
-			font-weight: 400;
+			font-weight: 700;
 			color: #2D2E2D;
 			margin-bottom:10px;
 		}
 		.item-content-text{
 			font-size:1.7rem;
-			font-weight: 300;
+			font-weight: 400;
 			color: #2D2E2D;
+			line-height: 2.9rem;
 		}
 		.cta {
 			margin-top:25px;
@@ -84,16 +89,16 @@ nyu-list-item{
 
 			&.xls-link{
 				&:after{
-					width: 21px;
-					height: 25px;
+					width: 24px;
+					height: 28px;
 					background-image: url('/assets/img/link_xls.png');
 				}
 			}
 
 			&.ext-link{
 				&:after{
-					width: 23px;
-					height: 23px;
+					width: 26px;
+					height: 25px;
 					background-image: url('/assets/img/link_ext.png');
 				}
 			}
@@ -128,23 +133,23 @@ nyu-list-item{
 			font-size: 1.6rem;
 
 			.item-author{
-				margin-bottom:5px;
+				margin-bottom:10px;
 				font-size:1.6rem;
 				line-height: 1.6rem;
 			}
 			.item-title{
 				font-size: 2.4rem;
-				line-height: 3rem;
-				margin-bottom: 5px;
+				line-height: 2.7rem;
+				margin-bottom: 2px;
 			}
 			.item-subtitle{
-				font-size:1.6rem;
-				line-height: 1.8rem;
+				font-size:1.7rem;
+				line-height: 1.9rem;
 				font-weight: 700;
 			}
 			.item-content-text{
 				font-size:1.6rem;
-				font-weight: 300;
+				line-height: 2.7rem;
 			}
 			.cta {
 				margin-top: 15px;
@@ -205,6 +210,10 @@ nyu-list-item{
 		.item-image{
 			margin-bottom: 15px;
 			padding: 0 5px;
+		}
+
+		@media only screen and (max-width: $break-mobile) {
+			border-bottom:none;
 		}
 
 	}

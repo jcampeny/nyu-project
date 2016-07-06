@@ -24,6 +24,12 @@
 			}
 		}
 
+		.mobile-social {
+			.btn-caption{
+				margin-top: 8px;
+			}
+		}
+
 		.publicationType{
 			font-weight: 700;
 		}
@@ -134,8 +140,13 @@
 		.item-content-text{
 			margin-bottom: 35px;
 			text-align: left;
-    		font-weight: 300;
+    		font-weight: 400;
     		font-size: 1.7rem;
+    		line-height: 2.9rem;
+
+    		p{
+				margin-bottom: 25px;
+			}
 		}
 
 		.link-dark-blue{
@@ -183,7 +194,7 @@
 			}
 			.item-content-text{
 				font-size:1.6rem;
-				font-weight: 300;
+				line-height: 2.7rem;
 			}
 			.cta {
 				margin-top: 15px;
@@ -222,13 +233,19 @@
 			margin:12px 0 15px 0;
 		}
 	}
+
+	&.books-item{
+		.main-item-content{
+			padding-bottom: 90px;
+		}
+	}
 }
 
 .item-info{
 	margin-bottom: 25px;
-	font-size:1.6rem;
-	line-height: 1.8rem;
-	color:#6F6F6E;
+	font-size:1.5rem;
+	line-height: 2rem;
+	color:#9C9B9B;
 	font-weight: 300;
 
 	.publicationType{
@@ -255,7 +272,7 @@
 	@media only screen and (max-width: $break-mobile) {
 		margin-bottom: 15px;
 		font-size:1.3rem;
-		line-height: 1.7rem;
+		line-height: 1.9rem;
 		font-weight: 300;
 
 		span{

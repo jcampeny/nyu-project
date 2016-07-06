@@ -56,7 +56,7 @@
 				</div> 
 				<div ng-if="item.picture !== ''" class="item-image" ng-class="{'item-image-books':entity==='books'}">
 					<img ng-src="{{item.picture}}" />	
-					<a ng-if="item.mainctatext !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
+					<a href="{{item.main_cta}}" target="_blank" ng-if="item.main_cta !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
 				</div>
 				<div class="item-audio col-sm-12" ng-if="entity == 'podcasts'">
 					<a href="#" class="button" ng-click="toggleAudio()">

@@ -154,6 +154,14 @@
 	&.home-blue {
 		background-color: #004182;
 
+		.blue-title{
+			margin: 20px 0;
+			font-weight: 700;
+			text-transform:uppercase;
+			color:#2E80FF;
+			text-align:center;
+		}
+
 		.subsection-content{
 			color:#FFFFFF;
 		}
@@ -178,6 +186,13 @@
 .home-list-item{
 	margin-bottom: 0 !important;
 	overflow: hidden;
+
+	@media only screen and (max-width: $break-mobile) {
+		.item-image{
+			margin-top: 0 !important;
+			padding-right:0;
+		}
+	}
 }
 
 /*****SLIDE*****/

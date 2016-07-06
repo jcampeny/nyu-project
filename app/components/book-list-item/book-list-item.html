@@ -10,7 +10,7 @@
 		<a ui-sref="app.booksitem({id: item.id,title: item.title})" ng-if="title !==''" class="item-title" ng-bind-html="item.title"></a>
 		<div class="item-subtitle" ng-bind-html="item.subtitle"></div>
 		<div class="item-content" ng-bind-html="item.content_short"></div>
-		<a ng-if="item.mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="'Purchase'"></a>
+		<a href="{{item.main_cta}}" ng-if="item.main_cta !== ''" target="_blank"  class="cta cta-light-blue cat-2" ng-bind-html="'Purchase'"></a>
 		<a ui-sref="app.booksitem({id: item.id,title: item.title})" class="cta cta-light-blue show-desktop-inline">read more</a>
 		
 	</div>
