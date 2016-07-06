@@ -672,10 +672,13 @@ function metaBox_home() {
   global $post;
 	$custom        = get_post_custom($post->ID);
 	$home_favorite = $custom["home_favorite"][0];
+	$home_label = $custom["home_label"][0];
 
-	$metabox_container = $custom[$value[0]][0];
 
-    ?>
+    ?><br>
+    <label for="home_label"> Call to action Label</label>
+    <input type="text" id="home_label" name="home_label" value="<?php echo $home_label;?>"/><br><br>
+    
     <input type="checkbox" id="home_favorite" name="home_favorite" <?php checked( $check, 'on' ); if($home_favorite == 'on'){echo 'checked="checked"';}?>/>
     <label for="home_favorite"> Show in home page</label>
     <?php
@@ -683,6 +686,7 @@ function metaBox_home() {
 function save_details_home(){
   global $post;
   update_post_meta($post->ID, "home_favorite", $_POST["home_favorite"]);
+  update_post_meta($post->ID, "home_label", $_POST["home_label"]);
 }
 
 //send it with WP RESTAPI
@@ -698,7 +702,7 @@ add_action( 'init', 'wpsd_add_home', 30 );
 //send metabox
 function register_metabox_home_favorite(){
 	global $post;
-	$custom        = get_post_custom($post->ID);
+	$custom = get_post_custom($post->ID);
 
 	register_api_field( 'home', 'home_favorite' ,
 		array(
@@ -707,13 +711,29 @@ function register_metabox_home_favorite(){
 			'schema' => null
 			)
 		);
+};
+function register_metabox_home_label(){
+	global $post;
+	$custom = get_post_custom($post->ID);
 
+	register_api_field( 'home', 'home_label' ,
+		array(
+			'get_callback' => 'home_label_callback',
+			'update_callback' => null,
+			'schema' => null
+			)
+		);
 }
 function home_callback ($object, $field_name, $request){
 	$custom = get_post_custom($object->ID);
 	return $custom["home_favorite"][0];
 };
-add_action( 'rest_api_init', 'register_metabox_home_favorite' );	
+function home_label_callback ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["home_label"][0];
+};
+add_action( 'rest_api_init', 'register_metabox_home_favorite' );
+add_action( 'rest_api_init', 'register_metabox_home_label' );	
 /************************************************************************************/
 $custom_posts = array( //create metabox
 		'books',
@@ -1092,6 +1112,59 @@ function create_other_taxonomy() {
 	register_taxonomy( 'other', $custom_posts, $args );
 }
 */
+/**
+ *
+ *
+ *Custom taxonomy TARGET AUDIENCE
+ *
+ *
+ */
+
+add_action( 'init', 'create_header_media_taxonomy', 30 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_header_media_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Media Header', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Media Header', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Media Header' ),
+		'popular_items'              => __( 'Popular Media Header' ),
+		'all_items'                  => __( 'All Media Header' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Media Header' ),
+		'update_item'                => __( 'Update Media Header' ),
+		'add_new_item'               => __( 'Add New Media Header' ),
+		'new_item_name'              => __( 'New Media Header Name' ),
+		'separate_items_with_commas' => __( 'Separate Media Headers with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Media Headers' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Media Headers' ),
+		'not_found'                  => __( 'No Media Headers found.' ),
+		'menu_name'                  => __( 'Media Headers' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+		'show_in_menu' 			=> true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'header_media' ),
+	);
+	
+	register_taxonomy( 'header_media', "attachment", $args );
+}
+
+function sb_add_head_media_to_api() {
+    $mytax = get_taxonomy( 'header_media' );
+    $mytax->show_in_rest = true;
+}
+add_action( 'init', 'sb_add_head_media_to_api', 30 );
 /**
  *
  *

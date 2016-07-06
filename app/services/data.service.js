@@ -9,12 +9,18 @@
  */
  angular
     .module('app')
-    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', function($http, $sce/*, config*/, $state, $q){
+    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', '$rootScope', function($http, $sce/*, config*/, $state, $q, $rootScope){
         var posts = [];
         var filters = [];
         var globalSearch = "";
         var postsCountStart = 5;
         var customPosts = ['books','global','articles','working','blog','videos','podcasts','press','mediakit','globecases','globedocuments','globereadings','globenotes','globepresentations','cases','notes','other'];
+        var mediaDB = {
+            mediakit : [],
+            header : [],
+            others : [],
+            all : []
+        };
         return {
             all     : all,
             allCustomPosts : allCustomPosts,
@@ -31,8 +37,9 @@
             getGlobalSearch : getGlobalSearch,
             postsToShow : postsToShow,
             postsCountStart : postsCountStart,
-            getMedia : getMedia,
-            htmlToPlaintext : htmlToPlaintext
+            downloadMedia : downloadMedia,
+            htmlToPlaintext : htmlToPlaintext,
+            getMediaHeader : getMediaHeader
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -355,26 +362,85 @@
             // function featuredPosts() {
             //     return getData('posts?filter[category_name]=post%2Bfeatured');
             // }
-            function getMedia(type){
-                var path = "/wordpress/wp-json/wp/v2/";
-                return $http.get(path + 'media').then(function(response){
-                    if (response.data instanceof Array) {
-                        var items = [];
-                        angular.forEach(response.data, function(item, i){
-                            if(item.media_type == 'file'){
-                                items.push(item);
-                            }
-                        });
-                        return items;
-                    } 
+            function getMediaHeader(entity){
+                var imgFound;
+                angular.forEach(mediaDB.header, function(img){
+                    if (img.location == entity) imgFound = img.source_url;
                 });
+                return imgFound;
             }
+            function downloadMedia(){
+                var path = "/wordpress/wp-json/wp/v2/";
+                var pageController = {
+                    page : 1,
+                    items : 0,
+                    per_page : 100
+                };
+                var mediaLoadeds = [];
+                /* var mediaDB = {
+                    mediakit : [],
+                    header : [],
+                    others : [],
+                    all : []
+                };*/ 
+                getPage();
+
+                function getPage(){
+                    $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page)
+                        .then(function(response){
+                            angular.forEach(response.data, function(item, i){
+                                mediaDB.all.push(item);
+                                pageController.items++;
+                                switch (getTypeMedia(item)){
+                                    case 'mediakit':
+                                        mediaDB.mediakit.push(item);
+                                        break;
+                                    case 'header':
+                                        var image = new Image();
+                                        image.src = item.source_url;
+
+                                        item.location = item.pure_taxonomies.header_media[0].slug;
+                                        mediaDB.header.push(item);
+                                        break;
+                                    default :
+                                        mediaDB.others.push(item);
+                                }
+                            });
+
+                            pageController.page++;
+                            if(pageController.items == pageController.per_page){
+                                pageController.items = 0;
+                                getPage();
+                            }else{
+                                $rootScope.$broadcast('mediaLoaded', {
+                                    state : mediaDB
+                                }); 
+                            }
+                    });
+                }
+
+                function getTypeMedia(item){
+                    var type = 'other';
+                    if(typeof item == 'object' && typeof item.pure_taxonomies== 'object'){
+                        if(item.pure_taxonomies.header_media){
+                            //item.pure_taxonomies.header_media[0].slug;
+                            type = 'header';
+                        }
+                        if(item.pure_taxonomies.media_folder){
+                            //item.pure_taxonomies.media_folder[0].slug;
+                            type = 'mediakit';
+                        }
+                    }
+                    return type;
+                }
+            }
+
             function getById(type, id) {
                 return getData(type+'/' + id + '?_embed');
             }
 
             function getData(url, decorateCustom) {
-                var path = "/wordpress/wp-json/wp/v2/";
+                var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
                 return $http
                     .get(path + url, { cache: true })
                     .then(function(response) {
