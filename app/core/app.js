@@ -16,8 +16,18 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				if($rootScope.mobileShowFilters){
 					$timeout(function(){
 						$rootScope.mobileFiltersLeft = '200%';
+						$('.mobile-filter').animate({
+							opacity: '0',
+							top: '25%',
+							'z-index' : '-100'
+						},400);
 					},500);	
 				}else{
+					$('.mobile-filter').animate({
+						opacity: '1',
+						top: '0%',
+						'z-index' : '100'
+					},400);
 					$rootScope.mobileFiltersLeft = '0';
 				}
 				$rootScope.mobileShowFilters = !$rootScope.mobileShowFilters;

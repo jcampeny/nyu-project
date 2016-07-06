@@ -610,6 +610,19 @@ span.highlight-class{
 	display:none !important;
 	@media only screen and (max-width: $break-mobile) {
 		display:block !important;
+		&.mobile-filter{
+			opacity: 0;
+			position: fixed;
+		    overflow: auto;
+		    width: 100vw;
+		    height: 100%;
+		    z-index: -100;
+		    top: 25%;
+		    left: 0px;
+		}
+		.close-popup{
+			@include cross(1);
+		}	
 	}
 }
 .show-mobile-inline{
