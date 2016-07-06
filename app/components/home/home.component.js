@@ -15,16 +15,18 @@ angular.module('app').
                 content : '',
                 img : '',
                 link : '',
+                label : ''
             };
             DataService.all('home', '', '', false, '?_embed').then(function(homePages){
                 angular.forEach(homePages, function(homeItem, i){
                     if(homeItem.home_favorite == 'on'){
-                        
+                        console.log(homeItem);
                         $scope.featured = {
                             title : homeItem.title,
                             content : homeItem.content,
                             img : homeItem._embedded['wp:featuredmedia'][0].source_url,
                             link : DataService.htmlToPlaintext(homeItem.excerpt.rendered),
+                            label : homeItem.home_label
                         };
                         //console.log($scope.featured);
                     }
