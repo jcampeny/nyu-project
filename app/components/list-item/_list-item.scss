@@ -212,6 +212,10 @@ nyu-list-item{
 			padding: 0 5px;
 		}
 
+		@media only screen and (max-width: $break-mobile) {
+			border-bottom:none;
+		}
+
 	}
 }
 
