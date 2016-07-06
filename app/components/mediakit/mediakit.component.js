@@ -39,7 +39,11 @@ angular.module('app').directive('nyuMediakit', function () {
         }
 
     	$scope.selectResource = function(r){
-    		$scope.resourceSelected = r;
+            if($scope.resourceSelected == r){
+                $scope.resourceSelected = '';
+            }else{
+                $scope.resourceSelected = r;
+            }
     	};
 
     	$scope.downloadResource = function(){

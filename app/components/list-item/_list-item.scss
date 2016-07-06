@@ -11,7 +11,7 @@ nyu-list-item{
 
 			img {
 				display: block;
-				max-width: 100%;
+				width: 100%;
 				cursor:pointer;
 			}
 		}
@@ -36,6 +36,10 @@ nyu-list-item{
 
 		p{
 			margin-bottom: 25px;
+
+			a{
+				color:#0983FD;
+			}
 		}
 		
 		.item-author{
