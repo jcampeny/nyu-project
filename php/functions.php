@@ -783,7 +783,7 @@ $metabox_list = array( // metaboxs list
 		array("content_short"	  , "Content short: "	      , 'editor'),
 		array("content_metabox"   , "Content: "               , 'editor'),
 		array("publication_type"   , "Publication Type: "      , 'select',
-			array("BOOKS", "GLOBALIZATION INDEX REPORTS", "ARTICLES", "BOOK CHAPTERS", "WORKING PAPERS", "BLOG POST", "VIDEOS", "PODCASTS", "PRESS", "GLOBE DOCUMENTS","GLOBE READINGS", "GLOBE CASES", "GLOBE NOTES", "GLOBE PRESENTATIONS", "CASES & TEACHING NOTES", "GLOBALIZATION NOTES", "OTHER TEACHING MATERIALS")),
+			array("BOOKS", "GLOBALIZATION INDEX REPORTS", "ARTICLES", "BOOK CHAPTERS", "WORKING PAPERS", "BLOG POST", "VIDEOS", "PODCASTS", "PRESS", "GLOBE DOCUMENTS","GLOBE READINGS", "GLOBE CASES", "GLOBE NOTES", "GLOBE PRESENTATIONS", "CASES", "GLOBALIZATION NOTES", "OTHER TEACHING MATERIALS")),
 		array("publication"       , "Publication: "           ),
 		array("publisher"         , "Publisher: "             ),
 		array("date_metabox"      , "Date: "                  ),
