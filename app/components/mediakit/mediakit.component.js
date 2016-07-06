@@ -3,27 +3,41 @@ angular.module('app').directive('nyuMediakit', function () {
     restrict: 'E',
     templateUrl: '../app/components/mediakit/mediakit.html',
     controllerAs: 'nyuMediakit',
-    controller: function ($scope, $window, EntitiesService, ContactService) {
+    controller: function ($scope, $window, EntitiesService, ContactService, DataService, $rootScope) {
     	$scope.resourceSelected = "null";
     	$scope.entity = "mediakit";
         $scope.sendMedia = 'SEND';
         var sending = false;
-    	$scope.resources = [
-    		{label: "1", file: "mediakit_1.png", url: "1.jpg"},
-    		{label: "2", file: "mediakit_2.png", url: "2.jpg"},
-    		{label: "3", file: "mediakit_3.png", url: "3.jpg"},
-    		{label: "4", file: "mediakit_4.png", url: "4.jpg"},
-    		{label: "5", file: "mediakit_5.png", url: "5.jpg"},
-    		{label: "6", file: "mediakit_6.png", url: "6.jpg"},
-    		{label: "7", file: "mediakit_7.png", url: "7.jpg"},
-    		{label: "8", file: "mediakit_8.png", url: "8.jpg"},
-    		{label: "9", file: "mediakit_9.png", url: "9.jpg"},
-    		{label: "10", file: "mediakit_10.png", url: "10.jpg"},
-    		{label: "World 3.0 Cover Image", file: "mediakit_11.png", url: "http://nyu.com/wordpress/wp-content/uploads/2016/07/Senior-Front-End-Developer_V1.docx"},
-    		{label: "Full Biography", file: "mediakit_12.png", url: "Pankaj Ghemawat bio.doc"},
-    		{label: "Advance praise for World 3.0", file: "mediakit_13.png", url: "Advance Praise for World 3 0.pdf"}
-    	];
-    	
+        var files = DataService.getMediaKit();
+        $scope.zipFile = '';
+        $rootScope.$on('mediaLoaded', function(event, data) {
+            if(!files) $scope.picture = DataService.getMediaHeader($scope.entity);
+            createResources();        
+        });
+    	$scope.resources = [];
+    	function createResources(){
+            angular.forEach(files, function(file){
+                var resource = {
+                    label : file.caption,
+                    file : getTypeResource(file),
+                    url : file.source_url
+                };
+                if(file.mime_type == 'application/zip'){
+                    $scope.zipFile = file.source_url;
+                }
+                $scope.resources.push(resource);
+            });
+            function getTypeResource(file){
+                if(file.mime_type == 'application/pdf'){return '/assets/img/pdf.png';}else
+                if(file.mime_type == 'application/zip'){return '/assets/img/zip.png';}else
+                if(file.mime_type.indexOf('video') > -1){return '/assets/img/vid.png';}else
+                if(file.mime_type.indexOf('word') > -1){return '/assets/img/doc.png';}else
+                if(file.mime_type.indexOf('sheet') > -1){return '/assets/img/exe.png';}else{
+                    return file.source_url;
+                }
+            } 
+        }
+
     	$scope.selectResource = function(r){
     		$scope.resourceSelected = r;
     	};
@@ -47,7 +61,7 @@ angular.module('app').directive('nyuMediakit', function () {
             $scope.sendMedia = 'SENDING...';
             if(!sending && email !== ''){
                 sending = true;
-                ContactService.sendFiles(email).then(function(response){
+                ContactService.sendFiles(email, $scope.zipFile).then(function(response){
                     if(response > 0){//todo
                         $('#file-email').fadeOut(1000);
                         $('.button-container').fadeOut(1000);

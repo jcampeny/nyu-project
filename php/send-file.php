@@ -2,10 +2,10 @@
 
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
-//$to = $request; 
-$to = 'jordicampeny12@gmail.com'; 
+$to = $request->email; 
+//$to = 'jordicampeny12@gmail.com'; 
 $subject = "Contact Web";
-$message = 'test:'.$_SERVER['SERVER_NAME'].'/localdata/mediakit/MediaKit.zip';
+$message = 'MediaKit.zip: '.$request->zip;
 $headers = "From: Pankaj Ghemawat\r\n";
 
 if(mail($to, $subject, $message, $headers)) {

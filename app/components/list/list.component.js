@@ -23,7 +23,7 @@ angular.module('app').directive('nyuList', function () {
         $scope.picture = '';
         $scope.picture = DataService.getMediaHeader($scope.entity);
         $rootScope.$on('mediaLoaded', function(event, data) {
-            if(!$scope.picture){console.log('no deberia entrar');
+            if(!$scope.picture){
                 $scope.picture = DataService.getMediaHeader($scope.entity);
                 fadeInTitle();
             }

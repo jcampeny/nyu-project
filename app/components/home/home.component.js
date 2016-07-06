@@ -20,7 +20,6 @@ angular.module('app').
             DataService.all('home', '', '', false, '?_embed').then(function(homePages){
                 angular.forEach(homePages, function(homeItem, i){
                     if(homeItem.home_favorite == 'on'){
-                        console.log(homeItem);
                         $scope.featured = {
                             title : homeItem.title,
                             content : homeItem.content,

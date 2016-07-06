@@ -39,7 +39,8 @@
             postsCountStart : postsCountStart,
             downloadMedia : downloadMedia,
             htmlToPlaintext : htmlToPlaintext,
-            getMediaHeader : getMediaHeader
+            getMediaHeader : getMediaHeader,
+            getMediaKit : getMediaKit
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -368,6 +369,9 @@
                     if (img.location == entity) imgFound = img.source_url;
                 });
                 return imgFound;
+            }
+            function getMediaKit(){
+                return mediaDB.mediakit;
             }
             function downloadMedia(){
                 var path = "/wordpress/wp-json/wp/v2/";
