@@ -793,8 +793,8 @@ $metabox_list = array( // metaboxs list
 		array("main_cta_2"        , "Main call to action 2: " ),
 		array("other_cta"         , "Other call to action: "  ),
 		array("ext_link"          , "Ext link: "              ),
-		array("pdf_link"          , "Pdf link: "              ),
-		array("xls_link"          , "Xls link: "              ),
+		/*array("pdf_link"          , "Pdf link: "              ),
+		array("xls_link"          , "Xls link: "              ),*/
 		array("audio"             , "Audio: "                 ),
 		array("share"             , "Share: "                 , 'checkbox')
 	);

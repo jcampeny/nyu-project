@@ -21,6 +21,7 @@
             others : [],
             all : []
         };
+        var path = "/wordpress/wp-json/wp/v2/";
         return {
             all     : all,
             allCustomPosts : allCustomPosts,
@@ -40,7 +41,8 @@
             downloadMedia : downloadMedia,
             htmlToPlaintext : htmlToPlaintext,
             getMediaHeader : getMediaHeader,
-            getMediaKit : getMediaKit
+            getMediaKit : getMediaKit,
+            getPdfXls : getPdfXls
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -374,7 +376,6 @@
                 return mediaDB.mediakit;
             }
             function downloadMedia(){
-                var path = "/wordpress/wp-json/wp/v2/";
                 var pageController = {
                     page : 1,
                     items : 0,
@@ -444,7 +445,6 @@
             }
 
             function getData(url, decorateCustom) {
-                var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
                 return $http
                     .get(path + url, { cache: true })
                     .then(function(response) {
@@ -523,8 +523,8 @@
                     main_cta_2      : result.main_cta_2,
                     other_cta       : result.other_cta ,
                     ext_link        : result.ext_link  ,
-                    pdf_link        : result.pdf_link  ,
-                    xls_link        : result.xls_link  ,
+                    pdf_link        : '',//
+                    xls_link        : '',//
                     picture         : (result.image) ? result.image : '',
                     audio           : result.audio     ,
                     share           : (result.share === 'on') ? true : false,
@@ -545,7 +545,24 @@
                         picture : (result.image) ? result.image : ''
                     };
                 }
-                return item;
+
+                return item;      
+
+            }                
+            function getPdfXls(item){
+                return $http.get(path + 'media?parent=' + item.id)
+                    .then(function(response){
+                        if(response.data.length > 0){
+                            angular.forEach(response.data, function(attach){
+                                if(attach.mime_type == "application/pdf") item.pdf_link= attach.source_url;
+
+                                if(attach.mime_type.indexOf("sheet") > -1) item.xls_link= attach.source_url;
+
+                            });
+                        }
+
+                        return item;
+                    });
             }
             function htmlToPlaintext(text){
 

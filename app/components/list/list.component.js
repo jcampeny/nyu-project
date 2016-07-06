@@ -51,7 +51,16 @@ angular.module('app').directive('nyuList', function () {
 
         DataService.all(dataFile, "all", 0, true).then(function(posts){
             $scope.allPostsFound = posts.length;
-            DataService.setPosts(posts, $state.current.url);
+            angular.forEach(posts, function(postItem, i){
+                DataService.getPdfXls(postItem).then(function(item){
+                    if(i == posts.length-1){
+                        DataService.setPosts(posts, $state.current.url);
+                    }
+                });
+            });
+            
+            
+            
         });
 
         $rootScope.$watch('change',
