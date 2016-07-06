@@ -21,6 +21,7 @@
             others : [],
             all : []
         };
+        var path = "/wordpress/wp-json/wp/v2/";
         return {
             all     : all,
             allCustomPosts : allCustomPosts,
@@ -375,7 +376,6 @@
                 return mediaDB.mediakit;
             }
             function downloadMedia(){
-                var path = "/wordpress/wp-json/wp/v2/";
                 var pageController = {
                     page : 1,
                     items : 0,
@@ -445,7 +445,6 @@
             }
 
             function getData(url, decorateCustom) {
-                var path = "/wordpress/wp-json/wp/v2/";
                 return $http
                     .get(path + url, { cache: true })
                     .then(function(response) {
@@ -551,7 +550,6 @@
 
             }                
             function getPdfXls(item){
-                var path = "/wordpress/wp-json/wp/v2/";
                 return $http.get(path + 'media?parent=' + item.id)
                     .then(function(response){
                         if(response.data.length > 0){
