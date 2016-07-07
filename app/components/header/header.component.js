@@ -125,6 +125,9 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		};
     },
     link: function (s,e,a){
+    	$rootScope.$on('backTop', function(event, data){
+    		s.hideOnScroll = false;
+    	});
     	$document.bind('touchmove', function(element){
     		var dir = scrollService.getDirectionOnTouchMove(element);
     		s.hideOnScroll = (dir == "down") ? true : false;
