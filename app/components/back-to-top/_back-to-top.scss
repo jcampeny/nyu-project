@@ -1,0 +1,19 @@
+ng-back-to-top{
+	$grey : #B1B1B1;
+	display: block;
+	position: absolute;
+	width: 44px;
+	height: 44px;
+	background-color: $grey;
+	top: -100px;
+	cursor: pointer;
+	&.left{
+		left: 10%;
+	}
+	&.right{
+		right: 10%;
+	}
+	&.hide{
+		display: none !important;
+	}
+}
