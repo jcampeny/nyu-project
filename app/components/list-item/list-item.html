@@ -22,9 +22,24 @@
 	</div>
 	<div class="row">
 		<div class="item-audio col-sm-12" ng-if="entity == 'podcasts'">
-			<a href="#" class="button" ng-click="toggleAudio()">
-				<span class="play" ng-show="!audioPlaying"></span>
-				<span class="pause" ng-show="audioPlaying"></span>
+			<a href="#" class="button" ng-click="toggleAudio('animation-'+id)">
+				<!--<span class="play" ng-show="!audioPlaying"></span>
+				<span class="pause" ng-show="audioPlaying"></span>-->
+				<!--<div class="control" ng-class="{'pause' : !audioPlaying, 'play' : audioPlaying}">
+				  <span class="left"></span><span class="right"></span>
+				</div>-->
+				<!--<div class="control">
+				  <span class="play-icon" ng-class="{'pause' : !audioPlaying}"></span>
+				</div>-->
+				<svg x="0px" y="0px" width="65px" height="63px" viewBox="0 0 65 63" enable-background="new 0 0 65 63" xml:space="preserve">
+					<path fill="#FFFFFF" stroke="#FFFFFF" stroke-miterlimit="10" d="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26">
+						<animate id="animation-{{id}}" 
+							begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" 
+							from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" 
+							to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" 
+							dur="0.2s" keySplines=".4 0 1 1" repeatCount="1"></animate>
+					</path>
+				</svg>
 			</a><div class="play-bar">
 				<div class="play-bar-range"></div>
 				<div class="time-played">1:44</div>
