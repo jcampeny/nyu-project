@@ -275,10 +275,44 @@ nyu-list-item{
 		    left: 6%;
 		    width: 87%;
 			height:50%;
-			background-image: url('/assets/img/audio-playbar-gray.png');
-			background-repeat: repeat-x;
+			//background-image: url('/assets/img/audio-playbar-gray.png');
+			//background-repeat: repeat-x;
 			@include transform(translate(0,-50%));
-
+			div.bar{
+				height: 100%;
+				background-repeat: no-repeat;
+				position: absolute;
+				background-color: white;
+				//background-size: 100% auto;
+				//background-position: 0px 50%;
+			}
+			div.hide-bar{
+				position: absolute;
+				height: 100%;
+				background-repeat: no-repeat;
+			}
+			.total-bar{
+				width: 100%;
+				background-image: url('/assets/img/Sound_Grey.png');
+				.hide-bar{
+					left: 0;
+					width: 0%;
+					background-color: white;
+				}
+			}
+			.actual-bar{
+				overflow:hidden;
+				width: 0%;
+				.hide-bar{
+					right: 0;
+					width: 100%;
+					background-image: url('/assets/img/Sound_Blue.png');
+					background-repeat: no-repeat;
+					//background-size: 100% auto;
+					//background-position: 0px 50%;
+				}
+			}
+/*
 			&:before{
 				content:"";
 				position:absolute;
@@ -300,7 +334,7 @@ nyu-list-item{
 				border-bottom: 1px solid #616362;
 
 			}
-			
+*/			
 
 		}
 	}

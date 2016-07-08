@@ -19,6 +19,7 @@
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
 				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"
+						item="{{i}}"
 						id="{{i.id}}"
 						entity="{{entity}}" 
 						subentity="{{subentity}}"
