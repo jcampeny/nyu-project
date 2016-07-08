@@ -12,6 +12,11 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
     		$scope.toggleCollapsed(stateCurrent);
     		$('[ui-sref="'+fromState.name+'"]').removeClass('active');
     		$('[ui-sref="'+toState.name+'"]').addClass('active');
+    		
+    		if(toState.url != 'search'){
+    			$scope.showSearch('close');    			
+    		}
+
     	});
     	$('[ui-sref="'+$rootScope.currentState+'"]').addClass('active');
 	    $scope.openRequest = function(){
