@@ -8,12 +8,17 @@ ng-back-to-top{
 	top: -100px;
 	cursor: pointer;
 	&.left{
-		left: 10%;
+		left: 25px;
 	}
 	&.right{
-		right: 10%;
+		right: 25px;
 	}
 	&.hide{
 		display: none !important;
+	}
+
+	@media only screen and (max-width: $break-mobile) {
+		left: 50%;
+		margin-left: -22px;
 	}
 }
