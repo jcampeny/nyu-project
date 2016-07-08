@@ -94,11 +94,12 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
     	$rootScope.$on('openPopUp', function(event, data) {
     	    if(data.state){
     	    	$(e).addClass('show-pop-up');
-    	    	$('body')
-    	    		.addClass('overflow')
-    	    		.delay(400)
-    	    		.find('#main-content > *:first-child')
-    	    		.css({display : 'none'});
+    	    	$('body').addClass('overflow');
+    	    	setTimeout(function(){
+    	    		$('body')
+    	    			.find('#main-content > *:first-child')
+    	    			.css({display : 'none'});
+    	    	},400);
     	    }else{
     	    	$(e).removeClass('show-pop-up');
     	    	$('body')
