@@ -10,7 +10,6 @@ angular.module('app').directive('nyuAbout', function () {
         $scope.content = '';
         $scope.excerpt = '';
         DataService.all('pages', '', '', false, '?slug='+slug).then(function(page){
-            console.log(page);
             $scope.content = page[0].content;
             $scope.excerpt = page[0].excerpt.rendered;
         });
