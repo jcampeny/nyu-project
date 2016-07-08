@@ -6,9 +6,10 @@ angular.module('app').directive('nyuFilter', function () {
     scope: {
     	entity: '@'
     },
-    controller: function ($scope, $rootScope, $filter, $q, EntitiesService, DataService, $state) {
+    controller: function ($scope, $rootScope, $filter, $q, EntitiesService, DataService, $state, deviceDetector) {
     	$scope.root = $rootScope;
     	$scope.entitiesService = EntitiesService;
+        $scope.totalPosts = 0;
     	//$scope.filterData = {}; //getfilternormla
 
         /**/
@@ -26,14 +27,18 @@ angular.module('app').directive('nyuFilter', function () {
         }
         /**/
         $scope.searchIt = function(){
-        	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam nobis sapiente, sint ad. Dolorum nisi earum voluptate incidunt, excepturi neque iusto dolores inventore, officia esse. Ducimus quae voluptas sit itaque!';
-
             //DataService.searchOnPosts($scope.filterData);
             $rootScope.change++;//possible comment
             $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
 
         };
-        
+
+        $scope.searchBefore = function(){
+            return $scope.itemsFound <  $scope.totalPosts || !deviceDetector.isMobile();
+        };
+        $scope.isMobile = function(){
+            return deviceDetector.isMobile();
+        };
 		$scope.filterData = {
     		targetAudience: [],
     		topic: [],
@@ -130,7 +135,11 @@ angular.module('app').directive('nyuFilter', function () {
                 $scope.filterData.text = ($state.current.url == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
-                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+                var lengthPosts = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+                if(DataService.getPostsFiltered($scope.filterData)) {
+                    $scope.totalPosts = (lengthPosts > $scope.totalPosts) ? lengthPosts : $scope.totalPosts; 
+                }
+                $scope.itemsFound = lengthPosts;
             });
 
     	$scope.dataSRC = {
