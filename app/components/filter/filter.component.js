@@ -139,7 +139,7 @@ angular.module('app').directive('nyuFilter', function () {
                 if(DataService.getPostsFiltered($scope.filterData)) {
                     $scope.totalPosts = (lengthPosts > $scope.totalPosts) ? lengthPosts : $scope.totalPosts; 
                 }
-                $scope.itemsFound = lengthPosts;
+                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
             });
 
     	$scope.dataSRC = {

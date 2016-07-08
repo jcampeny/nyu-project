@@ -17,7 +17,15 @@
 		top: 0;
     	right: 80px;
 		text-align: right;
-
+		.label-group:hover {
+			.btn-icon{
+				border-color:#05427F;
+				background-color:#FFFFFF;
+				.fa{
+					color: #05427F;
+				}
+			}
+		}
 		.buttons-group {
 			display:inline-block;
 			margin-left: 30px;
