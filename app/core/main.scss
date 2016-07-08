@@ -577,11 +577,10 @@ span.highlight-class{
 	background-color: #6BB5FE;
 }
 .load-more-button{
-	background-color: #0080FF;
+	background-color: #6BB5FE;
 	color: #FFFFFF;
-	margin: 50px auto;
+	margin: 50px auto 130px auto;
 	display: block;
-	width: 200px;
     padding: 20px 30px;
     text-align: center;
     font-family: 'Roboto', sans-serif;
@@ -591,13 +590,14 @@ span.highlight-class{
     text-transform: uppercase;
     cursor: pointer;
 	@include transition(all 0.4s);
-    &:hover:active{
+    &:hover,&:active{
     	background-color: #003162;
     	color: white;
     }
     @media only screen and (min-width: $break-mobile){
+    	margin-bottom: 50px;
     	&:hover{
-    		background-color: #003162;
+    		background-color: #0080FF;
     		color: white;
     	}
     }
