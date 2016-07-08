@@ -17,29 +17,17 @@ angular.module('app').directive('nyuItem', function () {
     		dataFile = $scope.subentity;
     	}
 
-    	/*$http.get("/localdata/content/" + dataFile + ".json", { cache: true })
-            .then(function(response) {
-        		if(response.data.results.length > 0){
-    				$scope.item = response.data.results.shift();
-        			$scope.related = response.data.results;
-        		}
-            });*/
-            /*DataService.getMedia('file').then(function(files){
-              angular.forEach(files, function(file, i){
-                console.log(file);
-              });
-            });*/
-         DataService.all(dataFile, "all", 0, true).then(function(posts){
-             var log = [];
-             angular.forEach(posts, function(post, i){
-                 if($stateParams.id == post.id){
-                     $scope.item = post;
-                 }else if(this.length < 3){
-                     this.push(post);
-                 }
-             }, log);
-             $scope.related = log;
-         });
+       DataService.all(dataFile, "all", 0, true).then(function(posts){
+           var log = [];
+           angular.forEach(posts, function(post, i){
+               if($stateParams.id == post.id){
+                   $scope.item = post;
+               }else if(this.length < 3 || $scope.entity == 'books'){
+                   this.push(post);
+               }
+           }, log);
+           $scope.related = log;
+       });
 
     	$scope.hasTopImg = function(){
     		return EntitiesService.hasTopImg($scope.entity);
