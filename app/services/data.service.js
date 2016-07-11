@@ -9,7 +9,7 @@
  */
  angular
     .module('app')
-    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', '$rootScope', function($http, $sce/*, config*/, $state, $q, $rootScope){
+    .service('DataService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', '$rootScope', 'deviceDetector', function($http, $sce/*, config*/, $state, $q, $rootScope, deviceDetector){
         var posts = [];
         var filters = [];
         var globalSearch = "";
@@ -42,7 +42,9 @@
             htmlToPlaintext : htmlToPlaintext,
             getMediaHeader : getMediaHeader,
             getMediaKit : getMediaKit,
-            getPdfXls : getPdfXls
+            getPdfXls : getPdfXls,
+            allNoEmbed : allNoEmbed,
+            getFilterDB : getFilterDB
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -94,8 +96,9 @@
                     }
                 }
             });
-            if(!found && filter){
+            if(!found && filter && filter.type){
                 filters.push(filter);
+
             }
             
             return filter;
@@ -106,7 +109,11 @@
             //return decorateFilter(actualFilter);
             return actualFilter;
         }
-        function setPosts(postArray, state){
+        function getFilterDB(filter){
+            var actualFilter = getStateFilter(filter);
+            return decorateFilter(actualFilter);
+        }
+        function setPosts(postArray, state, replacePosts, add){
             var newPost = {
                 posts : postArray,
                 state : state
@@ -114,7 +121,26 @@
             var found = false;
 
             angular.forEach(posts, function(postItem, i){
-                if(postItem.state == newPost.state) found = true;
+                if(postItem.state == newPost.state){
+                    found = true;
+                    
+                    if(replacePosts){
+
+                        angular.forEach(postItem.posts, function(aPost){
+                            var aPostFound = false;
+                            angular.forEach(newPost.posts, function(newPostItem){
+                                if(aPost.id == newPostItem.id){
+                                    aPost = newPostItem;
+                                    aPostFound = true;
+                                }
+                            });
+                        }); 
+                    }else if(add){
+                        angular.forEach(newPost.posts, function(newPostItem){
+                            postItem.posts.push(newPostItem);
+                        });
+                    }
+                }
             });
 
             if(!found) posts.push(newPost);
@@ -338,6 +364,20 @@
                 }
 
             }
+            function allNoEmbed(type, results, page, decorateCustom, filter) {
+                var pagination = "";
+                if(filter){
+                    return getData(type+filter, decorateCustom);   
+                }else{
+                    if(typeof results !== "undefined"){
+                        if(results === "all"){
+                            pagination = "?page=1&per_page=100";    
+                        }
+                    }
+                    return getData(type+pagination, decorateCustom);                    
+                }
+
+            }
             function allCustomPosts(results, page, decorateCustom, filter) {
 
                 var defered = $q.defer();
@@ -390,38 +430,50 @@
                 };*/ 
                 getPage();
 
-                function getPage(){
-                    $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page)
-                        .then(function(response){
-                            angular.forEach(response.data, function(item, i){
-                                mediaDB.all.push(item);
-                                pageController.items++;
-                                switch (getTypeMedia(item)){
-                                    case 'mediakit':
-                                        mediaDB.mediakit.push(item);
-                                        break;
-                                    case 'header':
-                                        var image = new Image();
-                                        image.src = item.source_url;
+                function getPage(){//media?_embed&page=1&per_page=100&filter[header_media]=blog,articles  &filter[media_folder]=mediakit
+                    if(!deviceDetector.isMobile()){//IS DESKTOP
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts)
+                            .then(function(response){
+                                assingMedia(response);
+                        });
+                    }else{
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[media_folder]=mediakit')
+                            .then(function(response){
+                                assingMedia(response);
+                        });                        
+                    }
 
-                                        item.location = item.pure_taxonomies.header_media[0].slug;
-                                        mediaDB.header.push(item);
-                                        break;
-                                    default :
-                                        mediaDB.others.push(item);
-                                }
-                            });
 
-                            pageController.page++;
-                            if(pageController.items == pageController.per_page){
-                                pageController.items = 0;
-                                getPage();
-                            }else{
-                                $rootScope.$broadcast('mediaLoaded', {
-                                    state : mediaDB
-                                }); 
+                    function assingMedia(response){
+                        angular.forEach(response.data, function(item, i){
+                            mediaDB.all.push(item);
+                            pageController.items++;
+                            switch (getTypeMedia(item)){
+                                case 'mediakit':
+                                    mediaDB.mediakit.push(item);
+                                    break;
+                                case 'header':
+                                    var image = new Image();
+                                    image.src = item.source_url;
+
+                                    item.location = item.pure_taxonomies.header_media[0].slug;
+                                    mediaDB.header.push(item);
+                                    break;
+                                default :
+                                    mediaDB.others.push(item);
                             }
-                    });
+                        });
+
+                        pageController.page++;
+                        if(pageController.items == pageController.per_page){
+                            pageController.items = 0;
+                            getPage();
+                        }else{
+                            $rootScope.$broadcast('mediaLoaded', {
+                                state : mediaDB
+                            }); 
+                        }
+                    }
                 }
 
                 function getTypeMedia(item){
@@ -561,7 +613,6 @@
                                 if(attach.mime_type.indexOf("audio") > -1) item.audio = attach.source_url;
                             });
                         }
-
                         return item;
                     });
             }

@@ -11,7 +11,7 @@ angular.module('app').directive('nyuFilter', function () {
     	$scope.entitiesService = EntitiesService;
         $scope.totalPosts = 0;
     	//$scope.filterData = {}; //getfilternormla
-
+        $scope.loadedSearch = true;
         /**/
         function ekdHighLight(word, theString){
         	var rgxp = new RegExp(word, 'gi');
@@ -34,7 +34,7 @@ angular.module('app').directive('nyuFilter', function () {
         };
 
         $scope.searchBefore = function(){
-            return $scope.itemsFound <  $scope.totalPosts || !deviceDetector.isMobile();
+            return $scope.filterData.db || !deviceDetector.isMobile();
         };
         $scope.isMobile = function(){
             return deviceDetector.isMobile();
@@ -48,7 +48,8 @@ angular.module('app').directive('nyuFilter', function () {
     		yearTo: "",
             toShow : DataService.postsCountStart,
     		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
-    		type : $state.current.url
+    		type : $state.current.url,
+            db : ''
     	};//app.search
 
     	$scope.filterData = DataService.getStateFilter($scope.filterData);
@@ -81,7 +82,7 @@ angular.module('app').directive('nyuFilter', function () {
     		});
     	});
 
-    	//Get Topic
+    	//Get Topicmedia?page=1&per_page=1&filter[taxonomy]=header-media
     	DataService.all('topic', 'all', 0, false).then(function(tags){
     		angular.forEach(tags, function(tag){
     			var tag_topic = {
@@ -132,14 +133,35 @@ angular.module('app').directive('nyuFilter', function () {
         			}
         	},
             function(value){
+                $scope.loadedSearch = false;
                 $scope.filterData.text = ($state.current.url == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
-                var lengthPosts = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
-                if(DataService.getPostsFiltered($scope.filterData)) {
+                //var lengthPosts = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+                /*if(DataService.getPostsFiltered($scope.filterData)) {
                     $scope.totalPosts = (lengthPosts > $scope.totalPosts) ? lengthPosts : $scope.totalPosts; 
+                }*/
+                //$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+                $scope.filterData.db = DataService.getFilterDB($scope.filterData);
+                if($scope.filterData.type != 'globalization-index-reports' && 
+                    $scope.filterData.type != 'working-papers' &&
+                    $scope.filterData.type.indexOf('globe-course') == -1 && 
+                    $scope.filterData.type != 'cases-teaching-notes' &&
+                    $scope.filterData.type != 'globalization-notes' &&
+                    $scope.filterData.type != 'other-teaching-materials' 
+                    ){
+                    if($scope.filterData.db){
+                        DataService.all($scope.filterData.type, 'all', 0, true, $scope.filterData.db).then(function(filtered){
+                            $scope.itemsFound = filtered.length;
+                            $scope.loadedSearch = true;
+                        });   
+                    }else{
+                        DataService.allNoEmbed($scope.filterData.type, 'all', 0).then(function(posts){
+                            $scope.itemsFound = posts.length;
+                            $scope.loadedSearch = true;
+                        }); 
+                    }
                 }
-                $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
             });
 
     	$scope.dataSRC = {

@@ -9,11 +9,12 @@ angular.module('app').directive('nyuList', function () {
     },
 
     controller: function ($scope, $rootScope, $http, $window, EntitiesService, DataService, $state) {
+        var filesSearch = [];
     	$scope.root = $rootScope;
     	$rootScope.mobileShowFilters = false;
     	$scope.entitiesService = EntitiesService;
-
         $scope.entityLabels = EntitiesService.getEntityLabels();
+        $scope.loadText = 'LOAD MORE';
 
         var dataFile = $scope.entity;
         if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
@@ -48,21 +49,41 @@ angular.module('app').directive('nyuList', function () {
         $scope.items = [];
         $rootScope.change = 0;
         //var filter = DataService.getFilter($state.current.url);
-
-        DataService.all(dataFile, "all", 0, true).then(function(posts){
-            $scope.allPostsFound = posts.length;
+        function getFiles(posts){
             angular.forEach(posts, function(postItem, i){
                 DataService.getPdfXls(postItem).then(function(item){
                     if(i == posts.length-1){
-                        DataService.setPosts(posts, $state.current.url);
+                        DataService.setPosts(posts, $state.current.url, true);
+                        $rootScope.change++;
                     }
-                });
+                });                    
             });
-            
-            
-            
-        });
+        }
+        getMoreItem();
+        function getMoreItem(){
+            var actualPage =  ($scope.postShowed / DataService.postsCountStart) || 1;
+            var perPage = DataService.postsCountStart;
+            if($state.current.url == 'books'){
+                actualPage = 1;
+                perPage = 100;
+            }
+            DataService.all(dataFile, perPage, actualPage, true).then(function(posts){
+                $scope.allPostsFound += posts.length;
+                DataService.setPosts(posts, $state.current.url, false, true);
+                $rootScope.change++;
+                getFiles(posts); 
+                $scope.loadText = 'LOAD MORE';
+            });   
 
+        }
+        $scope.allPostsShowed = {
+            total : 0,
+            actual : 0
+        };
+        DataService.allNoEmbed(dataFile, 'all', 0).then(function(posts){
+            $scope.allPostsShowed.total = posts.length;
+            $scope.allPostsShowed.actual = posts.length;
+        }); 
         $rootScope.$watch('change',
             function(value){
                 var filter = {
@@ -78,15 +99,29 @@ angular.module('app').directive('nyuList', function () {
                 };
                 filter = DataService.getFilter(filter);
                 var postsController = DataService.getPostsFiltered(filter);
-                $scope.items = ($state.current.url == 'books') ? postsController.total : postsController.filter;
-                $scope.allPostsShowed = postsController.total.length; 
+                if(filter.db){
+                    DataService.all(dataFile, 'all', 0, true, filter.db).then(function(filtered){
+                        $scope.items = filtered.slice(0, filter.toShow);
+                        $scope.allPostsShowed.actual = filtered.length;
+                    });
+                }else{
+                    //$scope.items = ($state.current.url == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  
+                    $scope.items = postsController.total;
+                    $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
+                }
+               
+                //inciamos al principio i nunca mas sin el embed
             });
 
-        $scope.postShowed = ($state.current.url == 'books') ? 20 :  DataService.postsCountStart;
+        $scope.postShowed = ($state.current.url == 'books') ? 100 :  DataService.postsCountStart;
         $scope.loadMore = function(){
-            $scope.postShowed += 5;
-            DataService.postsToShow($state.current.url, $scope.postShowed);
-            //console.log("loadingmore");
+            if($scope.loadText == 'LOAD MORE'){
+                $scope.loadText = 'LOADING...';
+                $scope.postShowed += 5;
+                getMoreItem();
+                DataService.postsToShow($state.current.url, $scope.postShowed);
+            }
+
         };
 
 

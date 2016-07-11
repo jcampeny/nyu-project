@@ -8,7 +8,7 @@ angular.module('app').directive('nyuItem', function () {
 		subentity : '@'
     },
 
-    controller: function ($scope, $http, EntitiesService, ArrayService, DataService, $stateParams) {
+    controller: function ($scope, $http, EntitiesService, ArrayService, DataService, $stateParams, $state) {
     	$scope.item = null;
     	$scope.related = [];
 
@@ -17,18 +17,38 @@ angular.module('app').directive('nyuItem', function () {
     		dataFile = $scope.subentity;
     	}
 
-       DataService.all(dataFile, "all", 0, true).then(function(posts){
-           var log = [];
-           angular.forEach(posts, function(post, i){
-               if($stateParams.id == post.id){
-                   $scope.item = post;
-               }else if(this.length < 3 || $scope.entity == 'books'){
-                   this.push(post);
-               }
-           }, log);
-           $scope.related = log;
-       });
 
+       postController = DataService.getPosts();
+       if(postController.length > 0){
+        angular.forEach(postController, function(postsItem){
+          if(postsItem.state == dataFile){
+            var found = false;
+            angular.forEach(postsItem.posts, function(aPost){
+              if(aPost.id == $stateParams.id){
+                $scope.item = aPost;
+                found = true;
+              }else if($scope.related.length < 3 || dataFile == 'books'){
+                $scope.related.push(aPost);
+              }
+            });
+            if(!found) getItFromDB();
+          }
+        });
+       }else{
+        getItFromDB();
+       }
+      function getItFromDB(){
+        DataService.all(dataFile + '/' +$stateParams.id, "all", 0, true).then(function(posts){
+            $scope.item = posts;
+        });
+        DataService.all(dataFile, "4", 1, true).then(function(posts){
+          angular.forEach(posts, function(aPostItem){
+            if(aPostItem.id != $stateParams.id && $scope.related.length < 3){
+              $scope.related.push(aPostItem);
+            }
+          });
+        });
+      }
     	$scope.hasTopImg = function(){
     		return EntitiesService.hasTopImg($scope.entity);
     	};
