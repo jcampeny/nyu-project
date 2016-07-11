@@ -1,7 +1,7 @@
 <div ng-if="entitiesService.showFilter(entity)">
 	<div class="filters" ng-style="{'left':root.mobileFiltersLeft}">
 		<div class="close-popup show-mobile" ng-click="root.toggleMobileFilters()"></div>
-		<div class="results cta cta-blue-o"  ng-click="root.toggleMobileFilters()" ng-if="searchBefore()"><span ng-if="isMobile()">VIEW </span>{{itemsFound}} results</div>
+		<div class="results cta cta-blue-o"  ng-click="root.toggleMobileFilters()" ng-if="searchBefore()"><span ng-if="loadedSearch"><span ng-if="isMobile()">VIEW </span>{{itemsFound}} results</span><span ng-if="!loadedSearch">Searching...</span></div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'target')">
 			<label>Target Audience</label>
 			<tags-input 

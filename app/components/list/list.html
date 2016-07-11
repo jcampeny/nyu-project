@@ -59,7 +59,7 @@
 						mainctatext2="{{i.main_cta_2}}"
 						type="{{i.type}}">
 				</nyu-list-item-2>
-				<a class="load-more-button"  href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsShowed">LOAD MORE</a>
+				<a class="load-more-button"  href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsShowed.actual">{{loadText}}</a>
 			</div>
 			<div class="col-sm-4 side-content show-desktop">
 				<div class="side-menu">
