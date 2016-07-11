@@ -4,10 +4,27 @@
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
 				<!--<img class="full-img" src="/localdata/img/about_video.png">-->
-				<div class="page-text show-desktop" ng-bind-html="content">
-					
+				<div class="video-container">
+					<video id="aboutVideo" class="full-img about-video">
+						<source src="http://test-nyu.elkanodata.com/wordpress/wp-content/uploads/2016/07/PankajGhemawat_correcciones.mp4" type="video/mp4">
+					</video>
+					<div class="rollover" ng-click="playVideo()">
+						<div class="rollover-button">
+							<svg x="0px" y="0px" width="65px" height="63px" viewBox="0 0 65 63" enable-background="new 0 0 65 63" xml:space="preserve">
+								<path fill="#FFFFFF" stroke="#FFFFFF" stroke-miterlimit="10" d="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28">
+									<animate id="animation-button" 
+										begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" 
+										from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" 
+										to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" 
+										dur="0.2s" keySplines=".4 0 1 1" repeatCount="1"></animate>
+								</path>
+							</svg>
+						</div>
+					</div>
 				</div>
-				<div class="page-text show-mobile">
+				
+				<div class="show-desktop" ng-bind-html="content"></div>
+				<div class="show-mobile">
 					<p>Pankaj Ghemawat is the Global Professor of Management and Strategy and Director of the Center for the Globalization of Education and Management at the Stern School of Business at New York University, and the Anselmo Rubiralta Professor of Global Strategy at IESE Business School. Between 1983 and 2008 he was on the faculty at the Harvard Business School where, in 1991, he became the youngest person in the school's history to be appointed a full professor.  Ghemawat was also the youngest "guru" included in the guide to the greatest management thinkers of all time published in 2008 by The Economist.</p>
 					<div uib-collapse="collapsedText">
 						<p>Ghemawat's books include Commitment, Games Businesses Play, Strategy and the Business Landscape and Redefining Global Strategy. IBM Chairman and CEO Sam Palmisano described the latter book as "an important strategic guidebook for leaders of the 21st century globally integrated enterprise... [with an] analytic framework that is both visionary and pragmatic - aware of the broader historic trajectories of globalization, but grounded in the real kinds of decisions business leaders have to make."</p>
