@@ -76,7 +76,7 @@
 	</div>
 	<div class="header-mobile" ng-class="{'hide-menu' : hideOnScroll}">
 		<div class="input-container-mobile" ng-class="stateName">			
-			<input type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
 			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
 			<div class="close-cross" ng-click="showSearch('close')"></div>
 		</div>

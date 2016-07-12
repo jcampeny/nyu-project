@@ -18,7 +18,7 @@
 		<div ng-if="hasTopImg()" class="line-title lt-normal lt-blue show-mobile" ng-bind-html="entityLabels[entity].name"></div>
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
-				<nyu-list-item ng-repeat="i in items" ng-if="entity !== 'books'"
+				<nyu-list-item ng-repeat="i in items track by $index" ng-if="entity !== 'books'"
 						id="{{i.id}}"
 						entity="{{entity}}" 
 						subentity="{{subentity}}"
@@ -58,7 +58,7 @@
 						mainctatext2="{{i.main_cta_2}}"
 						type="{{i.type}}">
 				</nyu-list-item-2>
-				<a class="load-more-button" href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsShowed">LOAD MORE</a>
+				<a class="load-more-button"  href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsShowed.actual && entity != 'search'">{{loadText}}</a>
 			</div>
 			<div class="col-sm-4 side-content show-desktop">
 				<div class="side-menu" ng-if="groupItems()">

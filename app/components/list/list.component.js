@@ -103,6 +103,13 @@ angular.module('app').directive('nyuList', function () {
                     DataService.all(dataFile, 'all', 0, true, filter.db).then(function(filtered){
                         $scope.items = filtered.slice(0, filter.toShow);
                         $scope.allPostsShowed.actual = filtered.length;
+                        if(filter.text !== ''){
+                            angular.forEach($scope.items, function(postItem, j){
+                                var searchCtrl = DataService.searchWord(filter.text, postItem);
+                                if(searchCtrl.found) $scope.items[j] = searchCtrl.post;
+                            });
+                            
+                        }
                     });
                 }else{
                     //$scope.items = (dataFile == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  

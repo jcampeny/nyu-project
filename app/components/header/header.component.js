@@ -106,10 +106,13 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		};*/
 		var stateCurrent = $scope.getCurrentStateGroup();
 		$scope.toggleCollapsed(stateCurrent);
-
+		$rootScope.$watch('globalSearchReset', function(){
+			$scope.searchInput = '';
+		});
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
 			$scope.showSearch('close');
+			$rootScope.change++;
 			DataService.setGlobalSearch(searchInput);
 		};
 		$scope.showSearch = function(toState){
@@ -119,7 +122,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 				}, 400, function(){
 					$('.input-container').animate({opacity : '1'}, 400);
 				});
-			}else{
+			}else if($state.current.url != 'search'){
 				$('.input-container').animate({
 					opacity : '0'
 				}, 400, function(){

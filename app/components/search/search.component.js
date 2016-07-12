@@ -16,16 +16,16 @@ angular.module('app').directive('nyuSearch', function () {
         $rootScope.change = 0;
         $scope.order = 'relevant';
         $scope.allPostsFound = 0;
+        $scope.loadText = 'LOAD MORE';
+        $scope.allPostsShowed = {
+            total : 0,
+            actual : 0
+        };
+        var dataFile = $scope.entity;
+        if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
+            dataFile = $scope.subentity;
+        }
 
-        DataService.allCustomPosts( "all", 0, true).then(function(posts){
-            angular.forEach(DataService.customPosts, function(customPost, i){
-                posts[customPost].then(function(post){
-                    $scope.allItems[customPost] = post;
-                    //console.log($scope.allItems[customPost]);
-                });
-            });   
-
-        });
 
         function decoratePosts(){
             switch($scope.order){
@@ -45,16 +45,15 @@ angular.module('app').directive('nyuSearch', function () {
                     $scope.items = [];
             }
         }
-        
-        $scope.postShowed = DataService.postsCountStart;
+        $scope.postShowed = $scope.allPostsShowed.total;
         $scope.loadMore = function(){
-            $scope.postShowed += 5;
-            DataService.postsToShow($state.current.url, $scope.postShowed);
+            //$scope.postShowed += 5;
+            DataService.postsToShow($state.current.url, $scope.allPostsShowed.total);
             //console.log("loadingmore");
         };
         $scope.$watch(function(){return Object.keys($scope.allItems).length;},
             function(){
-                decoratePosts();
+                //decoratePosts();
             });
         $rootScope.$watch('change',
             function(value){
@@ -66,15 +65,64 @@ angular.module('app').directive('nyuSearch', function () {
                     yearFrom: "",
                     yearTo: "",
                     text : DataService.getGlobalSearch(),
-                    type : $state.current.url,
-                    toShow : 5
+                    type : dataFile,
+                    toShow : $scope.allPostsShowed.total
                 };
-                filter = DataService.getFilter(filter);
-                var postsController = DataService.getPostsFiltered(filter);
-                $scope.items = postsController.filter;
-                $scope.allPostsShowed = postsController.total.length; 
+                $scope.items = [];
+                filter = DataService.getFilterDB(filter);
+                $rootScope.searchGlobal = 0;
+                $scope.allPostsShowed.total = 0;
+                $scope.allPostsShowed.actual = 0;
+                var temporalPosts = [];
+                DataService.allCustomPosts( "all", 0, true, filter).then(function(posts){
+                    var promiseDone = 0;
+                    angular.forEach(DataService.customPosts, function(customPost, i){
+                        posts[customPost].then(function(post){
+                            //$scope.allItems[customPost] = post;
+                            promiseDone++;
+                            $scope.allPostsShowed.total += post.length;
+                            $scope.allPostsShowed.actual += post.length;
+                            angular.forEach(post, function(postItem, j){
+                                temporalPosts.push(postItem);
+                                var searchCtrl = DataService.searchWord(DataService.getGlobalSearch(), postItem);
+                                if(searchCtrl.found) temporalPosts[j] = searchCtrl.post;
+                            });
+                            //TODO NADA FOUND
+                            
+                            if(promiseDone == DataService.customPosts.length){
+                                refreshItems(temporalPosts, true);
+                            }else{
+                                refreshItems(temporalPosts, false);  
+                            } 
+                         
+                        });
+                    });
+
+                });                    
+
+
+               // $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
+
         });
-      
+        function refreshItems(temporalPosts, finished){
+            angular.forEach(temporalPosts, function(a){
+                var found = false;
+                angular.forEach($scope.items, function(b){
+                    if(b.id == a.id){
+                        found = true;
+                    }
+                });
+                if(!found){
+                    $scope.items.push(a);
+                }
+            });
+            if(finished && $scope.items.length === 0){
+                $rootScope.searchGlobal = -1;
+            }else{
+                $rootScope.searchGlobal = $scope.items.length;    
+            }
+            
+        }
         $scope.hasTopImg = function(){
             return EntitiesService.hasTopImg($scope.entity);
         };

@@ -10,6 +10,7 @@ angular.module('app').directive('nyuFilter', function () {
     	$scope.root = $rootScope;
     	$scope.entitiesService = EntitiesService;
         $scope.totalPosts = 0;
+        $rootScope.globalSearchReset = 0;
     	//$scope.filterData = {}; //getfilternormla
         $scope.loadedSearch = true;
         var dataFile = $scope.entity;
@@ -32,8 +33,11 @@ angular.module('app').directive('nyuFilter', function () {
         /**/
         $scope.searchIt = function(){
             //DataService.searchOnPosts($scope.filterData);
+            $scope.filterData.db = DataService.getFilterDB($scope.filterData);
             $rootScope.change++;//possible comment
-            $scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+
+            //console.log($scope.filterData);
+            //$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
 
         };
 
@@ -67,9 +71,18 @@ angular.module('app').directive('nyuFilter', function () {
 	    		yearFrom: "",
 	    		yearTo: "",
                 toShow : DataService.postsCountStart,
-	    		text : (dataFile == 'search') ? DataService.getGlobalSearch() : "",
+	    		text : "",
 	    		type : dataFile
 	    	};
+            if(dataFile == 'search'){
+                $('.search-input').animate({
+                    height : '190%'
+                }, 400, function(){
+                    $('.input-container').animate({opacity : '1'}, 400);
+                });
+                DataService.setGlobalSearch('');
+                $rootScope.globalSearchReset++;
+            }
 	    	DataService.resetFilter($scope.filterData);
 	    	$rootScope.change++;//possible comment
 	    	$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
@@ -118,7 +131,18 @@ angular.module('app').directive('nyuFilter', function () {
     			$scope.dataSRC.language.push(tag_language);
     		});
     	});
+        $rootScope.$watch('searchGlobal',function(){
+            //console.log($rootScope.searchGlobal);
+            if($rootScope.searchGlobal){
 
+                $scope.loadedSearch = true;
+                $scope.itemsFound = $rootScope.searchGlobal;
+                if($rootScope.searchGlobal == -1) {
+                    $scope.itemsFound = 0;
+                    //NOT FOUND RESULTS
+                }
+            }
+        });
         $scope.$watch(
         	function (){
         		if(!$scope.filterData){
@@ -130,7 +154,7 @@ angular.module('app').directive('nyuFilter', function () {
 	        				$scope.filterData.topic.length +
 	        				$scope.filterData.yearFrom +
 	        				$scope.filterData.yearTo +
-	        				$scope.filterData.text +
+	        				$scope.filterData.db +
                             $scope.filterData.toShow + 
 	        				DataService.getPosts().length +
                             DataService.getGlobalSearch().length;
@@ -154,20 +178,33 @@ angular.module('app').directive('nyuFilter', function () {
                     $scope.filterData.type != 'globalization-notes' &&
                     $scope.filterData.type != 'other-teaching-materials' 
                     ){
-                    if($scope.filterData.db){
-                        DataService.all($scope.filterData.type, 'all', 0, true, $scope.filterData.db).then(function(filtered){
-                            $scope.itemsFound = filtered.length;
-                            $scope.loadedSearch = true;
-                        });   
+                    if($scope.filterData.type != 'search'){
+                        if($scope.filterData.db){
+                            DataService.all($scope.filterData.type, 'all', 0, true, $scope.filterData.db).then(function(filtered){
+                                $scope.itemsFound = filtered.length;
+                                $scope.loadedSearch = true;
+                            });   
+                        }else{
+                            DataService.allNoEmbed($scope.filterData.type, 'all', 0).then(function(posts){
+                                $scope.itemsFound = posts.length;
+                                $scope.loadedSearch = (posts.length < 100) ? searchMorePosts(2) : true;
+                            }); 
+                        }                        
                     }else{
-                        DataService.allNoEmbed($scope.filterData.type, 'all', 0).then(function(posts){
-                            $scope.itemsFound = posts.length;
-                            $scope.loadedSearch = true;
-                        }); 
+                        //$scope.loadedSearch = true;
+                       // $scope.itemsFound = $rootScope.searchGlobal;
+                        
                     }
+
                 }
             });
-
+        function searchMorePosts(page){
+            DataService.all($scope.filterData.type, 100, page, true, $scope.filterData.db).then(function(filtered){
+                $scope.itemsFound += filtered.length;
+                page++;
+                $scope.loadedSearch = (filtered.length > 99) ? searchMorePosts(page) : true;
+            }); 
+        }
     	$scope.dataSRC = {
     		targetAudience: [
 	    		/*{id: 1, text: "Instructors"},

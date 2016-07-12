@@ -44,7 +44,8 @@
             getMediaKit : getMediaKit,
             getPdfXls : getPdfXls,
             allNoEmbed : allNoEmbed,
-            getFilterDB : getFilterDB
+            getFilterDB : getFilterDB,
+            searchWord : searchWord
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -88,10 +89,11 @@
             var found = false;
             angular.forEach(filters, function(filterItem, i){
                 if(filter && filterItem.type && filter.type && (filterItem.type == filter.type) ){
+
                     filter = filterItem;
                     filters[i] = filter;
                     found = true; 
-                    if($state.current.url == 'state'){
+                    if($state.current.url == 'search'){
                         filters[i].text = getGlobalSearch();
                     }
                 }
@@ -109,10 +111,7 @@
             //return decorateFilter(actualFilter);
             return actualFilter;
         }
-        function getFilterDB(filter){
-            var actualFilter = getStateFilter(filter);
-            return decorateFilter(actualFilter);
-        }
+
         function setPosts(postArray, state, replacePosts, add){
             var newPost = {
                 posts : postArray,
@@ -318,12 +317,18 @@
             return found;
 
         }
+        function getFilterDB(filter){
+            var actualFilter = getStateFilter(filter);
+
+            return decorateFilter(actualFilter);
+        }
         function decorateFilter(filter){
             var filterString = '';
             filterString += (filter.targetAudience.length === 0) ? '': getTagFilter(filter.targetAudience,'audience', filterString);
             filterString += (filter.topic.length === 0) ? '': getTagFilter(filter.topic,'topic', filterString);
             filterString += (filter.country.length === 0) ? '': getTagFilter(filter.country,'country', filterString);
             filterString += (filter.language.length === 0) ? '': getTagFilter(filter.language,'language', filterString);
+            filterString += (filter.text.length === 0) ? '': getTagFilter(filter.text,'search', filterString);
             filterString += getTagFilter({from : filter.yearFrom, to : filter.yearTo},'years', filterString);
             return filterString;
         }
@@ -339,10 +344,12 @@
                     decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+yearStrings : '?_embed&filter['+nameTag+']='+yearStrings; 
                 }else{/*catch error*/}
                 
-            }else{
+            }else if(nameTag != 'search'){
                 angular.forEach(tags, function(tag){
                     decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tag.text : '?_embed&filter['+nameTag+']='+tag.text;
                 });                
+            }else if(nameTag == 'search'){
+                decoratedFilter += (filterString !== '') ? '&filter[s]='+tags : '?_embed&filter[s]='+tags;
             }
 
             return decoratedFilter;
@@ -383,9 +390,10 @@
                 var defered = $q.defer();
                 var promise = defered.promise;
                 var postsLoadeds = [];
-
+                //filter = (filter) ? '?filter[s]=' + filter : '?filter[s]=' + filter;
+                filter = (filter) ? filter : '?' + filter;
                 angular.forEach(customPosts, function(customPost, i){
-                    postsLoadeds[customPost] = getData(customPost+"?_embed" , decorateCustom);
+                    postsLoadeds[customPost] = getData(customPost + filter + '&page=1&per_page=100', decorateCustom);
                 });
 
                 $q.all(postsLoadeds).then(function(){
@@ -432,12 +440,12 @@
 
                 function getPage(){//media?_embed&page=1&per_page=100&filter[header_media]=blog,articles  &filter[media_folder]=mediakit
                     if(!deviceDetector.isMobile()){//IS DESKTOP
-                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts)
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts, { cache: true })
                             .then(function(response){
                                 assingMedia(response);
                         });
                     }else{
-                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[media_folder]=mediakit')
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[media_folder]=mediakit', { cache: true })
                             .then(function(response){
                                 assingMedia(response);
                         });                        
@@ -602,7 +610,7 @@
 
             }                
             function getPdfXls(item){
-                return $http.get(path + 'media?parent=' + item.id)
+                return $http.get(path + 'media?parent=' + item.id,  { cache: true })
                     .then(function(response){
                         if(response.data.length > 0){
                             angular.forEach(response.data, function(attach){
