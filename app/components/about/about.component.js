@@ -14,6 +14,29 @@ angular.module('app').directive('nyuAbout', function () {
             $scope.excerpt = page[0].excerpt.rendered;
         });
 
+        $scope.videoPlaying = false;
+        $scope.playVideo = function(){
+            $scope.videoPlaying = !$scope.videoPlaying;
+
+            if($scope.videoPlaying){
+                document.getElementById("aboutVideo").play();    
+            }else{
+                document.getElementById("aboutVideo").pause();
+            }
+            
+
+            $animation = $('#animation-button');
+            var pause = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
+            var play = "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
+
+            $animation.attr({
+               "from": $scope.videoPlaying ? play : pause,
+               "to": $scope.videoPlaying ? pause : play
+            }).get(0).beginElement();
+            
+        };
+
+
     	$scope.showSpeakerPopup = function(){
   			PopupService.openPopUp(true);
 
