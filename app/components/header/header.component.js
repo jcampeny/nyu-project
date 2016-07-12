@@ -138,7 +138,10 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
     	});
     	$document.bind('touchmove', function(element){
     		var dir = scrollService.getDirectionOnTouchMove(element);
-    		s.hideOnScroll = (dir == "down") ? true : false;
+    		//if(!$rootScope.headerOpened){
+    			s.hideOnScroll = (dir == "down" && !$rootScope.headerOpened) ? true : false;
+    		//}
+    		
     	});
     	s.getUrl = function (){
     		return $location.$$absUrl;
