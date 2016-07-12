@@ -1,5 +1,5 @@
 ng-back-to-top{
-	$grey : #B1B1B1;
+	$grey : rgb(217, 217, 217);
 	display: block;
 	position: absolute;
 	width: 44px;
@@ -7,6 +7,10 @@ ng-back-to-top{
 	background-color: $grey;
 	top: -100px;
 	cursor: pointer;
+	@include transition(background-color 0.4s);
+	&:hover{
+		background-color: #B1B1B1;
+	}
 	&.left{
 		left: 25px;
 	}
