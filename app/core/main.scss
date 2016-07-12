@@ -578,7 +578,7 @@ span.highlight-class{
 }
 .load-more-button{
 	background-color: #6BB5FE;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 	margin: 50px auto 130px auto;
 	display: block;
     padding: 20px 30px;
@@ -590,7 +590,7 @@ span.highlight-class{
     text-transform: uppercase;
     cursor: pointer;
 	@include transition(all 0.4s);
-    &:hover,&:active{
+    &:hover:active{
     	background-color: #003162;
     	color: white;
     }
