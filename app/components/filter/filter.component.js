@@ -12,6 +12,10 @@ angular.module('app').directive('nyuFilter', function () {
         $scope.totalPosts = 0;
     	//$scope.filterData = {}; //getfilternormla
         $scope.loadedSearch = true;
+        var dataFile = $scope.entity;
+        if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
+            dataFile = $scope.subentity;
+        }
         /**/
         function ekdHighLight(word, theString){
         	var rgxp = new RegExp(word, 'gi');
@@ -47,8 +51,8 @@ angular.module('app').directive('nyuFilter', function () {
     		yearFrom: "",
     		yearTo: "",
             toShow : DataService.postsCountStart,
-    		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
-    		type : $state.current.url,
+    		text : (dataFile == 'search') ? DataService.getGlobalSearch() : "",
+    		type : dataFile,
             db : ''
     	};//app.search
 
@@ -63,8 +67,8 @@ angular.module('app').directive('nyuFilter', function () {
 	    		yearFrom: "",
 	    		yearTo: "",
                 toShow : DataService.postsCountStart,
-	    		text : ($state.current.url == 'search') ? DataService.getGlobalSearch() : "",
-	    		type : $state.current.url
+	    		text : (dataFile == 'search') ? DataService.getGlobalSearch() : "",
+	    		type : dataFile
 	    	};
 	    	DataService.resetFilter($scope.filterData);
 	    	$rootScope.change++;//possible comment
@@ -134,7 +138,7 @@ angular.module('app').directive('nyuFilter', function () {
         	},
             function(value){
                 $scope.loadedSearch = false;
-                $scope.filterData.text = ($state.current.url == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
+                $scope.filterData.text = (dataFile == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
             	$rootScope.change++;//possible comment
                 //var lengthPosts = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;

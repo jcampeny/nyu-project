@@ -48,14 +48,14 @@ angular.module('app').directive('nyuList', function () {
         $scope.allPostsFound = 0;
         $scope.items = [];
         $rootScope.change = 0;
-        //var filter = DataService.getFilter($state.current.url);
+        //var filter = DataService.getFilter(dataFile);
         function getFiles(posts){
             angular.forEach(posts, function(postItem, i){
                 DataService.getPdfXls(postItem).then(function(item){
-                    if(i == posts.length-1){
-                        DataService.setPosts(posts, $state.current.url, true);
+                    //if(i == posts.length-1){
+                        DataService.setPosts(posts, dataFile, true);
                         $rootScope.change++;
-                    }
+                    //}
                 });                    
             });
         }
@@ -63,13 +63,13 @@ angular.module('app').directive('nyuList', function () {
         function getMoreItem(){
             var actualPage =  ($scope.postShowed / DataService.postsCountStart) || 1;
             var perPage = DataService.postsCountStart;
-            if($state.current.url == 'books'){
+            if(dataFile == 'books'){
                 actualPage = 1;
                 perPage = 100;
             }
             DataService.all(dataFile, perPage, actualPage, true).then(function(posts){
                 $scope.allPostsFound += posts.length;
-                DataService.setPosts(posts, $state.current.url, false, true);
+                DataService.setPosts(posts, dataFile, false, true);
                 $rootScope.change++;
                 getFiles(posts); 
                 $scope.loadText = 'LOAD MORE';
@@ -94,7 +94,7 @@ angular.module('app').directive('nyuList', function () {
                     yearFrom: "",
                     yearTo: "",
                     text : "",
-                    type : $state.current.url,
+                    type : dataFile,
                     toShow : DataService.postsCountStart
                 };
                 filter = DataService.getFilter(filter);
@@ -105,7 +105,7 @@ angular.module('app').directive('nyuList', function () {
                         $scope.allPostsShowed.actual = filtered.length;
                     });
                 }else{
-                    //$scope.items = ($state.current.url == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  
+                    //$scope.items = (dataFile == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  
                     $scope.items = postsController.total;
                     $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
                 }
@@ -113,13 +113,13 @@ angular.module('app').directive('nyuList', function () {
                 //inciamos al principio i nunca mas sin el embed
             });
 
-        $scope.postShowed = ($state.current.url == 'books') ? 100 :  DataService.postsCountStart;
+        $scope.postShowed = (dataFile == 'books') ? 100 :  DataService.postsCountStart;
         $scope.loadMore = function(){
             if($scope.loadText == 'LOAD MORE'){
                 $scope.loadText = 'LOADING...';
                 $scope.postShowed += 5;
                 getMoreItem();
-                DataService.postsToShow($state.current.url, $scope.postShowed);
+                DataService.postsToShow(dataFile, $scope.postShowed);
             }
 
         };
