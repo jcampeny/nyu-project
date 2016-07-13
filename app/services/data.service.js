@@ -440,7 +440,7 @@
 
                 function getPage(){//media?_embed&page=1&per_page=100&filter[header_media]=blog,articles  &filter[media_folder]=mediakit
                     if(!deviceDetector.isMobile()){//IS DESKTOP
-                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts, { cache: true })
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts + ', surveys', { cache: true })
                             .then(function(response){
                                 assingMedia(response);
                         });
@@ -463,7 +463,6 @@
                                 case 'header':
                                     var image = new Image();
                                     image.src = item.source_url;
-
                                     item.location = item.pure_taxonomies.header_media[0].slug;
                                     mediaDB.header.push(item);
                                     break;

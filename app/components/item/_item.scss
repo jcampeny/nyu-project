@@ -77,14 +77,11 @@
 		}
 
 		.item-title{
-			margin: 0 0 25px 0;
+			margin: 0 0 5px 0;
 			font-size:2.6rem;
 			line-height:2.6rem;
 			font-weight: 700;
 			color:#2D2E2D;
-			@media only screen and (max-width: $break-mobile) {
-				margin:0 0 5px 0;
-			}
 			&.no-sub{
 				margin-bottom: 25px;
 			}
@@ -145,7 +142,9 @@
     		font-weight: 400;
     		font-size: 1.7rem;
     		line-height: 2.9rem;
-
+    		@media only screen and (min-width: $break-mobile){
+			    margin-top: 25px;
+    		}
     		p{
 				margin-bottom: 25px;
 			}
