@@ -32,7 +32,7 @@
 					<div class="title">Related {{entityLabels[entity].altName}}</div>
 					<div class="related-items" ng-repeat="r in related">
 						<hr>
-						<a ui-sref="app.{{entity}}item({id:r.id,title:r.title})">{{r.title}}</a>
+						<a ui-sref="app.{{subentity?subentity:entity}}item({id:r.id,title:r.title})">{{r.title}}</a>
 					</div>
 				</div>
 			</div>
