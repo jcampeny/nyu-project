@@ -456,7 +456,6 @@
                         angular.forEach(response.data, function(item, i){
                             mediaDB.all.push(item);
                             pageController.items++;
-                            console.log(item);
                             switch (getTypeMedia(item)){
                                 case 'mediakit':
                                     mediaDB.mediakit.push(item);
