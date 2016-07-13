@@ -113,7 +113,12 @@ angular.module('app').directive('nyuList', function () {
                     });
                 }else{
                     //$scope.items = (dataFile == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  
-                    $scope.items = postsController.total;
+                    if(dataFile == "globepresentations" || dataFile == "globenotes") {
+                        $scope.items = postsController.total.slice(0, 1);
+                    }else{
+                        $scope.items = postsController.total;
+                    }
+                    
                     $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
                 }
                
