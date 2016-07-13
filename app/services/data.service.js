@@ -440,7 +440,7 @@
 
                 function getPage(){//media?_embed&page=1&per_page=100&filter[header_media]=blog,articles  &filter[media_folder]=mediakit
                     if(!deviceDetector.isMobile()){//IS DESKTOP
-                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts + ', surveys', { cache: true })
+                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[header_media]=' + customPosts + ', surveys, globecourse', { cache: true })
                             .then(function(response){
                                 assingMedia(response);
                         });

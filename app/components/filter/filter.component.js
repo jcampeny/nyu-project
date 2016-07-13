@@ -16,7 +16,7 @@ angular.module('app').directive('nyuFilter', function () {
         var dataFile = $scope.entity;
         if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
             dataFile = $scope.subentity;
-        }
+        }   
         /**/
         function ekdHighLight(word, theString){
         	var rgxp = new RegExp(word, 'gi');
@@ -176,7 +176,9 @@ angular.module('app').directive('nyuFilter', function () {
                     $scope.filterData.type.indexOf('globe-course') == -1 && 
                     $scope.filterData.type != 'cases-teaching-notes' &&
                     $scope.filterData.type != 'globalization-notes' &&
-                    $scope.filterData.type != 'other-teaching-materials' 
+                    $scope.filterData.type != 'other-teaching-materials' &&
+                    $scope.filterData.type != 'globecourse' 
+                     
                     ){
                     if($scope.filterData.type != 'search'){
                         if($scope.filterData.db){

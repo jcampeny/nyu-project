@@ -11,7 +11,6 @@ angular.module('app').directive('nyuSurveys', function () {
         /*MEDIA CONTROLLER*/
         $scope.picture = '';
         $scope.picture = DataService.getMediaHeader($scope.entity);
-        console.log($scope.picture);
         $rootScope.$on('mediaLoaded', function(event, data) {
             if(!$scope.picture){
                 $scope.picture = DataService.getMediaHeader($scope.entity);
