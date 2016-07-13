@@ -3,9 +3,45 @@ angular.module('app').directive('nyuAbout', function () {
     restrict: 'E',
     templateUrl: '../app/components/about/about.html',
     controllerAs: 'nyuAbout',
-    controller: function ($scope, PopupService, DataService) {
+    controller: function ($scope, PopupService, $window, EntitiesService, ContactService, DataService, $rootScope) {
     	$scope.collapsedText = true;
+        //ZIP FILE
+        $scope.resources = [];
+        var files = DataService.getMediaKit();
+        $scope.zipFile = '';
+        createResources();
 
+        $rootScope.$on('mediaLoaded', function(event, data) {
+            if(!files) $scope.picture = DataService.getMediaHeader('mediakit');
+            createResources();      
+        });
+
+        createResources();
+        
+        function createResources(){
+            files = DataService.getMediaKit();
+            angular.forEach(files, function(file){
+                var resource = {
+                    label : file.caption,
+                    file : getTypeResource(file),
+                    url : file.source_url
+                };
+                if(file.mime_type == 'application/zip'){
+                    $scope.zipFile = file.source_url;
+                }
+                $scope.resources.push(resource);
+            });
+        }
+        function getTypeResource(file){
+            if(file.mime_type == 'application/pdf'){return '/assets/img/pdf.png';}else
+            if(file.mime_type == 'application/zip'){return '/assets/img/zip.png';}else
+            if(file.mime_type.indexOf('video') > -1){return '/assets/img/vid.png';}else
+            if(file.mime_type.indexOf('word') > -1){return '/assets/img/doc.png';}else
+            if(file.mime_type.indexOf('sheet') > -1){return '/assets/img/exe.png';}else{
+                return file.source_url;
+            }
+        } 
+        //END ZIP FILE
         var slug = 'about';
         $scope.content = '';
         $scope.excerpt = '';

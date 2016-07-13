@@ -9,13 +9,18 @@ angular.module('app').directive('nyuMediakit', function () {
         $scope.sendMedia = 'SEND';
         var sending = false;
         var files = DataService.getMediaKit();
+        $scope.resources = [];
         $scope.zipFile = '';
+    
         $rootScope.$on('mediaLoaded', function(event, data) {
             if(!files) $scope.picture = DataService.getMediaHeader($scope.entity);
             createResources();        
         });
-    	$scope.resources = [];
+
+        createResources();
+        
     	function createResources(){
+            files = DataService.getMediaKit();
             angular.forEach(files, function(file){
                 var resource = {
                     label : file.caption,
@@ -27,17 +32,17 @@ angular.module('app').directive('nyuMediakit', function () {
                 }
                 $scope.resources.push(resource);
             });
-            function getTypeResource(file){
-                if(file.mime_type == 'application/pdf'){return '/assets/img/pdf.png';}else
-                if(file.mime_type == 'application/zip'){return '/assets/img/zip.png';}else
-                if(file.mime_type.indexOf('video') > -1){return '/assets/img/vid.png';}else
-                if(file.mime_type.indexOf('word') > -1){return '/assets/img/doc.png';}else
-                if(file.mime_type.indexOf('sheet') > -1){return '/assets/img/exe.png';}else{
-                    return file.source_url;
-                }
-            } 
-        }
 
+        }
+        function getTypeResource(file){
+            if(file.mime_type == 'application/pdf'){return '/assets/img/pdf.png';}else
+            if(file.mime_type == 'application/zip'){return '/assets/img/zip.png';}else
+            if(file.mime_type.indexOf('video') > -1){return '/assets/img/vid.png';}else
+            if(file.mime_type.indexOf('word') > -1){return '/assets/img/doc.png';}else
+            if(file.mime_type.indexOf('sheet') > -1){return '/assets/img/exe.png';}else{
+                return file.source_url;
+            }
+        } 
     	$scope.selectResource = function(r){
             if($scope.resourceSelected == r){
                 $scope.resourceSelected = '';

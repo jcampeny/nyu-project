@@ -444,18 +444,19 @@
                             .then(function(response){
                                 assingMedia(response);
                         });
-                    }else{
-                        $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[media_folder]=mediakit', { cache: true })
-                            .then(function(response){
-                                assingMedia(response);
-                        });                        
                     }
+                    $http.get(path + 'media?_embed&page='+pageController.page+'&per_page='+pageController.per_page + '&filter[media_folder]=mediakit', { cache: true })
+                        .then(function(response){
+                            assingMedia(response);
+                    });                        
+        
 
 
                     function assingMedia(response){
                         angular.forEach(response.data, function(item, i){
                             mediaDB.all.push(item);
                             pageController.items++;
+                            console.log(item);
                             switch (getTypeMedia(item)){
                                 case 'mediakit':
                                     mediaDB.mediakit.push(item);
