@@ -50,7 +50,7 @@
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" class="item-image-container">
 				<img class="{{content===''?'':'full-img'}}" src="{{picture}}" />	
 			</a>
-			<div><a target="_blank" href="{{pdfLink}}" ng-if="pdfLink !== '' && content === ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
+			<div><a target="_blank" href="{{pdfLink}}" ng-if="pdfLink !== '' && contentShort === ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
 			<div ng-if="share === 'true' && contentShort === ''" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>
 				<social-share
@@ -68,7 +68,7 @@
 			<div ng-if="contentShort === ''" ng-bind-html="content"></div>
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="'Read More'"></a>
 			<a target="_blank" href="{{mainctatext2}}" ng-if="mainctatext2 !== ''" class="cta cta-light-blue cat-2" ng-bind-html="'Purchase'"></a>
-			<div><a target="_blank" href="{{pdfLink}}" ng-if="pdfLink !== '' && content !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
+			<div><a target="_blank" href="{{pdfLink}}" ng-if="pdfLink !== '' && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
 			<div><a target="_blank" href="{{xlsLink}}" ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="'Download Results (EXCEL)'"></a></div>
 			<div><a target="_blank" href="{{extLink}}" ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div><a target="_blank" ng-if="otherLink !== ''" class="other-link" ng-bind-html="otherLink"></a></div>
