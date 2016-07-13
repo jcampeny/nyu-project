@@ -16,6 +16,14 @@ angular.module('app').directive('nyuListColumns', function () {
     	$scope.rightHeight = 0;
         $rootScope.change = 0;
         $scope.allPostsFound = 0;
+        $scope.allPostsShowed = {
+            total : 0,
+            actual : 0
+        };
+        var dataFile = $scope.entity;
+        if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
+            dataFile = $scope.subentity;
+        }
 
         $scope.picture = '';
         $scope.picture = DataService.getMediaHeader($scope.entity);
@@ -41,27 +49,61 @@ angular.module('app').directive('nyuListColumns', function () {
         $rootScope.$on('$stateChangeSuccess',function(){fadeInTitle();});
         fadeInTitle();
         
-    	//$http.get("/localdata/content/" + $scope.entity + ".json", { cache: true })
-        //    .then(function(response) {
-        //		if(response.data.results.length > 0){
-        //			results = response.data.results;
-        //			placeItemInColumn(results.shift());
-        //		}
-        //    });
-        DataService.all($scope.entity, "all", 0, true).then(function(posts){
+        /*DataService.all($scope.entity, "all", 0, true).then(function(posts){
             DataService.setPosts(posts, $state.current.url);
             $scope.allPostsFound = posts.length;
             //results = posts;
             //placeItemInColumn(results.shift());
-        });
+        });*/
 
+        DataService.allNoEmbed(dataFile, 'all', 0).then(function(posts){
+            $scope.allPostsShowed.total = posts.length;
+            $scope.allPostsShowed.actual = posts.length;
+        }); 
+        function getFiles(posts){
+            angular.forEach(posts, function(postItem, i){
+                DataService.getPdfXls(postItem).then(function(item){
+                    //if(i == posts.length-1){
+                        DataService.setPosts(posts, dataFile, true);
+                        $rootScope.change++;
+                    //}
+                });                    
+            });
+        }
+        getMoreItem();
+        function getMoreItem(){
+            var actualPage =  ($scope.postShowed / DataService.postsCountStart) || 1;
+            var perPage = DataService.postsCountStart;
+            if(dataFile == 'books'){
+                actualPage = 1;
+                perPage = 100;
+            }
+            DataService.all(dataFile, perPage, actualPage, true).then(function(posts){
+                $scope.allPostsFound += posts.length;
+                DataService.setPosts(posts, dataFile, false, true);
+                $rootScope.change++;
+                getFiles(posts); 
+                $scope.loadText = 'LOAD MORE';
+
+            });   
+
+        }
+        var printed = true;
+        var filteredBefore = false;
         $scope.postShowed = DataService.postsCountStart;
         $scope.loadMore = function(){
-            $scope.postShowed += 5;
-            DataService.postsToShow($state.current.url, $scope.postShowed);
+            /*$scope.postShowed += DataService.postsCountStart;
+            DataService.postsToShow($state.current.url, $scope.postShowed);*/
             //console.log("loadingmore");
+            if($scope.loadText == 'LOAD MORE' && printed){
+                printed = false;
+                $scope.loadText = 'LOADING...';
+                $scope.postShowed += DataService.postsCountStart;
+                getMoreItem();
+                DataService.postsToShow(dataFile, $scope.postShowed);
+                results = [];
+            }
         };
-        
         $rootScope.$watch('change',
             function(value){
                 var filter = {
@@ -72,40 +114,80 @@ angular.module('app').directive('nyuListColumns', function () {
                     yearFrom: "",
                     yearTo: "",
                     text: "",
-                    type : $state.current.url,
+                    type : dataFile,
                     toShow : DataService.postsCountStart
                 };
-                
                 filter = DataService.getFilter(filter);
-
                 var postsController = DataService.getPostsFiltered(filter);
-                var items = postsController.filter;
-                $scope.allPostsShowed = postsController.total.length; 
-
-                if(lastLen != items.length){
-                    lastLen = items.length;
-                    results = items;
-                    $scope.items = [];
-                    $scope.leftColumn = [];
-                    $scope.rightColumn = [];
-                    $scope.leftHeight = 0;
-                    $scope.rightHeight = 0;
-                    placeItemInColumn(results.shift());                    
+                if(results.length === 0 || filter.db !== ''){
+                    if(filter.db){
+                        if(!filteredBefore) resetColumns();
+                        filteredBefore = true;
+                        DataService.all(dataFile, 'all', 0, true, filter.db).then(function(filtered){
+                            $scope.items = filtered.slice(0, filter.toShow);
+                            $scope.allPostsShowed.actual = filtered.length;
+                            if(filter.text !== ''){
+                                angular.forEach($scope.items, function(postItem, j){
+                                    var searchCtrl = DataService.searchWord(filter.text, postItem);
+                                    if(searchCtrl.found) $scope.items[j] = searchCtrl.post;
+                                });
+                                
+                            }
+                            results = $scope.items;
+                            placeItemInColumn(results.shift());
+                        });
+                    }else{
+                        if(filteredBefore) resetColumns();
+                        filteredBefore = false;
+                        //$scope.items = (dataFile == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos 
+                        //$scope.items = (postsController.total.length >= DataService.postsCountStart) ? postsController.total.slice(filter.toShow-DataService.postsCountStart, filter.toShow) : postsController.total;
+                        $scope.items = postsController.total;
+                        $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
+                        results = $scope.items;
+                        placeItemInColumn(results.shift());
+                    }                    
                 }
 
-            });
+                
 
+            });
+        function resetColumns(){
+            $scope.leftColumn = [];
+            $scope.rightColumn = [];
+            $scope.leftHeight = 0;
+            $scope.rightHeight = 0;
+        }
+        function searchRepeated(item, array){
+            var found = false; 
+            angular.forEach(array, function(itemArray){
+                if(itemArray.id == item.id) found = true;
+            });
+            return found;
+        }
         function placeItemInColumn(item){
+            var found;
         	if(typeof item !== "undefined"){
 	        	if($scope.leftHeight <= $scope.rightHeight){
-	        		$scope.leftColumn.push(item);
-	        		setupColumnItem(item,"left");
+                    found = searchRepeated(item, $scope.leftColumn) || searchRepeated(item, $scope.rightColumn);
+	        		if(!found){
+                        $scope.leftColumn.push(item);
+                        setupColumnItem(item,"left");
+                    }else{
+                        placeItemInColumn(results.shift());
+                    }
+	        		
 	        	}else{
-	        		$scope.rightColumn.push(item);
-	        		setupColumnItem(item,"right");
+                    found = searchRepeated(item, $scope.leftColumn) || searchRepeated(item, $scope.rightColumn);
+                    if(!found){
+                        $scope.rightColumn.push(item);
+                        setupColumnItem(item,"right");
+                    }else{
+                        placeItemInColumn(results.shift());
+                    }
+
 	        	}
-	        	$scope.items.push(item);
 			}
+
         }
 
         function setupColumnItem(item, column){
@@ -114,7 +196,8 @@ angular.module('app').directive('nyuListColumns', function () {
     				height += 300;
     			}
     			$scope[column+"Height"] += height;
-    			placeItemInColumn(results.shift());
+                placeItemInColumn(results.shift());
+                if(results.length === 0) printed = true;
 	    	};
         }
 
