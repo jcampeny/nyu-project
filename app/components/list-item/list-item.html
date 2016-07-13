@@ -46,7 +46,7 @@
 	</div>
 	<!--end PODCAST-->
 	<div class="row">
-		<div class="item-image {{entity !== 'videos' && contentShort !== ''?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
+		<div class="item-image {{entity !== 'videos' ?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" class="item-image-container">
 				<img class="{{content===''?'':'full-img'}}" src="{{picture}}" />	
 			</a>
