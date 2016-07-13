@@ -69,7 +69,7 @@ angular.module('app').directive('nyuList', function () {
             }
             DataService.all(dataFile, perPage, actualPage, true).then(function(posts){
                 $scope.allPostsFound += posts.length;
-                DataService.setPosts(posts, dataFile, false, true);
+                DataService.setPosts(posts, dataFile, true, true);
                 $rootScope.change++;
                 getFiles(posts); 
                 $scope.loadText = 'LOAD MORE';
