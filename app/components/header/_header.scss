@@ -471,3 +471,24 @@
 	}
 
 }
+#mobile-input-search{
+	margin-top: 40px;
+	&+a{
+		margin-top: 40px;
+	}
+	&::-webkit-input-placeholder {
+	   color: white;
+	}
+
+	&:-moz-placeholder { /* Firefox 18- */
+	   color: white;  
+	}
+
+	&::-moz-placeholder {  /* Firefox 19+ */
+	   color: white;  
+	}
+
+	&:-ms-input-placeholder {  
+	   color: white;  
+	}
+}

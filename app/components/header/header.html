@@ -76,7 +76,7 @@
 	</div>
 	<div class="header-mobile" ng-class="{'hide-menu' : hideOnScroll}">
 		<div class="input-container-mobile" ng-class="stateName">			
-			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode ? searchSubmit(searchInput) : null" ng-model="searchInput">
+			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode === 13 ? searchSubmit(searchInput) : null" ng-model="searchInput">
 			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
 			<div class="close-cross" ng-click="showSearch('close')"></div>
 		</div>
@@ -126,9 +126,10 @@
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
 				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
 				<li><a href="#" ng-click="openRequest()">Request As Speaker</a></li>
-				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" ng-click="searchSubmit(searchInput)">
-					<input type="text" name="search" placeholder="Type to search..." ng-model="searchInput">
-					<a ui-sref="app.search" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" >
+					<a ng-click="searchSubmit(searchInput)" ng-class="{'active': getCurrentStateGroup() == 'search'}">Search</a>
+					<input id="mobile-input-search" type="text" name="search" placeholder="Type to search..." ng-model="searchInput">
+					<a class="btn-icon" ng-click="searchSubmit(searchInput)"><i class="fa fa-search"  aria-hidden="true"></i></a>
 				</li>
 			</ul>
 		</div>
