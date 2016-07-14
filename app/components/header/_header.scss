@@ -101,7 +101,7 @@
 				height: 100% !important;			
 			}
 			.close-cross{
-				display: none;
+				//display: none;
 			}
 		}
 		.input-container{
@@ -318,6 +318,11 @@
 						left: 25px;
 					}
 				}
+				.close-cross{
+					position: absolute;
+					@include cross(0.6);	
+					top: 50%;	
+				}
 			}
 		}
 		.logo{
@@ -472,23 +477,27 @@
 
 }
 #mobile-input-search{
-	margin-top: 40px;
+	//margin-top: 40px;
 	&+a{
-		margin-top: 40px;
+		//margin-top: 40px;
 	}
 	&::-webkit-input-placeholder {
 	   color: white;
+	       font-size: 1.6rem;
 	}
 
 	&:-moz-placeholder { /* Firefox 18- */
-	   color: white;  
+	   color: white;
+	       font-size: 1.6rem;  
 	}
 
 	&::-moz-placeholder {  /* Firefox 19+ */
-	   color: white;  
+	   color: white; 
+	       font-size: 1.6rem; 
 	}
 
 	&:-ms-input-placeholder {  
 	   color: white;  
+	       font-size: 1.6rem;
 	}
 }

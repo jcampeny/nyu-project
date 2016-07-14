@@ -111,22 +111,22 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		});
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
-			$scope.showSearch('close');
+			//$scope.showSearch('close');
 			$rootScope.change++;
 			DataService.setGlobalSearch(searchInput);
 		};
 		$scope.showSearch = function(toState){
 			if(toState == 'open'){
-				$('.search-input').animate({
+				$('.search-input, .input-container-mobile').animate({
 					height : '190%'
 				}, 400, function(){
-					$('.input-container').animate({opacity : '1'}, 400);
+					$('.input-container, .input-container-mobile').animate({opacity : '1'}, 400);
 				});
-			}else if($state.current.url != 'search'){
-				$('.input-container').animate({
+			}else/* if($state.current.url != 'search')*/{
+				$('.input-container, .input-container-mobile').animate({
 					opacity : '0'
 				}, 400, function(){
-					$('.search-input').animate({height : '0%'}, 400);
+					$('.search-input, .input-container-mobile').animate({height : '0%'}, 400);
 				});
 			}
 

@@ -126,9 +126,9 @@
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
 				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
 				<li><a href="#" ng-click="openRequest()">Request As Speaker</a></li>
-				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" >
-					<a ng-click="searchSubmit(searchInput)" ng-class="{'active': getCurrentStateGroup() == 'search'}">Search</a>
-					<input id="mobile-input-search" type="text" name="search" placeholder="Type to search..." ng-model="searchInput">
+				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" ng-click="searchSubmit(searchInput)">
+					<!--<a ng-click="searchSubmit(searchInput)" ng-class="{'active': getCurrentStateGroup() == 'search'}">Search</a>-->
+					<input id="mobile-input-search" type="text" name="search" placeholder="Search" ng-model="searchInput">
 					<a class="btn-icon" ng-click="searchSubmit(searchInput)"><i class="fa fa-search"  aria-hidden="true"></i></a>
 				</li>
 			</ul>
