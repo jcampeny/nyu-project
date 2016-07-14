@@ -1,5 +1,5 @@
 <header>
-	<div class="header-top" ng-class="{'header-fixed':headerFixed}">
+	<div class="header-top" ng-if="!headerFixed" ng-class="{'header-fixed':headerFixed}">
 		<div class="margin-content">
 			<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>
 			<div class="buttons">

@@ -1,4 +1,4 @@
-angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document, $location) {
+angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document, $location, deviceDetector) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/header/header.html',
@@ -22,14 +22,19 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 	    $scope.openRequest = function(){
     		PopupService.openPopUp(true);
     	};
-	    angular.element($window).bind("scroll", function(e) {
-	        if($window.scrollY > 87){
-	        	$scope.headerFixed = true;
-	        }else{
-	        	$scope.headerFixed = false;
-	        }
-	        $scope.$apply();
-	   	});
+    	if(deviceDetector.isMobile()){
+    		$scope.headerFixed = true;
+    	}else{
+		    angular.element($window).bind("scroll", function(e) {
+		        if($window.scrollY > 87){
+		        	$scope.headerFixed = true;
+		        }else{
+		        	$scope.headerFixed = false;
+		        }
+		        $scope.$apply();
+		   	});    		
+    	}
+
 
 	    $rootScope.headerOpened = false;
 	    $scope.toggleMenu = function(){
