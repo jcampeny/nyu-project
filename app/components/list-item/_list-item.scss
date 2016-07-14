@@ -80,6 +80,9 @@ nyu-list-item{
 			margin-top:25px;
 			margin-right: 15px;
 			cursor:pointer;
+			&.margin-fix{
+				margin-top:0px;
+			}
 		}
 
 		.link-dark-blue {
