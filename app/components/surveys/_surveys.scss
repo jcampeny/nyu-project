@@ -27,8 +27,11 @@
 	padding-bottom: 70px;
 
 	.survey-text{
-		font-size:2rem;
-		font-weight: 300;	
+		/*font-size:2rem;
+		font-weight: 300;*/
+		font-weight: 400;
+		font-size: 1.7rem;
+		line-height: 2.9rem;	
 	}
 	hr{
 		max-width:50%;
@@ -197,10 +200,13 @@
 
 	.explanation{
 		margin-top: 30px;
-		font-size: 1.7rem;
+		/*font-size: 1.7rem;*/
 		color:#2D2E2D;
-		font-weight: 300;
+		//font-weight: 300;
 
+		font-weight: 400;
+		font-size: 1.7rem;
+		line-height: 2.9rem;
 		p{
 			margin-bottom: 25px;
 		}
@@ -342,10 +348,12 @@
 		margin: 60px 0 20px 0;
 	}
 	.thanks{
-		font-weight: 300;
-		font-size: 1.6rem;
+		/*font-weight: 300;
+		font-size: 1.6rem;*/
 		color:#313231;
-
+		font-weight: 400;
+		font-size: 1.7rem;
+		line-height: 2.9rem;
 		p{
 			margin-bottom: 30px;
 		}
