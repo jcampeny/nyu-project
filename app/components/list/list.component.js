@@ -59,8 +59,8 @@ angular.module('app').directive('nyuList', function () {
                 });                    
             });
         }
-        getMoreItem();
-        function getMoreItem(){
+        getMoreItem(true);
+        function getMoreItem(firstGet){
             var actualPage =  ($scope.postShowed / DataService.postsCountStart) || 1;
             var perPage = DataService.postsCountStart;
             if(dataFile == 'books'){
@@ -69,7 +69,12 @@ angular.module('app').directive('nyuList', function () {
             }
             DataService.all(dataFile, perPage, actualPage, true).then(function(posts){
                 $scope.allPostsFound += posts.length;
-                DataService.setPosts(posts, dataFile, true, true);
+                if(firstGet){
+                    DataService.setPosts(posts, dataFile, true, true);
+                }else{
+                    DataService.setPosts(posts, dataFile, false, true);
+                }
+                
                 $rootScope.change++;
                 getFiles(posts); 
                 $scope.loadText = 'LOAD MORE';

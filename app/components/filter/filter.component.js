@@ -42,7 +42,7 @@ angular.module('app').directive('nyuFilter', function () {
         };
 
         $scope.searchBefore = function(){
-            return $scope.filterData.db || !deviceDetector.isMobile();
+            return $scope.filterData.db && deviceDetector.isMobile();
         };
         $scope.isMobile = function(){
             return deviceDetector.isMobile();

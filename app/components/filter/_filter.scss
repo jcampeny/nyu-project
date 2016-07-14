@@ -30,6 +30,11 @@
 			border: 1px solid #0080FF;
 			background: transparent;
 		}
+		&.active-result{
+			background-color: #0080FF;
+			color: white;
+			@include transition(all 0.4s);
+		}
 	}
 
 	.filter-item{
