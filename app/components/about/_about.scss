@@ -44,11 +44,20 @@
 						top: 101px;
     					left: 103px;
 						@include transform(scale(4));
+						path{
+							@include transition(transform 0.2s linear);
+							@include transform(translateX(0px));
+						}
 					}
 				}
 
-				&:hover{
+				&:hover, &.pause{
 					opacity: 1;
+				}
+				&.pause{
+					path{
+						@include transform(translateX(2px) !important) ;
+					}
 				}
 			}
 		}
