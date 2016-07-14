@@ -66,6 +66,7 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 					ContactService.sendContact($scope.msg).then(function(response){
 					    if(response > 0){
 					    	$scope.requestSent = true;
+					    	$('ng-pop-up').animate({ scrollTop: 0 }, 'slow');
 					    }else{
 					    	if(response == -1){
 					    		toRed('#email');
