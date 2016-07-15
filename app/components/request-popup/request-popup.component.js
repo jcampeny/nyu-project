@@ -15,61 +15,80 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 			date : '',
 			email : '',
 			phone : '',
-			msg : ''
+			msg : '',
+			nature : ''
 		};
-		$scope.btntxt = 'Send request';
 	    var canSend = true;
 		var allOk = true;
-		$scope.requestSent = false;
-
+		$scope.requestSent = {
+			request : false,
+			contact : false
+		};
+		$scope.$watch('stateToShow',function(){
+			
+			$scope.btntxt = 'Send request';
+			$scope.msg.nature = '';
+		});
+		$scope.$watch("myRecaptchaResponse", function(){
+			if($scope.myRecaptchaResponse){
+				$('div[vc-recaptcha]').css({'border' : '1px solid transparent'});
+				$('div[vc-recaptcha]').fadeOut('slow');
+			}
+		});
 	    $scope.submitForm = function(){
 	        if(canSend){
 	        	allOk = true;
 
 	            $scope.btntxt = 'Sending...';
 	            
-
 	            var today = new Date();
 	            today = Date.parse(today);
 	            var dateForm = Date.parse($scope.msg.date);
 
+	            if(!$scope.myRecaptchaResponse){ 
+	            	toRed('div[vc-recaptcha]');allOk = false; 
+	            }
+				if($scope.msg.nature === '' && $scope.stateToShow == 'contact'){ 
+					toRed('.nature'); allOk = false;		 
+				}else{ 
+					toNormal('.nature');
+				}
 				if($scope.msg.name === ''){ 
-					toRed('#name'); allOk = false;		 
+					toRed('.name'); allOk = false;		 
 				}else{ 
-					toNormal('#name');
+					toNormal('.name');
+				}
+				if($scope.msg.name === ''){ 
+					toRed('.name'); allOk = false;		 
+				}else{ 
+					toNormal('.name');
 				}
 
-				if($scope.msg.organization === ''){ 
-					toRed('#organization');allOk = false; 
+				if(($scope.msg.date === '' || isNaN(dateForm) || ((today - dateForm) > 86400000))  && $scope.stateToShow == 'request'){ 
+					toRed('.date'); allOk = false;		 
 				}else{ 
-					toNormal('#organization');
-				}
-
-				if($scope.msg.date === '' || isNaN(dateForm) || ((today - dateForm) > 86400000)){ 
-					toRed('#date'); allOk = false;		 
-				}else{ 
-					toNormal('#date');
+					toNormal('.date');
 				}
 
 				if($scope.msg.email  === ''){ 
-					toRed('#email'); allOk = false;		 
+					toRed('.email'); allOk = false;		 
 				}else{ 
-					toNormal('#email');
+					toNormal('.email');
 				}
 
-				if($scope.msg.phone === ''){ 
-					toRed('#phone'); allOk = false;		 
+				if($scope.msg.phone === '' && $scope.stateToShow == 'request'){ 
+					toRed('.phone'); allOk = false;		 
 				}else{ 
-					toNormal('#phone');
+					toNormal('.phone');
 				}
 				if(allOk){
 					ContactService.sendContact($scope.msg).then(function(response){
 					    if(response > 0){
-					    	$scope.requestSent = true;
+					    	$scope.requestSent[$scope.stateToShow] = true;
 					    	$('ng-pop-up').animate({ scrollTop: 0 }, 'slow');
 					    }else{
 					    	if(response == -1){
-					    		toRed('#email');
+					    		toRed('.email');
 					    	}
 					    	canSend = true;
 					    	allOk = false;
@@ -92,7 +111,10 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 
     },
     link : function(s, e, a){
+    	s.stateToShow = '';
     	$rootScope.$on('openPopUp', function(event, data) {
+    		s.stateToShow = data.view;
+    		$(".name, .email, .organization, .date, .phone, .nature ").css({'border' : '1px solid #C9CCCB'});
     	    if(data.state){
     	    	$(e).addClass('show-pop-up');
     	    	$('.request-popup-container').css({opacity: 0});

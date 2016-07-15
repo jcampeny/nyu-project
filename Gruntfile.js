@@ -17,7 +17,8 @@ module.exports = function(grunt) {
     "bower_components/ng-tags-input/ng-tags-input.min.js",
     "bower_components/angular-socialshare/dist/angular-socialshare.min.js",
     "bower_components/re-tree/re-tree.min.js",
-    "bower_components/ng-device-detector/ng-device-detector.min.js"
+    "bower_components/ng-device-detector/ng-device-detector.min.js",
+    "bower_components/angular-recaptcha/release/angular-recaptcha.min.js"
   ];
 
   var vendorStyles = [

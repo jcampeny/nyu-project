@@ -23,10 +23,11 @@ angular.module('app')
         return {
             openPopUp : openPopUp
         };
-        function openPopUp(newState) {
+        function openPopUp(newState, view) {
             popUpIsOpen = newState;
             $rootScope.$broadcast('openPopUp', {
-                state: popUpIsOpen
+                state: popUpIsOpen,
+                view : view
             });
         }
     });

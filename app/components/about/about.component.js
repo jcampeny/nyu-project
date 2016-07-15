@@ -73,8 +73,8 @@ angular.module('app').directive('nyuAbout', function () {
         };
 
 
-    	$scope.showSpeakerPopup = function(){
-  			PopupService.openPopUp(true);
+    	$scope.showSpeakerPopup = function(view){
+  			PopupService.openPopUp(true, view);
 
         if( navigator.userAgent.match(/iPhone|iPad|iPod/i) ) {
             $('.modal').on('show.bs.modal', function() {

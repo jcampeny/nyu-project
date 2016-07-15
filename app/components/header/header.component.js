@@ -19,8 +19,8 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 
     	});
     	$('[ui-sref="'+$rootScope.currentState+'"]').addClass('active');
-	    $scope.openRequest = function(){
-    		PopupService.openPopUp(true);
+	    $scope.openRequest = function(view){
+    		PopupService.openPopUp(true, view);
     	};
     	if(deviceDetector.isMobile()){
     		$scope.headerFixed = true;

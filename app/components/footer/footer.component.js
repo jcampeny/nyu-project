@@ -4,8 +4,8 @@ angular.module('app').directive('ngFooter', function () {
     templateUrl: '../app/components/footer/footer.html',
     controllerAs: 'footer',
     controller: function ($scope, PopupService) {
-    	$scope.showSpeakerPopup = function(){
-			 PopupService.openPopUp(true);
+    	$scope.showSpeakerPopup = function(view){
+			 PopupService.openPopUp(true, view);
 		  };
     }
   };

@@ -1,6 +1,13 @@
 .overflow{
 	overflow: hidden;
 }
+div[vc-recaptcha]{
+	border: 1px solid transparent;
+	margin: 30px auto;
+    width: 160px;
+    height: 140px;
+    border-radius: 3px;
+}
 ng-pop-up{
 	z-index: 100;
 	background-color: white;
@@ -71,6 +78,16 @@ ng-pop-up{
 					height: 45px;
 					padding: 5px;
 					-webkit-appearance: none;
+					border: 1px solid #C9CCCB;
+					background:#FFFFFF;
+					color: #616362;
+				}
+
+				select{
+					display:block;
+					width:100%;
+					height: 45px;
+					padding: 5px;
 					border: 1px solid #C9CCCB;
 					background:#FFFFFF;
 					color: #616362;

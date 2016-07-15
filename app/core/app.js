@@ -1,4 +1,4 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha'])
 
 	.controller("mainController", [ '$rootScope', '$timeout', 'DataService', function($rootScope, $timeout, DataService) {
 		/*DataService.getMedia('file').then(function(images){

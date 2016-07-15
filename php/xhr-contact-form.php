@@ -24,6 +24,17 @@ $subject = "Contact Web";
 $headers = "From: $fromEmail\r\n";
 $mail = "jordicampeny12@gmail.com";
 
+if($request->nature > 0){
+
+	if($request->nature == 1) /*$mail = 'pankaj@ghemawat.com'*/ $mail = "jordicampeny12@gmail.com";
+	if($request->nature == 2) /*$mail = 'online@ghemawat.com'*/ $mail = "jordicampeny12@gmail.com";
+	if($request->nature == 3) /*$mail = 'globecourse@ghemawat.com'*/ $mail = "jordicampeny12@gmail.com";
+	$message = "
+		Name: ".$request->name."
+		Organization: ".$request->organization."
+		E-MAIL: ".$request->email."
+		Message:".$request->msg;
+}
 if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
   	echo -1;
 }else{
