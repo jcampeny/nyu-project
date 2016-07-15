@@ -87,26 +87,44 @@ function insertToDB($request) {
 	// setting parameters from request
 	$name         = $request->name;
 	$organization = $request->organization;
-	$date_sent    = $request->date;
 	$email        = $request->email;
 	$phone        = $request->phone;
 	$message      = $request->msg;
 
-
+	if($request->nature > 0){
+		$nature = $request->nature;
+		$sql = "INSERT INTO wp_posts (post_author, post_date, post_date_gmt, post_content, post_title, post_status, post_name, post_modified, post_modified_gmt, post_type)
+				VALUES (1, '$date', '$date', '','From: ".$name."', 'private', '".$name."', '$date', '$date', 'contact');";
+	}else{
+		$date_sent = $request->date;
+		$sql = "INSERT INTO wp_posts (post_author, post_date, post_date_gmt, post_content, post_title, post_status, post_name, post_modified, post_modified_gmt, post_type)
+				VALUES (1, '$date', '$date', '','From: ".$name."', 'private', '".$name."', '$date', '$date', 'message');";
+	}
 	//creating the first query - wp_post
-	$sql = "INSERT INTO wp_posts (post_author, post_date, post_date_gmt, post_content, post_title, post_status, post_name, post_modified, post_modified_gmt, post_type)
-			VALUES (1, '$date', '$date', '','From: ".$name."', 'private', '".$name."', '$date', '$date', 'message');";
+
 
 	//creating the second query - wp_postmeta
 	if ($conn->query($sql) === TRUE) {
 		$id = $conn->insert_id;
-		$sql = "INSERT INTO wp_postmeta (post_id, meta_key, meta_value)
-				VALUES  ($id, 'name_message', '".		  $name         ."'),
-						($id, 'organization_message', '". $organization ."'),
-						($id, 'date_sent_message', '".	  $date_sent    ."'),
-						($id, 'email_message', '".		  $email 		."'),
-						($id, 'phone_message', '".		  $phone 		."'),
-						($id, 'message_message', '".	  $message 	  	."');";	     
+		if($request->nature > 0){
+			$sql = "INSERT INTO wp_postmeta (post_id, meta_key, meta_value)
+					VALUES  ($id, 'name_contact', '".		  $name         ."'),
+							($id, 'organization_contact', '". $organization ."'),
+							($id, 'email_contact', '".		  $email 		."'),
+							($id, 'nature_contact', '".		  $nature 		."'),
+							($id, 'message_contact', '".	  $message 	  	."');";				
+		}else{
+			$sql = "INSERT INTO wp_postmeta (post_id, meta_key, meta_value)
+					VALUES  ($id, 'name_message', '".		  $name         ."'),
+							($id, 'organization_message', '". $organization ."'),
+							($id, 'date_sent_message', '".	  $date_sent    ."'),
+							($id, 'email_message', '".		  $email 		."'),
+							($id, 'phone_message', '".		  $phone 		."'),
+							($id, 'message_message', '".	  $message 	  	."');";				
+		}
+
+
+     
 		$conn->query($sql);
 	}
 

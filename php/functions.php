@@ -431,16 +431,16 @@ add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 
 function Custom_post_Message() {
     $labels = array(
-        'name'                  => _x( 'Messages', 'Post Type General Name', 'text_domain' ),
-        'singular_name'         => _x( 'Message', 'Post Type Singular Name', 'text_domain' ),
-        'menu_name'             => __( 'Message', 'text_domain' ),
-        'name_admin_bar'        => __( 'Message', 'text_domain' ),
+        'name'                  => _x( 'Request as Speaker', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Request as Speaker', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Request as Speaker', 'text_domain' ),
+        'name_admin_bar'        => __( 'Request as Speaker', 'text_domain' ),
         'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
         'all_items'             => __( 'All Items', 'text_domain' ),
-        'add_new_item'          => __( 'Message', 'text_domain' ),
+        'add_new_item'          => __( 'Request as Speaker', 'text_domain' ),
         'add_new'               => __( 'Add New', 'text_domain' ),
         'new_item'              => __( 'New Item', 'text_domain' ),
-        'edit_item'             => __( 'Message information', 'text_domain' ),
+        'edit_item'             => __( 'Request as Speaker information', 'text_domain' ),
         'update_item'           => __( 'Update Item', 'text_domain' ),
         'view_item'             => __( 'View Item', 'text_domain' ),
         'search_items'          => __( 'Search Item', 'text_domain' ),
@@ -451,8 +451,8 @@ function Custom_post_Message() {
         'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
     );
     $args = array(
-        'label'                 => __( 'Message', 'text_domain' ),
-        'description'           => __( 'Custom post Message', 'text_domain' ),
+        'label'                 => __( 'Request as Speaker', 'text_domain' ),
+        'description'           => __( 'Custom post Request as Speaker', 'text_domain' ),
         'labels'                => $labels,
         'supports'              => array(  ),
         'hierarchical'          => false,
@@ -542,6 +542,128 @@ function save_details_message(){
   update_post_meta($post->ID, "phone_message", $_POST["phone_message"]);
   update_post_meta($post->ID, "message_message", $_POST["message_message"]);
   update_post_meta($post->ID, "note_message", $_POST["note_message"]);
+  
+}
+
+/**
+ *
+ *
+ *Custom post type Contact
+ *
+ *
+ */
+
+function Custom_post_Contact() {
+    $labels = array(
+        'name'                  => _x( 'Messages', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Messages', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Messages', 'text_domain' ),
+        'name_admin_bar'        => __( 'Messages', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+        'all_items'             => __( 'All Items', 'text_domain' ),
+        'add_new_item'          => __( 'Message', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Item', 'text_domain' ),
+        'edit_item'             => __( 'Message information', 'text_domain' ),
+        'update_item'           => __( 'Update Item', 'text_domain' ),
+        'view_item'             => __( 'View Item', 'text_domain' ),
+        'search_items'          => __( 'Search Item', 'text_domain' ),
+        'not_found'             => __( 'Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+        'items_list'            => __( 'Items list', 'text_domain' ),
+        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Messages', 'text_domain' ),
+        'description'           => __( 'Custom post messages', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array(  ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'menu_icon'				=> 'dashicons-email-alt',
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 28,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,        
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page', 
+        'capabilities' => array(
+		    'create_posts' => false // Removes support for the "Add New" function ( use 'do_not_allow' instead of false for multisite set ups )
+		  ),
+  		'map_meta_cap' => true
+    );
+    register_post_type('contact', $args );
+
+}
+add_action( 'init', 'Custom_post_Contact', 0 );
+add_action("admin_init", "admin_init_contact");
+add_action('save_post', 'save_details_contact');
+
+function admin_init_contact(){
+  add_meta_box("metaBox_contact", "Details", "metaBox_contact", "contact", "normal", "low");
+}
+
+function metaBox_contact() {
+  global $post;
+	$custom               = get_post_custom($post->ID);
+	$name_contact         = $custom["name_contact"][0];
+	$organization_contact = $custom["organization_contact"][0];
+	$email_contact        = $custom["email_contact"][0];
+	$nature_contact        = $custom["nature_contact"][0];
+	$message_contact      = $custom["message_contact"][0];
+	$note_contact         = $custom["note_contact"][0];
+
+  $settings = array(
+    'media_buttons' => false,
+    'teeny' => true
+    );
+  $nature_value = $nature_contact ;
+  if($nature_contact  == 1) $nature_value = "Message to Professor Ghemawat";
+  if($nature_contact  == 2) $nature_value = "Query or comment about this website, online tools, and subscriptions";
+  if($nature_contact  == 3) $nature_value = "Request for teaching materials or query about the GLOBE Course";
+  ?>
+  <p><label>Notes:</label><br />
+  <?php wp_editor( $note_contact, "note_contact", $settings);?>
+  <div style="display: none;">
+  <style type="text/css">
+  	#wp-content-wrap,
+  	#post-body-content/*,
+  	#publishing-action*/{
+  		display: none;
+  	}
+  </style>
+  <p><label>NATURE OF THE MESSAGE:</label><br />
+  <?php wp_editor( $nature_contact, "nature_contact", $settings);?>
+  <p><label>FULL NAME:</label><br />
+  <?php wp_editor( $name_contact, "name_contact", $settings);?>
+  <p><label>ORGANIZATION / MEETING:</label><br />
+  <?php wp_editor( $organization_contact, "organization_contact", $settings);?>
+  <p><label>E-MAIL:</label><br />
+  <?php wp_editor( $email_contact, "email_contact", $settings);?>
+  <p><label>MESSAGE:</label><br />
+  <?php wp_editor( $message_contact, "message_contact", $settings);?>
+  </div>
+    <p><label>FULL NAME:</label><input style="width: 100%; min-height: 30px;" type="text" name="name" value="<?php echo $name_contact?>" readonly></p>
+    <p><label>ORGANIZATION / MEETING:</label><input style="width: 100%; min-height: 30px;" type="text" name="email" value="<?php echo $organization_contact ?>" readonly></p>
+	<p><label>E-MAIL:</label><input style="width: 100%; min-height: 30px;" type="text" name="interest" value="<?php echo $email_contact ?>" readonly></p>
+	<p><label>NATURE OF THE MESSAGE:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $nature_value ?>" readonly></p>
+	<p><label>MESSAGE:</label><input style="width: 100%; min-height: 50px;" type="text" name="content" value="<?php echo $message_contact ?>" readonly></p>
+  <?php
+}
+function save_details_contact(){
+  global $post;
+
+  update_post_meta($post->ID, "name_contact", $_POST["name_contact"]);
+  update_post_meta($post->ID, "organization_contact", $_POST["organization_contact"]);
+  update_post_meta($post->ID, "email_contact", $_POST["email_contact"]);
+  update_post_meta($post->ID, "nature_contact", $_POST["nature_contact"]);
+  update_post_meta($post->ID, "message_contact", $_POST["message_contact"]);
+  update_post_meta($post->ID, "note_contact", $_POST["note_contact"]);
   
 }
 
