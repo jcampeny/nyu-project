@@ -40,47 +40,83 @@ class JsonFile {
 
 	//contenido de average
 	private function print_average (){
-		?><div><?php echo 'Editable: ';?></div>
+		?><h4>Custom Average: </h4>
 		<form class="form-container" method="post">
-			<?php
-			foreach ($this->json["avgPankaj"] as $name => $value) {
-				?><input value="<?php echo $value;?>" name="<?php echo $name;?>"></input><?php
-			}
-			?>
-			<input type="submit" value="save"></input>
+			<table class="table table-striped">
+				<tr>
+				<?php
+				foreach ($this->json["avg"] as $key => $value) {
+					?><th><?php echo "q".($key + 1);?></th><?php
+				}
+				?>
+				</tr>
+				<tr>
+				<?php
+				foreach ($this->json["avgPankaj"] as $name => $value) {
+					?><td><input value="<?php echo $value;?>" name="<?php echo $name;?>"></input></td><?php
+				}
+				?>
+				</tr>
+				</table>
+			<input type="submit" value="Save" class="btn btn-primary btn-lg"></input>
 		</form>
-		<div><?php echo 'Total: '.$this->json["total"];?></div><?php
-		?><div><?php echo 'Gap Average: '.$this->json["totalavg"];?></div><?php
-		?><div><?php echo 'Average: ';?></div><?php
+		<h4>Total: </h4>
+		<p><?php echo $this->json["total"];?></p>
+		<h4>Gap Average: </h4>
+		<p><?php echo $this->json["totalavg"];?></p>
+		<h4> Average per question: </h4>
+		<table class="table table-striped">
+			<tr>
+				<?php
+				foreach ($this->json["avg"] as $key => $value) {
+					?><th><?php echo "q".($key + 1);?></th><?php
+				}
+				?>
+			</tr>
+			<tr>
+		<?php
 		foreach ($this->json["avg"] as $key => $value) {
-			?><div><?php echo "Question".($key + 1).": ".$value;?></div><?php
+			?><td><?php echo $value;?></td><?php
 		}
 		?>
-
+			</tr>
+		</table>
+		<hr>
 		<?php
 	}
 	//contenido de average
 	private function print_general (){
 		?>
+		<h4>Information per Gap: </h4>
+		<table class="table table-striped">
+			<tr>
+				<th>User</th>
+				<th>Living</th>
+				<th>Born</th>
+				<th>Occupation</th>
+				<th>Age</th>
+				<th>Gender</th>
+				<th>Answers</th>
+			</tr>
 		<?php
-		foreach ($this->json as $key => $value) {
-			?><h3>User <?php echo $key + 1 ?></h3><?php
-			?><h4>Information:</h4><?php
-			?><h6>Living:</h6><?php
-			?><div><?php echo $value["user"]["info"]["living"];?></div><?php
-			?><h6>Born:</h6><?php
-			?><div><?php echo $value["user"]["info"]["born"];?></div><?php
-			?><h6>Occupation:</h6><?php
-			?><div><?php echo $value["user"]["info"]["occupation"];?></div><?php
-			?><h6>Age:</h6><?php
-			?><div><?php echo $value["user"]["info"]["age"];?></div><?php
-			?><h6>Gender:</h6><?php
-			?><div><?php echo $value["user"]["info"]["gender"];?></div><?php
+		foreach ($this->json as $key => $value) {?>
+			<tr>
+				<td><?php echo $key + 1;?></td>
+				<td><?php echo $value["user"]["info"]["living"];?></td>
+				<td><?php echo $value["user"]["info"]["born"];?></td>
+				<td><?php echo $value["user"]["info"]["occupation"];?></td>
+				<td><?php echo $value["user"]["info"]["age"];?></td>
+				<td><?php echo $value["user"]["info"]["gender"];?></td>
+				<td>
+			<?php
 			foreach ($value["user"]["answers"] as $x => $y) {
-				echo $y."//";
+				if(!$y) $y = "n/a";
+				?> <strong> <?php echo $x; ?> </strong> <?php echo ": ".$y.", ";
 			}
+			?></td></tr<?php
 		}
 		?>
+		</table>
 		<?php
 	}
 
