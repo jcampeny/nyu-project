@@ -11,10 +11,11 @@
 	.home-hero-content{
 		position: absolute;
 		top: 15%;
-    	margin-left: 10px;
-    	max-width: 30%;
-    	padding: 10px;
-    	background-color: rgba(0,0,0,0.5);
+    	margin-left: 20px;
+    	//max-width: 30%;
+    	width: 430px;
+    	padding: 20px;
+    	background-color: rgba(0,0,0,0.25);
 
     	.line-title{
     		color:#FFFFFF;
@@ -25,7 +26,7 @@
     	}
 
     	.subtitle{
-    		margin-top: 70px;
+    		margin-top: 40px;
     		color:#FFFFFF;
     		font-size: 1.3em;
     		line-height: 1.3em;
@@ -51,12 +52,13 @@
 		min-height: 328px;
 
 		.home-hero-content{
-		    width: 100%;
-		    max-width:70%;
+		    //width: 100%;
+		    //max-width:70%;
+		    width: 240px;
 		    top: 75px;
-		    left: 0;
+		    left: 20px;
 		    margin-left: 0;
-		    padding: 0 20px;
+		    padding: 10px 20px;
     		text-align: center;
 
 			.line-title{
@@ -72,7 +74,7 @@
 			    font-size: 1.2rem;
 
 			    .subtitle-bottom{
-					margin-bottom:70px;
+					//margin-bottom:70px;
 			    }
 			}
 		}
