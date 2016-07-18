@@ -63,7 +63,7 @@
 		</div>
 		<a class="clear-filters" ng-click="clearFilters()">Clear all filters</a>
 		<div class="filters-search" ng-if="entitiesService.hasSearch(entity)">
-			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"  ></i><span>Searchs</span></div>
+			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"  ></i><span>Search</span></div>
 			<div class="buttongroup">
 				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}" ng-model="filterData.text" id="filter-input-search"/>
 				<div class="buttongroup-button" ng-click="searchIt();"><i class="fa fa-search"  aria-hidden="true"></i></div>
