@@ -32,7 +32,7 @@ angular.module('app').directive('ngBackToTop', function (screenService, $documen
         });
 		footerCtrl();
         function footerCtrl(){
-        	if($document.height() < 3500 || deviceDetector.isMobile()){
+        	if($document.height() < 3500 /*|| deviceDetector.isMobile()*/){
         		$(e).addClass('hide');
         	}else{
 		        if(footCtrl.right.indexOf($state.current.url) > -1){
