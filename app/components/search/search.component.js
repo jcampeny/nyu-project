@@ -74,31 +74,33 @@ angular.module('app').directive('nyuSearch', function () {
                 $scope.allPostsShowed.total = 0;
                 $scope.allPostsShowed.actual = 0;
                 var temporalPosts = [];
-                DataService.allCustomPosts( "all", 0, true, filter).then(function(posts){
-                    var promiseDone = 0;
-                    angular.forEach(DataService.customPosts, function(customPost, i){
-                        posts[customPost].then(function(post){
-                            //$scope.allItems[customPost] = post;
-                            promiseDone++;
-                            $scope.allPostsShowed.total += post.length;
-                            $scope.allPostsShowed.actual += post.length;
-                            angular.forEach(post, function(postItem, j){
-                                temporalPosts.push(postItem);
-                                var searchCtrl = DataService.searchWord(DataService.getGlobalSearch(), postItem);
-                                if(searchCtrl.found) temporalPosts[j] = searchCtrl.post;
+                if(filter){
+                    DataService.allCustomPosts( "all", 0, true, filter).then(function(posts){
+                        var promiseDone = 0;
+                        angular.forEach(DataService.customPosts, function(customPost, i){
+                            posts[customPost].then(function(post){
+                                //$scope.allItems[customPost] = post;
+                                promiseDone++;
+                                $scope.allPostsShowed.total += post.length;
+                                $scope.allPostsShowed.actual += post.length;
+                                angular.forEach(post, function(postItem, j){
+                                    temporalPosts.push(postItem);
+                                    var searchCtrl = DataService.searchWord(DataService.getGlobalSearch(), postItem);
+                                    if(searchCtrl.found) temporalPosts[j] = searchCtrl.post;
+                                });
+                                //TODO NADA FOUND
+                                
+                                if(promiseDone == DataService.customPosts.length){
+                                    refreshItems(temporalPosts, true);
+                                }else{
+                                    refreshItems(temporalPosts, false);  
+                                } 
+                             
                             });
-                            //TODO NADA FOUND
-                            
-                            if(promiseDone == DataService.customPosts.length){
-                                refreshItems(temporalPosts, true);
-                            }else{
-                                refreshItems(temporalPosts, false);  
-                            } 
-                         
                         });
-                    });
-
-                });                    
+                    });                    
+                }
+                    
 
 
                // $scope.allPostsShowed.actual = $scope.allPostsShowed.total;
