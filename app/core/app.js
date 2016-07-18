@@ -64,8 +64,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.articles', {url:'articles', template: '<nyu-list entity="articles"></nyu-list>'})
 				.state('app.articlesitem', {url:'articles/:id/:title', template: '<nyu-item entity="articles"></nyu-item>'})
 				
-				.state('app.global', {url:'globalization-index-reports', template: '<nyu-list entity="global"></nyu-list>'})
-				.state('app.globalitem', {url:'globalization-index-reports/:id/:title', template: '<nyu-item entity="global"></nyu-item>'})
+				.state('app.global', {url:'gci', template: '<nyu-list entity="global"></nyu-list>'})
+				.state('app.globalitem', {url:'gci/:id/:title', template: '<nyu-item entity="global"></nyu-item>'})
 				
 				.state('app.working', {url:'working-papers', template: '<nyu-list entity="working"></nyu-list>'})
 				.state('app.workingitem', {url:'working-papers/:id/:title', template: '<nyu-item entity="working"></nyu-item>'})
