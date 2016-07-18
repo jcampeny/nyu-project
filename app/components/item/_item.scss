@@ -155,6 +155,17 @@
 			margin-bottom: 20px;
 			color:#174380;
 			cursor:pointer;
+			&.ext-link{
+				&:after{
+					content: "";
+					position: absolute;
+					margin-left: 10px;
+					background-size: cover;
+				    width: 21px;
+				    height: 20px;
+					background-image: url('/assets/img/link_ext.png');
+				}
+			}
 
 		}
 
