@@ -23,16 +23,17 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
             if(postController.length > 0){
                 angular.forEach(postController, function(postsItem){
                     if(postsItem.state == dataFile){
-                        var found = false;
                         angular.forEach(postsItem.posts, function(aPost){
+                            //var tagtest = aPost.tags.topic || aPost.tags.country || aPost.tags.language || aPost.tags.years || aPost.tags.audience;
                             if(aPost.id == $stateParams.id){
                                 $scope.item = aPost;
-                                found = true;
-                            }else if($scope.related.length < limitRelated || dataFile == 'books'){
+                                if(dataFile != 'books'){
+                                   $scope.related = DataService.getRelatedPost(aPost); 
+                                }
+                            }else if(dataFile == 'books'){
                                 $scope.related.push(aPost);
                             }
                         });
-                        if(!found) getItFromDB();
                     }
                 });
             }else{
@@ -42,13 +43,18 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
             function getItFromDB(){
                 DataService.all(dataFile + '/' +$stateParams.id, "all", 0, true).then(function(posts){
                     $scope.item = posts;
-                });
-                DataService.all(dataFile, limitRelated , 1, true).then(function(posts){
-                    angular.forEach(posts, function(aPostItem){
-                        if(aPostItem.id != $stateParams.id && ($scope.related.length < limitRelated || dataFile == 'books')){
-                            $scope.related.push(aPostItem);
-                        }
-                    });
+                    if(dataFile != 'books'){
+                        $scope.related = DataService.getRelatedPost(posts);
+                    }else{
+                        DataService.all(dataFile, limitRelated , 1, true).then(function(posts){
+                            angular.forEach(posts, function(aPostItem){
+                                if(aPostItem.id != $stateParams.id && ($scope.related.length < limitRelated)){
+                                    $scope.related.push(aPostItem);
+                                }
+                            });
+                        });
+                    }
+                    
                 });
             }
 

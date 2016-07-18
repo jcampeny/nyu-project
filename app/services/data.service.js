@@ -45,7 +45,8 @@
             getPdfXls : getPdfXls,
             allNoEmbed : allNoEmbed,
             getFilterDB : getFilterDB,
-            searchWord : searchWord
+            searchWord : searchWord,
+            getRelatedPost : getRelatedPost
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -558,7 +559,31 @@
                 }
                 
             }
+            
+            //entra el post el cual le tenemos que buscar posts relacionados
+            //retorna array con los post relacionados
+            function getRelatedPost(thePost){
+                var postsToReturn = 3;
+                var taxonomyPreference = ['topic', 'country', 'language', 'years', 'audience']; //ordenar por preferencia
+                var related = [];
 
+                angular.forEach(taxonomyPreference, function(actualTaxonomy){
+                    if(thePost.tags[actualTaxonomy] && thePost.tags[actualTaxonomy].length > 0){
+                        angular.forEach(thePost.tags[actualTaxonomy], function(postTaxonomy){
+                            getMoreRelated(actualTaxonomy, postTaxonomy.slug);
+                        });
+                    }
+                });
+                function getMoreRelated(taxonomy, tag){
+                    all(thePost.type + '?filter['+taxonomy+']='+tag+'&page=1&per_page=3', 'all', 0, true).then(function(posts){
+                        angular.forEach(posts, function (postItem){
+                            if(postItem.id != thePost.id && related.length < postsToReturn) 
+                                related.push(postItem);
+                        });
+                    });                    
+                }
+                return related;
+            }
             /**
              * Decorate a post to make it play nice with Pankaj
              * @param result
