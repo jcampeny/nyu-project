@@ -11,14 +11,35 @@ angular.module('app').directive('nyuMediakit', function () {
         var files = DataService.getMediaKit();
         $scope.resources = [];
         $scope.zipFile = '';
-    
+        $scope.picture = DataService.getMediaHeader($scope.entity);
+
         $rootScope.$on('mediaLoaded', function(event, data) {
-            if(!files) $scope.picture = DataService.getMediaHeader($scope.entity);
-            createResources();        
+            if(!files) {
+                files = DataService.getMediaKit();
+                $scope.picture = DataService.getMediaHeader($scope.entity);
+            }
+            $scope.picture = DataService.getMediaHeader($scope.entity);
+            createResources(); 
+            fadeInTitle();       
         });
 
+
         createResources();
-        
+        function fadeInTitle(){
+            if($scope.picture){
+                setTimeout(function(){
+                    $('.gradient').delay(400).animate({
+                        opacity : '1'
+                    },500);
+                    $('.line-title').delay(600).animate({
+                        opacity : '1',
+                        y : '20px'
+                    },500);    
+                },300);            
+            }
+        }
+        $rootScope.$on('$stateChangeSuccess',function(){fadeInTitle();});
+        fadeInTitle();
     	function createResources(){
             files = DataService.getMediaKit();
             angular.forEach(files, function(file){
