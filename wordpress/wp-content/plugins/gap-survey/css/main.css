@@ -28,3 +28,9 @@ hr{
     border: 0;
     border-top: 1px solid #9E9E9E;
     }
+.csv-container{
+	text-align: center;
+}
+.csv-container .export-csv{
+	margin: 40px 0;
+}

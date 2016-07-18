@@ -27,14 +27,31 @@ function init(){
 	 	if($extension === 'json' && $fileinfo->getFilename() == 'gap-general.json'){
 	 		$general_json = new JsonFile($fileinfo->getFilename());
 	 	}
-	 } 
-	 $average_json->create_content('average');
-	 $general_json->create_content('general');
-	 ?>
+	} 
+	?>
+	<div class="csv-container">
+		<button class="btn btn-primary btn-lg export-csv">Download CSV</button>
+	</div>
+	<?php
+	$average_json->create_content('average');
+	$general_json->create_content('general');
+	?>
 
-	 <style type="text/css">
-	 	<?php include ('css/main.css');?>
-	 </style><?php
+	<style type="text/css">
+		<?php include ('css/main.css');?>
+	</style>
+	<script type="text/javascript">
+		<?php include ('js/csv-ajax.js');?>
+	</script>
+
+	<iframe id="my_iframe" style="display:none;"></iframe>
+	<script>
+		function Download(url) {
+		    document.getElementById('my_iframe').src = url;
+		};
+	</script>
+
+	<?php
 }
 
 /*
@@ -66,4 +83,6 @@ function init(){
 }
 
 */
+
+
 ?>
