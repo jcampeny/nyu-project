@@ -21,6 +21,16 @@ angular.module('app').directive('nyuGapsurvey', function () {
                     s += (+theArray[a]);
                 }
             }
+
+            if(s>19){
+                $scope.scoreText = "implies no (serious)";
+            }else if(s > 9){
+                $scope.scoreText = "some gap";
+            }else if(s > 0){
+                $scope.scoreText = "a significant gap";
+            }else{
+                $scope.scoreText = "a huge gap";
+            }
             return s;
         }
 
