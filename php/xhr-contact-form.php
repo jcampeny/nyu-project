@@ -3,11 +3,8 @@
  * Script to submit the contents of the contact form via an XHR. Contents of the form are sent to this script by the
  * site javascript. This just processes the data and sends it to the specified email address.
  *
- * Created by PhpStorm.
- * User: Michael
- * Date: 17/11/13
- * Time: 11:49
  */
+
 
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
@@ -22,7 +19,7 @@ $message = "
 
 $subject = "Contact Web";
 $headers = "From: $fromEmail\r\n";
-$mail = "jordicampeny12@gmail.com";
+$mail = "jordicampeny12@gmail.com,jcampeny@elkanodata.com";
 
 if($request->nature > 0){
 
@@ -34,7 +31,10 @@ if($request->nature > 0){
 		Organization: ".$request->organization."
 		E-MAIL: ".$request->email."
 		Message:".$request->msg;
+}else{
+	$mail = getMailTo();
 }
+
 if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
   	echo -1;
 }else{
@@ -47,6 +47,30 @@ if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
 	}
 }
 
+function getMailTo(){
+	$mailTO = '';
+	//DB connection
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "nyu";
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);echo $conn->connect_error;
+	} 
+
+	$sql = "SELECT option_value FROM wp_options WHERE wp_options.option_name = 'mail_to_request'";
+
+	if ($resultado = $conn->query($sql)) {
+	    $row = $resultado->fetch_row();
+	    $mailTO = $row[0];
+	    $resultado->close();
+	}
+	return $mailTO;
+}
 
 /*for test*/
 /*
@@ -68,7 +92,6 @@ function insertToDB($request) {
 	$username = "root";
 	$password = "";
 	$dbname = "nyu";
-
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
