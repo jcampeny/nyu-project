@@ -142,7 +142,7 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
     	}
     	checkHeight();
 
-    },controller: function ($scope, $timeout) {
+    },controller: function ($scope, $timeout, $sce) {
     	var breakMobile = 768;
     	//code
     	$scope.hasItemInfo = function(){
@@ -153,8 +153,20 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
     				$scope.pages !== "" ||
     				$scope.other !== "";
     	};
-
-
+        $scope.videoEmbed = '';
+        $scope.isEmbedYT = function(){
+            var embedInfo;
+            var isYT = false;
+            if($scope.extLink){
+                embedInfo = $scope.extLink.split("::");
+                if(embedInfo[0] == 'youtube'){
+                    isYT = true;
+                    $scope.videoEmbed  = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + embedInfo[1]);
+                }
+            }
+            //https://www.youtube.com/watch?v=6lP0efK8imk&feature=youtu.be
+            return isYT;
+        };
     	$scope.getTitleUrl = function(){
     		return window.encodeURIComponent($scope.title).replace(/%20/g,'+');
     	};

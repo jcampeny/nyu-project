@@ -46,7 +46,7 @@
 	</div>
 	<!--end PODCAST-->
 	<div class="row">
-		<div class="item-image {{entity !== 'videos' ?'col-sm-5':'col-sm-12'}}" ng-if="picture !== ''">
+		<div class="item-image {{entity !== 'videos' ?'col-sm-5':'col-sm-12'}}" ng-if="picture !== '' && !isEmbedYT()">
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" class="item-image-container">
 				<img class="{{content===''?'':'full-img'}}" src="{{picture}}" />	
 			</a>
@@ -63,7 +63,10 @@
 			</div>
 		</div>
 		<div class="item-content {{picture !== '' && entity !== 'videos'?'col-sm-7':'col-sm-12'}}" >
-			<div><a target="_blank" href="{{extLink}}" ng-if="entity === 'videos' && extLink !== ''" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
+			<div ng-if="isEmbedYT()">
+				<iframe width="100%" height="100%" ng-src="{{videoEmbed}}" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div><a target="_blank" href="{{extLink}}" ng-if="entity === 'videos' && extLink !== '' && !isEmbedYT()" class="link-dark-blue ext-link"  ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
 			<div class="item-content-text" ng-bind-html="contentShort"></div>
 			<div ng-if="contentShort === ''" ng-bind-html="content"></div>
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" ng-if="mainctatext !== ''" class="cta cta-light-blue" ng-bind-html="'Read More'"></a>

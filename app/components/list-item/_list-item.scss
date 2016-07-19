@@ -47,7 +47,12 @@ nyu-list-item{
 				color:#0983FD;
 			}
 		}
-		
+		div[ng-if="isEmbedYT()"]{
+			position: relative;
+			padding-bottom: 66%;
+			margin: 10px 0 30px 0; 
+			iframe {position: absolute;}
+		}
 		.item-author{
 			font-size:1.7rem;
 			line-height: 1.7rem;

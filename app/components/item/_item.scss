@@ -99,7 +99,12 @@
 				margin-bottom: 20px;
 			}
 		}
-
+		div[ng-if="isEmbedYT()"]{
+			position: relative;
+			padding-bottom: 66%;
+			margin: 20px 0;
+			iframe {position: absolute;}
+		}
 		.item-image{
 			.cta{
 				max-width: 25%;

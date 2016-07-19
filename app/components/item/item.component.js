@@ -1,4 +1,4 @@
-angular.module('app').directive('nyuItem', function ( $http, EntitiesService, ArrayService, DataService, $stateParams, $state, $timeout, $document) {
+angular.module('app').directive('nyuItem', function ( $http, EntitiesService, ArrayService, DataService, $stateParams, $state, $timeout, $document, $sce) {
     return {
         restrict: 'E',
         templateUrl: '../app/components/item/item.html',
@@ -92,6 +92,21 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
         			);
         			
         	};
+            $scope.videoEmbed = '';
+            $scope.isEmbedYT = function(){
+                var embedInfo;
+                var isYT = false;
+                if($scope.item && $scope.item.ext_link){
+                    embedInfo = $scope.item.ext_link.split("::");
+                    if(embedInfo[0] == 'youtube'){
+                        console.log(embedInfo[1]);
+                        isYT = true;
+                        $scope.videoEmbed  = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + embedInfo[1]);
+                    }
+                }
+                
+                return isYT;
+            };
         },
         link: function(scope, element, attrs){
             scope.audioDuration = '0:00';
