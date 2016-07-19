@@ -45,7 +45,7 @@
 	.cta{
 		position: absolute;
 	    bottom: 10%;
-	    margin-left: 20px;
+	    margin-left: 40px;
 	}
 
 	@media only screen and (max-width: $break-mobile) {
@@ -79,7 +79,7 @@
 			}
 		}
 		.cta{
-			left:20px;
+			left:40px;
 			margin-left: 0;
 		}
 	}
