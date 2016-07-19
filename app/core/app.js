@@ -50,13 +50,14 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$resourceProvider', '$httpProvider',
 		function($stateProvider, $urlRouterProvider, $locationProvider, $resourceProvider, $httpProvider) {
-			$urlRouterProvider.otherwise("/");
+			$urlRouterProvider.otherwise("404");
 
 			$stateProvider
 				.state('app', {url:'/', templateUrl: '../app/core/main.html', abstract: true})
 				.state('app.home', {url:'', template: '<nyu-home></nyu-home>'})
 				.state('app.about', {url:'about', template: '<nyu-about></nyu-about>'})
 				.state('app.search', {url:'search', template: '<nyu-search entity="search"></nyu-search>'})
+				.state('app.notfound', {url:'404', template: '<nyu-not-found></nyu-not-found>'})
 
 				.state('app.books', {url:'books', template: '<nyu-list entity="books"></nyu-list>'})
 				.state('app.booksitem', {url:'books/:id/:title', template: '<nyu-item entity="books"></nyu-item>'})
