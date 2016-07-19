@@ -34,3 +34,6 @@ hr{
 .csv-container .export-csv{
 	margin: 40px 0;
 }
+.delete-all .delete-all-btn{
+	margin: 10px 0px 20px 0px;
+} 

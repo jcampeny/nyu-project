@@ -81,6 +81,9 @@ class JsonFile {
 		?>
 			</tr>
 		</table>
+		<div class="reset">
+			<button class="btn btn-primary btn-lg reset-btn">Reset</button>
+		</div>
 		<hr>
 		<?php
 	}
@@ -117,6 +120,9 @@ class JsonFile {
 		}
 		?>
 		</table>
+		<div class="delete-all">
+			<button class="btn btn-primary btn-lg delete-all-btn">Delete</button>
+		</div>
 		<?php
 	}
 

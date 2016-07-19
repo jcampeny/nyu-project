@@ -50,39 +50,9 @@ function init(){
 		    document.getElementById('my_iframe').src = url;
 		};
 	</script>
-
 	<?php
 }
 
-/*
-function init(){
-	$files = new FilesystemIterator(__DIR__, FilesystemIterator::SKIP_DOTS);
-	?><form class="form-container" method="post"><?php
-	$clear_column = false;
-	foreach ($files as $fileinfo) {
-		//get extension
-		$extension = end(explode('.', $fileinfo));
-
-	    if($extension ==='json'){
-			$json_file = new JsonFile($fileinfo->getFilename()); 
-			$json_file->create_table();
-
-			if($clear_column){ //div with clear both (2 columns)
-				?><div style="clear: both;"></div><?php 
-			}
-
-			$clear_column = !$clear_column;
-	    }
-
-	}
-	?><input type="submit" value="Save"></input></form>
-
-	<style type="text/css">
-		<?php include ('css/main.css');?>
-	</style><?php	
-}
-
-*/
 
 
 ?>
