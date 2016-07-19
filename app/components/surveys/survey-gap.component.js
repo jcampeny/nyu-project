@@ -39,42 +39,63 @@ angular.module('app').directive('nyuGapsurvey', function () {
             return getAverage($scope.answers);
         };
     	$scope.scoreText = "some gap";
-
+        $scope.goValid = function(index){
+            $("[question='"+index+"']").removeClass('invalid');
+        };
     	$scope.showResults = function(){
-            console.log($scope.surveyUserData);
-			$scope.page = "results";    	
-			document.body.scrollTop = document.documentElement.scrollTop = 0;
-			$timeout(function(){
-                var newAvg = [];
-                var log = 0;
-                //new array avg
-                angular.forEach($scope.answers, function(actualAvg){
-                    newAvg[log] = avgGap[log] + (actualAvg / totalGaps);
-                    newAvg[log] = Math.round(newAvg[log] * 100) / 100;
-                    log++;
-                });
-                var json = {
-                    "average" : {
-                        "total" : totalGaps,
-                        "totalavg" : Math.round(getAverage(newAvg) * 100) / 100,
-                        "avg" : newAvg,
-                        "avgPankaj" : $scope.avg
-                    },
-                    "general" :{
-                        "user" : {
-                            "info" : $scope.surveyUserData,
-                            "answers" : $scope.answers                            
-                        }                        
-                    } 
-
-                    
-                };
-                $http
-                    .post("/wordpress/wp-content/plugins/gap-survey/save-data-gap.php", json)
-                    .then(function(response){
-                        console.log(response.data);
+            var valid = true;
+            var questionOrder = 0;
+            angular.forEach($scope.answers, function(answer){
+                if(!answer){
+                    if(valid){
+                        $('html, body').animate({
+                            scrollTop: $("[question='"+questionOrder+"']").offset().top - 80
+                        }, "slow");                        
+                    }
+                    valid = false;
+                    $("[question='"+questionOrder+"']").addClass('invalid');
+                }else{
+                    $("[question='"+questionOrder+"']").removeClass('invalid');
+                }
+                questionOrder++;
+            });
+            if(valid){      
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                $timeout(function(){
+                    var newAvg = [];
+                    var log = 0;
+                    //new array avg
+                    angular.forEach($scope.answers, function(actualAvg){
+                        newAvg[log] = avgGap[log] + (actualAvg / totalGaps);
+                        newAvg[log] = Math.round(newAvg[log] * 100) / 100;
+                        log++;
                     });
-			},500);
+                    var json = {
+                        "average" : {
+                            "total" : totalGaps,
+                            "totalavg" : Math.round(getAverage(newAvg) * 100) / 100,
+                            "avg" : newAvg,
+                            "avgPankaj" : $scope.avg
+                        },
+                        "general" :{
+                            "user" : {
+                                "info" : $scope.surveyUserData,
+                                "answers" : $scope.answers                            
+                            }                        
+                        } 
+
+                        
+                    };
+                    console.log(json);
+                    
+                    $http
+                        .post("/wordpress/wp-content/plugins/gap-survey/save-data-gap.php", json)
+                        .then(function(response){
+                            $scope.page = "results";  
+                        });
+                },500);                
+            }
+
     	};
         var optionGeneral = [
                 {id:1,text:"Strongly Disagree"},

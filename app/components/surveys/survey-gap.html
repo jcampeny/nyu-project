@@ -70,9 +70,9 @@
 				</div>
 				<hr>
 				<div class="survey-question" ng-repeat="q in questions">
-					<div class="question-title" ng-bind-html="($index+1) +'. '+ q.question"></div>
+					<div class="question-title" ng-bind-html="($index+1) +'. '+ q.question"  question="{{$index}}"></div>
 					<div class="answers">
-						<label ng-if="q.type === 'select'" ng-repeat="o in q.options" for="{{$parent.$parent.$index}}-{{o.id}}">
+						<label ng-if="q.type === 'select'" ng-repeat="o in q.options" for="{{$parent.$parent.$index}}-{{o.id}}" ng-click="goValid($parent.$parent.$index)">
 							<input ng-model="answers['q'+($parent.$parent.$index+1)]" id="{{$parent.$parent.$index}}-{{o.id}}" name="q-{{$parent.$parent.$index}}" type="radio" value="{{(o.id - 3)}}">
 							<span class="answer-text" ng-bind-html="o.text"></span>
 						</label>

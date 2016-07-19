@@ -105,15 +105,15 @@ class JsonFile {
 		foreach ($this->json as $key => $value) {?>
 			<tr>
 				<td><?php echo $key + 1;?></td>
-				<td><?php echo $value["user"]["info"]["living"];?></td>
-				<td><?php echo $value["user"]["info"]["born"];?></td>
-				<td><?php echo $value["user"]["info"]["occupation"];?></td>
-				<td><?php echo $value["user"]["info"]["age"];?></td>
-				<td><?php echo $value["user"]["info"]["gender"];?></td>
+				<td><?php echo $value["user"]["info"]["living"] ;?></td>
+				<td><?php echo $value["user"]["info"]["born"] ;?></td>
+				<td><?php echo $value["user"]["info"]["occupation"] ;?></td>
+				<td><?php echo $value["user"]["info"]["age"] ;?></td>
+				<td><?php echo $value["user"]["info"]["gender"] ;?></td>
 				<td>
 			<?php
 			foreach ($value["user"]["answers"] as $x => $y) {
-				if(!$y) $y = "n/a";
+				if($y== null) $y = "n/a";
 				?> <strong> <?php echo $x; ?> </strong> <?php echo ": ".$y.", ";
 			}
 			?></td></tr<?php
