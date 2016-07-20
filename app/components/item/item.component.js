@@ -9,6 +9,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
         },
 
         controller: function ($scope) {
+
         	$scope.item = null;
         	$scope.related = [];
 
@@ -23,6 +24,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
             var limitRelated = (dataFile == 'books') ? 20 : 3;
             //Si hay posts en el service
             postController = DataService.getPosts();
+            console.log();
             if(postController.length > 0){
                 angular.forEach(postController, function(postsItem){
                     if(postsItem.state == dataFile){
