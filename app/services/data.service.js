@@ -22,6 +22,7 @@
             all : []
         };
         var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
+        //var path = "/wordpress/wp-json/wp/v2/";
         return {
             all     : all,
             allCustomPosts : allCustomPosts,
@@ -46,7 +47,8 @@
             allNoEmbed : allNoEmbed,
             getFilterDB : getFilterDB,
             searchWord : searchWord,
-            getRelatedPost : getRelatedPost
+            getRelatedPost : getRelatedPost,
+            getFriendlyUrl : getFriendlyUrl
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -404,6 +406,26 @@
                 });
 
                 return promise;
+            }
+            /*function getFriendlyUrl(results, page, decorateCustom, filter) {
+
+                var defered = $q.defer();
+                var promise = defered.promise;
+                var postsLoadeds = [];
+                //filter = (filter) ? '?filter[s]=' + filter : '?filter[s]=' + filter;
+                filter = (filter) ? filter : '?' + filter;
+                angular.forEach(customPosts, function(customPost, i){
+                    postsLoadeds[customPost] = getData(customPost + filter + '&page='+page+'&per_page='+results, decorateCustom);
+                });
+
+                $q.all(postsLoadeds).then(function(){
+                    defered.resolve(postsLoadeds); 
+                });
+
+                return promise;
+            }*/
+            function getFriendlyUrl(){
+                return getData('friendlyurl?page=1&per_page=100', false);
             }
             // function allByTag(type, tag) {
             //     return getData(type+'?filter[tag]=' + tag);

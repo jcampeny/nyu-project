@@ -108,7 +108,9 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 				.state('app.surveys', {url:'surveys', template: '<nyu-surveys></nyu-surveys>'})
 				.state('app.survey-gap', {url:'surveys/gap-survey', template: '<nyu-gapsurvey></nyu-gapsurvey>'})
-				.state('app.markets-gap', {url:'surveys/markets-survey', template: '<nyu-marketssurvey></nyu-marketssurvey>'});
+				.state('app.markets-gap', {url:'surveys/markets-survey', template: '<nyu-marketssurvey></nyu-marketssurvey>'})
+
+				.state('app.custom', {url:':id', template: '<custom-view></custom-view>'});
 
 			$locationProvider.html5Mode(true);
 			$resourceProvider.defaults.stripTrailingSlashes = false;
