@@ -64,7 +64,7 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 					toNormal('.name');
 				}
 
-				if(($scope.msg.date === '' || isNaN(dateForm) || ((today - dateForm) > 86400000))  && $scope.stateToShow == 'request'){ 
+				if(($scope.msg.date === '' /*|| isNaN(dateForm) || ((today - dateForm) > 86400000)*/)  && $scope.stateToShow == 'request'){ 
 					toRed('.date'); allOk = false;		 
 				}else{ 
 					toNormal('.date');
