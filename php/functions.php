@@ -1532,6 +1532,56 @@ function create_year_taxonomy() {
 	
 	register_taxonomy( 'years', $custom_posts, $args );
 }
+
+/**
+ *
+ *
+ *Custom taxonomy Friendly URL
+ *
+ *
+ */
+
+add_action( 'init', 'create_friendly_url_taxonomy', 0 );
+
+// create taxonomy, genres and writers for the post type "book"
+function create_friendly_url_taxonomy() {
+	global $custom_posts;
+	// Add new taxonomy called Category, make it hierarchical (like categories)
+	$labels = array(
+		'name'                       => _x( 'Frendly URL', 'taxonomy general name' ),
+		'singular_name'              => _x( 'Frendly URL', 'taxonomy singular name' ),
+		'search_items'               => __( 'Search Frendly URL' ),
+		'popular_items'              => __( 'Popular Frendly URL' ),
+		'all_items'                  => __( 'All Frendly URL' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Frendly URL' ),
+		'update_item'                => __( 'Update Frendly URL' ),
+		'add_new_item'               => __( 'Add New Frendly URL' ),
+		'new_item_name'              => __( 'New Frendly URL Name' ),
+		'separate_items_with_commas' => __( 'Separate Frendly URLs with commas' ),
+		'add_or_remove_items'        => __( 'Add or remove Frendly URLs' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Frendly URLs' ),
+		'not_found'                  => __( 'No Frendly URLs found.' ),
+		'menu_name'                  => __( 'Frendly URLs' ),
+	);
+
+	//Hierarchical (false -> tag / true -> category)
+	$args = array(
+		'hierarchical'          => false, 
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_in_rest'			=> true,
+		'show_admin_column'     => true,
+		'show_in_menu' 			=> false,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'friendlyurl' ),
+	);
+	
+	register_taxonomy( 'friendlyurl', $custom_posts, $args );
+}
+
 /**
  *
  *
