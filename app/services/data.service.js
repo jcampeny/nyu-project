@@ -187,7 +187,8 @@
                 'pages',
                 'other'
                 ];
-                
+
+            var count = 0; 
             for (var key in temporalPost){
                 if(typeof temporalPost[key] == 'string'){
                     var theString  = temporalPost[key].toString();
@@ -196,12 +197,15 @@
                     var position = theString.search(rgxp);
                     if(position >= 0 && postDataLetSearch.indexOf(key) >= 0){
                         found = true;
-                        if(haveSpan < 0){                       
-                            temporalPost[key] = highlightIt(theString, word);
+                        if(haveSpan < 0){
+                            var hightlighted = highlightIt(theString, word);
+                            count += hightlighted.count;      
+                            temporalPost[key] = hightlighted.text;
                         }
                     }                 
                 }
             }
+            temporalPost.relevance = count;
             return {
                 found : found,
                 post : temporalPost
@@ -224,6 +228,7 @@
                 var highlightHTMLStart = '<span class="highlight-class">';
                 var highlightHTMLEnd = '</span>';
                 var position = theString.search(rgxp);
+                var count = theString.split(word).length;
                 theString = [
                     theString.slice(0, position), 
                     highlightHTMLStart, 
@@ -245,7 +250,10 @@
                     theString = theString.substring(0,location) + tags[i] + theString.substring(location);
                 }                    
 
-                return  theString;
+                return  {
+                    text  : theString,
+                    count : count
+                };
             }
             /*END EXTRAIBLE*/
         }

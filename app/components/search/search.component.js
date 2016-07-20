@@ -21,6 +21,7 @@ angular.module('app').directive('nyuSearch', function () {
             total : 0,
             actual : 0
         };
+        $( ".input-container > input" ).val(DataService.getGlobalSearch());
         var dataFile = $scope.entity;
         if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
             dataFile = $scope.subentity;
@@ -86,10 +87,10 @@ angular.module('app').directive('nyuSearch', function () {
                                 angular.forEach(post, function(postItem, j){
                                     temporalPosts.push(postItem);
                                     var searchCtrl = DataService.searchWord(DataService.getGlobalSearch(), postItem);
-                                    if(searchCtrl.found) temporalPosts[j] = searchCtrl.post;
+                                    if(searchCtrl.found) temporalPosts[j] = searchCtrl.post; 
                                 });
                                 //TODO NADA FOUND
-                                
+                                //console.log( temporalPosts);
                                 if(promiseDone == DataService.customPosts.length){
                                     refreshItems(temporalPosts, true);
                                 }else{
@@ -107,6 +108,7 @@ angular.module('app').directive('nyuSearch', function () {
 
         });
         function refreshItems(temporalPosts, finished){
+            temporalPosts.sort(compare);
             angular.forEach(temporalPosts, function(a){
                 var found = false;
                 angular.forEach($scope.items, function(b){
@@ -123,7 +125,13 @@ angular.module('app').directive('nyuSearch', function () {
             }else{
                 $rootScope.searchGlobal = $scope.items.length;    
             }
-            
+            function compare(a,b) {
+              if (a.relevance < b.relevance)
+                return 1;
+              if (a.relevance > b.relevance)
+                return -1;
+              return 0;
+            }
         }
         $scope.hasTopImg = function(){
             return EntitiesService.hasTopImg($scope.entity);

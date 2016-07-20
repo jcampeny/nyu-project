@@ -16,7 +16,10 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
         	if(typeof $scope.subentity !== "undefined" && $scope.subentity !== ""){
         		dataFile = $scope.subentity;
         	}
-
+            $scope.realRelated = function(){
+                var customPosts = ['articles','blog','press'];
+                return customPosts.indexOf(dataFile) > -1;
+            };
             var limitRelated = (dataFile == 'books') ? 20 : 3;
             //Si hay posts en el service
             postController = DataService.getPosts();
@@ -48,6 +51,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                     }else{
                         DataService.all(dataFile, limitRelated , 1, true).then(function(posts){
                             angular.forEach(posts, function(aPostItem){
+
                                 if(aPostItem.id != $stateParams.id && ($scope.related.length < limitRelated)){
                                     $scope.related.push(aPostItem);
                                 }

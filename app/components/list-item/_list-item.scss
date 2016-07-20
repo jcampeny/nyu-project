@@ -11,8 +11,12 @@ nyu-list-item{
 
 			img {
 				display: block;
-				width: 100%;
+				max-width: 100%;
 				cursor:pointer;
+				@media only screen and (min-width: $break-mobile){
+					width: 100%;
+				}
+
 			}
 		}
 

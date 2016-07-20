@@ -121,7 +121,8 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 			DataService.setGlobalSearch(searchInput);
 		};
 		$scope.showSearch = function(toState){
-			if(toState == 'open'){
+			$( ".input-container > input" ).focus();
+			if(toState == 'open' && $('.input-container, .input-container-mobile').css('opacity') < 1){
 				$('.search-input, .input-container-mobile').animate({
 					height : '190%'
 				}, 400, function(){

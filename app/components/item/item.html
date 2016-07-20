@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div ng-if="entity !== 'books'" class="item-related show-desktop">
-					<div class="title">Related {{entityLabels[entity].altName}}</div>
+					<div class="title"><span ng-if="realRelated()">Related</span> {{entityLabels[entity].altName}}</div>
 					<div class="related-items" ng-repeat="r in related">
 						<hr>
 						<a ui-sref="app.{{subentity?subentity:entity}}item({id:r.id,title:r.title})">{{r.title}}</a>
