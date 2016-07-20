@@ -108,7 +108,7 @@ angular.module('app').directive('nyuSearch', function () {
 
         });
         function refreshItems(temporalPosts, finished){
-            temporalPosts.sort(compare);
+            
             angular.forEach(temporalPosts, function(a){
                 var found = false;
                 angular.forEach($scope.items, function(b){
@@ -117,9 +117,11 @@ angular.module('app').directive('nyuSearch', function () {
                     }
                 });
                 if(!found){
-                    $scope.items.push(a);
+                    $scope.items.unshift(a);
+                    //$scope.items.push(a);
                 }
             });
+            $scope.items.sort(compare);
             if(finished && $scope.items.length === 0){
                 $rootScope.searchGlobal = -1;
             }else{

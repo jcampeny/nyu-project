@@ -175,20 +175,20 @@
 
         function searchWord(word, temporalPost){
             var found = false;
-            var postDataLetSearch = [        
-                'author',
-                'title',
-                'subtitle',
-                'content_short',
-                'content',
-                'publicationType',
-                'publication',
-                'publisher',
-                'pages',
-                'other'
-                ];
-
-            var count = 0; 
+            var postDataLetSearch = ['author','tit && postDataLetSearch.indexOf(key) >= 0le','subtitle','content_short','content','publicationType','publication','publisher','pages','other'];
+            var valueRelevance = {
+                author : 8,
+                title : 10,
+                subtitle : 9,
+                content_short : 7,
+                content : 2,
+                publicationType : 1,
+                publication : 6,
+                publisher : 5,
+                pages : 4,
+                other : 3
+            };
+            temporalPost.relevance = 0;
             for (var key in temporalPost){
                 if(typeof temporalPost[key] == 'string'){
                     var theString  = temporalPost[key].toString();
@@ -199,13 +199,13 @@
                         found = true;
                         if(haveSpan < 0){
                             var hightlighted = highlightIt(theString, word);
-                            count += hightlighted.count;      
+                            temporalPost.relevance = temporalPost.relevance + (hightlighted.count * valueRelevance[key]);      
                             temporalPost[key] = hightlighted.text;
                         }
                     }                 
                 }
             }
-            temporalPost.relevance = count;
+            
             return {
                 found : found,
                 post : temporalPost
@@ -216,7 +216,7 @@
                 var tagLocations = [];
                 var htmlTagRegEx = /(<([^>]+)>)/ig;
                 var rgxp = new RegExp(word, 'gi');
-
+                
                 //Extraemos las etiquetas HTML i los guardamos para volverlos a poner posteriormente
                 angular.forEach(theString.match(htmlTagRegEx), function(htmlTag){
                     tagLocations.push(theString.search(htmlTagRegEx));

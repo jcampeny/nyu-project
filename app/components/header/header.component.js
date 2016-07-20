@@ -112,7 +112,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		var stateCurrent = $scope.getCurrentStateGroup();
 		$scope.toggleCollapsed(stateCurrent);
 		$rootScope.$watch('globalSearchReset', function(){
-			$scope.searchInput = '';
+			$scope.searchInput = DataService.getGlobalSearch();
 		});
 		$scope.searchSubmit = function(searchInput){
 			$state.go('app.search');
