@@ -1540,7 +1540,7 @@ function create_year_taxonomy() {
  *
  *
  */
-
+/*
 add_action( 'init', 'create_friendly_url_taxonomy', 0 );
 
 // create taxonomy, genres and writers for the post type "book"
@@ -1805,4 +1805,137 @@ function my_textbox_callback($args) {  // Textbox Callback
     echo '<input type="text" id="'. $args[0] .'" name="'. $args[0] .'" value="' . $option . '" />';
 }
 
+
+
+/**
+ *
+ *
+ * Settings metaboox
+ *
+ *
+ */
+
+function my_connection_types() {
+	global $custom_posts;
+    p2p_register_connection_type( array(
+        'name' => 'posts_to_pages',
+        'from' => 'friendlyurl',
+        'to' => $custom_posts,
+        'title' => 'Other projects',
+        'sortable' => true
+    ) );
+}
+add_action( 'p2p_init', 'my_connection_types' );
+
+
+
+
+add_action( 'rest_api_init', 'slug_register_success_story_services' );
+function slug_register_success_story_services() {
+    register_api_field( 'friendlyurl',
+        'postsrelated',
+        array(
+            'get_callback'    => 'slug_get_services',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+
+}
+
+function slug_get_services( $object, $field_name, $request ) {
+  return get_posts( array(
+    'connected_type' => 'posts_to_pages',
+    'connected_items' => $object,
+    'nopaging' => true,
+    'suppress_filters' => false,
+    'post_status' => 'any'
+  ));
+}
+/**
+ *
+ *
+ *Custom post type FriendlyUrl
+ *
+ *
+ */
+
+//send it with WP RESTAPI
+function wpsd_add_friendlyurl_args() {
+    global $wp_post_types;
+
+
+    	$wp_post_types['friendlyurl']->show_in_rest = true;
+	   	$wp_post_types['friendlyurl']->rest_base = 'friendlyurl';
+	   	$wp_post_types['friendlyurl']->rest_controller_class = 'WP_REST_Posts_Controller';		
+    
+}
+add_action( 'init', 'wpsd_add_friendlyurl_args', 30 );
+
+//send metabox
+/*function register_metabox(){
+	global $metabox_list;
+	global $custom_posts;
+	$functions = array();
+	foreach ($custom_posts as $i) {
+		foreach ($metabox_list as $key => $value) {
+			register_api_field( $i, $value[0] ,
+				array(
+					'get_callback' => $value[0],
+					'update_callback' => null,
+					'schema' => null
+					)
+				);
+		}
+	}
+}
+
+add_action( 'rest_api_init', 'register_metabox' );*/	
+
+
+function Custom_post_friendly_url() {
+    $labels = array(
+        'name'                  => _x( 'Friendly urls', 'Post Type General Name', 'text_domain' ),
+        'singular_name'         => _x( 'Friendly urls', 'Post Type Singular Name', 'text_domain' ),
+        'menu_name'             => __( 'Friendly urls', 'text_domain' ),
+        'name_admin_bar'        => __( 'Friendly urls', 'text_domain' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+        'all_items'             => __( 'All Items', 'text_domain' ),
+        'add_new_item'          => __( 'Friendly url', 'text_domain' ),
+        'add_new'               => __( 'Add New', 'text_domain' ),
+        'new_item'              => __( 'New Item', 'text_domain' ),
+        'edit_item'             => __( 'Friendly url information', 'text_domain' ),
+        'update_item'           => __( 'Update Item', 'text_domain' ),
+        'view_item'             => __( 'View Item', 'text_domain' ),
+        'search_items'          => __( 'Search Item', 'text_domain' ),
+        'not_found'             => __( 'Not found', 'text_domain' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+        'items_list'            => __( 'Items list', 'text_domain' ),
+        'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+        'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+    );
+    $args = array(
+        'label'                 => __( 'Friendly urls', 'text_domain' ),
+        'description'           => __( 'Custom post Friendly urls', 'text_domain' ),
+        'labels'                => $labels,
+        'supports'              => array('title'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'menu_icon'				=> 'dashicons-admin-links',
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 28,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,        
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+  		'map_meta_cap' => true
+    );
+    register_post_type('friendlyurl', $args );
+
+}
+add_action( 'init', 'Custom_post_friendly_url', 0 );
 ?>
