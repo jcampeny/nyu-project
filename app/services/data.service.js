@@ -175,7 +175,7 @@
 
         function searchWord(word, temporalPost){
             var found = false;
-            var postDataLetSearch = ['author','tit && postDataLetSearch.indexOf(key) >= 0le','subtitle','content_short','content','publicationType','publication','publisher','pages','other'];
+            var postDataLetSearch = ['author','title','subtitle','content_short','content','publicationType','publication','publisher','pages','other'];
             var valueRelevance = {
                 author : 8,
                 title : 10,
@@ -214,44 +214,38 @@
             function highlightIt(theString, word) {
                 var tags = [];
                 var tagLocations = [];
-                var htmlTagRegEx = /(<([^>]+)>)/ig;
+                //var htmlTagRegEx = /(<([^>]+)>)/ig;
+                var htmlTagRegEx = /<[^>]*>?/g;
                 var rgxp = new RegExp(word, 'gi');
-                
-                //Extraemos las etiquetas HTML i los guardamos para volverlos a poner posteriormente
-                angular.forEach(theString.match(htmlTagRegEx), function(htmlTag){
-                    tagLocations.push(theString.search(htmlTagRegEx));
-                    tags.push(htmlTag);
-                    theString = theString.replace(htmlTag, '');
-                });
 
-                //Buscamos la palabra en el texto sin etiquetas
-                var highlightHTMLStart = '<span class="highlight-class">';
-                var highlightHTMLEnd = '</span>';
-                var position = theString.search(rgxp);
-                var count = theString.split(word).length;
-                theString = [
-                    theString.slice(0, position), 
-                    highlightHTMLStart, 
-                    theString.slice(position, position+word.length), 
-                    highlightHTMLEnd, 
-                    theString.slice(position+word.length)
-                ].join('');
-
-                //Volvemos a poner las etiquetas que hemos extraido anteriomente
-                var textEndLocation = position + word.length;
-
-                for(i=tagLocations.length-1; i>=0; i--){
-                    var location = tagLocations[i];
-                    if(location > textEndLocation){
-                        location += highlightHTMLStart.length + highlightHTMLEnd.length;
-                    } else if(location > position){
-                        location += highlightHTMLStart.length;
-                    }
-                    theString = theString.substring(0,location) + tags[i] + theString.substring(location);
-                }                    
+                var parts= theString.split(/[<>]+/);
+                var htmlTag = {
+                    start : '<span class="highlight-class">',
+                    end : '</span>'
+                };
+                var result = '';
+                var count = 0;
+                for (var i= 0; i < parts.length; i++){
+                    if(i%2 !== 0){
+                        if(parts[i] !== '')
+                            result += "<" + parts[i] + ">";
+                    }else{
+                        var splitText = parts[i].split(rgxp);
+                        count += splitText.length;
+                        for(var j = 0; j < splitText.length; j++){
+                            if(splitText[j] !== '' || j === 0){
+                                if((j + 1) == splitText.length){
+                                    result += splitText[j]; 
+                                }else{
+                                    result += splitText[j] + htmlTag.start + word + htmlTag.end; 
+                                }                                    
+                            }
+                        }
+                    } 
+                }
 
                 return  {
-                    text  : theString,
+                    text  : result,
                     count : count
                 };
             }
