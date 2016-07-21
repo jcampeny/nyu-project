@@ -37,7 +37,10 @@ a{
 input {
 	outline: none;
 }
-
+custom-view{
+	display:block;
+	min-height: 50vh;
+}
 .margin-content {
 	max-width: 1280px;
 	margin: 0 auto;
