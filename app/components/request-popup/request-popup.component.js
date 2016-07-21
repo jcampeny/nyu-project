@@ -111,6 +111,9 @@ angular.module('app').directive('ngPopUp', function (ContactService, $rootScope,
 
     },
     link : function(s, e, a){
+    	s.changeState = function(){
+    		s.stateToShow = 'request';
+    	};
     	s.stateToShow = '';
     	$rootScope.$on('openPopUp', function(event, data) {
     		s.stateToShow = data.view;
