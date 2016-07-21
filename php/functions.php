@@ -1918,7 +1918,7 @@ function Custom_post_friendly_url() {
         'label'                 => __( 'Friendly urls', 'text_domain' ),
         'description'           => __( 'Custom post Friendly urls', 'text_domain' ),
         'labels'                => $labels,
-        'supports'              => array('title'),
+        'supports'              => array('title', 'editor'),
         'hierarchical'          => false,
         'public'                => true,
         'menu_icon'				=> 'dashicons-admin-links',
