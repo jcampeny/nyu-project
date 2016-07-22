@@ -918,6 +918,7 @@ $metabox_list = array( // metaboxs list
 		/*array("pdf_link"          , "Pdf link: "              ),
 		array("xls_link"          , "Xls link: "              ),
 		array("audio"             , "Audio: "                 ),*/
+		array("pdf_link_extra"    , "Pdf link: "              ),
 		array("share"             , "Share: "                 , 'checkbox')
 	);
 /*
