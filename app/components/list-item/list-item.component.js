@@ -30,7 +30,8 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
 		picture 		: '@',
 		audio 			: '@',
 		share 			: '@',
-        type           : '@',
+        type            : '@',
+        pdflinkextra    : '@',
 		calbackrender	: '='
 
     },

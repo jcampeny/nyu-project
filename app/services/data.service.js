@@ -637,6 +637,7 @@
                     audio           : ''    ,
                     share           : (result.share === 'on') ? true : false,
                     type            : result.type,
+                    pdf_link_extra  : result.pdf_link_extra,
                     tags            : {
                         audience : result.pure_taxonomies.audience,
                         country  : result.pure_taxonomies.country,

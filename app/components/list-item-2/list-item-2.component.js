@@ -13,7 +13,8 @@ angular.module('app').directive('nyuListItem2', function () {
 		content      : '@',
 		mainctatext  : '@',
 		mainctatext2 : '@',
-        type         : '@'
+        type         : '@',
+        pdflinkextra : '@'
     },
     controller: function ($scope) {
     	$scope.getTitleUrl = function(){
