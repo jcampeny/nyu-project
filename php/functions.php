@@ -1005,6 +1005,11 @@ function pdf_link ($object, $field_name, $request){
 	return $custom["pdf_link"][0];
 };
 
+function pdf_link_extra ($object, $field_name, $request){
+	$custom = get_post_custom($object->ID);
+	return $custom["pdf_link_extra"][0];
+};
+
 function xls_link ($object, $field_name, $request){
 	$custom = get_post_custom($object->ID);
 	return $custom["xls_link"][0];

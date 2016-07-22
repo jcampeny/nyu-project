@@ -44,7 +44,8 @@
 						picture="{{i.picture}}" 
 						audio="{{i.audio}}"
 						share="{{i.share}}"
-						type="{{i.type}}">
+						type="{{i.type}}"
+						pdflinkextra="{{i.pdf_link_extra}}">
 				</nyu-list-item>
 				<nyu-list-item-2 ng-repeat="i in items" ng-if="entity === 'books'"
 						id="{{i.id}}"
@@ -57,7 +58,8 @@
 						content="{{i.content_short}}" 
 						mainctatext="{{i.main_cta}}" 
 						mainctatext2="{{i.main_cta_2}}"
-						type="{{i.type}}">
+						type="{{i.type}}"
+						pdflinkextra="{{i.pdf_link_extra}}">
 				</nyu-list-item-2>
 				<a class="load-more-button"  href="#" ng-click="loadMore()" ng-if="postShowed <  allPostsShowed.actual">{{loadText}}</a>
 			</div>
