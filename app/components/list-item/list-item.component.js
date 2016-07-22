@@ -126,19 +126,22 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
             return minutes + ':' + seconds;
         }
     	function checkHeight(){
-			$timeout(function(){
+            if(scope.type == 'videos'){
+                $timeout(function(){
 
-			    var height = $(element).children()[0].offsetHeight;
+                    var height = $(element).children()[0].offsetHeight;
 
-                $(element).animate({opacity:1},300);
-			    if(height > 0){
-			    	if(typeof scope.calbackrender !== "undefined"){
-			    		scope.calbackrender(height);	
-			    	}
-			    }else{
-			    	checkHeight();
-			    }
-	    	},300);
+                    $(element).animate({opacity:1},300);
+                    if(height > 0){
+                        if(typeof scope.calbackrender !== "undefined"){
+                            scope.calbackrender(height);    
+                        }
+                    }else{
+                        checkHeight();
+                    }
+                },300);
+            }
+
     	}
     	checkHeight();
 
