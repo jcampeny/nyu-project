@@ -3,7 +3,7 @@ angular.module('app').directive('nyuAbout', function () {
     restrict: 'E',
     templateUrl: '../app/components/about/about.html',
     controllerAs: 'nyuAbout',
-    controller: function ($scope, PopupService, $window, EntitiesService, ContactService, DataService, $rootScope) {
+    controller: function ($scope, PopupService, $window, EntitiesService, ContactService, DataService, $rootScope, deviceDetector) {
     	$scope.collapsedText = true;
         //ZIP FILE
         $scope.resources = [];
@@ -70,6 +70,14 @@ angular.module('app').directive('nyuAbout', function () {
                "to": $scope.videoPlaying ? pause : play
             }).get(0).beginElement();
             
+            if(deviceDetector.isMobile()){
+                if($scope.videoPlaying){
+                    $('.rollover.play, .rollover.pause').animate({opacity: 0},400);
+                }else{
+                    $('.rollover.play, .rollover.pause').animate({opacity: 1},400);
+                }                
+            }
+
         };
 
 
