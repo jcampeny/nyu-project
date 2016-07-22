@@ -44,14 +44,16 @@ angular.module('app').directive('nyuMediakit', function () {
             files = DataService.getMediaKit();
             angular.forEach(files, function(file){
                 var resource = {
-                    label : file.caption,
+                    label : file.title.rendered,
                     file : getTypeResource(file),
                     url : file.source_url
                 };
                 if(file.mime_type == 'application/zip'){
                     $scope.zipFile = file.source_url;
+                }else{
+                    $scope.resources.push(resource);                    
                 }
-                $scope.resources.push(resource);
+
             });
 
         }
