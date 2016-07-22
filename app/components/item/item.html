@@ -97,7 +97,7 @@
 				<a ng-if="item.main_cta_2 !== '' && entity !== 'books'" class="cta cta-light-blue cat-2" ng-bind-html="item.mainctatext2"></a> -->
 				<div class="new-cta"><a target="_blank" href="{{item.pdf_link}}" ng-if="item.pdf_link !== '' && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
 				<div><a target="_blank" href="{{item.xls_link}}" ng-if="item.xls_link !== ''  && entity !== 'books'" class="link-dark-blue xls-link" ng-bind-html="'Download Results (EXCEL)'"></a></div>
-				<div><a target="_blank" href="{{item.pdf_link_extra}}" ng-if="item.pdf_link_extra !== ''" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
+				<div><a target="_blank" href="{{item.pdf_link_extra}}" ng-if="item.pdf_link_extra !== '' && item.pdf_link_extra !== null" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
 				<div><a target="_blank" href="{{item.ext_link}}" ng-if="item.ext_link !== '' && !isEmbedYT() && item.publicationType != 'VIDEOS'" class="link-dark-blue ext-link" ng-bind-html="'Read more on external site'"></a></div>
 				<div><a target="_blank" href="{{item.ext_link}}" ng-if="item.ext_link !== '' && !isEmbedYT() && item.publicationType == 'VIDEOS'" class="link-dark-blue ext-link" ng-bind-html="'Watch video on external site'"></a></div>
 				<div><a target="_blank" href="{{item.other_link}}" ng-if="item.other_link && item.other_link !== ''" class="other-link" ng-bind-html="'Read more about the DHL Global Connectedness Index on DHL’s website &gt;&gt;'"></a></div>
