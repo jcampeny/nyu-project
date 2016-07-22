@@ -137,18 +137,20 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 			}
 
 		};
+		$rootScope.$on('backTop', function(event, data){
+			$scope.hideOnScroll = false;
+		});
+		$document.bind('touchmove', function(element){
+			var dir = scrollService.getDirectionOnTouchMove(element);
+			if(!$rootScope.headerOpened){
+				$scope.hideOnScroll = (dir == "down") ? true : false;
+				$scope.$apply();
+			}
+			
+		});
     },
     link: function (s,e,a){
-    	$rootScope.$on('backTop', function(event, data){
-    		s.hideOnScroll = false;
-    	});
-    	$document.bind('touchmove', function(element){
-    		var dir = scrollService.getDirectionOnTouchMove(element);
-    		//if(!$rootScope.headerOpened){
-    			s.hideOnScroll = (dir == "down" && !$rootScope.headerOpened) ? true : false;
-    		//}
-    		
-    	});
+
     	s.getUrl = function (){
     		return $location.$$absUrl;
     	};
