@@ -58,6 +58,7 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
                     audioElement.appendChild(sourceElement);
                     $('#audio-here'+scope.id).append(audioElement);
                     $('#audio-'+scope.id).bind('canplay', function(){
+                        $('.audio-block'+scope.id).removeClass('audio-block');
                         scope.audioDuration = getMinutes(this.duration);
                         timeController.total = this.duration;
                     });
@@ -107,16 +108,19 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
         }
 
         scope.toggleAudio = function(id){
-            $animation = $('#'+id);
-            var pause = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
-            var play = "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
-            scope.audioPlaying = !scope.audioPlaying;
-            $animation.attr({
-               "from": scope.audioPlaying ? play : pause,
-               "to": scope.audioPlaying ? pause : play
-            }).get(0).beginElement();
-            var player = (scope.audioPlaying) ? 'play' : 'pause' ;
-            $('#audio-'+scope.id).trigger(player);
+            if(scope.audioDuration !== '0:00'){
+                $animation = $('#'+id);
+                var pause = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
+                var play = "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
+                scope.audioPlaying = !scope.audioPlaying;
+                $animation.attr({
+                   "from": scope.audioPlaying ? play : pause,
+                   "to": scope.audioPlaying ? pause : play
+                }).get(0).beginElement();
+                var player = (scope.audioPlaying) ? 'play' : 'pause' ;
+                $('#audio-'+scope.id).trigger(player);                
+            }
+
         };
         function getMinutes(time){
             var minutes = Math.floor(time / 60);
@@ -172,7 +176,8 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
             return isYT;
         };
     	$scope.getTitleUrl = function(){
-    		return window.encodeURIComponent($scope.title).replace(/%20/g,'+');
+            var title = DataService.htmlToPlaintext($scope.title);
+    		return window.encodeURIComponent(title).replace(/%20/g,'+');
     	};
 
     }

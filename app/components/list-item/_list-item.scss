@@ -242,7 +242,9 @@ nyu-list-item{
 	}
 }
 
-
+.audio-block{
+	pointer-events: none;
+}
 .item-audio{
 	height:65px;
 	padding:0;

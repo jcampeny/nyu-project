@@ -5,7 +5,16 @@
 		<div class="line-title lt-huge lt-white" ng-bind-html="entityLabels[entity].name"></div>
 	</div>
 </div>
-<div class="margin-content">
+<div class="margin-content" ng-class="{'show-filters':root.mobileShowFilters}">
+<!--filter-->
+	<div class="mobile-filter show-mobile">
+		<nyu-filter entity="{{entity}}"></nyu-filter>	
+	</div>
+	<div style="top: 58px;right: 15px;" class="filter-button show-mobile" ng-click="root.toggleMobileFilters()">
+		<span class="text">Filter</span>
+		<img src="/assets/img/filter-icon.png" />
+	</div>
+	<!--end filter-->
 	<div class="page-section {{entity}}-section columns-section">
 		<div class="row page-content">
 			<div class="col-sm-8 main-content">
@@ -84,6 +93,7 @@
 				<div class="side-filters">
 					<nyu-filter entity="{{entity}}"></nyu-filter>
 				</div>	
+
 			</div>
 		</div>
 	</div>

@@ -1,9 +1,10 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha', 'ngStorage'])
 
 	.controller("mainController", [ '$rootScope', '$timeout', 'DataService', function($rootScope, $timeout, DataService) {
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
+
 		DataService.downloadMedia();
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
 	    	$rootScope.headerOpened = false;
@@ -82,6 +83,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 
 				.state('app.press', {url:'press', template: '<nyu-list entity="press"></nyu-list>'})
 				.state('app.pressitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
+
+				.state('app.cage', {url:'cage', template: '<nyu-cage></nyu-cage>'})
 
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 

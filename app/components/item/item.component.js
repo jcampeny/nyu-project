@@ -41,6 +41,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                         });
                     }
                 });
+                if(!$scope.item) getItFromDB();
             }else{
                 getItFromDB();
             }
@@ -61,7 +62,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                         });
                     }
                     
-                });
+                }, function(){$state.go('app.notfound');});
             }
 
         	$scope.hasTopImg = function(){

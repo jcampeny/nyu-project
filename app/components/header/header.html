@@ -5,9 +5,9 @@
 			<div class="buttons">
 				<div class="buttons-group">
 					<span class="btn-caption">CONNECT</span>
-					<a href="https://twitter.com/pankajghemawat" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-					<a href="https://www.facebook.com/PankajGhemawat/" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-					<a href="https://www.linkedin.com/in/pankaj-ghemawat-94b86444" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+					<a href="https://twitter.com/pankajghemawat" target="_blank" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="https://www.facebook.com/PankajGhemawat/" target="_blank" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="https://www.linkedin.com/in/pankaj-ghemawat-94b86444" target="_blank" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
 				</div>
 				<div class="buttons-group label-group" ng-click="openRequest('contact')">
 					<a href="" class="btn-caption">CONTACT</a>
@@ -68,7 +68,7 @@
 					</ul>
 				</li>
 				<li><a ui-sref="#">Maps &amp; Visualizations</a></li>
-				<li><a ui-sref="#">CAGE Comparator&trade;</a></li>
+				<li><a ui-sref="app.cage">CAGE Comparator&trade;</a></li>
 				<!--<li><a ng-click="showSpeakerPopup()" href="#">Request As Speaker</a></li>-->
 				<li><a ng-click="openRequest('request')" href="#">Request As Speaker</a></li>
 				
@@ -124,7 +124,7 @@
 					</ul>
 				</li>
 				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}" ng-click=" getCurrentStateGroup() == 'visualizations' && toggleMenu()">Maps & Visualizations</a></li>
-				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
+				<li><a ui-sref="app.cage" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
 				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
 				<li><a href="#" ng-click="openRequest('request')">Request As Speaker</a></li>
 				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" ng-click="searchSubmit(searchInput)">

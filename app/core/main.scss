@@ -19,6 +19,7 @@
 @import '../components/search/search';
 @import '../components/back-to-top/back-to-top';
 @import '../components/not-found/not-found';
+@import '../components/cage/cage';
 
 body {
 	margin:0;
@@ -45,7 +46,6 @@ custom-view{
 	max-width: 1280px;
 	margin: 0 auto;
 	padding: 0 80px;
-
 	@media only screen and (max-width: $break-desktop) {
 		padding: 0 50px;
 		overflow: hidden;
@@ -56,6 +56,7 @@ custom-view{
 		overflow: hidden;
 	}
 }
+.min-h{    min-height: 50vh;}
 
 .line-title{
 	display: block;
@@ -648,4 +649,22 @@ span.highlight-class{
 	@media only screen and (max-width: $break-mobile) {
 		display:none !important;
 	}
+}
+
+
+.ng-fade.ng-hide {
+  opacity: 0;
+}
+
+.ng-fade.ng-hide-remove,
+.ng-fade.ng-hide-add {
+  display: block !important;
+}
+
+.ng-fade.ng-hide-remove {
+  transition: all linear 1000ms;
+}
+
+.ng-fade.ng-hide-add {
+  transition: all linear 500ms;
 }

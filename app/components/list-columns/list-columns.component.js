@@ -7,6 +7,7 @@ angular.module('app').directive('nyuListColumns', function () {
     	entity: '@'
     },
     controller: function ($scope, $http, EntitiesService, DataService, $rootScope, $state) {
+        $scope.root = $rootScope;
     	$scope.items = [];
     	$scope.leftColumn = [];
     	$scope.rightColumn = [];

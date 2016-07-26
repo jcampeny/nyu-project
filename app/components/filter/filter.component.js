@@ -239,11 +239,15 @@ angular.module('app').directive('nyuFilter', function () {
 	    	years: []
     	};
 
-    	var todayYear = (new Date()).getFullYear();
+    	/*var todayYear = (new Date()).getFullYear();
     	for(var i=1990 ; i<=todayYear ; i++){
     		$scope.dataSRC.years.push(i);
-    	}
+    	}*/
 
+        var todayYear = (new Date()).getFullYear();
+        for(var i=todayYear ; i>=1990 ; i--){
+            $scope.dataSRC.years.push(i);
+        }
     	$scope.filterAutocomplete = function(query, field){
     		var deferred = $q.defer();
 		    deferred.resolve( $filter('filter')($scope.dataSRC[field], query));

@@ -34,33 +34,36 @@
 			<div class="col-sm-3 footer-column  show-desktop">
 				<div class="footer-title">CONNECT</div>
 				<div>
-					<a href="https://twitter.com/pankajghemawat" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
-					<a href="https://www.facebook.com/PankajGhemawat/" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-					<a href="https://www.linkedin.com/in/pankaj-ghemawat-94b86444" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+					<a href="https://twitter.com/pankajghemawat" target="_blank" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="https://www.facebook.com/PankajGhemawat/" target="_blank" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="https://www.linkedin.com/in/pankaj-ghemawat-94b86444" target="_blank" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
 				</div>
 				<a class="cta cta-blue-o" ng-click="showSpeakerPopup('request')">Request as speaker</a>
 			</div>
 			<div class="col-sm-4 footer-column">
 				<div class="footer-title">Contact</div>
 				<div class="email-desc">E-mail (General)</div>
-				<a class="email" href="mailto:pankaj@ghemawat.com">pankaj@ghemawat.com</a>
+				<a class="email-footer" href="mailto:pankaj@ghemawat.com">pankaj@ghemawat.com</a>
 				<div class="email-desc">E-mail (Website)</div>
-				<a class="email" href="mailto:online@ghemawat.com">online@ghemawat.com</a>
+				<a class="email-footer" href="mailto:online@ghemawat.com">online@ghemawat.com</a>
 				<div class="email-desc">Email (GLOBE Course)</div>
-				<a class="email" href="mailto:globecourse@ghemawat.com">globecourse@ghemawat.com</a>
+				<a class="email-footer" href="mailto:globecourse@ghemawat.com">globecourse@ghemawat.com</a>
 				<div class="email-desc">Phone</div>
-				<a class="email" href="tel:+34932536484">+34 93 253 6484</a>
+				<a class="email-footer" href="tel:+34932536484">+34 93 253 6484</a>
 			</div>
 
 			<div class="mobile-social btns-white show-mobile">
 				<a class="cta cta-blue-o request-mobile" ng-click="showSpeakerPopup('request')">Request as speaker</a>
 				<span class="btn-caption">CONNECT</span>
-				<social-share 
-					title="Pankaj Ghemawat Web"
-					content="Pankaj Ghemawat is the Global Professor of Management and Strategy and Director of the Center for the Globalization of Education and Management at the Stern School of Business at New York University, and the Anselmo Rubiralta Professor of Global Strategy at IESE Business School." 
-					picture="http://nyu.com/localdata/img/about_picture.png"
-					type = "general"
-					></social-share>
+				<div style="display: inline;">
+					<a href="https://twitter.com/pankajghemawat" target="_blank" class="btn-icon"><i class="fa fa-twitter"  aria-hidden="true"></i></a>
+					<a href="https://www.facebook.com/PankajGhemawat/" target="_blank" class="btn-icon"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+					<a href="https://www.linkedin.com/in/pankaj-ghemawat-94b86444" target="_blank" class="btn-icon"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+				</div>
+				<div class="buttons-group label-group" ng-click="openRequest('contact')" style="    margin-top: 20px;">
+					<a href="" class="btn-caption">CONTACT</a>
+					<a href="" class="btn-icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+				</div>
 			</div>
 		</div>
 		<div class="copyright">&copy; Pankaj Ghemawat. All Rights Reserved</div>
