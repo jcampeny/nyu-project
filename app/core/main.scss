@@ -103,7 +103,7 @@ custom-view{
 	    		top: 13px;
 				width: 30px;
 				height: 30px;
-			    box-shadow: inset 0px 0px 0.2px 0.5px #2D2E2D;
+			    box-shadow: inset 0px 0px 0.2px 1px #2D2E2D;
 				border-radius: 100%;
 				@include transition(all 0.4s);
 
@@ -154,7 +154,7 @@ custom-view{
 				color: #FFFFFF;
 				border-color:#FFFFFF;
 				background-color: #004182;
-				box-shadow: inset 0px 0px 0.2px 0.5px #2D2E2D;
+				box-shadow: inset 0px 0px 0.2px 1px #FFFFFF;
 				@include transition(all 0.4s);
 
 				&:after{
@@ -240,7 +240,7 @@ custom-view{
 			/*border-width: 1px;
 			border-style: solid;*/
 
-			box-shadow: inset 0px 0px 0.2px 0.5px #2D2E2D;
+			box-shadow: inset 0px 0px 0.2px 1px #2D2E2D;
 			vertical-align: top;
 			cursor:pointer;
 
