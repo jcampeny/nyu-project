@@ -74,7 +74,7 @@
 			<div><a target="_blank" href="{{pdfLink}}" ng-if="pdfLink !== '' && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
 			<div><a target="_blank" href="{{xlsLink}}" ng-if="xlsLink !== ''" class="link-dark-blue xls-link" ng-bind-html="'Download Results (EXCEL)'"></a></div>
 			<div><a target="_blank" href="{{extLink}}" ng-if="extLink !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'Read more on external site'"></a></div>
-			<div><a target="_blank" href="{{pdflinkextra}}" ng-if="pdflinkextra !== '' && entity !== 'videos'" class="link-dark-blue ext-link" ng-bind-html="entity=='videos'?'Watch video on external site':'View Online Appendix (PDF)'"></a></div>
+			<div><a target="_blank" href="{{pdflinkextra}}" ng-if="pdflinkextra !== '' && entity !== 'videos'" class="link-dark-blue" ng-bind-html="entity=='videos'?'Watch video on external site':'View Online Appendix (PDF)'"></a></div>
 			<div><a target="_blank" ng-if="otherLink !== ''" class="other-link" ng-bind-html="otherLink"></a></div>
 			<div ng-if="share === 'true' && contentShort !== ''" class="mobile-social btns-gray">
 				<span class="btn-caption">SHARE</span>
