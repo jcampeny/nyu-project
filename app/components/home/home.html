@@ -1,11 +1,11 @@
 <div class="home-hero" ng-style="{'background-image': 'url('+featured.img+')'}">
 	<div class="margin-content">
-		<div class="home-hero-content">
+		<div class="home-hero-content ng-fade" ng-show="featured.img">
 			<div class="line-title lt-big lt-white" ng-bind-html="featured.title"></div>
 			<div class="subtitle" ng-bind-html="featured.content">
 			</div>
 		</div>
-		<a class="cta cta-light-blue" href="{{featured.link}}" >{{featured.label}}</a>
+		<a class="cta cta-light-blue ng-fade" href="{{featured.link}}" ng-show="featured.img">{{featured.label}}</a>
 	</div>
 </div>
 <section class="home-section">
