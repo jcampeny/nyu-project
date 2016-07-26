@@ -12,6 +12,10 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 	    	$rootScope.mobileShowFilters = false;
 	    	$rootScope.mobileFiltersLeft = '200%';
 
+	    	if(toState.url != 'search'){
+	    		$rootScope.searchGlobal = '';
+	    		DataService.setGlobalSearch('');
+	    	}
 			$rootScope.toggleMobileFilters = function(){
 				
 				if($rootScope.mobileShowFilters){
