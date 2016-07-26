@@ -634,7 +634,7 @@
                     pdf_link        : '',//
                     xls_link        : '',//
                     picture         : (result.image) ? result.image : '',
-                    audio           : ''    ,
+                    audio           : result.audio    ,
                     share           : (result.share === 'on') ? true : false,
                     type            : result.type,
                     pdf_link_extra  : result.pdf_link_extra,
@@ -667,7 +667,7 @@
 
                                 if(attach.mime_type.indexOf("sheet") > -1) item.xls_link= attach.source_url;
 
-                                if(attach.mime_type.indexOf("audio") > -1) item.audio = attach.source_url;
+                                //if(attach.mime_type.indexOf("audio") > -1) item.audio = attach.source_url;
                             });
                         }
                         return item;

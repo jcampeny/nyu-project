@@ -20,7 +20,11 @@
 			</div> 
 		</div>
 	</div>
-	<!--PODCAST-->
+	<!--podcast-->
+	<div class="col-sm-12" style="padding: 0;" ng-if="entity == 'podcasts'"  ng-show="audio && isPodcast()">
+		<iframe style="margin:20px 0;" width="100%" height="166px" scrolling="no" frameborder="no" ng-src="{{audioEmbed}}"></iframe>
+	</div>
+	<!--PODCAST
 	<div class="row audio-block{{id}} audio-block">
 		<div id="audio-here{{id}}"></div>
 		<div class="item-audio col-sm-12" ng-if="entity == 'podcasts'" ng-show="audio">
@@ -44,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-	<!--end PODCAST-->
+	-->
 	<div class="row">
 		<div class="item-image {{entity !== 'videos' ?'col-sm-5':'col-sm-12'}}" ng-if="picture !== '' && !isEmbedYT()">
 			<a ui-sref="app.{{subentity?subentity:entity}}item({id: id,title: getTitleUrl()})" class="item-image-container">

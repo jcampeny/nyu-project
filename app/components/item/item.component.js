@@ -98,7 +98,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
         				$scope.item.other !== ""
         			);
         			
-        	};
+        	};//https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/263770273&amp;color=4b82f9&amp;auto_play=false&amp;hide_related=false&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false
             $scope.videoEmbed = '';
             $scope.isEmbedYT = function(){
                 var embedInfo;
@@ -106,10 +106,21 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                 if($scope.item && $scope.item.ext_link){
                     embedInfo = $scope.item.ext_link.split("::");
                     if(embedInfo[0] == 'youtube'){
-                        console.log(embedInfo[1]);
                         isYT = true;
                         $scope.videoEmbed  = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + embedInfo[1]);
                     }
+                }
+                
+                return isYT;
+            };
+            $scope.audioEmbed = '';
+            $scope.isPodcast = function(){
+                var embedInfo;
+                var isYT = false;
+                if($scope.item && $scope.item.audio){
+                    embedInfo = $scope.item.audio;
+                        isYT = true;
+                        $scope.audioEmbed  = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'+ embedInfo +'&amp;color=4b82f9&amp;auto_play=false&amp;hide_related=false&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false');
                 }
                 
                 return isYT;

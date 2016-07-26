@@ -175,6 +175,18 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
             //https://www.youtube.com/watch?v=6lP0efK8imk&feature=youtu.be
             return isYT;
         };
+        $scope.audioEmbed = '';
+        $scope.isPodcast = function(){
+            var embedInfo;
+            var isYT = false;
+            if($scope.item && $scope.audio && $scope.audio !== ''){
+                embedInfo = $scope.audio;
+                    isYT = true;
+                    $scope.audioEmbed  = $sce.trustAsResourceUrl('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/'+ embedInfo +'&amp;color=4b82f9&amp;auto_play=false&amp;hide_related=false&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false');
+            }
+            
+            return isYT;
+        };
     	$scope.getTitleUrl = function(){
             var title = DataService.htmlToPlaintext($scope.title);
     		return window.encodeURIComponent(title).replace(/%20/g,'+');
