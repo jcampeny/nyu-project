@@ -113,9 +113,11 @@
 				vertical-align: top;
 			}
 			img{
-				width: 70%;
-				margin-bottom: 40px;
-				vertical-align: top;
+				width: auto !important;
+				margin-bottom: 20px;
+				vertical-align: middle;
+				max-width: 70%;
+				margin-top: 20px;
 			}
 
 			@media only screen and (max-width: $break-laptop) {
