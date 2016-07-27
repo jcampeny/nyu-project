@@ -1,17 +1,72 @@
-<div class="form-login" ng-if="!user.logged">
-	<form>
+<div class="form-login row" ng-if="!user.logged">
+	<form class="col-xs-6">
+		<h3>Login</h3>
 		<label for="username">Username:</label>
 		<input class="form-control" type="text" name="username" id="username" ng-model="inputname"><br>
 		<label for="userpass">Password:</label>
 		<input class="form-control" type="password" name="userpass" id="userpass" ng-model="inputpass"><br>
 		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button>
 	</form>
+	<form class="col-xs-6" name="registerForm" ng-submit="registerUser(registerForm.$valid)">
+		<h3>Register</h3>
+		<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
+			<label class="control-label" for="registeremail">Email:</label>
+			<input class="form-control" type="email" name="registeremail" ng-model="register.email" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registername.$valid}">
+			<label class="control-label" for="registername">Username:</label>
+			<input class="form-control" type="text" name="registername" ng-model="register.name" ng-minlength="5" required><br>
+		</div>
+		<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
+			<label class="control-label" for="registerpass">Password:</label>
+			<input class="form-control" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
+			<label class="control-label" for="registerpassrepeat">Repeat password:</label>
+			<input class="form-control" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
+			<label class="control-label" for="registerfirst">First Name:</label>
+			<input class="form-control" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
+			<label class="control-label" for="registerlast">Last Name:</label>
+			<input class="form-control" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercompany">Company:</label>
+			<input class="form-control" type="text" name="registercompany" ng-model="register.company"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registeradress">Address:</label>
+			<input class="form-control" type="text" name="registeradress" ng-model="register.address"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercity">City:</label>
+			<input class="form-control" type="text" name="registercity" ng-model="register.city"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerstate">State:</label>
+			<input class="form-control" type="text" name="registerstate" ng-model="register.state"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerpostcode">Postcode:</label>
+			<input class="form-control" type="text" name="registerpostcode" ng-model="register.postcode"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercountry">Country:</label>
+			<input class="form-control" type="text" name="registercountry" ng-model="register.country"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerphone">Phone:</label>
+			<input class="form-control" type="text" name="registerphone" ng-model="register.phone"><br>
+		</div>
+		<button type="submit" class="btn btn-default" >Register</button>
+	</form>
 </div>
 <div class="user-information row" ng-if="user.logged">
 	<div class="important-information col-xs-4">
+		<h2>Welcome {{user.nicename}}!</h2>
 		<span> Name : {{user.name}}</span> <br> 
 		<span> Email : {{user.email}}</span> <br>
-		<span> Nicename : {{user.nicename}}</span> <br>
 		<button type="button" class="btn btn-default" ng-click="logOut()">Log Out</button>
 		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>		
 	</div>

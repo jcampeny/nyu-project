@@ -9,8 +9,10 @@ angular.module('app').directive('nyuCage', function () {
             email : "",
             nicename : "",
             other : "",
-            logged : false
+            logged : false,
+            pass : ""
         };
+        $scope.register = {};
         //obtenemos la información del localStorage
         $scope.user = LoginService.getStorageUser() || emptyUser;
         console.log($scope.user);
@@ -25,7 +27,8 @@ angular.module('app').directive('nyuCage', function () {
                             email : response.data.user_email,
                             nicename : response.data.user_nicename,
                             logged : true,
-                            other : ""
+                            other : "",
+                            pass : pass
                         };
                         //guardamos a localStorage
                         LoginService.setStorageUser($scope.user);
@@ -43,6 +46,7 @@ angular.module('app').directive('nyuCage', function () {
             if($scope.user.logged){
                 $scope.user = emptyUser;
                 LoginService.resetStorageUser();
+                $scope.register = {};
             }
         };
 
@@ -63,20 +67,35 @@ angular.module('app').directive('nyuCage', function () {
         $scope.saveNewPassword = function(actualPass, newPass, newPassRepeated){
             //todo
             if(newPass == newPassRepeated){
-                LoginService.loginUser($scope.user.name, actualPass)
-                .then(function(response){
+                if($scope.user.pass == actualPass){
                     LoginService.changePassword($scope.user, newPass).then(function(message){
                         console.log(message);
                         $scope.logOut();
                     });
-                })
-                .catch( function( error ) {
-                    console.log('Error', error.data.message);
-                }); 
+                }else{
+                   console.log('Error', 'pass incorrecta'); 
+                }
             }else{
                 console.log('las passwornd no son iguales');
             }
         };
+
+        //newUser
+        $scope.registerUser = function(isValid){
+            if(isValid){
+                LoginService.createUser($scope.register).then(function(response){
+                    if(response.data.status == 'success'){
+                        console.log(response.data.content);
+                        $scope.logIn(response.data.content.username, $scope.register.pass);                        
+                    }else{
+                        console.log(response.data.content);
+                    }
+
+                });
+            }else{
+                console.log('falta algo');
+            }
+        };  
 
     }
   };

@@ -1,40 +1,48 @@
 <?php
 require 'controller.php';
-/*$data = [
-    'email' => 'john4.doe@example.com',
-    'first_name' => 'John',
-    'last_name' => 'Doe',
-    'username' => 'john.doe4',
+
+$postdata = file_get_contents("php://input");
+$newUser = json_decode($postdata);
+
+$data = [
+    'email' => $newUser->email,
+    'first_name' => $newUser->first,
+    'last_name' => $newUser->last,
+    'username' => $newUser->name,
+    'password' => $newUser->pass,
     'billing' => [
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-        'company' => '',
-        'address_1' => '969 Market',
+        'first_name' => $newUser->first,
+        'last_name' => $newUser->last,
+        'company' => (property_exists($newUser, 'company') ? $newUser->company : ''),
+        'address_1' => (property_exists($newUser, 'address') ? $newUser->address : ''),
         'address_2' => '',
-        'city' => 'San Francisco',
-        'state' => 'CA',
-        'postcode' => '94103',
-        'country' => 'US',
-        'email' => 'john.doe@example.com',
-        'phone' => '(555) 555-5555'
+        'city' => (property_exists($newUser, 'city') ? $newUser->city : ''),
+        'state' => (property_exists($newUser, 'state')  ? $newUser->state : ''),
+        'postcode' => (property_exists($newUser, 'postcode')  ? $newUser->postcode : ''),
+        'country' => (property_exists($newUser, 'country')  ? $newUser->country : ''),
+        'email' => $newUser->email,
+        'phone' => (property_exists($newUser, 'phone')  ? $newUser->phone : '')
     ],
     'shipping' => [
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-        'company' => '',
-        'address_1' => '969 Market',
+        'first_name' => $newUser->first,
+        'last_name' => $newUser->last,
+        'company' => (property_exists($newUser, 'company')  ? $newUser->company : ''),
+        'address_1' => (property_exists($newUser, 'address')  ? $newUser->address : ''),
         'address_2' => '',
-        'city' => 'San Francisco',
-        'state' => 'CA',
-        'postcode' => '94103',
-        'country' => 'US'
+        'city' => (property_exists($newUser, 'city') ? $newUser->city : ''),
+        'state' => (property_exists($newUser, 'state')  ? $newUser->state : ''),
+        'postcode' => (property_exists($newUser, 'postcode')  ? $newUser->postcode : ''),
+        'country' => (property_exists($newUser, 'country')  ? $newUser->country : '')
     ]
-];*/
-/*$data = [
-    'password' => 'qwe'
-];*/
-//print_r($woocommerce->put('customers/2', $data));
-//$woocommerce->post('customers', $data);
+];
 
-print json_encode($woocommerce->get('customers'));
+$response_array['status'] = 'success'; 
 
+try {
+    $response_array['content'] = $woocommerce->post('customers', $data);
+} catch (Exception $e) {
+    $response_array['status'] = 'error'; 
+    $response_array['content'] = $e->getMessage();
+}
+
+print json_encode($response_array);

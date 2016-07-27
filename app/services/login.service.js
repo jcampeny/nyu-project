@@ -38,14 +38,8 @@ angular
             return $http.post('/php/woocommerce/info-user.php', user);
         }
 
-        function createUser(){
-            var user = {
-                id : Math.random(1)*100,
-                name : 'pepito',
-                pass : 'xxx',
-                permissions : 'all'
-            };
-            $localStorage.LocalMessage = user;
+        function createUser(user){
+            return $http.post('/php/woocommerce/create-user.php', user);
         }
 
         function changePassword(user, pass){
