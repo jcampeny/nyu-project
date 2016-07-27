@@ -1,1 +1,39 @@
-hello world
+<div class="form-login" ng-if="!user.logged">
+	<form>
+		<label for="username">Username:</label>
+		<input class="form-control" type="text" name="username" id="username" ng-model="inputname"><br>
+		<label for="userpass">Password:</label>
+		<input class="form-control" type="password" name="userpass" id="userpass" ng-model="inputpass"><br>
+		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button>
+	</form>
+</div>
+<div class="user-information row" ng-if="user.logged">
+	<div class="important-information col-xs-4">
+		<span> Name : {{user.name}}</span> <br> 
+		<span> Email : {{user.email}}</span> <br>
+		<span> Nicename : {{user.nicename}}</span> <br>
+		<button type="button" class="btn btn-default" ng-click="logOut()">Log Out</button>
+		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>		
+	</div>
+	<div class="other-information col-xs-8" ng-if="showOther">
+		<div class="crucial col-xs-6" ng-if="user.other.id > 0">
+			<label for="actual-pass">Actual Password</label><br>
+			<input class="form-control" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"><br>
+
+			<label for="new-pass">New Password</label><br>
+			<input class="form-control" type="password" name="new-pass" id="new-pass" ng-model="newPass"><br>
+
+			<label for="repeat-new-pass">Reapeat New Password</label><br>
+			<input class="form-control" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"><br>
+
+			<button type="button" class="btn btn-default" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Change Password</button>
+		</div>
+		<div class="billing col-xs-6">
+			<div ng-repeat="(key, infoItem) in user.other.billing">
+				<label for="{{infoItem}}-user">{{key}}</label><br>
+				<input class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="user.other.billing[key]">
+			</div>
+			<button type="button" class="btn btn-default" ng-click="saveOtherInfo()">Save</button>			
+		</div>
+	</div>
+</div>

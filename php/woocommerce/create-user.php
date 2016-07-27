@@ -30,7 +30,11 @@ require 'controller.php';
         'country' => 'US'
     ]
 ];*/
-
+/*$data = [
+    'password' => 'qwe'
+];*/
+//print_r($woocommerce->put('customers/2', $data));
 //$woocommerce->post('customers', $data);
-//print json_encode($woocommerce->get('customers'));
+
+print json_encode($woocommerce->get('customers'));
 
