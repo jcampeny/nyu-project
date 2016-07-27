@@ -5,7 +5,8 @@
 		<input class="form-control" type="text" name="username" id="username" ng-model="inputname"><br>
 		<label for="userpass">Password:</label>
 		<input class="form-control" type="password" name="userpass" id="userpass" ng-model="inputpass"><br>
-		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button>
+		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button><br>
+		<a href="#" ng-click="forgotPass()">Forgot your password?</a>
 	</form>
 	<form class="col-xs-6" name="registerForm" ng-submit="registerUser(registerForm.$valid)">
 		<h3>Register</h3>

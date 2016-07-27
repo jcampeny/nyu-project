@@ -49,6 +49,7 @@ angular
             };
             return $http.post('/php/woocommerce/change-password.php', item);
         }
+
         /*STORAGE MANAGER*/
         function setStorageUser(user){
             $localStorage.user = user;

@@ -96,7 +96,18 @@ angular.module('app').directive('nyuCage', function () {
                 console.log('falta algo');
             }
         };  
-
+        //forgot Password
+        $scope.forgotPass = function(){
+            var randomstring = Math.random().toString(36).slice(-8);
+            var user = {
+                email : 'jordicampeny12@gmail.com',
+                name : 'jordicq'
+            };
+            LoginService.changePassword(user, randomstring).then(function(message){
+                console.log(randomstring);
+                $scope.logIn('jordicq', randomstring);
+            });
+        }; 
     }
   };
 });
