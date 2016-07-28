@@ -7,7 +7,7 @@
 			<tags-input 
 				ng-model="filterData.targetAudience" 
 				placeholder="Filter by Target Audience"
-				add-from-autocomplete-only="true">
+				add-from-autocomplete-only="true" ng-class="{'disabled' : !loadedSearch}">
 		        <auto-complete 
 		        	source="filterAutocomplete($query, 'targetAudience')"
 		        	min-length="1">
@@ -20,7 +20,7 @@
 			<tags-input 
 				ng-model="filterData.topic" 
 				placeholder="Filter by Topic"
-				add-from-autocomplete-only="true">
+				add-from-autocomplete-only="true" ng-class="{'disabled' : !loadedSearch}">
 		        <auto-complete 
 		        	source="filterAutocomplete($query, 'topic')"
 		        	min-length="1">
@@ -32,7 +32,7 @@
 			<tags-input 
 				ng-model="filterData.country" 
 				placeholder="Filter by Country / Region"
-				add-from-autocomplete-only="true">
+				add-from-autocomplete-only="true" ng-class="{'disabled' : !loadedSearch}">
 		        <auto-complete 
 		        	source="filterAutocomplete($query, 'country')"
 		        	min-length="1">
@@ -41,11 +41,11 @@
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'date')">
 			<label>Publication Date</label>
-			<select class="small" type="text" ng-model="filterData.yearFrom" ng-class="{'is-placeholder':filterData.yearFrom === ''}" name="start" ng-options="y for y in dataSRC.years">
+			<select class="small" type="text" ng-model="filterData.yearFrom" ng-class="{'is-placeholder':filterData.yearFrom === '', 'disabled' : !loadedSearch}" name="start" ng-options="y for y in dataSRC.years">
 				<option value=''>Start Year</option>
 			</select>
 			<span class="filter-item-text">to</span>
-			<select class="small" type="text" ng-model="filterData.yearTo" ng-class="{'is-placeholder':filterData.yearTo === ''}" name="end" ng-options="y for y in dataSRC.years">
+			<select class="small" type="text" ng-model="filterData.yearTo" ng-class="{'is-placeholder':filterData.yearTo === '', 'disabled' : !loadedSearch}" name="end" ng-options="y for y in dataSRC.years">
 				<option value=''>End Year</option>
 			</select>
 		</div>
@@ -54,7 +54,7 @@
 			<tags-input 
 				ng-model="filterData.language" 
 				placeholder="Filter by Language"
-				add-from-autocomplete-only="true">
+				add-from-autocomplete-only="true" ng-class="{'disabled' : !loadedSearch}">
 		        <auto-complete 
 		        	source="filterAutocomplete($query, 'language')"
 		        	min-length="1">
@@ -65,7 +65,7 @@
 		<div class="filters-search" ng-if="entitiesService.hasSearch(entity)">
 			<div class="filters-search-title"><i class="fa fa-search"  aria-hidden="true"  ></i><span>Search</span></div>
 			<div class="buttongroup">
-				<input type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}" ng-model="filterData.text" id="filter-input-search"/>
+				<input ng-class="{'disabled' : !loadedSearch}" type="text" name="search" placeholder="Search {{entitiesService.getFilterLabel(entity)}}" ng-model="filterData.text" id="filter-input-search"/>
 				<div class="buttongroup-button" ng-click="searchIt();"><i class="fa fa-search"  aria-hidden="true"></i></div>
 			</div>
 		</div>

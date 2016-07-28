@@ -73,7 +73,12 @@
 		    color:#2E80FF;
 		    -webkit-appearance: none;
 		    -moz-appearance: none;
-
+		    @include transition(all 0.4s);
+			&.disabled{
+				pointer-events: none;
+				background-color: rgb(230, 230, 230);
+				color: rgba(156, 155, 155, 0.6) !important;  
+			}
 			&.small{
 				display:inline-block;
 				vertical-align: top;
@@ -162,7 +167,12 @@
 				font-size: 1.4rem;
 				font-weight: 300;
 				vertical-align: top;
-
+				@include transition(all 0.4s);
+				&.disabled{
+					pointer-events: none;
+					background-color: rgb(230, 230, 230);
+					color: rgba(156, 155, 155, 0.6) !important;  
+				}
 			}
 			.buttongroup-button{
 				display:inline-block;
@@ -212,7 +222,8 @@ tags-input .tags {
 	padding: 8px 8px 8px 8px;
 	box-shadow: none;
 	border: none;
-	input.input{font-family: 'Roboto', sans-serif;}
+	@include transition(all 0.4s);
+	input.input{font-family: 'Roboto', sans-serif;@include transition(all 0.4s);}
 	&.focused{
 		outline: none;
 		box-shadow: none;
@@ -245,4 +256,30 @@ tags-input .tags {
 			background: #4C4D4D;
 		}
 	}
+}
+
+tags-input.disabled{
+	pointer-events: none;
+	.tags{
+		background-color: rgb(230, 230, 230);
+	    input{
+	    	background-color: rgb(230, 230, 230);
+	    }	
+	}
+	::-webkit-input-placeholder {
+	   color: rgb(190, 190, 190);
+	}
+
+	:-moz-placeholder { /* Firefox 18- */
+	   color: rgb(190, 190, 190);  
+	}
+
+	::-moz-placeholder {  /* Firefox 19+ */
+	   color: rgb(190, 190, 190);  
+	}
+
+	:-ms-input-placeholder {  
+	   color: rgb(190, 190, 190);  
+	}
+
 }
