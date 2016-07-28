@@ -179,7 +179,9 @@ angular.module('app').directive('nyuFilter', function () {
                     $scope.totalPosts = (lengthPosts > $scope.totalPosts) ? lengthPosts : $scope.totalPosts; 
                 }*/
                 //$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
+                
                 $scope.filterData.db = DataService.getFilterDB($scope.filterData);
+
                 if($scope.filterData.type != 'globalization-index-reports' && 
                     $scope.filterData.type != 'working-papers' &&
                     $scope.filterData.type.indexOf('globe-course') == -1 && 
@@ -193,6 +195,7 @@ angular.module('app').directive('nyuFilter', function () {
                         if($scope.filterData.db){
                             DataService.all($scope.filterData.type, 'all', 0, true, $scope.filterData.db).then(function(filtered){
                                 $scope.itemsFound = filtered.length;
+                                $rootScope.change++;
                                 $scope.loadedSearch = true;
                             });   
                         }else{
@@ -234,33 +237,34 @@ angular.module('app').directive('nyuFilter', function () {
                 addTags(posts);
                 if(posts.length > 99)  moreTags(page);
             }); 
+
         }
         function addTags(posts){
             angular.forEach(posts, function(post){
                 if(typeof post.pure_taxonomies == 'object'){
                     angular.forEach(post.pure_taxonomies, function(tag, key){
-                        if(key != 'years'){
-                            if(key == 'audience') key = 'targetAudience';
-                            var found = false;
-                            angular.forEach($scope.dataSRC[key],function(tagSaved){
-                                if(tagSaved.text == tag[0].name){
-                                    found = true;
-                                }
-                            });
-                            if(!found){
-                                
-                                var tagItem = {
-                                    id : tag[0].object_id,
-                                    text : tag[0].name
-                                };
-                                $scope.dataSRC[key].push(tagItem);
-                            }                             
-                        }
 
+                            if(key == 'audience') key = 'targetAudience';
+                            angular.forEach(tag, function(tagItem){//china + india
+                                var found = false;
+                                angular.forEach($scope.dataSRC[key],function(tagSaved){//all tags
+                                    
+                                    if(tagSaved.text == tagItem.name){
+                                        found = true;
+                                    }
+                                });
+                                if(!found){
+                                    var tagItemObj = {
+                                        id : tagItem.object_id,
+                                        text : tagItem.name
+                                    };
+                                    $scope.dataSRC[key].push(tagItemObj);
+                                }  
+                            });
                     });
                 }
             });
-            
+
         }
     	$scope.dataSRC = {
     		targetAudience: [

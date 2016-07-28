@@ -102,8 +102,9 @@ angular.module('app').directive('nyuList', function () {
                     type : dataFile,
                     toShow : DataService.postsCountStart
                 };
-                filter = DataService.getFilter(filter);
-                var postsController = DataService.getPostsFiltered(filter);
+                filter = DataService.getFilterNoSet(filter);
+                //
+                
                 if(filter.db){
                     DataService.all(dataFile, 'all', 0, true, filter.db).then(function(filtered){
                         $scope.items = filtered.slice(0, filter.toShow);
@@ -118,6 +119,7 @@ angular.module('app').directive('nyuList', function () {
                     });
                 }else{
                     //$scope.items = (dataFile == 'books') ? postsController.total : postsController.filter; //utilizamos el stgring db para los nuevos  
+                    var postsController = DataService.getPostsFiltered(filter);
                     if(dataFile == "globepresentations" || dataFile == "globenotes") {
                         $scope.items = postsController.total.slice(0, 1);
                     }else{

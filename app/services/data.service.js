@@ -48,7 +48,8 @@
             getFilterDB : getFilterDB,
             searchWord : searchWord,
             getRelatedPost : getRelatedPost,
-            getFriendlyUrl : getFriendlyUrl
+            getFriendlyUrl : getFriendlyUrl,
+            getFilterNoSet : getFilterNoSet
             //searchOnPosts : searchOnPosts
         };
         /*function searchOnPosts(filter){
@@ -84,9 +85,20 @@
                 }
             });
         }
-        function setFilter(filter){
-            getStateFilter(filter);
-
+        function setFilter(filter){ 
+            var found = false;
+            angular.forEach(filters, function(filterItem, i){
+                if(filter && filterItem.type && filter.type && (filterItem.type == filter.type) ){
+                    filters[i] = filter;
+                    found = true;
+                    if($state.current.url == 'search'){
+                        filters[i].text = getGlobalSearch();
+                    }
+                }
+            });
+            if(!found && filter && filter.type){
+                filters.push(filter);
+            }
         }
         function getStateFilter(filter){
             var found = false;
@@ -95,7 +107,7 @@
 
                     filter = filterItem;
                     filters[i] = filter;
-                    found = true; 
+                    found = true;
                     if($state.current.url == 'search'){
                         filters[i].text = getGlobalSearch();
                     }
@@ -105,10 +117,25 @@
                 filters.push(filter);
 
             }
+
+            return filter;
+        }
+        function getFilterNoSet(filter){
+            var found = false;
+            angular.forEach(filters, function(filterItem, i){
+                if(filter && filterItem.type && filter.type && (filterItem.type == filter.type) ){
+
+                    filter = filterItem;
+                    //filters[i] = filter;
+                    found = true;
+                    if($state.current.url == 'search'){
+                        filters[i].text = getGlobalSearch();
+                    }
+                }
+            });
             
             return filter;
         }
-
         function getFilter(filter){
             var actualFilter = getStateFilter(filter);
             //return decorateFilter(actualFilter);
@@ -148,7 +175,7 @@
             if(!found) posts.push(newPost);
         }
         function getPostsFiltered(filter){
-            var actualFilter = getStateFilter(filter);
+            var actualFilter = getFilterNoSet(filter);
             return filterPosts(actualFilter);
         }
         function getPosts(){
@@ -324,7 +351,7 @@
         }
         function getFilterDB(filter){
             var actualFilter = getStateFilter(filter);
-
+//console.log(actualFilter);
             return decorateFilter(actualFilter);
         }
         function decorateFilter(filter){
@@ -340,7 +367,7 @@
         function getTagFilter(tags, nameTag, filterString ){
             var decoratedFilter = '';
             if(nameTag === 'years'){
-                if(tags.from < tags.to){
+                if(tags.from && tags.to && tags.from <= tags.to){
                     var yearStrings = '';
                     if(!tags.from){tags.from = 1990;}
                     for(var y = tags.from; y <= tags.to; y++ ){
