@@ -169,7 +169,7 @@ angular.module('app').directive('nyuFilter', function () {
         			}
         	},
             function(value){
-                
+
                 $scope.loadedSearch = false;
                 $scope.filterData.text = (dataFile == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
@@ -248,7 +248,7 @@ angular.module('app').directive('nyuFilter', function () {
                                 }
                             });
                             if(!found){
-                                console.log(tag);
+                                
                                 var tagItem = {
                                     id : tag[0].object_id,
                                     text : tag[0].name
@@ -260,7 +260,7 @@ angular.module('app').directive('nyuFilter', function () {
                     });
                 }
             });
-            console.log($scope.dataSRC);
+            
         }
     	$scope.dataSRC = {
     		targetAudience: [
