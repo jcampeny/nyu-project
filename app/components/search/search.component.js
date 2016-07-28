@@ -117,7 +117,7 @@ angular.module('app').directive('nyuSearch', function () {
                     }
                 });
                 if(!found){
-                    $scope.items.unshift(a);
+                    $scope.items.unshift(a);//console.log($scope.items);
                     //$scope.items.push(a);
                 }
             });

@@ -383,7 +383,10 @@
                 }else{
                     if(typeof results !== "undefined"){
                         if(results === "all"){
-                            pagination = "?page=1&per_page=100";    
+                            if(page){
+                                pagination = "?page="+page+"&per_page=100";
+                            }else{pagination = "?page=1&per_page=100";}
+                                
                         }
                     }
                     return getData(type+pagination, decorateCustom);                    

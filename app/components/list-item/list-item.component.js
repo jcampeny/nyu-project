@@ -1,4 +1,20 @@
-angular.module('app').directive('nyuListItem', function ($timeout, DataService, $sce, $document) {
+angular.module('app').directive('uiRefresh', function($compile){
+    return {
+        restrict: 'A',
+        link : function(s, e, a){
+            s.$watch(function(){
+                return a.uiSref;
+            },function(newV, oldV){
+                if (newV !== oldV) {
+                  a.uiSref = newV;
+                  $compile(e)(s);
+                } 
+            });
+            //setInterval(function(){console.log(a.uiSref);},200);
+        }
+    };
+});
+angular.module('app').directive('nyuListItem', function ($timeout, DataService, $sce, $document, $compile) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/list-item/list-item.html',
@@ -43,6 +59,8 @@ angular.module('app').directive('nyuListItem', function ($timeout, DataService, 
                 current : 0
             };
         scope.audioPlaying = false;
+        //setInterval(function(){console.log(scope.type);},400);
+
         if(scope.entity == 'podcasts'){
             var aItem = {
                 id : scope.id,

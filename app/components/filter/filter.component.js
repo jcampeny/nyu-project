@@ -87,50 +87,57 @@ angular.module('app').directive('nyuFilter', function () {
 	    	$rootScope.change++;//possible comment
 	    	$scope.itemsFound = (DataService.getPostsFiltered($scope.filterData)) ? DataService.getPostsFiltered($scope.filterData).total.length : 0;
     	};
-    	//$scope.clearFilters();
-    	//Get all targetAudience
-    	DataService.all('audience', 'all', 0, false).then(function(tags){
-    		angular.forEach(tags, function(tag){
-    			var tag_audience = {
-    				id : tag.id,
-    				text : tag.name
-    			};
-    			$scope.dataSRC.targetAudience.push(tag_audience);
-    		});
-    	});
+        if(dataFile != 'search'){
+            $scope.clearFilters();
+        }
+        function hardCoreTags(){
+            //$scope.clearFilters();
+            //Get all targetAudience
+            DataService.all('audience', 'all', 0, false).then(function(tags){
+                angular.forEach(tags, function(tag){
+                    var tag_audience = {
+                        id : tag.id,
+                        text : tag.name
+                    };
+                    $scope.dataSRC.targetAudience.push(tag_audience);
+                });
+            });
 
-    	//Get Topicmedia?page=1&per_page=1&filter[taxonomy]=header-media
-    	DataService.all('topic', 'all', 0, false).then(function(tags){
-    		angular.forEach(tags, function(tag){
-    			var tag_topic = {
-    				id : tag.id,
-    				text : tag.name
-    			};
-    			$scope.dataSRC.topic.push(tag_topic);
-    		});
-    	});
+            //Get Topicmedia?page=1&per_page=1&filter[taxonomy]=header-media
+            DataService.all('topic', 'all', 0, false).then(function(tags){
+                angular.forEach(tags, function(tag){
+                    var tag_topic = {
+                        id : tag.id,
+                        text : tag.name
+                    };
+                    $scope.dataSRC.topic.push(tag_topic);
+                });
+            });
 
-    	//Get Country
-    	DataService.all('country', 'all', 0, false).then(function(tags){
-    		angular.forEach(tags, function(tag){
-    			var tag_country = {
-    				id : tag.id,
-    				text : tag.name
-    			};
-    			$scope.dataSRC.country.push(tag_country);
-    		});
-    	});
+            //Get Country
+            DataService.all('country', 'all', 0, false).then(function(tags){
+                angular.forEach(tags, function(tag){
+                    var tag_country = {
+                        id : tag.id,
+                        text : tag.name
+                    };
+                    $scope.dataSRC.country.push(tag_country);
+                });
+            });
 
-    	//Get Language
-    	DataService.all('language', 'all', 0, false).then(function(tags){
-    		angular.forEach(tags, function(tag){
-    			var tag_language = {
-    				id : tag.id,
-    				text : tag.name
-    			};
-    			$scope.dataSRC.language.push(tag_language);
-    		});
-    	});
+            //Get Language
+            DataService.all('language', 'all', 0, false).then(function(tags){
+
+                angular.forEach(tags, function(tag){
+                    var tag_language = {
+                        id : tag.id,
+                        text : tag.name
+                    };
+                    $scope.dataSRC.language.push(tag_language);
+                });
+            });
+        }
+
         $rootScope.$watch('searchGlobal',function(){
             //console.log($rootScope.searchGlobal);
             if($rootScope.searchGlobal){
@@ -143,6 +150,7 @@ angular.module('app').directive('nyuFilter', function () {
                 }
             }
         });
+        var searchTags = false;
         $scope.$watch(
         	function (){
         		if(!$scope.filterData){
@@ -161,6 +169,7 @@ angular.module('app').directive('nyuFilter', function () {
         			}
         	},
             function(value){
+                
                 $scope.loadedSearch = false;
                 $scope.filterData.text = (dataFile == 'search') ? DataService.getGlobalSearch() : $scope.filterData.text;
             	DataService.setFilter($scope.filterData);
@@ -195,17 +204,63 @@ angular.module('app').directive('nyuFilter', function () {
                     }else{
                         //$scope.loadedSearch = true;
                        // $scope.itemsFound = $rootScope.searchGlobal;
-                        
+                        if(!searchTags){
+                            searchTags = true;
+                            hardCoreTags();                        
+                        }
+
                     }
 
                 }
             });
+        if(!searchTags && $scope.filterData.type != 'search'){
+            searchTags = true;
+            DataService.allNoEmbed($scope.filterData.type, 'all', 0).then(function(posts){
+                addTags(posts);
+                if(posts.length > 99)  moreTags(2); 
+            });             
+        }
+
         function searchMorePosts(page){
             DataService.all($scope.filterData.type, 100, page, true, $scope.filterData.db).then(function(filtered){
                 $scope.itemsFound += filtered.length;
                 page++;
                 $scope.loadedSearch = (filtered.length > 99) ? searchMorePosts(page) : true;
             }); 
+        }
+        function moreTags(page){
+            DataService.allNoEmbed($scope.filterData.type, 'all', page).then(function(posts){
+                page++;
+                addTags(posts);
+                if(posts.length > 99)  moreTags(page);
+            }); 
+        }
+        function addTags(posts){
+            angular.forEach(posts, function(post){
+                if(typeof post.pure_taxonomies == 'object'){
+                    angular.forEach(post.pure_taxonomies, function(tag, key){
+                        if(key != 'years'){
+                            if(key == 'audience') key = 'targetAudience';
+                            var found = false;
+                            angular.forEach($scope.dataSRC[key],function(tagSaved){
+                                if(tagSaved.text == tag[0].name){
+                                    found = true;
+                                }
+                            });
+                            if(!found){
+                                console.log(tag);
+                                var tagItem = {
+                                    id : tag[0].object_id,
+                                    text : tag[0].name
+                                };
+                                $scope.dataSRC[key].push(tagItem);
+                            }                             
+                        }
+
+                    });
+                }
+            });
+            console.log($scope.dataSRC);
         }
     	$scope.dataSRC = {
     		targetAudience: [
