@@ -69,8 +69,11 @@ angular.module('app').directive('nyuCage', function () {
             if(newPass == newPassRepeated){
                 if($scope.user.pass == actualPass){
                     LoginService.changePassword($scope.user, newPass).then(function(message){
-                        console.log(message);
-                        $scope.logOut();
+                        if(response.data.status == 'success'){
+                            console.log(response.data.content);                      
+                        }else{
+                            console.log(response.data.content);
+                        }
                     });
                 }else{
                    console.log('Error', 'pass incorrecta'); 
@@ -97,15 +100,20 @@ angular.module('app').directive('nyuCage', function () {
             }
         };  
         //forgot Password
-        $scope.forgotPass = function(){
+        $scope.resetPassword = function(email){
             var randomstring = Math.random().toString(36).slice(-8);
             var user = {
-                email : 'jordicampeny12@gmail.com',
-                name : 'jordicq'
+                email : email,
+                name : ''
             };
             LoginService.changePassword(user, randomstring).then(function(message){
-                console.log(randomstring);
-                $scope.logIn('jordicq', randomstring);
+                //console.log(randomstring);
+                if(message.data.status == 'success'){
+                    console.log(message.data.content);
+                }else{
+                    console.log(message.data);
+                }
+                //$scope.logIn('jordicq', randomstring);
             });
         }; 
     }

@@ -6,7 +6,13 @@
 		<label for="userpass">Password:</label>
 		<input class="form-control" type="password" name="userpass" id="userpass" ng-model="inputpass"><br>
 		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button><br>
-		<a href="#" ng-click="forgotPass()">Forgot your password?</a>
+		<a href="#" ng-click="showForgot = !showForgot">Forgot your password?</a>
+		<div ng-if="showForgot">
+			<label for="userreset">Email to send new password:</label>
+			<input class="form-control" type="text" name="userreset" id="userreset" ng-model="inputreset"><br>
+			<button type="button" class="btn btn-default" ng-click="resetPassword(inputreset)">Reset Password</button>
+		</div>
+
 	</form>
 	<form class="col-xs-6" name="registerForm" ng-submit="registerUser(registerForm.$valid)">
 		<h3>Register</h3>

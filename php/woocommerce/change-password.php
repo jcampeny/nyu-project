@@ -9,7 +9,7 @@ $new_pass = $request->pass;
 
 $customers = $woocommerce->get('customers');
 
-$actualCustomer;
+$actualCustomer = null;
 foreach ($customers as &$customer) {
     //
     if( $user_data->name  == $customer["username"] || $user_data->email == $customer["email"]){
@@ -21,21 +21,30 @@ if($actualCustomer){
     $data = [
         'password' => $new_pass
     ];
-    $woocommerce->put('customers/'.$actualCustomer["id"], $data);
+    
 
     $subject = "Password change";
-    $headers = "From: PankajWeb";
+    $headers = "From: NYU web";
     $mail = $actualCustomer["email"];
-    $message = 'The new password is:'.$new_pass;
-
+    $message = 'The new password is : '.$new_pass;
+    $response_array['status'] = 'success'; 
+    
     if(mail($mail, $subject, $message, $headers)){
-        print "se ha mandado un email con la información de la nueva pass";        
+        try {
+            $response_array['status'] = 'success';
+            $response_array['content'] = $woocommerce->put('customers/'.$actualCustomer["id"], $data); 
+        } catch (Exception $e) {
+            $response_array['status'] = 'error'; 
+            $response_array['content'] = $e->getMessage();
+        }     
     }else{
-        print "pass correcta";
+        $response_array['status'] = 'error';
+        $response_array['content'] = 'Correo no enviado';
     }
 }else{
-    print "user not found";
+    $response_array['status'] = 'error';
+    $response_array['content'] = 'Usuario no encontrado';
 }
 
-
+print json_encode($response_array);
 
