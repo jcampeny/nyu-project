@@ -123,6 +123,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 	    /*$scope.showSpeakerPopup = function(){
 			PopupService.showSpeakerPopup();
 		};*/
+		$scope.searchInput = DataService.getGlobalSearch();
 		var stateCurrent = $scope.getCurrentStateGroup();
 		$scope.toggleCollapsed(stateCurrent);
 		$rootScope.$watch('globalSearchReset', function(){
@@ -136,20 +137,24 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 		};
 		$scope.showSearch = function(toState){
 			$( ".input-container > input" ).focus();
-			if(toState == 'open' && $('.input-container, .input-container-mobile').css('opacity') < 1){
-				$('.search-input, .input-container-mobile').animate({
-					height : '190%'
-				}, 400, function(){
-					$('.input-container, .input-container-mobile').animate({opacity : '1'}, 400);
-				});
-			}else/* if($state.current.url != 'search')*/{
-				$('.input-container, .input-container-mobile').animate({
-					opacity : '0'
-				}, 400, function(){
-					$('.search-input, .input-container-mobile').animate({height : '0%'}, 400);
-				});
+			if(toState == 'reset'){
+				$scope.searchInput = '';
+				DataService.setGlobalSearch($scope.searchInput);
+			}else{
+				if(toState == 'open' && $('.input-container, .input-container-mobile').css('opacity') < 1){
+					$('.search-input, .input-container-mobile').animate({
+						height : '190%'
+					}, 400, function(){
+						$('.input-container, .input-container-mobile').animate({opacity : '1'}, 400);
+					});
+				}else/* if($state.current.url != 'search')*/{
+					$('.input-container, .input-container-mobile').animate({
+						opacity : '0'
+					}, 400, function(){
+						$('.search-input, .input-container-mobile').animate({height : '0%'}, 400);
+					});
+				}				
 			}
-
 		};
 		$rootScope.$on('backTop', function(event, data){
 			$scope.hideOnScroll = false;
