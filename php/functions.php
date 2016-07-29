@@ -1944,4 +1944,25 @@ function Custom_post_friendly_url() {
 
 }
 add_action( 'init', 'Custom_post_friendly_url', 0 );
+
+
+function wpse28782_remove_plugin_admin_menu() {
+	global $current_user;
+	global $custom_posts;
+	$user_roles = $current_user->roles;
+	$user_role = array_shift($user_roles);
+
+    if( $user_role == 'dataviz' ){
+    	foreach ($custom_posts as $key => $value) {
+    		remove_menu_page('edit.php?post_type='.$value);
+    	}
+    	remove_menu_page('edit-comments.php');
+    	remove_menu_page('edit.php?post_type=latest');
+    	remove_menu_page('edit.php?post_type=friendlyurl');
+    	remove_menu_page('edit.php');
+    	remove_menu_page('tools.php');
+    }
+
+}
+add_action( 'admin_menu', 'wpse28782_remove_plugin_admin_menu', 9999 );
 ?>
