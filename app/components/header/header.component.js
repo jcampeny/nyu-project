@@ -39,6 +39,20 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 	    $rootScope.headerOpened = false;
 	    $scope.toggleMenu = function(){
 	    	$rootScope.headerOpened = !$rootScope.headerOpened;
+
+    	    if($rootScope.headerOpened){
+    	    	setTimeout(function(){
+    	    		$('body')
+    	    			.addClass('overflow')
+    	    			.find('#main-content > *:first-child')
+    	    			.css({display : 'none'});
+    	    	},500);
+    	    }else{
+    	    	$('body')
+    	    		.removeClass('overflow')
+    	    		.find('#main-content > *:first-child')
+    	    		.css({display : 'block'});
+    	    }
 	    };
 
 	    $scope.collapsed = '';
