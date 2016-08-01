@@ -17,7 +17,8 @@
     "angular-socialshare": "angularjs-socialshare#^2.2.3",
     "ng-device-detector": "^3.0.1",
     "angular-recaptcha": "^3.0.3",
-    "ngstorage": "^0.3.10"
+    "ngstorage": "^0.3.10",
+    "angular-csv-import": "^0.0.36"
   },
   "devDependencies": {}
 }

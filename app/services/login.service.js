@@ -6,27 +6,28 @@ angular
         var apiHost = "http://nyu.com/wordpress/wp-json";
 
         return {
-            //getDataWoo : getDataWoo,
             createUser : createUser,
             loginUser  : loginUser,
             setStorageUser : setStorageUser,
             getStorageUser : getStorageUser,
             resetStorageUser : resetStorageUser,
             getUserInfo : getUserInfo,
-            changePassword : changePassword
+            changePassword : changePassword,
+            resetPassword : resetPassword,
+            setCSV : setCSV,
+            getCSV : getCSV
         };
-        /*function getDataWoo() {
-            var items ={};
-            return $http
-                .get('/php/woocommerce/create-user.php', items)
-                //.get('/wordpress/wp-content/themes/twentysixteen/ajax-login.php', items)
-                //john.doe
-                .then(function(response){
-                    console.log(response);
-                    return response.data;
-                });
-        }*/
 
+        function setCSV(){
+
+        }
+        function getCSV(){
+            /*var user = {
+                name : 'jordicq',
+                pass : 'asd'
+            };
+            return $http.post('/php/woocommerce/validate-user.php', user);*/
+        }
         function loginUser(username, password){
             return $http.post( apiHost + '/jwt-auth/v1/token', {
                 username : username,
@@ -41,7 +42,7 @@ angular
         function createUser(user){
             return $http.post('/php/woocommerce/create-user.php', user);
         }
-
+        /*PASSWORD MANAGER*/
         function changePassword(user, pass){
             var item = {
                 user : user,
@@ -49,7 +50,14 @@ angular
             };
             return $http.post('/php/woocommerce/change-password.php', item);
         }
-
+        function resetPassword(user, pass){
+            var item = {
+                user : user,
+                pass : pass
+            };
+            return $http.post('/php/woocommerce/reset-password.php', item);
+        }
+        /*END PASSWORD MANAGER*/
         /*STORAGE MANAGER*/
         function setStorageUser(user){
             $localStorage.user = user;

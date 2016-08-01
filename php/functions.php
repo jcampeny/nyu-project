@@ -1945,6 +1945,7 @@ function Custom_post_friendly_url() {
 }
 add_action( 'init', 'Custom_post_friendly_url', 0 );
 
+// edit user roles
 
 function wpse28782_remove_plugin_admin_menu() {
 	global $current_user;

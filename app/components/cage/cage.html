@@ -75,7 +75,18 @@
 		<span> Name : {{user.name}}</span> <br> 
 		<span> Email : {{user.email}}</span> <br>
 		<button type="button" class="btn btn-default" ng-click="logOut()">Log Out</button>
-		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>		
+		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>
+	    <ng-csv-import 
+	      class="import"
+	      content="csv.content"
+	      header="csv.header" 
+	      header-visible="csv.headerVisible" 
+	      separator="csv.separator"
+	      separator-visible="csv.separatorVisible"
+	      result="csv.result"
+	      encoding="csv.encoding"
+	      encoding-visible="csv.encodingVisible"></ng-csv-import>
+	      {{csv.result.filename}}<br>	
 	</div>
 	<div class="other-information col-xs-8" ng-if="showOther">
 		<div class="crucial col-xs-6" ng-if="user.other.id > 0">

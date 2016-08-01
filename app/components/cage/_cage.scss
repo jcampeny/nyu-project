@@ -5,4 +5,62 @@ nyu-cage{
 	div.user-information{
 		margin: 90px;
 	}
+	/*
+	* CSV IMPORTER
+	*/
+	div.import{
+		width: 120px;
+		div{
+			div.label {
+			  	display: inline-block;
+				width: 30%;
+				text-align: left;
+				color: white;
+				font-size: 12px;
+			}
+		}
+		div{
+			margin: 15px 0px;
+			span{
+				color: white;
+				input[type="text"] {
+					font-size: 18px;
+					color: #d6492f;
+					font-weight: bold;
+					border-radius: none;
+					outline: none;
+				}
+			}
+			input[type="file"] {
+			  	color: transparent;
+			  	padding: 0;
+			  	width: 100%;
+			  	&::-webkit-file-upload-button {
+				  	visibility: hidden;
+				}
+				&::before {
+				  content: 'Select file';
+				  display: inline-block;
+				  background-image: linear-gradient(to top, #f9f9f9 0px, #f9f9f9 50%, #e3e3e3 50%, #e3e3e3 100% );
+				  color: #444;
+				  border: 1px solid #999;
+				  border-radius: 3px;
+				  padding: 5px 8px;
+				  outline: none;
+				  white-space: nowrap;
+				  -webkit-user-select: none;
+				  cursor: pointer;
+				  text-shadow: 1px 1px #fff;
+				  font-weight: 700;
+				  font-size: 14px;
+				}
+				&:hover::before {
+				  	border-color: black;
+				}
+				&:active::before {
+				    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+				}
+			}
+		}
+	}
 }
