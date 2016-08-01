@@ -12,7 +12,7 @@ if($user->status == "success"){
 
 	$actualCustomer;
 	foreach ($customers as &$customer) {
-	    //
+	    
 	    if( $user_data->name  == $customer["username"] && $user_data->email == $customer["email"]){
 	        $actualCustomer = $customer;
 	        break;

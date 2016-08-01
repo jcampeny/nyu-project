@@ -10,12 +10,12 @@ angular.module('app').directive('nyuCage', function () {
             nicename : "",
             other : "",
             logged : false,
-            pass : "",
-            csv : ""
+            pass : ""
         };
         $scope.register = {};
         //obtenemos la información del localStorage
         $scope.user = LoginService.getStorageUser() || angular.copy(emptyUser);
+
         //console.log($scope.user);
         //LOGIN
         $scope.logIn = function(name, pass){
@@ -46,6 +46,7 @@ angular.module('app').directive('nyuCage', function () {
             $scope.user = angular.copy(emptyUser);
             LoginService.resetStorageUser();
             $scope.register = {};
+            $scope.csv = initCSV();
         };
 
         //User Information
@@ -122,27 +123,38 @@ angular.module('app').directive('nyuCage', function () {
         }; 
 
         //CSV
-        $scope.csv = {
-            content: null,
-            header: false,
-            headerVisible: false,
-            separator: ';',
-            separatorVisible: false,
-            result: null,
-            //encoding: 'ISO-8859-1',
-            //encodingVisible: true,
+        $scope.csv = initCSV();
+
+        $scope.saveCSV = function(){
+            LoginService.setCSV($scope.user, $scope.csv).then(function(response){console.log(response);
+                if(response.data.status == "success"){
+                    console.log(response.data.content);
+                }else{
+                    console.log(response.data.content);
+                }
+            }); 
         };
-        //seteamos el CSV subido al usuario
-        $scope.$watch('csv.content', function(){
-            //comentar si no queremos que nunca tenga un valor nulo 
-            //despues de subir un archivo por primera vez
-            $scope.user.csv = $scope.csv.content || $scope.user.csv;
-            LoginService.setStorageUser($scope.user);
-            //console.log(LoginService.getStorageUser($scope.user));
-        });
-        /*LoginService.getCSV().then(function(e){
-            //console.log(e);
-        });*/
+        $scope.getCSV = function(){
+            LoginService.getCSV($scope.user).then(function(response){
+                if(response.data.status == "success"){
+                    console.log(response.data.content);
+                }else{
+                    console.log(response.data.content);
+                }
+            }); 
+        };
+        function initCSV(){
+            return {
+                content: null,
+                header: false,
+                headerVisible: false,
+                separator: ';',
+                separatorVisible: false,
+                result: null,
+                //encoding: 'ISO-8859-1',
+                //encodingVisible: true
+            };
+        }
     }
   };
 });

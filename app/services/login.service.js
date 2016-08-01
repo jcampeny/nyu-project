@@ -17,17 +17,22 @@ angular
             setCSV : setCSV,
             getCSV : getCSV
         };
-
-        function setCSV(){
-
-        }
-        function getCSV(){
-            /*var user = {
-                name : 'jordicq',
-                pass : 'asd'
+        /*******************
+        ****CSV MANAGER****
+        *******************/
+        function setCSV(user, csv){
+            var item = {
+                user : user,
+                csv : csv
             };
-            return $http.post('/php/woocommerce/validate-user.php', user);*/
+            return $http.post('php/woocommerce/set-CSV.php', item);
         }
+        function getCSV(user){
+            return $http.post('php/woocommerce/get-CSV.php', user);
+        }
+        /*******************
+        ****USER MANAGER****
+        *******************/
         function loginUser(username, password){
             return $http.post( apiHost + '/jwt-auth/v1/token', {
                 username : username,
@@ -42,7 +47,10 @@ angular
         function createUser(user){
             return $http.post('/php/woocommerce/create-user.php', user);
         }
-        /*PASSWORD MANAGER*/
+
+        /*******************
+        **PASSWORD MANAGER**
+        *******************/
         function changePassword(user, pass){
             var item = {
                 user : user,
@@ -57,8 +65,10 @@ angular
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }
-        /*END PASSWORD MANAGER*/
-        /*STORAGE MANAGER*/
+
+        /*******************
+        **STORAGE MANAGER**
+        *******************/
         function setStorageUser(user){
             $localStorage.user = user;
         }
@@ -68,6 +78,5 @@ angular
         function resetStorageUser(){
             delete $localStorage.user;
         }
-        /*END STORAGE MANAGER*/
     }]);
 
