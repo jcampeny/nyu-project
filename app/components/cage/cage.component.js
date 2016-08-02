@@ -30,7 +30,7 @@ angular.module('app').directive('nyuCage', function () {
                         $scope.user.logged = true;
                         $scope.user.other = "";
                         $scope.user.pass = pass;
-
+                        $scope.getCSV();
                         //guardamos a localStorage
                         LoginService.setStorageUser($scope.user);
                         getUserInfo();
@@ -51,6 +51,7 @@ angular.module('app').directive('nyuCage', function () {
             LoginService.resetStorageUser();
             $scope.register = {};
             $scope.csv = initCSV();
+            $scope.csvArray = [];
         };
 
         /*******************
