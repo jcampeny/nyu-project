@@ -357,8 +357,16 @@
         }
         function decorateFilter(filter){
             var filterString = '';
-            var ta = (filter.targetAudience) ? filter.targetAudience.length : 0;
-            filterString += (ta === 0) ? '': getTagFilter(filter.targetAudience,'audience', filterString);
+            //onload = [].length ->
+            //with option = object.lenght -> undefined
+            //deselect option = null.lenght -> glhf
+            if(filter.targetAudience !== null){
+                if(filter.targetAudience.length === undefined  && filter.targetAudience.text){
+                    filterString += getTagFilter(filter.targetAudience,'audience', filterString);
+                }
+            }
+            //filterString += (ta === 0) ? '': getTagFilter(filter.targetAudience.text,'audience', filterString);
+
             filterString += (filter.topic.length === 0) ? '': getTagFilter(filter.topic,'topic', filterString);
             filterString += (filter.country.length === 0) ? '': getTagFilter(filter.country,'country', filterString);
             filterString += (filter.language.length === 0) ? '': getTagFilter(filter.language,'language', filterString);
@@ -378,6 +386,9 @@
                     decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+yearStrings : '?_embed&filter['+nameTag+']='+yearStrings; 
                 }else{/*catch error*/}
                 
+            }else if(nameTag == 'audience'){
+                decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tags.text : '?_embed&filter['+nameTag+']='+tags.text;
+                console.log(decoratedFilter);
             }else if(nameTag != 'search'){
                 angular.forEach(tags, function(tag){
                     decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tag.text : '?_embed&filter['+nameTag+']='+tag.text;

@@ -157,6 +157,9 @@ angular.module('app').directive('nyuFilter', function () {
         			return -1;
         		}else{
                     var ta = ($scope.filterData.targetAudience) ? $scope.filterData.targetAudience.length : 0;
+                    if($scope.filterData.targetAudience && $scope.filterData.targetAudience.length === undefined){
+                        ta = $scope.filterData.targetAudience.id;
+                    }
 	        		return  $scope.filterData.country.length + 
 	        				ta +
 	        				$scope.filterData.language.length + 
@@ -244,7 +247,7 @@ angular.module('app').directive('nyuFilter', function () {
             angular.forEach(posts, function(post){
                 if(typeof post.pure_taxonomies == 'object'){
                     angular.forEach(post.pure_taxonomies, function(tag, key){
-
+                        if(key != 'years'){
                             if(key == 'audience') key = 'targetAudience';
                             angular.forEach(tag, function(tagItem){//china + india
                                 var found = false;
@@ -261,7 +264,9 @@ angular.module('app').directive('nyuFilter', function () {
                                     };
                                     $scope.dataSRC[key].push(tagItemObj);
                                 }  
-                            });
+                            });                            
+                        }
+
                     });
                 }
             });
