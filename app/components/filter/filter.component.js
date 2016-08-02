@@ -156,8 +156,9 @@ angular.module('app').directive('nyuFilter', function () {
         		if(!$scope.filterData){
         			return -1;
         		}else{
+                    var ta = ($scope.filterData.targetAudience) ? $scope.filterData.targetAudience.length : 0;
 	        		return  $scope.filterData.country.length + 
-	        				$scope.filterData.targetAudience.length +
+	        				ta +
 	        				$scope.filterData.language.length + 
 	        				$scope.filterData.topic.length +
 	        				$scope.filterData.yearFrom +

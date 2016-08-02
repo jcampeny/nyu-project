@@ -336,7 +336,8 @@
         function searchTag(post, filter, tag){
             
             var found = false;
-            if(filter.length > 0){
+            var fl = (filter) ? filter.length.length: 0 ;
+            if(fl > 0){
                 if(post.tags[tag]){
                     angular.forEach(post.tags[tag], function(tagItem){
                         angular.forEach(filter, function(filterItem){
@@ -356,7 +357,8 @@
         }
         function decorateFilter(filter){
             var filterString = '';
-            filterString += (filter.targetAudience.length === 0) ? '': getTagFilter(filter.targetAudience,'audience', filterString);
+            var ta = (filter.targetAudience) ? filter.targetAudience.length : 0;
+            filterString += (ta === 0) ? '': getTagFilter(filter.targetAudience,'audience', filterString);
             filterString += (filter.topic.length === 0) ? '': getTagFilter(filter.topic,'topic', filterString);
             filterString += (filter.country.length === 0) ? '': getTagFilter(filter.country,'country', filterString);
             filterString += (filter.language.length === 0) ? '': getTagFilter(filter.language,'language', filterString);

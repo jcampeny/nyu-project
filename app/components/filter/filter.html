@@ -11,6 +11,12 @@
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'target')">
 			<label>Target Audience</label>
+			<!--target audience options-->
+			<select class="small ta-select" type="text" ng-model="filterData.targetAudience" ng-class="{'is-placeholder': !filterData.targetAudience || filterData.targetAudience.length === 0, 'disabled' : !loadedSearch}" name="start" ng-options="y.text for y in dataSRC.targetAudience">
+				<option value=''>Filter by Target Audience</option>
+			</select>
+			<!---->
+			<!--
 			<tags-input 
 				ng-model="filterData.targetAudience" 
 				placeholder="Filter by Target Audience"
@@ -19,7 +25,7 @@
 		        	source="filterAutocomplete($query, 'targetAudience')"
 		        	min-length="1">
 		        </auto-complete>
-		    </tags-input>
+		    </tags-input>-->
 			<!-- <input type="text" name="topic" placeholder="Filter by Target Audience"/> -->
 		</div>
 		<div class="filter-item" ng-if="entitiesService.hasFilter(entity, 'topic')">
