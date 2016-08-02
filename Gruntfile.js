@@ -20,7 +20,8 @@ module.exports = function(grunt) {
     "bower_components/ng-device-detector/ng-device-detector.min.js",
     "bower_components/angular-recaptcha/release/angular-recaptcha.min.js",
     "bower_components/ngstorage/ngstorage.min.js",
-    "bower_components/angular-csv-import/dist/angular-csv-import.min.js"
+    "bower_components/angular-csv-import/dist/angular-csv-import.min.js",
+    "bower_components/ng-csv/build/ng-csv.min.js"
   ];
 
   var vendorStyles = [

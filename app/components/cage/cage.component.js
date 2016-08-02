@@ -16,8 +16,9 @@ angular.module('app').directive('nyuCage', function () {
         //obtenemos la información del localStorage
         $scope.user = LoginService.getStorageUser() || angular.copy(emptyUser);
 
-        //console.log($scope.user);
-        //LOGIN
+        /*******************
+        *******LOGIN*******
+        *******************/
         $scope.logIn = function(name, pass){
             if(!$scope.user.logged && name && pass){
                 LoginService.loginUser(name, pass)
@@ -41,7 +42,10 @@ angular.module('app').directive('nyuCage', function () {
                 console.error('not filled');
             }
         };
-        //LOGOUT
+
+        /*******************
+        *******LOGOUT******
+        *******************/
         $scope.logOut = function(){
             $scope.user = angular.copy(emptyUser);
             LoginService.resetStorageUser();
@@ -49,7 +53,9 @@ angular.module('app').directive('nyuCage', function () {
             $scope.csv = initCSV();
         };
 
-        //User Information
+        /*******************
+        ******USER INFO******
+        *******************/
         function getUserInfo(){
             LoginService.getUserInfo($scope.user).then(function(userInfo){
                 console.log(userInfo);
@@ -62,12 +68,16 @@ angular.module('app').directive('nyuCage', function () {
             });
         }
 
-        //save Other user information
+        /*******************
+        ***NEW USER INFO****
+        *******************/
         $scope.saveOtherInfo = function(){
             //todo
         };
 
-        //save Other user information
+        /*******************
+        ******NEW PASS******
+        *******************/
         $scope.saveNewPassword = function(actualPass, newPass, newPassRepeated){
             //todo
             if(newPass == newPassRepeated){
@@ -88,7 +98,9 @@ angular.module('app').directive('nyuCage', function () {
             }
         };
 
-        //newUser
+        /*******************
+        ******NEW USER******
+        *******************/
         $scope.registerUser = function(isValid){
             if(isValid){
                 LoginService.createUser($scope.register).then(function(response){
@@ -104,7 +116,10 @@ angular.module('app').directive('nyuCage', function () {
                 console.log('falta algo');
             }
         };  
-        //forgot Password
+
+        /*******************
+        ****FORGOT PASS****
+        *******************/
         $scope.resetPassword = function(email){
             var randomstring = Math.random().toString(36).slice(-8);
             var user = {
@@ -122,27 +137,11 @@ angular.module('app').directive('nyuCage', function () {
             });
         }; 
 
-        //CSV
+        /*******************
+        ******** CSV *******
+        *******************/
         $scope.csv = initCSV();
 
-        $scope.saveCSV = function(){
-            LoginService.setCSV($scope.user, $scope.csv).then(function(response){console.log(response);
-                if(response.data.status == "success"){
-                    console.log(response.data.content);
-                }else{
-                    console.log(response.data.content);
-                }
-            }); 
-        };
-        $scope.getCSV = function(){
-            LoginService.getCSV($scope.user).then(function(response){
-                if(response.data.status == "success"){
-                    console.log(response.data.content);
-                }else{
-                    console.log(response.data.content);
-                }
-            }); 
-        };
         function initCSV(){
             return {
                 content: null,
@@ -155,6 +154,88 @@ angular.module('app').directive('nyuCage', function () {
                 //encodingVisible: true
             };
         }
+
+        //SAVE CSV IN DATABASE
+        $scope.saveCSV = function(titleSave){
+            var otherSet = {
+                title : titleSave || $scope.csv.result.filename
+            };
+            LoginService.setCSV($scope.user, $scope.csv, otherSet).then(function(response){console.log(response);
+                if(response.data.status == "success"){
+                    console.log(response.data.content);
+                    $scope.getCSV();
+                }else{
+                    console.log(response.data.content);
+                }
+            });
+        };
+        
+        //GET CSV FROM DATABASE
+        $scope.getCSV = function(){
+            LoginService.getCSV($scope.user).then(function(response){
+                $scope.csvArray = [];
+                if(response.data.status == "success"){
+                    var items = response.data.content;
+                    angular.forEach(items ,function(csvItem, i){
+                        var obj = {
+                            csv : items[i].csv,
+                            id : items[i].id,
+                            title : items[i].title,
+                            content : angular.copy($scope.createCSV.content(items[i].csv, $scope.createCSV.fieldSeparator)),
+                            header : angular.copy($scope.createCSV.header(items[i].csv, $scope.createCSV.fieldSeparator)),
+                            fieldSeparator : angular.copy($scope.createCSV.fieldSeparator)
+                        };
+                        items[i] = obj;
+                        $scope.csvArray.push(items[i]);
+                    });
+                    $scope.viewCSV($scope.csvArray[0]);
+                    console.log(response.data.content);
+                }else{
+                    console.log(response.data.content);
+                }
+            }); 
+        };
+        //Llamamos a la función cuando el usuario hace login
+        $scope.getCSV();
+        //EXPORT
+        //Objeto CSV (se autogenera el contenido y el header)
+        $scope.createCSV = {
+            fieldSeparator : ';',
+            header : function(csv, fieldSeparator){
+                return csv.split(/\n/g).shift().split(fieldSeparator);
+            },
+            content : function (csv, fieldSeparator){
+                var theContent = csv.split(/\n/g);
+                var header = theContent/*.shift()*/[0].split(fieldSeparator);
+                var contentReturn = [];
+                for (var i = 0; i < theContent.length; i++) {
+                    var contentArray = theContent[i].split(fieldSeparator);
+                    var row = {};
+                    for (var j = 0; j < contentArray.length; j++) {
+                        row[header[j]] = contentArray[j];
+                    }
+                    contentReturn.push(row);
+                }
+                return contentReturn;
+            }
+        };
+        //Activar CSV 
+        $scope.viewCSV = function(csv){
+            $scope.activeCSV = csv;
+        };
+        //Delete CSV
+        $scope.deleteCSV = function(csv){
+            LoginService.deleteCSV($scope.user, csv).then(function(response){
+                if(response.data.status == "success"){
+                    console.log(response.data.content);
+                    $scope.getCSV();
+                    $scope.viewCSV($scope.csvArray[0]);
+                }else{
+                    console.log(response.data.content);
+                }
+                
+            });
+        };
     }
   };
 });

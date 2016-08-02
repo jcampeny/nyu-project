@@ -71,11 +71,16 @@
 </div>
 <div class="user-information row" ng-if="user.logged">
 	<div class="important-information col-xs-4">
+<!--GENERAL USER INFO-->
 		<h2>Welcome {{user.nicename}}!</h2>
 		<span> Name : {{user.name}}</span> <br> 
 		<span> Email : {{user.email}}</span> <br>
 		<button type="button" class="btn btn-default" ng-click="logOut()">Log Out</button>
 		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>
+<!--UPLOAD-->
+		<h2>SUBIR CSV:</h2>	    
+		<label for="title-save">Title:</label>
+	    <input type="text" id="title-save" name="title-save" ng-model="titleSave">
 	    <ng-csv-import 
 			class="import"
 			content="csv.content"
@@ -86,10 +91,25 @@
 			result="csv.result"
 			encoding="csv.encoding"
 			encoding-visible="csv.encodingVisible"></ng-csv-import>
-	      {{csv.result.filename}}<br>	
-	    <button class="btn btn-default" ng-if="csv.result && csv.result.filename" ng-click="saveCSV()">Save CSV</button>
-	    <button class="btn btn-default" ng-click="getCSV()">GET CSV</button>
+	      {{csv.result.filename}}<br>
+	    <button class="btn btn-default" ng-if="csv.result && csv.result.filename" ng-click="saveCSV(titleSave)">Save CSV</button>
+<!--USERS CSV-->	    
+	    <div class="csv-container">
+	    	<h2>CSVs subidos:</h2>
+	    	<div ng-repeat="csv in csvArray" ng-class="{'bg-info' : (activeCSV.id == csv.id)}">
+	    		{{csv.title || ("CSV " + csv.id)}}<br>
+	    		<button ng-click="viewCSV(csv)" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+	    		<button type="button" ng-csv="csv.content" csv-header="" field-separator="{{csv.fieldSeparator}}" filename="{{(csv.title) ? (csv.title) : (user.name + '-' + csv.id)}}.csv" ><i class="fa fa-download" aria-hidden="true"></i></button>
+				<button ng-click="deleteCSV(csv)" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+	    		<hr>
+	    	</div>
+	    </div>
+	    <div class="">
+	    	{{activeCSV.id}}<br>
+	    	{{activeCSV.csv}}
+	    </div>
 	</div>
+<!--OTHER INFO-->	
 	<div class="other-information col-xs-8" ng-if="showOther">
 		<div class="crucial col-xs-6" ng-if="user.other.id > 0">
 			<label for="actual-pass">Actual Password</label><br>
