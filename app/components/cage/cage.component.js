@@ -237,6 +237,20 @@ angular.module('app').directive('nyuCage', function () {
                 
             });
         };
+
+        /*******************
+        *******PAYPAL*******
+        *******************/
+        $scope.testPOO = function(){
+            function product(name) {
+              this.name = name;
+              this.getname = function(){
+                return this.name;
+              };
+            }
+            var p = new product('caca');
+            console.log(p.getname());
+        };
     }
   };
 });

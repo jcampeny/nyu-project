@@ -38,19 +38,16 @@ if($user->status == "success"){
 		if ($resultado = $conn->query($sql)) {
 		    $response_array['status'] = 'success';
 			$response_array['content'] = 'Saved';
-			print json_encode($response_array);
 		}else{
 			$response_array['content'] = "Not saved";
-			print json_encode($response_array);
 		}
 	}else{
 		$response_array['content'] = "csv not set";
-		print json_encode($response_array);
 	}
 }else{
 	$response_array['content'] = $user->error;
-	print json_encode($response_array);
 }
 
+print json_encode($response_array);
 
 

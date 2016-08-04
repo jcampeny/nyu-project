@@ -37,7 +37,6 @@ class ConnectionController {
 				break;
 
 			default:
-				# code...
 				break;
 		}
 	}

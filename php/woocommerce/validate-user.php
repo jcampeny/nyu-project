@@ -1,9 +1,5 @@
 <?php
-/*$postdata = file_get_contents("php://input");
-$user_data = json_decode($postdata);
 
-$user = new User($user_data->name, $user_data->pass);
-echo $user->status;*/
 require_once 'connections/connections.php';
 
 class User {
@@ -18,13 +14,12 @@ class User {
 
 		$connection_information = new ConnectionController();
 		$this->url = $connection_information->url;
-		
+
 		$data = array(
 			'username' => $userName, 
 			'password' => $userPass
 			);
 
-		// use key 'http' even if you send the request to https://...
 		$options = array(
 		    'http' => array(
 		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -39,7 +34,7 @@ class User {
 			$this->error = "User or password not valid";
 		}else{
 			$this->status = "success";
-			//decode
+
 			$result_decoded = json_decode($result);
 			$this->name = $result_decoded->user_display_name;
 			$this->email = $result_decoded->user_email;
