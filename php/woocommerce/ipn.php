@@ -2,6 +2,12 @@
     //Build the data to post back to Paypal
     $postback = 'cmd=_notify-validate'; 
 
+    //TEST CUSTOM
+    $headers = 'From: webmaster@ejemplo.com' . "\r\n" .
+    'Reply-To: webmaster@ejemplo.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+    mail("jordicampeny12@gmail.com", "tipo_venta_aux", $_POST['custom'], $headers);
+
     // go through each of the posted vars and add them to the postback variable
     foreach ($_POST as $key => $value) {
     $value = urlencode(stripslashes($value));
