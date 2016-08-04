@@ -1,12 +1,15 @@
 <?php
+require_once 'connections/connections.php';
 require __DIR__ . '/vendor/autoload.php';
 
 use Automattic\WooCommerce\Client;
 
+$connection_information = new ConnectionController();
+
 $woocommerce = new Client(
-    'http://nyu.com/wordpress/', 
-    'ck_eb821bfb21a78f231c1f19c5e996c977c98f06c1', 
-    'cs_49fee84e1eeb65f6c67eccea76bcd02b4fed3e37',
+    $connection_information->url, 
+    $connection_information->ck, 
+    $connection_information->cs,
     [
         'wp_api' => true,
         'version' => 'wc/v1'

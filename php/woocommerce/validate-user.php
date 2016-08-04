@@ -4,16 +4,21 @@ $user_data = json_decode($postdata);
 
 $user = new User($user_data->name, $user_data->pass);
 echo $user->status;*/
+require_once 'connections/connections.php';
 
 class User {
 	private $name; //name's user
 	private $email; //email's user
-	private $url = 'http://nyu.com/wordpress/wp-json';
-	private $api = '/jwt-auth/v1/token';
+	private $url;
+	private $api = 'wp-json/jwt-auth/v1/token';
 	public $error;
 	public $status;
 
 	function __construct($userName, $userPass){
+
+		$connection_information = new ConnectionController();
+		$this->url = $connection_information->url;
+		
 		$data = array(
 			'username' => $userName, 
 			'password' => $userPass

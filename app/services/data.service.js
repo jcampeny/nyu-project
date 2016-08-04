@@ -21,8 +21,8 @@
             others : [],
             all : []
         };
-        var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
-        //var path = "/wordpress/wp-json/wp/v2/";
+        //var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
+        var path = "/wordpress/wp-json/wp/v2/";
         return {
             all     : all,
             allCustomPosts : allCustomPosts,
@@ -357,7 +357,7 @@
         }
         function decorateFilter(filter){
             var filterString = '';
-            //onload = [].length ->
+            //onload = [].length -> 0
             //with option = object.lenght -> undefined
             //deselect option = null.lenght -> glhf
             if(filter.targetAudience !== null){

@@ -2,9 +2,11 @@ angular
     .module('app')
     .service('LoginService', ['$http', '$sce'/*, 'config'*/,'$state', '$q', '$rootScope', 'deviceDetector', '$localStorage', function($http, $sce/*, config*/, $state, $q, $rootScope, deviceDetector, $localStorage){
         
-        var woopath = "http://nyu.com/wordpress/wp-json/wc/v1/products";
-        var apiHost = "http://nyu.com/wordpress/wp-json";
 
+        //var apiHost = "http://nyu.com/wordpress/wp-json";
+        //var apiHost = "http://test-nyu.elkanodata.com/wordpress/wp-json";
+
+        var apiHost = "/wordpress/wp-json";
         return {
             createUser : createUser,
             loginUser  : loginUser,

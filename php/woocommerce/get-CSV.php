@@ -1,7 +1,7 @@
 <?php
 require 'controller.php';
-include 'validate-user.php';
-include 'db-connection.php';
+require 'validate-user.php';
+require 'db-connection.php';
 
 //CREATE TABLE csv_data ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(40) NOT NULL, email VARCHAR(40) NOT NULL, csv TEXT )
 

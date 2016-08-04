@@ -1,12 +1,18 @@
 <?php
+require_once 'connections/connections.php';
 
 function getConnection(){
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "nyu";
+
+	//get connections information
+	$connection_information = new ConnectionController();
+	
 	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
+	$conn = new mysqli(
+		$connection_information->servername, 
+		$connection_information->username, 
+		$connection_information->password, 
+		$connection_information->dbname
+	);
 
 	// Check connection
 	if ($conn->connect_error) {
