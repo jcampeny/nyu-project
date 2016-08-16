@@ -4,7 +4,15 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
-
+		$rootScope.actualUser = {
+            name : "",
+            email : "",
+            nicename : "",
+            other : "",
+            logged : false,
+            pass : "",
+            role : 0
+        };
 		DataService.downloadMedia();
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
 	    	$rootScope.headerOpened = false;

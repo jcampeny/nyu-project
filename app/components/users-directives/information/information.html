@@ -1,0 +1,5 @@
+<div ng-repeat="(key, infoItem) in root.actualUser.other.billing">
+	<label for="{{infoItem}}-user">{{key}}</label><br>
+	<input class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+</div>
+<button type="button" class="btn btn-default" ng-click="saveOtherInfo()">Save</button>	

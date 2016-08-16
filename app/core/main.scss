@@ -21,6 +21,12 @@
 @import '../components/not-found/not-found';
 @import '../components/cage/cage';
 @import '../components/paypal/paypal';
+@import '../components/users-directives/register/register';
+@import '../components/users-directives/login/login';
+@import '../components/users-directives/logout/logout';
+@import '../components/users-directives/change-pass/change-pass';
+@import '../components/users-directives/information/information';
+@import '../components/users-directives/csv-upload/csv-upload';
 
 body {
 	margin:0;
