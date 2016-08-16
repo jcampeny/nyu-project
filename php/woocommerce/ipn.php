@@ -1,4 +1,8 @@
 <?php
+    require_once 'encrypt_ekd/encrypt_ekd.php';
+    require 'controller.php';
+    include 'validate-user.php';
+
     //Build the data to post back to Paypal
     $postback = 'cmd=_notify-validate'; 
 
@@ -6,8 +10,63 @@
     $headers = 'From: webmaster@ejemplo.com' . "\r\n" .
     'Reply-To: webmaster@ejemplo.com' . "\r\n" .
     'X-Mailer: PHP/' . phpversion();
-    mail("jordicampeny12@gmail.com", "tipo_venta_aux", $_POST['custom'], $headers);
+/*************
+**ENCAPSULAR**
+**************/
+    //desencriptación de la información del usuario
+    $decrypted = $customInfo = encrypt_decrypt('decrypt', encrypt_decrypt('decrypt', $_POST['custom']));
+    $userInfo = explode("-ekd-", $decrypted);
+    
+    //checkeamos que el usuario es correcto 
+    $user = new User($userInfo[0], $userInfo[1]);
+    if($user->status == "success"){
+        $customers = $woocommerce->get('customers');
 
+        $actualCustomer = null;
+        foreach ($customers as &$customer) {
+            //
+            if( $userInfo[0]  == $customer["username"]){
+                $actualCustomer = $customer;
+            }
+        }
+
+        if($actualCustomer){
+
+            $data = [
+                'payment_method' => 'bacs',
+                'payment_method_title' => 'Paypal',
+                'set_paid' => true,
+                'customer_id' => $actualCustomer['id'],
+                'billing' => $actualCustomer['billing'],
+                'shipping' => $actualCustomer['shipping'],
+                'line_items' => [
+                    [
+                        'product_id' => 2039,
+                        'quantity' => 1
+                    ]
+                ],
+                'shipping_lines' => [
+                    [
+                        'method_id' => 'flat_rate',
+                        'method_title' => 'Flat Rate',
+                        'total' => 0
+                    ]
+                ]
+            ];
+
+            $woocommerce->post('orders', $data);
+            mail("jordicampeny12@gmail.com", "tipo_venta_auxx", json_encode($data), $headers); 
+            
+        }else{
+            mail("jordicampeny12@gmail.com", "tipo_venta_auxx", 'Usuario no encontrado', $headers);
+        }
+    }else{
+        mail("jordicampeny12@gmail.com", "tipo_venta_auxx", $user->error, $headers);
+    }
+
+/***************
+*END ENCAPSULAR*
+****************/
     // go through each of the posted vars and add them to the postback variable
     foreach ($_POST as $key => $value) {
     $value = urlencode(stripslashes($value));

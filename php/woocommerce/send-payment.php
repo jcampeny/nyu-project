@@ -2,10 +2,12 @@
 require_once 'connections/connections.php';
 require 'validate-user.php';
 require_once 'encrypt_ekd/encrypt_ekd.php';
+require 'controller.php';
 
 /*******************
 ****POST SETUP*****
 *******************/
+$product = $woocommerce->get('products')[0];
 $data = array(
 	'action' => "https://www.sandbox.paypal.com/cgi-bin/webscr",
 	'general' => array(
@@ -19,15 +21,14 @@ $data = array(
         "rm" => "2",//1-GET 2-POST  
     ), 
 	'product' => array(
-		"item_number" => "PREMIUM",
-		"item_number_1" => "PREMIUM2",
-		"item_name_1" => "PREMIUM",
-		"amount_1" => "10.00",
+		"item_number" => $product['name'],
+		"item_number_1" => $product['name'],
+		"item_name_1" => $product['name'],
+		"amount_1" => $product['price'],
 		"quantity_1" => "1",
-		"custom" => "encodedePHP" 
+		"custom" => "" 
 	)
 );
-
 
 
 /*******************

@@ -20,6 +20,7 @@ angular.module('app').directive('nyuCage', function () {
         *******LOGIN*******
         *******************/
         $scope.logIn = function(name, pass){
+            $scope.user = LoginService.getStorageUser() || angular.copy(emptyUser);
             if(!$scope.user.logged && name && pass){
                 LoginService.loginUser(name, pass)
                     .then(function(response){
