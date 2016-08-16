@@ -1,6 +1,7 @@
 <?php
 
 require_once 'connections/connections.php';
+require_once 'encrypt_ekd/encrypt_ekd.php';
 
 class User {
 	private $name; //name's user
@@ -17,7 +18,7 @@ class User {
 
 		$data = array(
 			'username' => $userName, 
-			'password' => $userPass
+			'password' => encrypt_decrypt('decrypt', encrypt_decrypt('decrypt', $userPass))
 			);
 
 		$options = array(

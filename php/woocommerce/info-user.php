@@ -10,7 +10,7 @@ $user = new User($user_data->name, $user_data->pass);
 if($user->status == "success"){
 	$customers = $woocommerce->get('customers');
 
-	$actualCustomer;
+	$actualCustomer = null;
 	foreach ($customers as &$customer) {
 	    
 	    if( $user_data->name  == $customer["username"] && $user_data->email == $customer["email"]){
