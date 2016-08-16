@@ -6,7 +6,7 @@
 	<user-register class="col-xs-6"></user-register>	
 </div>
 <div class="user-information row" ng-if="root.actualUser.logged">
-	<div class="important-information col-xs-4">
+	<div class="col-xs-4">
 <!--GENERAL USER INFO-->
 		<h2>Welcome {{root.actualUser.nicename}}!</h2>
 		<span> Name : {{root.actualUser.name}}</span> <br> 
@@ -17,20 +17,10 @@
 		<h2>SUBIR CSV:</h2>
 		<csv-upload></csv-upload>
 <!--USERS CSV-->	    
-	    <div class="csv-container">
-	    	<h2>CSVs subidos:</h2>
-	    	<div ng-repeat="csv in csvArray" ng-class="{'bg-info' : (activeCSV.id == csv.id)}">
-	    		{{csv.title || ("CSV " + csv.id)}}<br>
-	    		<button ng-click="viewCSV(csv)" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
-	    		<button type="button" ng-csv="csv.content" csv-header="" field-separator="{{csv.fieldSeparator}}" filename="{{(csv.title) ? (csv.title) : (user.name + '-' + csv.id)}}.csv" ><i class="fa fa-download" aria-hidden="true"></i></button>
-				<button ng-click="deleteCSV(csv)" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-	    		<hr>
-	    	</div>
-	    </div>
-	    <div class="">
-	    	{{activeCSV.id}}<br>
-	    	{{activeCSV.csv}}
-	    </div>
+
+    	<h2>CSVs subidos:</h2>
+    	<csv-show></csv-show>
+
 	</div>
 <!--OTHER INFO-->	
 	<div class="other-information col-xs-8" ng-if="showOther">

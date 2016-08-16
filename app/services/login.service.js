@@ -16,9 +16,7 @@ angular
             encryptPassword : encryptPassword,
             changePassword : changePassword,
             resetPassword : resetPassword,
-            setCSV : setCSV,
-            getCSV : getCSV,
-            deleteCSV : deleteCSV
+
         };
 
         /*******************
@@ -104,27 +102,7 @@ angular
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }
-        /*******************
-        ****CSV MANAGER****
-        *******************/
-        function setCSV(user, csv, other){
-            var item = {
-                user : user,
-                csv : csv,
-                other : other
-            };
-            return $http.post('php/woocommerce/set-CSV.php', item);
-        }
-        function getCSV(user){
-            return $http.post('php/woocommerce/get-CSV.php', user);
-        }
-        function deleteCSV(user, csv){
-            var item = {
-                user : user,
-                csv_id : csv.id
-            };
-            return $http.post('php/woocommerce/delete-CSV.php', item);
-        }
+
 
 
         /*******************

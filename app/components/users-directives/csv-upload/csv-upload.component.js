@@ -3,7 +3,7 @@ angular.module('app').directive('csvUpload', function () {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/csv-upload/csv-upload.html',
     controllerAs: 'csvUpload',
-    controller: function ($scope, LoginService, $http, $rootScope) {
+    controller: function ($scope, CsvService, $http, $rootScope) {
         $scope.root = $rootScope;
         /*******************
         ******** CSV *******
@@ -28,9 +28,10 @@ angular.module('app').directive('csvUpload', function () {
             var otherSet = {
                 title : titleSave || $scope.csv.result.filename
             };
-            LoginService.setCSV($scope.root.actualUser, $scope.csv, otherSet).then(function(response){
+            CsvService.setCSV($scope.root.actualUser, $scope.csv, otherSet).then(function(response){
                 if(response.data.status == "success"){
                     console.log(response.data.content);
+                    CsvService.activeCSV($scope.csv);
                 }else{
                     console.log(response.data.content);
                 }

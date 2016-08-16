@@ -1,0 +1,12 @@
+<div ng-repeat="csv in csvArray" ng-class="{'bg-info' : (activeCSV.id == csv.id)}">
+	{{csv.title || ("CSV " + csv.id)}}<br>
+	<button ng-click="viewCSV(csv)" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+	<button type="button" ng-csv="csv.content" csv-header="" field-separator="{{csv.fieldSeparator}}" filename="{{(csv.title) ? (csv.title) : (root.actualUser.name + '-' + csv.id)}}.csv" ><i class="fa fa-download" aria-hidden="true"></i></button>
+	<button ng-click="deleteCSV(csv)" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+	<hr>
+</div>
+
+<div class="">
+	{{activeCSV.id}}<br>
+	{{activeCSV.csv}}
+</div>
