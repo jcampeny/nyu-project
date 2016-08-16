@@ -123,13 +123,11 @@ angular.module('app').directive('nyuCage', function () {
         ****FORGOT PASS****
         *******************/
         $scope.resetPassword = function(email){
-            var randomstring = Math.random().toString(36).slice(-8);
             var user = {
                 email : email,
                 name : ''
             };
-            LoginService.resetPassword(user, randomstring).then(function(message){
-                //console.log(randomstring);
+            LoginService.resetPassword(user).then(function(message){
                 if(message.data.status == 'success'){
                     console.log(message.data.content);
                 }else{

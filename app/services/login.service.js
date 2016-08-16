@@ -84,8 +84,7 @@ angular
         */ 
         function resetPassword(user, pass){
             var item = {
-                user : user,
-                pass : pass
+                user : user
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }

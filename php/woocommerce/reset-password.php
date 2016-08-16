@@ -6,7 +6,7 @@ $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 
 $user_data = $request->user;
-$new_pass = $request->pass;
+$new_pass = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(rand(10, 12)/strlen($x)) )),1,rand(10, 12));
 
 $customers = $woocommerce->get('customers');
 
@@ -46,8 +46,6 @@ if($actualCustomer){
     $response_array['status'] = 'error';
     $response_array['content'] = 'Usuario no encontrado';
 }
-
-
 
 print json_encode($response_array);
 
