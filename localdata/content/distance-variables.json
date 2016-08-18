@@ -1,0 +1,2613 @@
+{
+   "Cultural": [
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Common official language",
+         "varname": "lang.col",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Common spoken language",
+         "varname": "lang.csl",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Common native language",
+         "varname": "lang.cnl",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Unadjusted value of linguistic proximity (Tree)",
+         "varname": "lang.prox1",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Adjusted value of linguistic proximity (Tree)",
+         "varname": "lang.lp1",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Unadjusted value of linguistic proximity (ASJP)",
+         "varname": "lang.prox2",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Adjusted value of linguistic proximity (ASJP)",
+         "varname": "lang.lp2",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Common language index based on log specification",
+         "varname": "lang.cl",
+         "default": false
+      },
+      {
+         "source": "CEPII Language",
+         "classvar": "clang",
+         "name": "Common language index based on level specification",
+         "varname": "lang.cle",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Kogut & Singh Index (4 dimensions)",
+         "varname": "log.hof.dist4",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Kogut & Singh Index (5 dimensions)",
+         "varname": "log.hof.dist5",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Kogut & Singh Index (6 dimensions)",
+         "varname": "log.hof.dist6",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Mahalanobis distance (4 dimensions)",
+         "varname": "log.hof.maha4",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Mahalanobis distance (5 dimensions)",
+         "varname": "log.hof.maha5",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Mahalanobis distance (6 dimensions)",
+         "varname": "log.hof.maha6",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Power Distance (difference)",
+         "varname": "hof.pdi.diff",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Individualism (difference)",
+         "varname": "hof.idv.diff",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Masculinity (difference)",
+         "varname": "hof.mas.diff",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Uncertainty Avoidance (difference)",
+         "varname": "hof.uai.diff",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Long-term Orientation (difference)",
+         "varname": "hof.ltowvs.diff",
+         "default": false
+      },
+      {
+         "source": "Hofstede Cultural Dimensions",
+         "classvar": "hof",
+         "name": "Indulgence (difference)",
+         "varname": "hof.ivr.diff",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2000)",
+         "varname": "log.bg.cultural.2000",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2001)",
+         "varname": "log.bg.cultural.2001",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2002)",
+         "varname": "log.bg.cultural.2002",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2003)",
+         "varname": "log.bg.cultural.2003",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2004)",
+         "varname": "log.bg.cultural.2004",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2005)",
+         "varname": "log.bg.cultural.2005",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2006)",
+         "varname": "log.bg.cultural.2006",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (2007)",
+         "varname": "log.bg.cultural.2007",
+         "default": false
+      },
+      {
+         "source": "Berry, Guillen & Zhou",
+         "classvar": "bgz",
+         "name": "Pooled Mahalanobis (latest available)",
+         "varname": "log.bg.cultural.recent",
+         "default": false
+      },
+      {
+         "source": "Dow and Karunaratna",
+         "classvar": "dkvars",
+         "name": "Same language",
+         "varname": "dk.same_language",
+         "default": false
+      },
+      {
+         "source": "Dow and Karunaratna",
+         "classvar": "dkvars",
+         "name": "Same language family",
+         "varname": "dk.same_language_fam",
+         "default": false
+      },
+      {
+         "source": "Dow and Karunaratna",
+         "classvar": "dkvars",
+         "name": "Same religion",
+         "varname": "dk.same_religion",
+         "default": false
+      },
+      {
+         "source": "Dow and Karunaratna",
+         "classvar": "dkvars",
+         "name": "Same religion family",
+         "varname": "dk.same_religion_fam",
+         "default": false
+      },
+      {
+         "source": "Handbook of Nations",
+         "classvar": "eth.hon",
+         "name": "Same largest ethnicity",
+         "varname": "eth.largest_a",
+         "default": false
+      },
+      {
+         "source": "Handbook of Nations",
+         "classvar": "eth.hon",
+         "name": "Shares a top 2 ethnicity",
+         "varname": "eth.top2_a",
+         "default": false
+      },
+      {
+         "source": "Handbook of Nations",
+         "classvar": "eth.hon",
+         "name": "Continuous largest ethnicity",
+         "varname": "eth.continuous_top_a",
+         "default": false
+      },
+      {
+         "source": "Handbook of Nations",
+         "classvar": "eth.hon",
+         "name": "Continuous top 2 ethnicity",
+         "varname": "eth.continuous_top2_a",
+         "default": false
+      },
+      {
+         "source": "Britannica Book of the Year",
+         "classvar": "eth.boy",
+         "name": "Same largest ethnicity",
+         "varname": "eth.largest_b",
+         "default": false
+      },
+      {
+         "source": "Britannica Book of the Year",
+         "classvar": "eth.boy",
+         "name": "Shares a top 2 ethnicity",
+         "varname": "eth.top2_b",
+         "default": false
+      },
+      {
+         "source": "Britannica Book of the Year",
+         "classvar": "eth.boy",
+         "name": "Continuous largest ethnicity",
+         "varname": "eth.continuous_top_b",
+         "default": false
+      },
+      {
+         "source": "Britannica Book of the Year",
+         "classvar": "eth.boy",
+         "name": "Continuous top 2 ethnicity",
+         "varname": "eth.continuous_top2_b",
+         "default": false
+      },
+      {
+         "source": "Demographic Yearbook",
+         "classvar": "eth.dy",
+         "name": "Same largest ethnicity",
+         "varname": "eth.largest_c",
+         "default": false
+      },
+      {
+         "source": "Demographic Yearbook",
+         "classvar": "eth.dy",
+         "name": "Shares a top 2 ethnicity",
+         "varname": "eth.top2_c",
+         "default": false
+      },
+      {
+         "source": "Demographic Yearbook",
+         "classvar": "eth.dy",
+         "name": "Continuous largest ethnicity",
+         "varname": "eth.continuous_top_c",
+         "default": false
+      },
+      {
+         "source": "Demographic Yearbook",
+         "classvar": "eth.dy",
+         "name": "Continuous top 2 ethnicity",
+         "varname": "eth.continuous_top2_c",
+         "default": false
+      },
+      {
+         "source": "Continuous Cultural Variables",
+         "classvar": "cultcont",
+         "name": "Continuous Religion (normalized)",
+         "varname": "norm.sqsim_rel_total",
+         "default": false
+      },
+      {
+         "source": "Continuous Cultural Variables",
+         "classvar": "cultcont",
+         "name": "Continuous Religion (original)",
+         "varname": "sqsim_rel_total",
+         "default": false
+      },
+      {
+         "source": "Continuous Cultural Variables",
+         "classvar": "cultcont",
+         "name": "Continuous Religion (logged)",
+         "varname": "log.sqsim_rel_total",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "Attitudes toward globalization",
+         "varname": "Attitudes.toward.globalization",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "National culture",
+         "varname": "National.culture",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "Flexibility and adaptability",
+         "varname": "Flexibility.and.adaptability",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "Value system",
+         "varname": "Value.system",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Common ethnic language",
+         "varname": "comlang_ethno",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Common official language",
+         "varname": "comlang_off",
+         "default": true
+      }
+   ],
+   "Other": [
+      {
+         "source": "Hakanson & Ambose (2010)",
+         "classvar": "ha",
+         "name": "Psychic distance a to b (logged)",
+         "varname": "log.psychic_ab",
+         "default": false
+      },
+      {
+         "source": "Hakanson & Ambose (2010)",
+         "classvar": "ha",
+         "name": "Psychic distance b to a (logged)",
+         "varname": "log.psychic_ba",
+         "default": false
+      },
+      {
+         "source": "Hakanson & Ambose (2010)",
+         "classvar": "ha",
+         "name": "Psychic distance a to b * b to a (logged)",
+         "varname": "log.psychic_abba",
+         "default": false
+      }
+   ],
+   "Administrative": [
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "ASEAN",
+         "varname": "asean",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "CACM",
+         "varname": "cacm",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "CARICOM",
+         "varname": "caricom",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "EFTA",
+         "varname": "efta",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "EU27",
+         "varname": "eu27",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "GCC",
+         "varname": "gcc",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "MERCOSUR",
+         "varname": "mercosur",
+         "default": false
+      },
+      {
+         "source": "Regional Blocs",
+         "classvar": "regbloc",
+         "name": "NAFTA",
+         "varname": "nafta",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2009)",
+         "varname": "log.labor.diff.2009",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2010)",
+         "varname": "log.labor.diff.2010",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2011)",
+         "varname": "log.labor.diff.2011",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2012)",
+         "varname": "log.labor.diff.2012",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2013)",
+         "varname": "log.labor.diff.2013",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2014)",
+         "varname": "log.labor.diff.2014",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2015)",
+         "varname": "log.labor.diff.2015",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Difference, 2016)",
+         "varname": "log.labor.diff.2016",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2009)",
+         "varname": "log.labor.ratio.2009",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2010)",
+         "varname": "log.labor.ratio.2010",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2011)",
+         "varname": "log.labor.ratio.2011",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2012)",
+         "varname": "log.labor.ratio.2012",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2013)",
+         "varname": "log.labor.ratio.2013",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2014)",
+         "varname": "log.labor.ratio.2014",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2015)",
+         "varname": "log.labor.ratio.2015",
+         "default": false
+      },
+      {
+         "source": "Heritage Foundation Economic Freedom Index",
+         "classvar": "hf",
+         "name": "Labor Freedom Index (Ratio, 2016)",
+         "varname": "log.labor.ratio.2016",
+         "default": false
+      },
+      {
+         "source": "Family Ownership (Fogel, 2009)",
+         "classvar": "fogel",
+         "name": "Family control of top 10 domestic private sector conglomerates (ratio)",
+         "varname": "log.Dv.ratio",
+         "default": false
+      },
+      {
+         "source": "Family Ownership (Fogel, 2009)",
+         "classvar": "fogel",
+         "name": "Family control of top 10 domestic private sector conglomerates (ratio)",
+         "varname": "log.De.ratio",
+         "default": false
+      },
+      {
+         "source": "Family Ownership (Fogel, 2009)",
+         "classvar": "fogel",
+         "name": "Family control of top 10 private sector conglomerates, employee weighted (ratio)",
+         "varname": "log.Pv.ratio",
+         "default": false
+      },
+      {
+         "source": "Family Ownership (Fogel, 2009)",
+         "classvar": "fogel",
+         "name": "Family control of top 10 private sector conglomerates, equally weighted (ratio)",
+         "varname": "log.Pe.ratio",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Ease of doing business index",
+         "varname": "log.ratio.IC.BUS.EASE.XQ",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Control of Corruption",
+         "varname": "log.ratio.norm.CC.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Government Effectiveness",
+         "varname": "log.ratio.norm.GE.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Political Stability and Absence of Violence/Terrorism",
+         "varname": "log.ratio.norm.PV.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Rule of Law",
+         "varname": "log.ratio.norm.RL.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Regulatory Quality",
+         "varname": "log.ratio.norm.RQ.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "Voice and Accountability",
+         "varname": "log.ratio.norm.VA.EST",
+         "default": false
+      },
+      {
+         "source": "World Governance Indicators",
+         "classvar": "wgi",
+         "name": "WGI Index",
+         "varname": "log.wgiindex",
+         "default": false
+      },
+      {
+         "source": "Xu, Pan & Beamish",
+         "classvar": "normdist",
+         "name": "Regulative Distance (logged ratio)",
+         "varname": "log.regulative",
+         "default": false
+      },
+      {
+         "source": "Xu, Pan & Beamish",
+         "classvar": "normdist",
+         "name": "Normative Distance (logged ratio)",
+         "varname": "log.normative",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "Cognitive Distance Index",
+         "varname": "log.cdi",
+         "default": false
+      },
+      {
+         "source": "World Competitiveness Yearbook",
+         "classvar": "wcy",
+         "name": "Need for economic and social reforms",
+         "varname": "Need.for.economic.and.social.reforms",
+         "default": false
+      },
+      {
+         "source": "Corruption Perceptions Index",
+         "classvar": "cpi",
+         "name": "CPI 2015",
+         "varname": "log.cpi.2015_score.ratio",
+         "default": false
+      },
+      {
+         "source": "Corruption Perceptions Index",
+         "classvar": "cpi",
+         "name": "CPI 2014",
+         "varname": "log.cpi.2014_score.ratio",
+         "default": false
+      },
+      {
+         "source": "Corruption Perceptions Index",
+         "classvar": "cpi",
+         "name": "CPI 2013",
+         "varname": "log.cpi.2013_score.ratio",
+         "default": false
+      },
+      {
+         "source": "Corruption Perceptions Index",
+         "classvar": "cpi",
+         "name": "CPI 2012",
+         "varname": "log.cpi.2012_score.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon iii",
+         "varname": "log.polcon.polconiii.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon v",
+         "varname": "log.polcon.polconv.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon vj",
+         "varname": "log.polcon.polconvj.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon l1",
+         "varname": "log.polcon.l1.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon l2",
+         "varname": "log.polcon.l2.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon j",
+         "varname": "log.polcon.j.ratio",
+         "default": false
+      },
+      {
+         "source": "Political Constraints Index",
+         "classvar": "polcon",
+         "name": "Polcon f",
+         "varname": "log.polcon.f.ratio",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Common colony",
+         "varname": "comcol",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Common legal origin",
+         "varname": "comleg",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Common currency",
+         "varname": "comcur",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Colony in 1945",
+         "varname": "col45",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Colonial linkage",
+         "varname": "colony",
+         "default": true
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Trade agreement",
+         "varname": "rta_update",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Regional bloc",
+         "varname": "rta_2",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "TA/RB depending on flow",
+         "varname": "rta",
+         "default": true
+      }
+   ],
+   "Economic": [
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Market capitalization of listed companies",
+         "varname": "ratio.CM.MKT.LCAP.GD.ZS",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Borrowers from commercial banks (per 1,000 adults)",
+         "varname": "log.ratio.FB.CBK.BRWR.P3",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Depositors with commercial banks (per 1,000 adults)",
+         "varname": "log.ratio.FB.CBK.DPTR.P3",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Domestic credit to private sector by banks (% of GDP)",
+         "varname": "log.ratio.FD.AST.PRVT.GD.ZS",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Compensation of employees (% of expense)",
+         "varname": "log.ratio.GC.XPN.COMP.ZS",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Household final consumption expenditure % of GDP",
+         "varname": "log.ratio.NE.CON.PETC.ZS",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Household final consumption expenditure per capita",
+         "varname": "log.ratio.NE.CON.PRVT.PC.KD",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Ratio of pc income (max / min) -- logged",
+         "varname": "lpcgdp_rat",
+         "default": true
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "Advanced -> any",
+         "varname": "atoany",
+         "default": false
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "Emerging -> any",
+         "varname": "etoany",
+         "default": false
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "any -> Advanced",
+         "varname": "anytoa",
+         "default": false
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "any -> Emerging",
+         "varname": "anytoe",
+         "default": false
+      }
+   ],
+   "Geographic": [
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Average precipitation in depth (per year)",
+         "varname": "log.ratio.AG.LND.PRCP.MM",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Population density",
+         "varname": "log.ratio.EN.POP.DNST",
+         "default": false
+      },
+      {
+         "source": "World Development Indicators",
+         "classvar": "wdi",
+         "name": "Population in urban agglomerations of more than 1 million",
+         "varname": "log.ratio.EN.URB.MCTY.TL.ZS",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "Annual mean temperature (difference)",
+         "varname": "log.Annual_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "January mean temperature (difference)",
+         "varname": "log.Jan_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "February mean temperature (difference)",
+         "varname": "log.Feb_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "March mean temperature (difference)",
+         "varname": "log.Mar_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "April mean temperature (difference)",
+         "varname": "log.Apr_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "May mean temperature (difference)",
+         "varname": "log.May_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "June mean temperature (difference)",
+         "varname": "log.Jun_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "July mean temperature (difference)",
+         "varname": "log.July_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "August mean temperature (difference)",
+         "varname": "log.Aug_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "September mean temperature (difference)",
+         "varname": "log.Sept_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "October mean temperature (difference)",
+         "varname": "log.Oct_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "November mean temperature (difference)",
+         "varname": "log.Nov_Temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Temperature",
+         "classvar": "wbcc2",
+         "name": "December mean temperature (difference)",
+         "varname": "log.Dec_temp",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "Annual mean precipitation (ratio)",
+         "varname": "log.Annual_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "January mean precipitation (ratio)",
+         "varname": "log.Jan_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "February mean precipitation (ratio)",
+         "varname": "log.Feb_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "March mean precipitation (ratio)",
+         "varname": "log.Mar_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "April mean precipitation (ratio)",
+         "varname": "log.Apr_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "May mean precipitation (ratio)",
+         "varname": "log.May_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "June mean precipitation (ratio)",
+         "varname": "log.Jun_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "July mean precipitation (ratio)",
+         "varname": "log.July_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "August mean precipitation (ratio)",
+         "varname": "log.Aug_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "September mean precipitation (ratio)",
+         "varname": "log.Sept_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "October mean precipitation (ratio)",
+         "varname": "log.Oct_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "November mean precipitation (ratio)",
+         "varname": "log.Nov_precip",
+         "default": false
+      },
+      {
+         "source": "WB Climate Change - Precipitation",
+         "classvar": "wbcc3",
+         "name": "December mean precipitation (ratio)",
+         "varname": "log.Dec_precip",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Time zone difference",
+         "varname": "tdiff",
+         "default": false
+      },
+      {
+         "source": "CEPII",
+         "classvar": "cepii.grav",
+         "name": "Logged time zone difference",
+         "varname": "log.tdiff",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "M49 Minor",
+         "varname": "m49minor_dummy",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "GCI Region",
+         "varname": "region_dummy",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "Continent",
+         "varname": "cont_dummy",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "M49 Major",
+         "varname": "m49major_dummy",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "Broad Triad",
+         "varname": "bt_dummy",
+         "default": false
+      },
+      {
+         "source": "Region Classifications",
+         "classvar": "regvars",
+         "name": "Complete Triad",
+         "varname": "triad_dummy",
+         "default": false
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Distance (logged)",
+         "varname": "ldist",
+         "default": true
+      },
+      {
+         "source": "Standard Distance Variables",
+         "classvar": "dvars",
+         "name": "Share a common border",
+         "varname": "contig",
+         "default": true
+      }
+   ],
+   "Size": [
+      {
+         "source": "Standard Size Variables",
+         "classvar": "svars",
+         "name": "Product of gdps (logged)",
+         "varname": "lgdps",
+         "default": false
+      },
+      {
+         "source": "Standard Size Variables",
+         "classvar": "svars",
+         "name": "Product of populations (logged)",
+         "varname": "lpops",
+         "default": false
+      },
+      {
+         "source": "Standard Size Variables",
+         "classvar": "svars",
+         "name": "Logged size depending on flow",
+         "varname": "lsize",
+         "default": true
+      }
+   ],
+   "NA": [
+      {
+         "source": "Fixed Effects",
+         "classvar": "fevars",
+         "name": "Reporter fixed effects",
+         "varname": "factor(iso1)",
+         "default": true
+      },
+      {
+         "source": "Fixed Effects",
+         "classvar": "fevars",
+         "name": "Partner fixed effects",
+         "varname": "factor(iso2)",
+         "default": true
+      },
+      {
+         "source": "Fixed Effects",
+         "classvar": "fevars",
+         "name": "Year fixed effects",
+         "varname": "factor(year)",
+         "default": true
+      },
+      {
+         "source": "Fixed Effects",
+         "classvar": "fevars",
+         "name": "Time variant country fixed effects",
+         "varname": "factor(iso1year)+factor(iso2year)",
+         "default": false
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "Restrict to Cultural data sample",
+         "varname": "restricted_ch8",
+         "default": false
+      },
+      {
+         "source": "Restricted datasets",
+         "classvar": "rest",
+         "name": "Restrict to Geographic data sample",
+         "varname": "restricted_ch10",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Albania",
+         "varname": "iso1ALB",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Algeria",
+         "varname": "iso1DZA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Angola",
+         "varname": "iso1AGO",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Argentina",
+         "varname": "iso1ARG",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Australia",
+         "varname": "iso1AUS",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Austria",
+         "varname": "iso1AUT",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Bangladesh",
+         "varname": "iso1BGD",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Belgium",
+         "varname": "iso1BEL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Bolivia (Plurinational State of)",
+         "varname": "iso1BOL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Brazil",
+         "varname": "iso1BRA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Bulgaria",
+         "varname": "iso1BGR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Burkina Faso",
+         "varname": "iso1BFA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Cameroon",
+         "varname": "iso1CMR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Canada",
+         "varname": "iso1CAN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Chile",
+         "varname": "iso1CHL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: China",
+         "varname": "iso1CHN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Colombia",
+         "varname": "iso1COL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Congo",
+         "varname": "iso1COG",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Costa Rica",
+         "varname": "iso1CRI",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Cote d'Ivoire",
+         "varname": "iso1CIV",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Cyprus",
+         "varname": "iso1CYP",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Democratic Republic of the Congo",
+         "varname": "iso1COD",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Denmark",
+         "varname": "iso1DNK",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Dominican Republic",
+         "varname": "iso1DOM",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Ecuador",
+         "varname": "iso1ECU",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Egypt",
+         "varname": "iso1EGY",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: El Salvador",
+         "varname": "iso1SLV",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Ethiopia",
+         "varname": "iso1ETH",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Finland",
+         "varname": "iso1FIN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: France",
+         "varname": "iso1FRA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Gabon",
+         "varname": "iso1GAB",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Gambia",
+         "varname": "iso1GMB",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Germany",
+         "varname": "iso1DEU",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Ghana",
+         "varname": "iso1GHA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Greece",
+         "varname": "iso1GRC",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Guatemala",
+         "varname": "iso1GTM",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Guinea-Bissau",
+         "varname": "iso1GNB",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Guyana",
+         "varname": "iso1GUY",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Haiti",
+         "varname": "iso1HTI",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Honduras",
+         "varname": "iso1HND",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Hong Kong, China",
+         "varname": "iso1HKG",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Hungary",
+         "varname": "iso1HUN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: India",
+         "varname": "iso1IND",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Indonesia",
+         "varname": "iso1IDN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Iran",
+         "varname": "iso1IRN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Ireland",
+         "varname": "iso1IRL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Israel",
+         "varname": "iso1ISR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Italy",
+         "varname": "iso1ITA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Jamaica",
+         "varname": "iso1JAM",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Japan",
+         "varname": "iso1JPN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Kenya",
+         "varname": "iso1KEN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Korea, Republic of",
+         "varname": "iso1KOR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Luxembourg",
+         "varname": "iso1LUX",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Madagascar",
+         "varname": "iso1MDG",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Malawi",
+         "varname": "iso1MWI",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Malaysia",
+         "varname": "iso1MYS",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Mali",
+         "varname": "iso1MLI",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Mauritania",
+         "varname": "iso1MRT",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Mauritius",
+         "varname": "iso1MUS",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Mexico",
+         "varname": "iso1MEX",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Morocco",
+         "varname": "iso1MAR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Mozambique",
+         "varname": "iso1MOZ",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Netherlands",
+         "varname": "iso1NLD",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: New Zealand",
+         "varname": "iso1NZL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Nicaragua",
+         "varname": "iso1NIC",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Niger",
+         "varname": "iso1NER",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Nigeria",
+         "varname": "iso1NGA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Norway",
+         "varname": "iso1NOR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Pakistan",
+         "varname": "iso1PAK",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Panama",
+         "varname": "iso1PAN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Paraguay",
+         "varname": "iso1PRY",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Peru",
+         "varname": "iso1PER",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Philippines",
+         "varname": "iso1PHL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Poland",
+         "varname": "iso1POL",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Portugal",
+         "varname": "iso1PRT",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Romania",
+         "varname": "iso1ROU",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Saudi Arabia",
+         "varname": "iso1SAU",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Senegal",
+         "varname": "iso1SEN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Sierra Leone",
+         "varname": "iso1SLE",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Singapore",
+         "varname": "iso1SGP",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Spain",
+         "varname": "iso1ESP",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Sri Lanka",
+         "varname": "iso1LKA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Sudan",
+         "varname": "iso1SDN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Sweden",
+         "varname": "iso1SWE",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Switzerland",
+         "varname": "iso1CHE",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Syrian Arab Republic",
+         "varname": "iso1SYR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Thailand",
+         "varname": "iso1THA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Trinidad and Tobago",
+         "varname": "iso1TTO",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Tunisia",
+         "varname": "iso1TUN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Turkey",
+         "varname": "iso1TUR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Uganda",
+         "varname": "iso1UGA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: United Kingdom",
+         "varname": "iso1GBR",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: United States",
+         "varname": "iso1USA",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Uruguay",
+         "varname": "iso1URY",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Venezuela (Bolivarian Republic of)",
+         "varname": "iso1VEN",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Zambia",
+         "varname": "iso1ZMB",
+         "default": false
+      },
+      {
+         "source": "Limit Reporting Country",
+         "classvar": "limiso1",
+         "name": "Reporter: Zimbabwe",
+         "varname": "iso1ZWE",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Albania",
+         "varname": "iso2ALB",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Algeria",
+         "varname": "iso2DZA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Angola",
+         "varname": "iso2AGO",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Argentina",
+         "varname": "iso2ARG",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Australia",
+         "varname": "iso2AUS",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Austria",
+         "varname": "iso2AUT",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Bangladesh",
+         "varname": "iso2BGD",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Belgium",
+         "varname": "iso2BEL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Bolivia (Plurinational State of)",
+         "varname": "iso2BOL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Brazil",
+         "varname": "iso2BRA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Bulgaria",
+         "varname": "iso2BGR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Burkina Faso",
+         "varname": "iso2BFA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Cameroon",
+         "varname": "iso2CMR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Canada",
+         "varname": "iso2CAN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Chile",
+         "varname": "iso2CHL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: China",
+         "varname": "iso2CHN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Colombia",
+         "varname": "iso2COL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Congo",
+         "varname": "iso2COG",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Costa Rica",
+         "varname": "iso2CRI",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Cote d'Ivoire",
+         "varname": "iso2CIV",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Cyprus",
+         "varname": "iso2CYP",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Democratic Republic of the Congo",
+         "varname": "iso2COD",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Denmark",
+         "varname": "iso2DNK",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Dominican Republic",
+         "varname": "iso2DOM",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Ecuador",
+         "varname": "iso2ECU",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Egypt",
+         "varname": "iso2EGY",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: El Salvador",
+         "varname": "iso2SLV",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Ethiopia",
+         "varname": "iso2ETH",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Finland",
+         "varname": "iso2FIN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: France",
+         "varname": "iso2FRA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Gabon",
+         "varname": "iso2GAB",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Gambia",
+         "varname": "iso2GMB",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Germany",
+         "varname": "iso2DEU",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Ghana",
+         "varname": "iso2GHA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Greece",
+         "varname": "iso2GRC",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Guatemala",
+         "varname": "iso2GTM",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Guinea-Bissau",
+         "varname": "iso2GNB",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Guyana",
+         "varname": "iso2GUY",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Haiti",
+         "varname": "iso2HTI",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Honduras",
+         "varname": "iso2HND",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Hong Kong, China",
+         "varname": "iso2HKG",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Hungary",
+         "varname": "iso2HUN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: India",
+         "varname": "iso2IND",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Indonesia",
+         "varname": "iso2IDN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Iran",
+         "varname": "iso2IRN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Ireland",
+         "varname": "iso2IRL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Israel",
+         "varname": "iso2ISR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Italy",
+         "varname": "iso2ITA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Jamaica",
+         "varname": "iso2JAM",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Japan",
+         "varname": "iso2JPN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Kenya",
+         "varname": "iso2KEN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Korea, Republic of",
+         "varname": "iso2KOR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Luxembourg",
+         "varname": "iso2LUX",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Madagascar",
+         "varname": "iso2MDG",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Malawi",
+         "varname": "iso2MWI",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Malaysia",
+         "varname": "iso2MYS",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Mali",
+         "varname": "iso2MLI",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Mauritania",
+         "varname": "iso2MRT",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Mauritius",
+         "varname": "iso2MUS",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Mexico",
+         "varname": "iso2MEX",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Morocco",
+         "varname": "iso2MAR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Mozambique",
+         "varname": "iso2MOZ",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Netherlands",
+         "varname": "iso2NLD",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: New Zealand",
+         "varname": "iso2NZL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Nicaragua",
+         "varname": "iso2NIC",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Niger",
+         "varname": "iso2NER",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Nigeria",
+         "varname": "iso2NGA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Norway",
+         "varname": "iso2NOR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Pakistan",
+         "varname": "iso2PAK",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Panama",
+         "varname": "iso2PAN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Paraguay",
+         "varname": "iso2PRY",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Peru",
+         "varname": "iso2PER",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Philippines",
+         "varname": "iso2PHL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Poland",
+         "varname": "iso2POL",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Portugal",
+         "varname": "iso2PRT",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Romania",
+         "varname": "iso2ROU",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Saudi Arabia",
+         "varname": "iso2SAU",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Senegal",
+         "varname": "iso2SEN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Sierra Leone",
+         "varname": "iso2SLE",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Singapore",
+         "varname": "iso2SGP",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Spain",
+         "varname": "iso2ESP",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Sri Lanka",
+         "varname": "iso2LKA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Sudan",
+         "varname": "iso2SDN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Sweden",
+         "varname": "iso2SWE",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Switzerland",
+         "varname": "iso2CHE",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Syrian Arab Republic",
+         "varname": "iso2SYR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Thailand",
+         "varname": "iso2THA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Trinidad and Tobago",
+         "varname": "iso2TTO",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Tunisia",
+         "varname": "iso2TUN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Turkey",
+         "varname": "iso2TUR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Uganda",
+         "varname": "iso2UGA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: United Kingdom",
+         "varname": "iso2GBR",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: United States",
+         "varname": "iso2USA",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Uruguay",
+         "varname": "iso2URY",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Venezuela (Bolivarian Republic of)",
+         "varname": "iso2VEN",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Zambia",
+         "varname": "iso2ZMB",
+         "default": false
+      },
+      {
+         "source": "Limit Partner Country",
+         "classvar": "limiso2",
+         "name": "Partner: Zimbabwe",
+         "varname": "iso2ZWE",
+         "default": false
+      }
+   ]
+}

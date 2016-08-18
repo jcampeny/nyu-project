@@ -1,0 +1,18 @@
+<ul>
+	<li ng-repeat="(sectionKey, section) in variables" ng-click="toggleCollapsed('collapsed', sectionKey)">
+		<span>{{sectionKey}}</span>
+		<ul>
+			<li ng-repeat="(subsectionKey, subsection) in section" uib-collapse="collapsed != sectionKey">
+				<span>{{subsectionKey}}</span>
+				<ul>
+					<li ng-repeat="item in subsection">
+						<label>
+							<input  type="checkbox" name="{{item.name}}" ng-model="item.default">
+							{{item.name}}
+						</label>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>

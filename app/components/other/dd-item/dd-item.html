@@ -1,0 +1,15 @@
+<ul>
+	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="toggleCollapsed('dropDownCollapsed', dropDownKey)">
+		<span>{{dropDownKey}}</span>
+		<ul>
+			<li ng-repeat="(inputItemKey, inputItem) in dropDown" uib-collapse="dropDownCollapsed != dropDownKey">
+				<label ng-if="selectType == 'radio'">
+					<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem.name" ng-model="result.name">{{inputItem.name}}
+				</label>
+				<label ng-if="selectType == 'checkbox'">
+					<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.name" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)">{{inputItem.name}}
+				</label>
+			</li>
+		</ul>
+	</li>
+</ul>

@@ -5,12 +5,33 @@
 	<user-login class="col-xs-6"></user-login>
 	<user-register class="col-xs-6"></user-register>	
 </div>
+
 <!-- CAGE SLIDER -->
 <div class="col-xs-12 col-md-3" ng-repeat="(key, sliders) in sliderSections" ng-class="key">
 	<div>{{key}}</div>
-	<cage-slider class="col-xs-12" ng-repeat="sliderItem in sliders.items" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>
+	<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
+		<cage-slider ng-if="sliderItem.default" class="col-xs-12" ng-repeat="sliderItem in sliderSection" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>
+	</div>
 </div>
 <!-- END CAGE SLIDER -->
+
+<!-- INTRO -->
+<div class="col-xs-12 col-md-3" style="clear: both;">
+<!--country-->
+	<div>Selected = {{selectedCountry.name}}{{selectedCountry.items}}</div>
+	<select-tag-input variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
+	<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
+<!--end country-->
+	<indicator variables="countries"></indicator>
+	<hr>	
+</div>
+<!-- END INTRO -->
+
+<!-- SELECT DISTANCE VARIABLES -->
+<div class="col-xs-12">
+	<cage-select-distance-varibles variables="sliderSections"></cage-select-distance-varibles>
+</div>
+<!-- END SELECT DISTANCE VARIABLES -->
 
 <div class="user-information row" ng-if="root.actualUser.logged">
 	<div class="col-xs-4">
