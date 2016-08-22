@@ -1,0 +1,11 @@
+nyu-cagemaps{
+	.cagemaps-container{
+		padding: 50px;
+
+		#map-container {
+			min-height: 60vh;
+			margin-top: 20px;
+			border: 2px solid black;
+		}
+	}
+}

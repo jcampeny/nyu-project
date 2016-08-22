@@ -21,7 +21,9 @@ module.exports = function(grunt) {
     "bower_components/angular-recaptcha/release/angular-recaptcha.min.js",
     "bower_components/ngstorage/ngstorage.min.js",
     "bower_components/angular-csv-import/dist/angular-csv-import.min.js",
-    "bower_components/ng-csv/build/ng-csv.min.js"
+    "bower_components/ng-csv/build/ng-csv.min.js",
+    "bower_components/d3/d3.min.js",
+    "bower_components/topojson/topojson.js"
   ];
 
   var vendorStyles = [
@@ -93,7 +95,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: [ 'Gruntfile.js', 'app/**/*.js' ]
+      all: [ 'Gruntfile.js']
     },
     watch: {
       dev: {

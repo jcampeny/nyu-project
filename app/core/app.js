@@ -89,6 +89,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.pressitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
 
 				.state('app.cage', {url:'cage', template: '<nyu-cage></nyu-cage>'})
+				.state('app.cagemaps', {url:'cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
+				.state('app.cartogram', {url:'cartogram/:detail/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 
