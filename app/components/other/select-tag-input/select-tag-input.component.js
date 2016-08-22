@@ -6,7 +6,8 @@ angular.module('app').directive('selectTagInput', function () {
     scope : {
     	variables : '=',
         result : '=',
-        dataType : '@'
+        dataType : '@',
+        maxTags : "@"
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
         
@@ -14,6 +15,12 @@ angular.module('app').directive('selectTagInput', function () {
         ****COUNTRY****
         **************/
         $scope.selectedItems = [];
+        angular.forEach($scope.result.items, function(item){
+            var itemObj = {
+                text : item
+            };
+            $scope.selectedItems.push(itemObj);                  
+        });
 
         $scope.getArrayFromCountries = function(query){
             var countriesArray = [];
@@ -29,11 +36,24 @@ angular.module('app').directive('selectTagInput', function () {
         };
 
         $scope.$watch(function(){return $scope.selectedItems.length;},function(){
-            angular.forEach($scope.selectedItems, function(selectedItem){
-                $scope.result.items.push(selectedItem.text);
+            if($scope.maxTags < $scope.selectedItems.length){
+                $scope.selectedItems.pop();
+            }
+
+            angular.forEach($scope.selectedItems, function(selectedItem, k){
+                $scope.result.items[k] = selectedItem.text;
+                $scope.result.name = selectedItem.text;                    
             });
         });
 
+        $scope.$watch('result.name', function(){
+            if($scope.result.name){
+                var itemObj = { text : $scope.result.name };
+                $scope.selectedItems[0] = itemObj; 
+                $scope.result.items[0] = itemObj.text;                 
+            }
+
+        });
     }
   };
 });

@@ -9,6 +9,9 @@ angular.module('app').directive('nyuCage', function () {
             name : "",
             items : []
         };
+        $scope.selectedIndicators = {
+            items : []
+        };
         var test = {};
         $http({
           url: 'localdata/content/distance-variables.json',
@@ -34,6 +37,32 @@ angular.module('app').directive('nyuCage', function () {
             $scope.sliderSections = test;
         });
 
+        $scope.indicators = {
+            "Trade" : {
+                "Merchandise Trade" : [
+                    {name: 'Exports', default: false},
+                    {name: 'Imports', default: false}
+                ],
+                "Services Trade" : [
+                    {name: 'Exports', default: false},
+                    {name: 'Imports', default: false}
+                ],
+                "Test" : [
+                    {name: 'test', default: false}
+                ]
+            },
+            "Capital" : {
+                "FDI stocks" : [
+                    {name: 'Outward flows', default: false},
+                    {name: 'Inward flows', default: false}
+                ],
+                "FDI flows" : [
+                    {name: 'Outward stocks', default: false},
+                    {name: 'Inward stocks', default: false}
+                ]
+            }
+        };
+        
         $scope.sliderSections = {
         	"Cultural" : {
         		"CEPII Language" : [
@@ -109,6 +138,55 @@ angular.module('app').directive('nyuCage', function () {
                 {name : "La Francophonie"},
                 {name : "Organization of American States"}
             ]
+        };
+    },
+    link: function(s, e, a){
+        s.tableResult = [
+            {name : 'Portugal', geographicDistance : '00', cageDistance : '01', size: '00', actual: '00', predicted : '01', predictedFull : '03'},
+            {name : 'France', geographicDistance : '00', cageDistance : '02', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Morocco', geographicDistance : '01', cageDistance : '03', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Belgium', geographicDistance : '00', cageDistance : '04', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Italy', geographicDistance : '00', cageDistance : '05', size: '00', actual: '00', predicted : '00', predictedFull : '10'},
+            {name : 'Luxembourg', geographicDistance : '01', cageDistance : '06', size: '03', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Slovenia', geographicDistance : '00', cageDistance : '07', size: '04', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Ireland', geographicDistance : '00', cageDistance : '08', size: '00', actual: '06', predicted : '00', predictedFull : '00'},
+            {name : 'Germany', geographicDistance : '00', cageDistance : '03', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Malta', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Netherlands', geographicDistance : '00', cageDistance : '00', size: '00', actual: '07', predicted : '90', predictedFull : '00'},
+            {name : 'Austria', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '09', predictedFull : '00'},
+            {name : 'San Marino', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '05', predictedFull : '00'},
+            {name : 'Greece', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'United Kingdom', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Algeria', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Cyprus', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '02', predictedFull : '00'}
+        ];
+        s.tableHeader = [
+            {id: 'geographicDistance', name: "Geographic Distance (km)"},
+            {id: 'cageDistance', name: "CAGE Distance"},
+            {id: 'size', name: "[Size variable*] (% of rest of world)"},
+            {id: 'actual', name: "Actual [activity**] (% of world)"},
+            {id: 'predicted', name: "Predicted [activity**] (distance and size effects only, % of world)"},
+            {id: 'predictedFull', name: "Predicted [activity**] (full model, % of world)effects only, % of world)"}
+        ];
+        function PopService(state, open, popUpstate){
+            this.state = state || 'selection';
+            this.open = open || false;
+            this.popUpState = popUpstate || '';
+            
+            this.toggleView = function(show, toPopUpState, toState){
+                this.open = show || false;
+                this.popUpState = toPopUpState;
+                this.state = toState || this.state;
+            };
+
+            this.closePopUp = function(){
+                this.open = false;
+            };
+        }
+
+        s.viewController = new PopService('selection', false, 'test');
+        s.layoutView = {
+            state : ''
         };
     }
   };
