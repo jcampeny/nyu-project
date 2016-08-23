@@ -13,6 +13,7 @@ angular.module('app').directive('nyuCagemaps', function () {
             var detailFile = "countries_50";
             var country = "usa";
 
+            MapChartsService.fetchFlags();
             MapChartsService.resetMapObject();
             MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
             MapChartsService.iniMapLayers();
@@ -36,6 +37,21 @@ angular.module('app').directive('nyuCagemaps', function () {
                 
                 var cartoFeatures = carto.features(topology, geometries); 
                 MapChartsService.resetMap(cartoFeatures);
+
+                var maxValue = d3.max(data,function(d){return d.total_percent;});
+                var minValue = d3.min(data,function(d){return d.total_percent;});
+                MapChartsService.setValueScale([minValue, maxValue], [0,$scope.mapWidth*0.02]);
+                MapChartsService.setValueFunction(function(d){
+                    if(d.properties){
+                        return d.properties.total_percent;    
+                    }else{
+                        return 0;
+                    }
+                    
+                });
+
+                MapChartsService.addFlags(cartoFeatures);
+
               });
             });
         };

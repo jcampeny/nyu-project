@@ -1,5 +1,5 @@
 
-angular.module('app').service("MapChartsService",[function() {
+angular.module('app').service("MapChartsService",["ArrayService", function(ArrayService) {
 	    var mapObject = {};
 
 	    function getMapObject(){
@@ -14,11 +14,16 @@ angular.module('app').service("MapChartsService",[function() {
 				map           : null,
 				layer         : null,
 				mapFeatures   : null,
+				mapCircles	  : null,
+				mapFlags	  : null,
 				tooltip       : null,
 				zoom          : null,
 				projection    : null,
 				path          : null,
-				colorFunction : null
+				colorFunction : null,
+				valueScale 	  : null,
+				getValue	  : null,
+				countryFlags  : null, 
 		    };
 	    }
 
@@ -39,6 +44,12 @@ angular.module('app').service("MapChartsService",[function() {
 	    	mapObject.mapFeatures = mapObject.layer.append("g")
 				.attr("id", "mapFeatures")
 				.selectAll("path");
+
+			mapObject.mapCircles = mapObject.layer.append("g")
+				.attr("id", "mapCircles");
+
+			mapObject.mapFlags = mapObject.layer.append("g")
+				.attr("id", "mapFlags");
 
 			mapObject.tooltip = d3.select("#map-container")
 				.append("div")
@@ -134,11 +145,68 @@ angular.module('app').service("MapChartsService",[function() {
 				.attr("d", mapObject.path);
 	    }
 
+	    function setValueScale(domain, range){
+	    	mapObject.valueScale = d3.scale.sqrt()
+	    		.domain(domain)
+	    		.range(range);
+	    }
 
+	    function setValueFunction(f){
+	    	mapObject.getValue = f;
+	    }
+
+	    function addCircles(data){
+	    	mapObject.mapCircles = mapObject.mapCircles.selectAll("circle").data(data);
+	    	 
+	    	mapObject.mapCircles
+	    	  	.enter()
+	    	  	.append("circle")
+	    	  	.attr("circle-id", function(d) {
+	    	  	  return d.id;
+	    	  	})
+	    	    .attr("transform", function(d) { return "translate(" + mapObject.path.centroid(d) + ")"; })
+	    	    .attr("r", function(d){
+	    	    	return mapObject.valueScale(mapObject.getValue(d));
+	    	    });
+	    }
+
+	    function fetchFlags(){
+	    	d3.tsv('/localdata/vizdata/world-country-flags.tsv', function(data) {
+	    		mapObject.countryFlags = data;
+	    	});
+	    }
+
+	    function addFlags(data){
+	    	mapObject.mapFlags = mapObject.mapFlags.selectAll(".flag").data(data);
+	    	 
+	    	mapObject.mapFlags
+	    	  	.enter()
+	    	  	.insert("image", ".graticule")
+  	      		.attr("class", "country")
+  	      		.attr("flag-id",function(d){return d.id})
+				.attr("xlink:href", function (d){
+					var countryFlag = ArrayService.getFromProperty(mapObject.countryFlags, "iso", d.id);
+
+					if(countryFlag !== null){
+						return countryFlag.url;
+					}else{
+						return "";
+					}
+				})
+				.attr("x", function (d) {return mapObject.path.centroid(d)[0];})
+				.attr("y", function (d) {return mapObject.path.centroid(d)[1];})
+				.attr("width", "20px")
+				.attr("height", "15px")
+				.attr("preserveAspectRatio", "none");
+	    }
+
+	    /* PRIVATES */
 	    function doZoom() {
 
 	      // Zoom and keep the stroke width proportional
-	      mapObject.mapFeatures.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")").style("stroke-width", 0.5 / d3.event.scale + "px");
+	      mapObject.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	      mapObject.mapFeatures.style("stroke-width", 0.5 / d3.event.scale + "px");
+	      mapObject.mapCircles.style("stroke-width", 0.8 / d3.event.scale + "px");
 
 	      // Hide the tooltip after zooming
 	      // hideTooltip();
@@ -154,7 +222,12 @@ angular.module('app').service("MapChartsService",[function() {
 			setDataNest		 : setDataNest,
 			resetMap         : resetMap,
 			setColorFunction : setColorFunction,
-			updateData       : updateData
+			updateData       : updateData,
+			setValueScale	 : setValueScale,
+			setValueFunction : setValueFunction,
+			addCircles		 : addCircles,
+			addFlags		 : addFlags,
+			fetchFlags		 : fetchFlags
 		});
 
 
