@@ -21,6 +21,8 @@
 @import '../components/not-found/not-found';
 @import '../components/cage/cage';
 @import '../components/paypal/paypal';
+@import '../components/cage/cartogram';
+@import '../components/cage/cage-maps';
 @import '../components/users-directives/register/register';
 @import '../components/users-directives/login/login';
 @import '../components/users-directives/logout/logout';
@@ -33,6 +35,7 @@
 @import '../components/other/dd-item/dd-item';
 @import '../components/other/dd-item-item/dd-item-item';
 @import '../components/other/dd-radio-item/dd-radio-item';
+
 
 body {
 	margin:0;

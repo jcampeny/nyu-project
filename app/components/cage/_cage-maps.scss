@@ -1,0 +1,22 @@
+nyu-cagemaps{
+	.cagemaps-container{
+		padding: 50px;
+
+		#map-container {
+			min-height: 60vh;
+			margin-top: 20px;
+			border: 2px solid black;
+
+			path.mapFeature {
+			    stroke: #666;
+			    stroke-width: .5;
+			}
+
+			circle{
+				fill: transparent;
+				stroke: blue;
+				stroke-width: 0.8px;
+			}
+		}
+	}
+}

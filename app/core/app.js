@@ -99,6 +99,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.press', {url:'press', template: '<nyu-list entity="press"></nyu-list>'})
 				.state('app.pressitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
 
+
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 
 				.state('app.globecourse', {url:'globe-course', template: '<nyu-globecourse></nyu-globecourse>'})
@@ -128,6 +129,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				
 				.state('cage', {url:'/cage', templateUrl: '../app/core/cage-main.html', abstract: true})
 				.state('cage.cage', {url:'', template: '<nyu-cage></nyu-cage>'})
+				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
+				.state('cage.cartogram', {url:'/cartogram/:detail/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 				
 				.state('app.custom', {url:':id', template: '<custom-view></custom-view>'});
 

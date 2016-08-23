@@ -21,8 +21,8 @@
             others : [],
             all : []
         };
-        //var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
-        var path = "/wordpress/wp-json/wp/v2/";
+        var path = "http://test-nyu.elkanodata.com/wordpress/wp-json/wp/v2/";
+        // var path = "/wordpress/wp-json/wp/v2/";
         return {
             all     : all,
             allCustomPosts : allCustomPosts,

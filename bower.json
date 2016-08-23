@@ -10,6 +10,8 @@
     "angular-sanitize": "~1.4.7",
     "angular-mocks": "~1.4.5",
     "bootstrap": "latest",
+    "d3": "3.5.17",
+    "topojson":"1.4.6",
     "font-awesome": "^4.5.0",
     "jquery": "latest",
     "angular-translate": "^2.11.0",
