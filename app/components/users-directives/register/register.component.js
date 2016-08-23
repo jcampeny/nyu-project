@@ -3,6 +3,11 @@ angular.module('app').directive('userRegister', function () {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/register/register.html',
     controllerAs: 'userRegister',
+    scope : {
+        terms : "=",
+        callback : "=", 
+        type : "="
+    },
     controller: function ($scope, LoginService, $http) {
 
         $scope.register = {};
@@ -11,11 +16,16 @@ angular.module('app').directive('userRegister', function () {
         /*******************
         ******NEW USER******
         *******************/
+        /* 
+        * $scope.type = userRegister || userRegisterPremium || userUpgradePremium
+        */
+        console.log($scope.type);
         $scope.registerUser = function(isValid){
             if(isValid){
                 LoginService.createUser($scope.register).then(function(response){
                     if(response.data.status == 'success'){
                         console.log(response.data.content);
+                        if(typeof $scope.callback == 'function'){$scope.callback();} 
                         //$scope.logIn(response.data.content.username, $scope.register.pass);                        
                     }else{
                         console.log(response.data.content);

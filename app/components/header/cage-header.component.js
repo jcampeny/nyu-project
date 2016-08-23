@@ -1,8 +1,8 @@
-angular.module('app').directive('ngHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document, $location, deviceDetector) {
+angular.module('app').directive('ngCageHeader', function ($rootScope, $window, PopupService, DataService, $state, scrollService, $document, $location, deviceDetector) {
   return {
     restrict: 'E',
-    templateUrl: '../app/components/header/header.html',
-    controllerAs: 'header',
+    templateUrl: '../app/components/header/cage-header.html',
+    controllerAs: 'cageHeader',
     controller: function ($scope) {
     	$('body').removeClass('overflow');
     	$scope.headerFixed = false;
@@ -17,6 +17,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
     		if(toState.url != 'search'){
     			$scope.showSearch('close');    			
     		}
+
     	});
     	$('[ui-sref="'+$rootScope.currentState+'"]').addClass('active');
 	    $scope.openRequest = function(view){
@@ -39,6 +40,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
 	    
 	    $scope.toggleMenu = function(){
 	    	$rootScope.headerOpened = !$rootScope.headerOpened;
+
     	    if($rootScope.headerOpened){
     	    	setTimeout(function(){
     	    		$('body')

@@ -501,3 +501,231 @@
 	       font-size: 1.6rem;
 	}
 }
+
+/*******************
+*****CAGE**********
+********************/
+ng-cage-header{
+	.header-mobile-h{display:none;}	
+	@media (max-width: $break-mobile) and (max-height: 420px){
+		.header-mobile{display:none;}
+		.header-mobile-h{display:block;}		
+	}
+	.header-mobile-h{
+		position:fixed;
+		width: 50px;
+		height: 100%;
+		top: 0px;
+		background-color:#174380;
+		z-index: 3;
+		@include transition(top 0.4s ease-in-out, width 0.4s ease-in-out);
+		&.hide-menu{
+			top: -55px;
+		}
+		&.all-opened{
+			width: 100%;
+		}
+		.input-container-mobile{
+			display: none;
+			&.search{
+				display: block !important;
+				position: absolute;
+				top: 100%;
+				width: 100%;
+				height: 40px;
+				background-color: white;
+				-webkit-box-shadow: 0px 7px 21px -16px rgba(117,117,117,1);
+				-moz-box-shadow: 0px 7px 21px -16px rgba(117,117,117,1);
+				box-shadow: 0px 7px 21px -16px rgba(117,117,117,1);
+				input{
+					width: 100%;
+					height: 100%;
+					border: none;
+					background: none;
+						font-family: 'Merriweather', serif;
+					@media only screen and (max-width: $break-desktop) {
+						padding: 0 70px;
+					}
+
+					@media only screen and (max-width: $break-mobile) {
+						padding: 0 45px;
+					}
+				}
+				a{
+					position: absolute;
+					top: 12px;
+					color: #2D2E2D;
+					i{font-size: 1.2em;}
+					@media only screen and (max-width: $break-desktop) {
+						left: 50px;
+					}
+
+					@media only screen and (max-width: $break-mobile) {
+						left: 25px;
+					}
+				}
+				.close-cross{
+					position: absolute;
+					@include cross(0.6);	
+					top: 50%;	
+				}
+			}
+		}
+		.logo{
+		    position: absolute;
+		    bottom: 10px;
+		    z-index: 4;
+		    width: 33px;
+		    overflow: hidden;
+			right: 9px;
+
+			img{
+				max-height: 34px;
+    			margin-top: 9px;
+			}
+		}
+
+		.buton{
+			position:absolute;
+			width: 50px;
+			height: 100%;
+			border-right: 1px solid #335A81;
+			cursor:pointer;
+			right: 0px;
+			z-index: 4;
+			.icon{
+			    height: 50px;
+			    width: 50px;
+			    position: absolute;
+			    right: 5px;
+
+				.line{
+					position: absolute;
+					left:17px;
+					height: 3px;
+					background-color:#FFFFFF;
+					@include transition(all 0.5s);	
+				}
+				.top{
+					top:10px;
+					width:26px;
+				}
+				.med{
+					top:17px;
+					width:18px;
+				}
+				.btm{
+					top:24px;
+					width:23px;	
+				}
+				.text{
+					position: absolute;
+					top: 31px;
+    				left: 17px;
+				    font-size: 0.9rem;
+				    text-align: left;
+				    color: #FFFFFF;
+				    text-transform: uppercase;
+				    @include transition(all 0.5s);
+				}
+			}
+
+			&.opened {
+				border-right: none;
+				.top {
+					top: 17px;
+    				width: 23px;
+    				@include transform(rotate(45deg));
+				}
+				.med {
+					@include opacity(0)
+				}
+				.btm {
+    				width: 23px;
+    				top: 17px;
+    				@include transform(rotate(-45deg));
+				}
+				.text {
+					@include opacity(0)
+				}
+			}
+		}
+
+		.menu-mobile{
+			position:absolute;
+			right: 110%;
+			top: 0px;
+			width:105%;
+			height: 100vh;
+			padding-bottom: 85px;
+			background-color:#174380;
+			@include transition(right 0.4s);
+			font-family: 'Merriweather', serif;
+			overflow: scroll;
+
+			&.opened {
+				right:-5%;
+			}
+
+			ul{
+				list-style-type: none;
+				padding-left: 30px;
+
+				li{
+					margin-top: 35px;
+					a{
+						font-size:1.6rem;
+						color:#FFFFFF;
+
+						&.has-submenu{
+							&:after{
+								content: "";
+								position:absolute;
+								height: 8px;
+							    width: 8px;
+							    margin: 5px 0 0 9px;
+							    border-bottom: 2px solid #FFFFFF;
+							    border-left: 2px solid #FFFFFF;
+							    @include transform(rotate(-45deg));
+							}
+						}
+
+						&.active{
+							color: #0983FD;
+
+							&:after{
+								border-bottom: 2px solid #0983FD;
+							    border-left: 2px solid #0983FD;
+							}
+						}
+					}
+
+					&.search-option{
+						position: relative;
+					    padding-left: 30px;
+					    input{
+							background: none;
+						    border: none;
+						    color: white;
+						   	font-family: 'Merriweather', serif;				    	
+					    }
+					    a{
+					    	position: absolute;
+					    	left: 0;
+					    }
+					}
+
+					.submenu{
+						li{
+							margin-top: 25px;
+
+							a{
+								font-size:1.2rem
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

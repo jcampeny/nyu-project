@@ -1,9 +1,10 @@
-angular.module('app').directive('nyuCage', function () {
+angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
     controllerAs: 'nyuCage',
     controller: function ($scope, LoginService, $http, $rootScope) {
+
         $scope.root = $rootScope;
         $scope.selectedCountry = {
             name : "",
@@ -141,6 +142,24 @@ angular.module('app').directive('nyuCage', function () {
         };
     },
     link: function(s, e, a){
+
+        /*******************
+        **TABLE CONTROLLER**
+        *******************/
+        s.deviceDetector = deviceDetector;
+        s.propertyName = 'geographicDistance';
+        s.reverse = true;
+
+        s.sortBy = function(propertyName) {
+            if(typeof propertyName == 'object'){
+                propertyName = propertyName.target.options[propertyName.target.selectedIndex].value;
+                s.reverse = true;
+            }else{
+                s.reverse = (s.propertyName === propertyName) ? !s.reverse : true;
+            }
+            s.propertyName = propertyName;
+        };
+
         s.tableResult = [
             {name : 'Portugal', geographicDistance : '00', cageDistance : '01', size: '00', actual: '00', predicted : '01', predictedFull : '03'},
             {name : 'France', geographicDistance : '00', cageDistance : '02', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
@@ -161,6 +180,7 @@ angular.module('app').directive('nyuCage', function () {
             {name : 'Cyprus', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '02', predictedFull : '00'}
         ];
         s.tableHeader = [
+            {id: 'country', name: "Country"},
             {id: 'geographicDistance', name: "Geographic Distance (km)"},
             {id: 'cageDistance', name: "CAGE Distance"},
             {id: 'size', name: "[Size variable*] (% of rest of world)"},
@@ -168,12 +188,19 @@ angular.module('app').directive('nyuCage', function () {
             {id: 'predicted', name: "Predicted [activity**] (distance and size effects only, % of world)"},
             {id: 'predictedFull', name: "Predicted [activity**] (full model, % of world)effects only, % of world)"}
         ];
-        function PopService(state, open, popUpstate){
+
+        /******************
+        **VIEW CONTROLLER**
+        *******************/
+
+        function PopService(state, open, popUpState){
             this.state = state || 'selection';
             this.open = open || false;
-            this.popUpState = popUpstate || '';
-            
+            this.popUpState = popUpState || '';
+            this.lastPopUpState = popUpState || '';
+
             this.toggleView = function(show, toPopUpState, toState){
+                this.lastPopUpState = this.popUpState;
                 this.open = show || false;
                 this.popUpState = toPopUpState;
                 this.state = toState || this.state;
@@ -187,6 +214,16 @@ angular.module('app').directive('nyuCage', function () {
         s.viewController = new PopService('selection', false, 'test');
         s.layoutView = {
             state : ''
+        };
+
+        /************************
+        **USER LOGIN CALLBACK**
+        ***********************/
+        s.userLoginCallback = function(){
+            s.viewController.toggleView(true, 'userLog');
+        };
+        s.viewTerms = function(){
+            s.viewController.toggleView(true, 'userRegisterTerms');
         };
     }
   };

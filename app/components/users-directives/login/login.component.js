@@ -3,6 +3,9 @@ angular.module('app').directive('userLogin', function () {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/login/login.html',
     controllerAs: 'userLogin',
+    scope: {
+        callback : "="
+    },
     controller: function ($scope, LoginService, $http, $rootScope) {
         var emptyUser = {
             name : "",
@@ -38,9 +41,10 @@ angular.module('app').directive('userLogin', function () {
                                 $rootScope.actualUser.pass = response.data.content;
                                 //guardamos a localStorage
                                 LoginService.setStorageUser($rootScope.actualUser);
-                                $scope.getCSV();
-
-                                getUserInfo();                                
+                                //$scope.getCSV(); llamar los csv des del service
+                                if(typeof $scope.callback == 'function'){$scope.callback();}
+                                getUserInfo();   
+                                                           
                             }else{
                                 console.log(response.data.content);
                             }

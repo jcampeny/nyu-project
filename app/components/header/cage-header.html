@@ -1,4 +1,64 @@
 <header>
+	<div class="header-mobile-h" ng-class="{'all-opened':headerOpened}">
+		<div class="input-container-mobile" ng-class="stateName">			
+			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode === 13 ? searchSubmit(searchInput) : null" ng-model="searchInput">
+			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
+			<div class="close-cross" ng-click="showSearch('reset')"></div>
+		</div>
+		<a class="logo" ui-sref="app.home" ng-click="headerOpened && toggleMenu()"><img src="/assets/img/logo.png" /></a>
+		<div class="buton" ng-class="{'opened':headerOpened}" ng-click="toggleMenu()">
+			<div class="icon">
+				<div class="line top"></div>
+				<div class="line med"></div>
+				<div class="line btm"></div>
+				<div class="text">Menu</div>
+			</div>
+		</div>
+		<div class="menu-mobile" ng-class="{'opened':headerOpened}">
+			<ul>
+				<li><a ng-class="{'active': getCurrentStateGroup() == 'home'}" ui-sref="app.home" ng-click=" getCurrentStateGroup() == 'home' && toggleMenu()">Home</a></li>
+				<li><a ng-class="{'active': getCurrentStateGroup() == 'about'}" ui-sref="app.about" ng-click=" getCurrentStateGroup() == 'about' && toggleMenu()">About</a></li>
+				<li ng-click="toggleCollapsed('publications')">
+					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'publications'}">Publications</a>
+					<ul class="submenu" uib-collapse="collapsed != 'publications'">
+						<li><a ui-sref="app.books" >Books</a></li>
+						<li><a ui-sref="app.global" >Globalization Index Reports</a></li>
+						<li><a ui-sref="app.articles" >Articles & Book Chapters</a></li>
+						<li><a ui-sref="app.working" >Working Papers</a></li>
+						<li><a ui-sref="app.blog" >Blog</a></li>
+					</ul>
+				</li>
+				<li ng-click="toggleCollapsed('news')">
+					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'news'}">News &amp; Media</a>
+					<ul class="submenu" uib-collapse="collapsed != 'news'">
+						<li><a ui-sref="app.videos">Videos</a></li>
+						<li><a ui-sref="app.podcasts">Podcasts</a></li>
+						<li><a ui-sref="app.press">Press</a></li>
+						<li><a ui-sref="app.mediakit">Media Kit</a></li>
+					</ul>
+				</li>
+				<li ng-click="toggleCollapsed('teaching')">
+					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'teaching'}">Teaching Materials</a>
+					<ul class="submenu" uib-collapse="collapsed != 'teaching'">
+						<li><a ui-sref="app.globecourse">GLOBE Course</a></li>
+						<li><a ui-sref="app.cases">Cases & Teaching Notes</a></li>
+						<li><a ui-sref="app.notes">Globalization Notes</a></li>
+						<li><a ui-sref="app.surveys">Surveys</a></li>
+						<li><a ui-sref="app.other">Other Teaching Materials</a></li>
+					</ul>
+				</li>
+				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}" ng-click=" getCurrentStateGroup() == 'visualizations' && toggleMenu()">Maps & Visualizations</a></li>
+				<li><a ui-sref="cage.cage" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
+				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
+				<li><a href="#" ng-click="openRequest('request')">Request As Speaker</a></li>
+				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" ng-click="searchSubmit(searchInput)">
+					<!--<a ng-click="searchSubmit(searchInput)" ng-class="{'active': getCurrentStateGroup() == 'search'}">Search</a>-->
+					<input id="mobile-input-search" type="text" name="search" placeholder="Search" ng-model="searchInput">
+					<a class="btn-icon" ng-click="searchSubmit(searchInput)"><i class="fa fa-search"  aria-hidden="true"></i></a>
+				</li>
+			</ul>
+		</div>
+	</div>
 	<div class="header-top" ng-if="!headerFixed" ng-class="{'header-fixed':headerFixed}">
 		<div class="margin-content">
 			<a class="logo" ui-sref="app.home"><img src="/assets/img/logo.png"/></a>

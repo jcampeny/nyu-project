@@ -31,7 +31,7 @@ angular.module('app').directive('csvShow', function () {
                 }); 
             };
             //Llamamos a la función cuando el usuario hace login
-            $scope.getCSV();
+            /*******$scope.getCSV();**/
             //EXPORT
             //Objeto CSV (se autogenera el contenido y el header)
             $scope.createCSV = {
