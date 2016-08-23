@@ -1,0 +1,21 @@
+<ul>
+	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="toggleCollapsed('dropDownCollapsed', dropDownKey)">
+		<span>{{dropDownKey}}</span>
+		<ul>
+			<li ng-repeat="(inputItemKey, inputItem) in dropDown" uib-collapse="dropDownCollapsed != dropDownKey">
+				<label>
+					<input  type="checkbox" name="{{inputItemKey}}" value="inputItemKey" ng-checked="childSelect(dropDownKey, inputItemKey)" ng-click="parentSelect(dropDownKey, inputItemKey);">
+					{{inputItemKey}}
+				</label>
+				<ul>
+					<li ng-repeat="(inputItemItemKey, inputItemItem) in inputItem">
+						<label>
+							<input  type="checkbox" name="{{inputItemKey}}{{inputItemItem.name}}" value="inputItemItem.name" ng-checked="inputItemItem.default" ng-click="childSelect(dropDownKey, inputItemKey);">
+								{{inputItemItem.name}}
+						</label>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>

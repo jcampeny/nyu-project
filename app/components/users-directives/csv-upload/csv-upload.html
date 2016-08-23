@@ -1,0 +1,14 @@
+<label for="title-save">Title:</label>
+<input type="text" id="title-save" name="title-save" ng-model="titleSave">
+<ng-csv-import 
+	class="import"
+	content="csv.content"
+	header="csv.header" 
+	header-visible="csv.headerVisible" 
+	separator="csv.separator"
+	separator-visible="csv.separatorVisible"
+	result="csv.result"
+	encoding="csv.encoding"
+	encoding-visible="csv.encodingVisible"></ng-csv-import>
+  {{csv.result.filename}}<br>
+<button class="btn btn-default" ng-if="csv.result && csv.result.filename" ng-click="saveCSV(titleSave)">Save CSV</button>

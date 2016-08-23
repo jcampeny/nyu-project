@@ -1,0 +1,13 @@
+<input type="range" min="0" max="100" step="0.01" id="volumen" ng-model="range"></input>
+
+<div class="range-values" ng-repeat="rangeValue in rangeValues" ng-style="{'left' : rangeValue.value + '%'}">
+	<span>{{rangeValue.text}}</span>
+</div>
+
+<div class="range-values default" ng-style="{'left' : fromLogToPercent(value) + '%'}"><span>{{value}}</span></div>
+
+<div class="range-value">
+	<input type="text" ng-model="logValue">
+</div>
+
+<div class="slider-name">{{name}}</div>

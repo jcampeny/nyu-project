@@ -13,11 +13,10 @@ angular
             getStorageUser : getStorageUser,
             resetStorageUser : resetStorageUser,
             getUserInfo : getUserInfo,
+            encryptPassword : encryptPassword,
             changePassword : changePassword,
             resetPassword : resetPassword,
-            setCSV : setCSV,
-            getCSV : getCSV,
-            deleteCSV : deleteCSV
+
         };
 
         /*******************
@@ -59,6 +58,21 @@ angular
         **PASSWORD MANAGER**
         *******************/
         /*
+        -- Encripta la password para guardarla en el localStorage --
+        Checks  : usuario existe + Pass correcta  
+        InPut   : user {username@String, pass@String}, pass@String
+        Return  : response {
+                    status@String('error' || 'success'), 
+                    content@String}
+        */ 
+        function encryptPassword(user, pass){
+            var item = {
+                user : user,
+                pass : pass
+            };
+            return $http.post('/php/woocommerce/encrypt-password.php', item);
+        }
+        /*
         -- Cambiar la password y envia un mensaje al usuario con la nueva password --
         Checks  : usuario existe + Pass antigua correcta  
         InPut   : user {username@String, pass@String}, pass@String
@@ -84,32 +98,11 @@ angular
         */ 
         function resetPassword(user, pass){
             var item = {
-                user : user,
-                pass : pass
+                user : user
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }
-        /*******************
-        ****CSV MANAGER****
-        *******************/
-        function setCSV(user, csv, other){
-            var item = {
-                user : user,
-                csv : csv,
-                other : other
-            };
-            return $http.post('php/woocommerce/set-CSV.php', item);
-        }
-        function getCSV(user){
-            return $http.post('php/woocommerce/get-CSV.php', user);
-        }
-        function deleteCSV(user, csv){
-            var item = {
-                user : user,
-                csv_id : csv.id
-            };
-            return $http.post('php/woocommerce/delete-CSV.php', item);
-        }
+
 
 
         /*******************

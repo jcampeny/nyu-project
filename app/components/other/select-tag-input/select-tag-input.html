@@ -1,0 +1,9 @@
+<tags-input 
+	ng-model="selectedItems" 
+	placeholder="Filter by Country"
+	add-from-autocomplete-only="true">
+    <auto-complete 
+    	source="getArrayFromCountries($query)"
+    	min-length="1">
+    </auto-complete>
+</tags-input>

@@ -1,137 +1,170 @@
+<!-- POPUP -->
+<div class="view-popup row" ng-if="viewController.open">
+	<!-- POPUP SELECTION COUNTRY -->
+	<div ng-if="viewController.popUpState == 'country'">
+		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
+		<h4>Country / Aggregate</h4>
+		<select-tag-input max-tags="1" variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
+		<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
+	</div>
+	<!-- POPUP SELECTION INDICATORS -->
+	<div ng-if="viewController.popUpState == 'indicators'">
+		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
+		<h4>INDICATORS</h4>
+		<dd-radio-item variables="indicators" result="selectedIndicators"></dd-radio-item>
+	</div>
+	<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+	<div ng-if="viewController.popUpState == 'distanceVariables'" class="col-xs-12" >
+		<div class="close-cross" ng-click="viewController.closePopUp(); layoutView.state = 'impacts';">X</div>
+		<cage-select-distance-varibles variables="sliderSections"></cage-select-distance-varibles>
+	</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="view-template" ng-if="!viewController.open" style="margin-top: 100px;">
+	<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
+	<div ng-if="viewController.state == 'selection'">
+		<h4>Country:</h4>
+			<div>
+				<span>Selected = {{selectedCountry.name}}</span>
+				<button ng-click="viewController.toggleView(true, 'country')">SELECT</button>
+			</div>
+		<h4>Indicators:</h4>
+			<div>
+				<span>Selected = {{selectedIndicators.items}}</span>
+				<button ng-click="viewController.toggleView(true, 'indicators')">SELECT</button>
+			</div>	
+		<button ng-click="viewController.state = 'view';">GENERATE DISTANCE ANALYSIS</button>	
+	</div>
+	<!-- LAYOUT VIEW -->
+	<div ng-if="viewController.state == 'view'">
+		<!-- LAYOUT VIEW RESUME -->
+		<div>
+			<div><strong>Focus Country:</strong> {{selectedCountry.name}}</div>
+			<div><strong>Indicator:</strong> <span ng-repeat="indicatorItem in selectedIndicators.items track by $index">{{indicatorItem.parent}} > {{indicatorItem.name}}, </span></div>
+			<div><button ng-click="viewController.state = 'selection';">Change</button></div>			
+		</div>
+		<!-- LAYOUT VIEW MENU -->
+		<div>
+			<button class="btn" ng-click="layoutView.state = 'impacts';">Impacts</button>
+			<button class="btn" ng-click="layoutView.state = 'table';">Table</button>
+			<button class="btn" ng-click="layoutView.state = 'map';">Map</button>			
+		</div>
+		<!-- LAYOUT IMPACTS -->
+		<div ng-if="layoutView.state == 'impacts'">
+			<div ng-repeat="(key, sliders) in sliderSections" ng-class="key">
+				<div>{{key}}</div>
+				<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
+					<div ng-if="sliderItem.default" ng-repeat="sliderItem in sliderSection" class="cage-slider-container">
+						<cage-slider name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
+					</div>
+				</div>
+			</div>
+			<div>
+				<button class="btn" ng-click="layoutView.state = 'table';">VIEW RESULTS TABLE</button>
+				<a href="#" class="btn" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+			</div>
+		</div>
+		<!-- LAYOUT TABLE -->
+		<div ng-if="layoutView.state == 'table'">
+			<h1>TABLEEEEEEE</h1>
+			<!-- LAYOUT TABLE MOBILE -->
+			{{columnToShow}}
+			<select ng-model="columnToShow">
+					<option ng-repeat="tableHeaderItem in tableHeader" value="{{tableHeaderItem.id}}">{{tableHeaderItem.name}}</option>
+			</select>
+			<div ng-repeat="tableItem in tableResult">
+				<div ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-if="columnToShow == tableItemItemKey">{{tableItem.name}}-{{tableItemItem}}</div>
+			</div>
+
+			<table class="table">
+				<tr>
+					<th>Country</th>
+					<th ng-repeat="tableHeaderItem in tableHeader" ng-if="columnToShow == tableHeaderItem.id">{{tableHeaderItem.name}}</th>
+				</tr>
+				<tr ng-repeat="tableItem in tableResult">
+					<td>{{tableItem.name}}</td>
+					<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-if="columnToShow == tableItemItemKey">{{tableItemItem}}</td>
+				</tr>
+			</table>
+		</div>
+		<!-- LAYOUT MAP -->
+		<div ng-if="layoutView.state == 'map'">
+			<h1>MAAAAAAAAAAAAAP</h1>
+		</div>
+	</div>
+</div>
+
+
+<!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+
+<div class="view-popup row" ng-if="popUpController.open" style="display:none;">
+	<!-- CAGE SLIDER -->
+	<button ng-click="popUpController.togglePopUp(false)" style="    margin-top: 100px;">aaaa</button>
+	<div class="col-xs-12 col-md-3" ng-repeat="(key, sliders) in sliderSections" ng-class="key" ng-if="popUpController.state == 'test'">
+		<div>{{key}}</div>
+		<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
+			<cage-slider ng-if="sliderItem.default" class="col-xs-12" ng-repeat="sliderItem in sliderSection" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>
+		</div>
+	</div>
+	<!-- END CAGE SLIDER -->
+</div>
+
+
+
+
+<div class="view-template" ng-if="!popUpController.open" style="display: none;">
+<button ng-click="popUpController.togglePopUp(true, 'test')" style="    margin-top: 100px;">aaaa</button>
+
 <!-- PAYPAL -->
 <paypal-payment></paypal-payment>
 <!-- ENDPAYPAL-->
-<div class="form-login row" ng-if="!user.logged">
-	<form class="col-xs-6">
-		<h3>Login</h3>
-		<label for="username">Username:</label>
-		<input class="form-control" type="text" name="username" id="username" ng-model="inputname"><br>
-		<label for="userpass">Password:</label>
-		<input class="form-control" type="password" name="userpass" id="userpass" ng-model="inputpass"><br>
-		<button type="button" class="btn btn-default" ng-click="logIn(inputname, inputpass)">Log In</button><br>
-		<a href="#" ng-click="showForgot = !showForgot">Forgot your password?</a>
-		<div ng-if="showForgot">
-			<label for="userreset">Email to send new password:</label>
-			<input class="form-control" type="text" name="userreset" id="userreset" ng-model="inputreset"><br>
-			<button type="button" class="btn btn-default" ng-click="resetPassword(inputreset)">Reset Password</button>
-		</div>
-
-	</form>
-	<form class="col-xs-6" name="registerForm" ng-submit="registerUser(registerForm.$valid)">
-		<h3>Register</h3>
-		<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
-			<label class="control-label" for="registeremail">Email:</label>
-			<input class="form-control" type="email" name="registeremail" ng-model="register.email" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registername.$valid}">
-			<label class="control-label" for="registername">Username:</label>
-			<input class="form-control" type="text" name="registername" ng-model="register.name" ng-minlength="5" required><br>
-		</div>
-		<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
-			<label class="control-label" for="registerpass">Password:</label>
-			<input class="form-control" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
-			<label class="control-label" for="registerpassrepeat">Repeat password:</label>
-			<input class="form-control" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
-			<label class="control-label" for="registerfirst">First Name:</label>
-			<input class="form-control" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
-			<label class="control-label" for="registerlast">Last Name:</label>
-			<input class="form-control" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercompany">Company:</label>
-			<input class="form-control" type="text" name="registercompany" ng-model="register.company"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registeradress">Address:</label>
-			<input class="form-control" type="text" name="registeradress" ng-model="register.address"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercity">City:</label>
-			<input class="form-control" type="text" name="registercity" ng-model="register.city"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerstate">State:</label>
-			<input class="form-control" type="text" name="registerstate" ng-model="register.state"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerpostcode">Postcode:</label>
-			<input class="form-control" type="text" name="registerpostcode" ng-model="register.postcode"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercountry">Country:</label>
-			<input class="form-control" type="text" name="registercountry" ng-model="register.country"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerphone">Phone:</label>
-			<input class="form-control" type="text" name="registerphone" ng-model="register.phone"><br>
-		</div>
-		<button type="submit" class="btn btn-default" >Register</button>
-	</form>
+<div class="form-login row" ng-if="!root.actualUser.logged">
+	<user-login class="col-xs-6"></user-login>
+	<user-register class="col-xs-6"></user-register>	
 </div>
-<div class="user-information row" ng-if="user.logged">
-	<div class="important-information col-xs-4">
+
+
+
+<!-- INTRO -->
+<div class="col-xs-12 col-md-3" style="clear: both;">
+<!--country-->
+	<div>Selected = {{selectedCountry.name}}{{selectedCountry.items}}</div>
+	<select-tag-input variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
+	<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
+<!--end country-->
+	<indicator variables="countries"></indicator>
+	<hr>	
+</div>
+<!-- END INTRO -->
+
+<!-- SELECT DISTANCE VARIABLES -->
+<div class="col-xs-12">
+	<cage-select-distance-varibles variables="sliderSections"></cage-select-distance-varibles>
+</div>
+<!-- END SELECT DISTANCE VARIABLES -->
+
+<div class="user-information row" ng-if="root.actualUser.logged">
+	<div class="col-xs-4">
 <!--GENERAL USER INFO-->
-		<h2>Welcome {{user.nicename}}!</h2>
-		<span> Name : {{user.name}}</span> <br> 
-		<span> Email : {{user.email}}</span> <br>
-		<button type="button" class="btn btn-default" ng-click="logOut()">Log Out</button>
+		<h2>Welcome {{root.actualUser.nicename}}!</h2>
+		<span> Name : {{root.actualUser.name}}</span> <br> 
+		<span> Email : {{root.actualUser.email}}</span> <br>
+		<user-logout></user-logout>
 		<button type="button" class="btn btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>
 <!--UPLOAD-->
-		<h2>SUBIR CSV:</h2>	    
-		<label for="title-save">Title:</label>
-	    <input type="text" id="title-save" name="title-save" ng-model="titleSave">
-	    <ng-csv-import 
-			class="import"
-			content="csv.content"
-			header="csv.header" 
-			header-visible="csv.headerVisible" 
-			separator="csv.separator"
-			separator-visible="csv.separatorVisible"
-			result="csv.result"
-			encoding="csv.encoding"
-			encoding-visible="csv.encodingVisible"></ng-csv-import>
-	      {{csv.result.filename}}<br>
-	    <button class="btn btn-default" ng-if="csv.result && csv.result.filename" ng-click="saveCSV(titleSave)">Save CSV</button>
+		<h2>SUBIR CSV:</h2>
+		<csv-upload></csv-upload>
 <!--USERS CSV-->	    
-	    <div class="csv-container">
-	    	<h2>CSVs subidos:</h2>
-	    	<div ng-repeat="csv in csvArray" ng-class="{'bg-info' : (activeCSV.id == csv.id)}">
-	    		{{csv.title || ("CSV " + csv.id)}}<br>
-	    		<button ng-click="viewCSV(csv)" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
-	    		<button type="button" ng-csv="csv.content" csv-header="" field-separator="{{csv.fieldSeparator}}" filename="{{(csv.title) ? (csv.title) : (user.name + '-' + csv.id)}}.csv" ><i class="fa fa-download" aria-hidden="true"></i></button>
-				<button ng-click="deleteCSV(csv)" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-	    		<hr>
-	    	</div>
-	    </div>
-	    <div class="">
-	    	{{activeCSV.id}}<br>
-	    	{{activeCSV.csv}}
-	    </div>
+
+    	<h2>CSVs subidos:</h2>
+    	<csv-show></csv-show>
+
 	</div>
 <!--OTHER INFO-->	
 	<div class="other-information col-xs-8" ng-if="showOther">
-		<div class="crucial col-xs-6" ng-if="user.other.id > 0">
-			<label for="actual-pass">Actual Password</label><br>
-			<input class="form-control" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"><br>
-
-			<label for="new-pass">New Password</label><br>
-			<input class="form-control" type="password" name="new-pass" id="new-pass" ng-model="newPass"><br>
-
-			<label for="repeat-new-pass">Reapeat New Password</label><br>
-			<input class="form-control" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"><br>
-
-			<button type="button" class="btn btn-default" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Change Password</button>
-		</div>
-		<div class="billing col-xs-6">
-			<div ng-repeat="(key, infoItem) in user.other.billing">
-				<label for="{{infoItem}}-user">{{key}}</label><br>
-				<input class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="user.other.billing[key]">
-			</div>
-			<button type="button" class="btn btn-default" ng-click="saveOtherInfo()">Save</button>			
-		</div>
+		<user-change-pass class="col-xs-6"></user-change-pass>
+		<user-information class="col-xs-6"></user-information>
 	</div>
+</div>
 </div>

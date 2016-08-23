@@ -3,253 +3,190 @@ angular.module('app').directive('nyuCage', function () {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
     controllerAs: 'nyuCage',
-    controller: function ($scope, LoginService, $http) {
-        var emptyUser = {
+    controller: function ($scope, LoginService, $http, $rootScope) {
+        $scope.root = $rootScope;
+        $scope.selectedCountry = {
             name : "",
-            email : "",
-            nicename : "",
-            other : "",
-            logged : false,
-            pass : ""
+            items : []
         };
-        $scope.register = {};
-        //obtenemos la información del localStorage
-        $scope.user = LoginService.getStorageUser() || angular.copy(emptyUser);
-
-        /*******************
-        *******LOGIN*******
-        *******************/
-        $scope.logIn = function(name, pass){
-            if(!$scope.user.logged && name && pass){
-                LoginService.loginUser(name, pass)
-                    .then(function(response){
-                        console.log(response);
-                        $scope.user.name = response.data.user_display_name;
-                        $scope.user.email = response.data.user_email;
-                        $scope.user.nicename = response.data.user_nicename;
-                        $scope.user.logged = true;
-                        $scope.user.other = "";
-                        $scope.user.pass = pass;
-                        $scope.getCSV();
-                        //guardamos a localStorage
-                        LoginService.setStorageUser($scope.user);
-                        getUserInfo();
-                    })
-                    .catch( function( error ) {
-                        console.log('Error', error.data.message);
-                    });                   
-            }else{
-                console.error('not filled');
-            }
+        $scope.selectedIndicators = {
+            items : []
         };
-
-        /*******************
-        *******LOGOUT******
-        *******************/
-        $scope.logOut = function(){
-            $scope.user = angular.copy(emptyUser);
-            LoginService.resetStorageUser();
-            $scope.register = {};
-            $scope.csv = initCSV();
-            $scope.csvArray = [];
-        };
-
-        /*******************
-        ******USER INFO******
-        *******************/
-        function getUserInfo(){
-            LoginService.getUserInfo($scope.user).then(function(userInfo){
-                console.log(userInfo);
-                if(typeof userInfo.data == 'object'){
-                    $scope.user.other = userInfo.data;
-                    LoginService.setStorageUser($scope.user);
-                }else{
-                    console.error(userInfo);
-                }
-            });
-        }
-
-        /*******************
-        ***NEW USER INFO****
-        *******************/
-        $scope.saveOtherInfo = function(){
-            //todo
-        };
-
-        /*******************
-        ******NEW PASS******
-        *******************/
-        $scope.saveNewPassword = function(actualPass, newPass, newPassRepeated){
-            //todo
-            if(newPass == newPassRepeated){
-                if($scope.user.pass == actualPass){
-                    LoginService.changePassword($scope.user, newPass).then(function(response){
-                        console.log(response);
-                        if(response.data.status == 'success'){
-                            console.log(response.data.content); //all OK                    
-                        }else{
-                            console.log(response.data.content);//user no exist o pass incorrecta
-                        }
-                    });
-                }else{
-                   console.log('Error', 'pass incorrecta'); 
-                }
-            }else{
-                console.log('las passwornd no son iguales');
-            }
-        };
-
-        /*******************
-        ******NEW USER******
-        *******************/
-        $scope.registerUser = function(isValid){
-            if(isValid){
-                LoginService.createUser($scope.register).then(function(response){
-                    if(response.data.status == 'success'){
-                        console.log(response.data.content);
-                        $scope.logIn(response.data.content.username, $scope.register.pass);                        
-                    }else{
-                        console.log(response.data.content);
+        var test = {};
+        $http({
+          url: 'localdata/content/distance-variables.json',
+          method: 'GET'
+        }).then(function(response){
+            
+            angular.forEach(response.data, function(section, key){
+                test[key] = {};
+                angular.forEach(section, function(subSection){
+                    var itemItem = {
+                        "classvar": subSection.classvar,
+                        "name": subSection.name,
+                        "varname": subSection.varname,
+                        "default": subSection.default,
+                        "value" : 0.125
+                    };
+                    if(typeof test[key][subSection.source] == "undefined"){
+                        test[key][subSection.source] = [];
                     }
-
+                    test[key][subSection.source].push(itemItem);
                 });
-            }else{
-                console.log('falta algo');
+            });
+            $scope.sliderSections = test;
+        });
+
+        $scope.indicators = {
+            "Trade" : {
+                "Merchandise Trade" : [
+                    {name: 'Exports', default: false},
+                    {name: 'Imports', default: false}
+                ],
+                "Services Trade" : [
+                    {name: 'Exports', default: false},
+                    {name: 'Imports', default: false}
+                ],
+                "Test" : [
+                    {name: 'test', default: false}
+                ]
+            },
+            "Capital" : {
+                "FDI stocks" : [
+                    {name: 'Outward flows', default: false},
+                    {name: 'Inward flows', default: false}
+                ],
+                "FDI flows" : [
+                    {name: 'Outward stocks', default: false},
+                    {name: 'Inward stocks', default: false}
+                ]
             }
-        };  
-
-        /*******************
-        ****FORGOT PASS****
-        *******************/
-        $scope.resetPassword = function(email){
-            var randomstring = Math.random().toString(36).slice(-8);
-            var user = {
-                email : email,
-                name : ''
-            };
-            LoginService.resetPassword(user, randomstring).then(function(message){
-                //console.log(randomstring);
-                if(message.data.status == 'success'){
-                    console.log(message.data.content);
-                }else{
-                    console.log(message.data);
-                }
-                //$scope.logIn('jordicq', randomstring);
-            });
-        }; 
-
-        /*******************
-        ******** CSV *******
-        *******************/
-        $scope.csv = initCSV();
-
-        function initCSV(){
-            return {
-                content: null,
-                header: false,
-                headerVisible: false,
-                separator: ';',
-                separatorVisible: false,
-                result: null,
-                //encoding: 'ISO-8859-1',
-                //encodingVisible: true
-            };
-        }
-
-        //SAVE CSV IN DATABASE
-        $scope.saveCSV = function(titleSave){
-            var otherSet = {
-                title : titleSave || $scope.csv.result.filename
-            };
-            LoginService.setCSV($scope.user, $scope.csv, otherSet).then(function(response){console.log(response);
-                if(response.data.status == "success"){
-                    console.log(response.data.content);
-                    $scope.getCSV();
-                }else{
-                    console.log(response.data.content);
-                }
-            });
         };
         
-        //GET CSV FROM DATABASE
-        $scope.getCSV = function(){
-            LoginService.getCSV($scope.user).then(function(response){
-                $scope.csvArray = [];
-                if(response.data.status == "success"){
-                    var items = response.data.content;
-                    angular.forEach(items ,function(csvItem, i){
-                        var obj = {
-                            csv : items[i].csv,
-                            id : items[i].id,
-                            title : items[i].title,
-                            content : angular.copy($scope.createCSV.content(items[i].csv, $scope.createCSV.fieldSeparator)),
-                            header : angular.copy($scope.createCSV.header(items[i].csv, $scope.createCSV.fieldSeparator)),
-                            fieldSeparator : angular.copy($scope.createCSV.fieldSeparator)
-                        };
-                        items[i] = obj;
-                        $scope.csvArray.push(items[i]);
-                    });
-                    $scope.viewCSV($scope.csvArray[0]);
-                    console.log(response.data.content);
-                }else{
-                    console.log(response.data.content);
-                }
-            }); 
-        };
-        //Llamamos a la función cuando el usuario hace login
-        $scope.getCSV();
-        //EXPORT
-        //Objeto CSV (se autogenera el contenido y el header)
-        $scope.createCSV = {
-            fieldSeparator : ';',
-            header : function(csv, fieldSeparator){
-                return csv.split(/\n/g).shift().split(fieldSeparator);
-            },
-            content : function (csv, fieldSeparator){
-                var theContent = csv.split(/\n/g);
-                var header = theContent/*.shift()*/[0].split(fieldSeparator);
-                var contentReturn = [];
-                for (var i = 0; i < theContent.length; i++) {
-                    var contentArray = theContent[i].split(fieldSeparator);
-                    var row = {};
-                    for (var j = 0; j < contentArray.length; j++) {
-                        row[header[j]] = contentArray[j];
+        $scope.sliderSections = {
+        	"Cultural" : {
+        		"CEPII Language" : [
+		        	{
+                       "classvar": "clang",
+                       "name": "Common official language",
+                       "varname": "lang.col",
+                       "default": false,
+                       "value" : 0.125
                     }
-                    contentReturn.push(row);
-                }
-                return contentReturn;
-            }
+                ],
+                "Dow and Karunaratna": [
+                    {
+                       "classvar": "dkvars",
+                       "name": "Same language",
+                       "varname": "dk.same_language",
+                       "default": false,
+                       "value" : 0.125
+                    }
+                ]
+        	}
         };
-        //Activar CSV 
-        $scope.viewCSV = function(csv){
-            $scope.activeCSV = csv;
+        $scope.countries = {
+            "Individual Countries" : [
+                {name : "Afghanistan"},
+                {name : "Albania"},
+                {name : "Etc."}
+            ],
+            "World" : [
+                {name : "Total, all countries"}
+            ],
+            "Region" : [
+                {name : "East Asia and Pacific"},
+                {name : "Europe"},
+                {name : "Middle East and North Africa"},                
+                {name : "North America"},
+                {name : "South and Central America, Caribbean"},
+                {name : "South and Central Asia"},
+                {name : "Sub-Saharan Africa"}
+            ],
+            "Continent" : [
+                {name : "Africa"},
+                {name : "Asia"},
+                {name : "Europe"},                
+                {name : "North America"},
+                {name : "Oceania"},
+                {name : "South America"}
+            ],
+            "Income level" : [                
+                {name : "Low Income"},
+                {name : "Lower Middle Income"},
+                {name : "Upper Middle Income"},                
+                {name : "High Income"}
+            ],
+            "Development level" : [
+                {name : "Emerging and Developing Economies"},
+                {name : "Advanced Economies"}
+            ],
+            "Trade blocs" : [
+                {name : "ASEAN"},
+                {name : "CARICOM"},
+                {name : "ECOWAS"},                
+                {name : "EFTA"},
+                {name : "European Union"},
+                {name : "MERCOSUR"},
+                {name : "NAFTA"},
+                {name : "SICA"}
+            ],
+            "Regional Groups" : [                
+                {name : "APEC"},
+                {name : "African Union"},
+                {name : "Commonwealth of Nations"},                
+                {name : "La Francophonie"},
+                {name : "Organization of American States"}
+            ]
         };
-        //Delete CSV
-        $scope.deleteCSV = function(csv){
-            LoginService.deleteCSV($scope.user, csv).then(function(response){
-                if(response.data.status == "success"){
-                    console.log(response.data.content);
-                    $scope.getCSV();
-                    $scope.viewCSV($scope.csvArray[0]);
-                }else{
-                    console.log(response.data.content);
-                }
-                
-            });
-        };
+    },
+    link: function(s, e, a){
+        s.tableResult = [
+            {name : 'Portugal', geographicDistance : '00', cageDistance : '01', size: '00', actual: '00', predicted : '01', predictedFull : '03'},
+            {name : 'France', geographicDistance : '00', cageDistance : '02', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Morocco', geographicDistance : '01', cageDistance : '03', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Belgium', geographicDistance : '00', cageDistance : '04', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Italy', geographicDistance : '00', cageDistance : '05', size: '00', actual: '00', predicted : '00', predictedFull : '10'},
+            {name : 'Luxembourg', geographicDistance : '01', cageDistance : '06', size: '03', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Slovenia', geographicDistance : '00', cageDistance : '07', size: '04', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Ireland', geographicDistance : '00', cageDistance : '08', size: '00', actual: '06', predicted : '00', predictedFull : '00'},
+            {name : 'Germany', geographicDistance : '00', cageDistance : '03', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Malta', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Netherlands', geographicDistance : '00', cageDistance : '00', size: '00', actual: '07', predicted : '90', predictedFull : '00'},
+            {name : 'Austria', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '09', predictedFull : '00'},
+            {name : 'San Marino', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '05', predictedFull : '00'},
+            {name : 'Greece', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'United Kingdom', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Algeria', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '00', predictedFull : '00'},
+            {name : 'Cyprus', geographicDistance : '00', cageDistance : '00', size: '00', actual: '00', predicted : '02', predictedFull : '00'}
+        ];
+        s.tableHeader = [
+            {id: 'geographicDistance', name: "Geographic Distance (km)"},
+            {id: 'cageDistance', name: "CAGE Distance"},
+            {id: 'size', name: "[Size variable*] (% of rest of world)"},
+            {id: 'actual', name: "Actual [activity**] (% of world)"},
+            {id: 'predicted', name: "Predicted [activity**] (distance and size effects only, % of world)"},
+            {id: 'predictedFull', name: "Predicted [activity**] (full model, % of world)effects only, % of world)"}
+        ];
+        function PopService(state, open, popUpstate){
+            this.state = state || 'selection';
+            this.open = open || false;
+            this.popUpState = popUpstate || '';
+            
+            this.toggleView = function(show, toPopUpState, toState){
+                this.open = show || false;
+                this.popUpState = toPopUpState;
+                this.state = toState || this.state;
+            };
 
-        /*******************
-        *******PAYPAL*******
-        *******************/
-        $scope.testPOO = function(){
-            function product(name) {
-              this.name = name;
-              this.getname = function(){
-                return this.name;
-              };
-            }
-            var p = new product('caca');
-            console.log(p.getname());
+            this.closePopUp = function(){
+                this.open = false;
+            };
+        }
+
+        s.viewController = new PopService('selection', false, 'test');
+        s.layoutView = {
+            state : ''
         };
     }
   };

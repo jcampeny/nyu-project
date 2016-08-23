@@ -23,6 +23,19 @@
 @import '../components/paypal/paypal';
 @import '../components/cage/cartogram';
 @import '../components/cage/cage-maps';
+@import '../components/users-directives/register/register';
+@import '../components/users-directives/login/login';
+@import '../components/users-directives/logout/logout';
+@import '../components/users-directives/change-pass/change-pass';
+@import '../components/users-directives/information/information';
+@import '../components/users-directives/csv-upload/csv-upload';
+@import '../components/other/cage-slider/cage-slider';
+@import '../components/other/cage-select-distance-varibles/cage-select-distance-varibles';
+@import '../components/other/indicator/indicator';
+@import '../components/other/dd-item/dd-item';
+@import '../components/other/dd-item-item/dd-item-item';
+@import '../components/other/dd-radio-item/dd-radio-item';
+
 
 body {
 	margin:0;
