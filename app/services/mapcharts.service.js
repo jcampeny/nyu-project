@@ -8,6 +8,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    function resetMapObject(){
 	    	mapObject = {
+	    		type 		  : null,
 				width         : 0,
 				height        : 0,
 				body          : null,
@@ -25,6 +26,10 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 				getValue	  : null,
 				countryFlags  : null, 
 		    };
+	    }
+
+	    function setType(type){
+	    	mapObject.type = type;
 	    }
 
 	    function setSize(width,height){
@@ -136,13 +141,20 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    function updateData(data){
-	    	mapObject.mapFeatures
-	    		.data(data)
-	  			.transition()
-				.duration(750)
-				.ease("linear")
-				.attr("fill", mapObject.colorFunction)
-				.attr("d", mapObject.path);
+	    	if(mapObject.type === "cartogram"){
+				mapObject.mapFeatures
+					.data(data)
+						.transition()
+					.duration(750)
+					.ease("linear")
+					.attr("fill", mapObject.colorFunction)
+					.attr("d", mapObject.path);
+
+			}else if(mapObject.type === "flags"){
+
+			}else if(mapObject.type === "circles"){
+								
+			}
 	    }
 
 	    function setValueScale(domain, range){
@@ -212,9 +224,62 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	      // hideTooltip();
 	    }
 
+	    // Point p1 focus - p2 relative
+	    function getNewDistance(p1, p2, modifier){
+	    	var distY = Math.abs(p2[0] - p1[0]);
+	    	var distX = Math.abs(p2[1] - p1[1]);
+	    	var h = Math.sqrt( Math.pow(distX,2) + Math.pow(distY,2));
+	    	var h1 = h*modifier;
+	    	var h2 = Math.abs(h - h1);
+	    	var angle = Math.asin(distY/h);
+	    	var difY = sin(angle) * h2;
+	    	var difX = cos(angle) * h2;
+
+	    	var angleC = getAngleC(p1, p2);
+
+	    	if(angleC === "1"){
+	    		if(h1 < h){ return [ p2[0] + difX, p2[1] + difY ];
+	    		} else {    return [ p2[0] - difX, p2[1] - difY ]; }
+	    	
+	    	}else if(angleC === "2"){
+	    		if(h1 < h){ return [ p2[0] - difX, p2[1] + difY ];
+	    		} else {    return [ p2[0] + difX, p2[1] - difY ]; }
+
+	    	}else if(angleC === "3"){
+	    		if(h1 < h){ return [ p2[0] + difX, p2[1] - difY ];
+	    		} else {    return [ p2[0] - difX, p2[1] + difY ]; }
+
+	    	}else if(angleC === "4"){
+	    		if(h1 < h){ return [ p2[0] - difX, p2[1] - difY ];
+	    		} else {    return [ p2[0] + difX, p2[1] + difY ]; }
+	    	}else{
+	    		console.log("ERROR calculating new distance");
+	    		return [0,0];
+	    	}
+	    	
+	    }
+
+	    // Point p1 focus - p2 relative
+	    function getAngleC(p1, p2){
+	    	if(p1[0] > p2[0]){
+	    		if(p1[1] > p2[1]){
+	    			return "1";
+	    		}else{
+	    			return "4";
+	    		}
+	    	}else{
+	    		if(p1[1] > p2[1]){
+	    			return "2";
+	    		}else{
+	    			return "3";
+	    		}
+	    	}
+	    }
+
 	    return({
 			getMapObject     : getMapObject,
 			resetMapObject   : resetMapObject,
+			setType			 : setType,
 			setSize          : setSize,
 			iniMapLayers     : iniMapLayers,
 			setZoom          : setZoom,

@@ -51,6 +51,7 @@ angular.module('app').directive('nyuCartogram', function () {
 
         this.renderMap = function(){
           MapChartsService.resetMapObject();
+          MapChartsService.setType("cartogram");
           MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
           MapChartsService.iniMapLayers();
           MapChartsService.setZoom();

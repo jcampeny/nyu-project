@@ -15,6 +15,7 @@ angular.module('app').directive('nyuCagemaps', function () {
 
             MapChartsService.fetchFlags();
             MapChartsService.resetMapObject();
+            MapChartsService.setType("circles");
             MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
             MapChartsService.iniMapLayers();
             MapChartsService.setZoom();
