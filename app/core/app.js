@@ -1,9 +1,10 @@
 var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha', 'ngStorage', 'ngCsvImport', 'ngCsv'])
 
-	.controller("mainController", [ '$rootScope', '$timeout', 'DataService', function($rootScope, $timeout, DataService) {
+	.controller("mainController", [ '$scope', '$rootScope', '$timeout', 'DataService', '$state', function($scope, $rootScope, $timeout, DataService, $state) {
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
+
 		$rootScope.actualUser = {
             name : "",
             email : "",
@@ -14,7 +15,9 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
             role : 0
         };
 		DataService.downloadMedia();
+
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
+
 	    	$rootScope.headerOpened = false;
 	    	$rootScope.currentState = toState.name;
 	    	$rootScope.mobileShowFilters = false;
@@ -96,9 +99,6 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.press', {url:'press', template: '<nyu-list entity="press"></nyu-list>'})
 				.state('app.pressitem', {url:'press/:id/:title', template: '<nyu-item entity="press"></nyu-item>'})
 
-				.state('app.cage', {url:'cage', template: '<nyu-cage></nyu-cage>'})
-				.state('app.cagemaps', {url:'cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
-				.state('app.cartogram', {url:'cartogram/:detail/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 
 				.state('app.mediakit', {url:'mediakit', template: '<nyu-mediakit></nyu-mediakit>'})
 
@@ -126,7 +126,12 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('app.surveys', {url:'surveys', template: '<nyu-surveys></nyu-surveys>'})
 				.state('app.survey-gap', {url:'surveys/gap-survey', template: '<nyu-gapsurvey></nyu-gapsurvey>'})
 				.state('app.markets-gap', {url:'surveys/markets-survey', template: '<nyu-marketssurvey></nyu-marketssurvey>'})
-
+				
+				.state('cage', {url:'/cage', templateUrl: '../app/core/cage-main.html', abstract: true})
+				.state('cage.cage', {url:'', template: '<nyu-cage></nyu-cage>'})
+				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
+				.state('cage.cartogram', {url:'/cartogram/:detail/:country', template: '<nyu-cartogram></nyu-cartogram>'})
+				
 				.state('app.custom', {url:':id', template: '<custom-view></custom-view>'});
 
 			$locationProvider.html5Mode(true);

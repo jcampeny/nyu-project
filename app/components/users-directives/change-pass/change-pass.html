@@ -1,12 +1,18 @@
 <div class="crucial" ng-if="root.actualUser.other.id > 0">
-	<label for="actual-pass">Actual Password</label><br>
-	<input class="form-control" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"><br>
+	<div ng-show="view.state == 'editable'">	
+		<label for="actual-pass">Actual Password</label><br>
+		<input class="form-control" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"/><br>
 
-	<label for="new-pass">New Password</label><br>
-	<input class="form-control" type="password" name="new-pass" id="new-pass" ng-model="newPass"><br>
+		<label for="new-pass">New Password</label><br>
+		<input class="form-control" type="password" name="new-pass" id="new-pass" ng-model="newPass"/><br>
 
-	<label for="repeat-new-pass">Reapeat New Password</label><br>
-	<input class="form-control" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"><br>
+		<label for="repeat-new-pass">Reapeat New Password</label><br>
+		<input class="form-control" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"/><br>
 
-	<button type="button" class="btn btn-default" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Change Password</button>
+		<button type="button" class="btn btn-default" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Save new Password</button>
+	</div>
+	<div ng-show="view.state == 'notEditable'">
+		<button type="button" class="btn btn-default" ng-click="view.state = 'editable'">Change Password</button>
+	</div>
+	<div ng-show="view.state == 'success'">password changed</div>
 </div>

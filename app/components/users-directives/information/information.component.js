@@ -5,7 +5,7 @@ angular.module('app').directive('userInformation', function () {
     controllerAs: 'userInformation',
     controller: function ($scope, LoginService, $http, $rootScope) {
         $scope.root = $rootScope;
-
+        $scope.state = {isEditable : false};
         /*******************
         ***NEW USER INFO****
         *******************/

@@ -1,5 +1,8 @@
 <div ng-repeat="(key, infoItem) in root.actualUser.other.billing">
 	<label for="{{infoItem}}-user">{{key}}</label><br>
-	<input class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+	<input ng-if="state.isEditable" class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+	<div ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>
 </div>
-<button type="button" class="btn btn-default" ng-click="saveOtherInfo()">Save</button>	
+<button ng-if="state.isEditable" type="button" class="btn btn-default" ng-click="saveOtherInfo()">SAVE</button>
+<button ng-if="state.isEditable" type="button" class="btn btn-default" ng-click="state.isEditable = false">CANCEL</button>
+<button ng-if="!state.isEditable" type="button" class="btn btn-default" ng-click="state.isEditable = true">EDIT PROFILE INFO</button>
