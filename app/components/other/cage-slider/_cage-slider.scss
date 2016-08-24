@@ -3,11 +3,8 @@ cage-slider{
 	padding: 0 !important;
 	height: 20px;
 	display: block;
-	//TO TEST
-	margin: 40px 0px 0px 0px;
-	//END TO TEST
-
-	$slider-color : red;
+    margin-top: 40px;
+	$slider-color : white;
 	$track-color : black;
 
 	div.range-values, div.range-value, div.slider-name{
@@ -25,10 +22,11 @@ cage-slider{
 	@mixin slider(){
 		border: none;
 		position: relative;
-		height: 16px;
-		width: 16px;
+		height: 30px;
+		width: 30px;
 		border-radius: 100%;
-		top: -4px;
+		top: -11px;
+		opacity: 0.5;
 		background: $slider-color;
 		background-color: $slider-color;
 	}
@@ -42,6 +40,9 @@ cage-slider{
 		top: -35px;
 		right: 0px;
 		pointer-events: all;
+		input{
+			width: 50px;
+		}
 	}
 
 	div.range-values{

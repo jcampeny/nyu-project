@@ -9,7 +9,7 @@ angular.module('app').directive('ddItem', function () {
         selectType : '@'
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
-        $scope.dropDownCollapsed = "";
+        $scope.dropDownCollapsed = [];
         console.log($scope.result);
 
         $scope.toggleSelection = function(item) {

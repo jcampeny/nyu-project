@@ -4,7 +4,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
-
+		//$rootScope.popUpOpened = false;
 		$rootScope.actualUser = {
             name : "",
             email : "",

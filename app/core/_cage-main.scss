@@ -1,0 +1,104 @@
+nyu-cage{
+	.margin-controller{
+		&.margin-all{margin: 5% 5%;}
+	    &.margin-h{margin: 0px 5%;}
+	    &.margin-v{margin: 5% 0px;}
+	    &.margin-no-bottom{margin: 5% 5% 0px 5%;}
+	    &.margin-no-top{margin: 0px 5% 5% 5%;}
+	    &.margin-top{margin-top:5%;}
+	   	&.margin-bottom{margin-bottom:5%;}
+	   	&.margin-left{margin-left:5%;}
+	    &.margin-right{margin-right: 5%;}
+
+    	&.padding-all{padding: 5% 5%;}
+        &.padding-h{padding: 0px 5%;}
+        &.padding-v{padding: 5% 0px;}
+        &.padding-no-bottom{padding: 5% 5% 0px 5%;}
+        &.padding-no-top{padding: 0px 5% 5% 5%;}
+        &.padding-top{padding-top:5%;}
+       	&.padding-bottom{padding-bottom:5%;}
+       	&.padding-left{padding-left:5%;}
+        &.padding-right{padding-right: 5%;}
+	}
+
+	h1, h2, h3, .caption, .content{
+		font-family: 'Roboto', sans-serif;
+		@extend .margin-controller;
+	}
+
+	h1{
+		font-size: 24px;
+	}
+	h2{
+		font-size: 20px;
+	}
+	h3{
+		font-size: 16px;
+	}
+	.content{
+		font-size : 14px;
+	}
+	.caption{
+		font-size : 10px;
+	}
+
+	.color-blue{color: $cage-blue-text;}
+	.color-pankaj-gray{color: $pankaj-gray;}
+
+	.no-padding{padding: 0px 0px 0px 0px;}
+	.no-margin{margin: 0px 0px 0px 0px;}
+	
+	.text-align-right{text-align: right;}
+
+	dd-radio-item, dd-item{
+		&.standard{
+			ul{
+				margin: 0; padding: 0;
+				li{
+					color: #000000;
+					span:first-child{
+						display:block;
+						background-color: $light-gray;
+						color: #000000;
+						border-bottom: 1px solid #E2E4E3;
+						padding: 3% 5%;
+						@include transition(all 0.2s ease-in-out);
+						i{float: right;}
+					}
+					&:first-child{
+						span:first-child{
+							&:first-child{border-top: 1px solid #E2E4E3;}
+							}
+						}
+
+					&.active{
+						span:first-child{
+							color: $cage-blue-text;							
+						}
+					}
+					ul{
+						li{//radio container
+							padding: 0% 5%;
+							&:first-child{padding-top: 5%;}
+							&:last-child{padding-bottom: 5%;}
+							label {
+								@include radio();
+							}
+							ul{
+								li{
+									padding: 0 5%;
+									&:first-child{padding-top: 0%;}
+									&:last-child{padding-bottom: 0%;}
+									label{
+										@include checkbox();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

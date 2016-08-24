@@ -4,14 +4,31 @@
 	<div ng-if="viewController.popUpState == 'country'">
 		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
 		<h4>Country / Aggregate</h4>
-		<select-tag-input max-tags="1" variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
-		<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
+		<select-tag-input max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpCountry" select-type="radio"></dd-item>
+		<hr>
+		<div class="row content margin-all cta-selection">
+			<a  class="cta cta-darkest-blue"
+			    ng-click="temporalCountry.name = popUpCountry.name;
+			    		temporalCountry.items = popUpCountry.items; 
+			   			viewController.closePopUp();">UPDATE SELECTION</a>
+			<a  class="cta cta-light-gray"
+				ng-click="viewController.closePopUp();">CANCEL</a>		
+		</div>
 	</div>
 	<!-- POPUP SELECTION INDICATORS -->
 	<div ng-if="viewController.popUpState == 'indicators'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<h4>INDICATORS</h4>
-		<dd-radio-item variables="indicators" result="selectedIndicators"></dd-radio-item>
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-radio-item class="standard" variables="indicators" result="popUpIndicators"></dd-radio-item>
+		<hr>
+		<div class="row content margin-all cta-selection">
+			<a  class="cta cta-darkest-blue"
+			    ng-click="temporalIndicators.items = popUpIndicators.items; 
+			   			 viewController.closePopUp();">UPDATE SELECTION</a>
+			<a  class="cta cta-light-gray"
+				ng-click="viewController.closePopUp();">CANCEL</a>		
+		</div>
 	</div>
 	<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 	<div ng-if="viewController.popUpState == 'distanceVariables'">
@@ -56,49 +73,94 @@
 </div>
 
 <!-- LAYOUT -->
-<div class="view-template" ng-if="!viewController.open" style="margin-top: 100px;">
+<div class="view-template" ng-if="!viewController.open">
 	<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
 	<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
 	<div ng-if="viewController.state == 'selection'">
-		<h4>Country:</h4>
-			<div>
-				<span>Selected = {{selectedCountry.name}}</span>
-				<button ng-click="viewController.toggleView(true, 'country')">SELECT</button>
+		<h3 class="color-blue margin-all">CAGE Comparator™ Distance Analysis Selections</h3>
+
+		<!-- Indicators -->
+		<div class="row content margin-h">
+			<div class="caption">Indicator (International Flow/Stock): Please select the type of international activity you would like the model to use for calibrating CAGE Distance effects.</div>
+			<div class="col-xs-12 no-padding margin-controller margin-v">Indicator</div>
+			<div class="col-xs-8 no-padding color-blue">
+				<span ng-repeat="(indicatorItemKey, indicatorItem) in temporalIndicators.items">
+					<span ng-if="indicatorItemKey > 0">,</span> 
+					{{indicatorItem.parent}} 
+					{{indicatorItem.name}}
+				</span>
 			</div>
-		<h4>Indicators:</h4>
-			<div>
-				<span>Selected = {{selectedIndicators.items}}</span>
-				<button ng-click="viewController.toggleView(true, 'indicators')">SELECT</button>
-			</div>	
-		<button ng-click="viewController.state = 'view';">GENERATE DISTANCE ANALYSIS</button>	
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'indicators')">SELECT</a>
+			</div>
+		</div>	
+		<!-- Country -->
+		<div class="row content margin-all">		
+			<div class="caption">Countries / Aggregate: Please select a focal country or aggregate from which CAGE Distance to all other countries will be calculated.</div>
+			<div class="col-xs-12 no-padding margin-controller margin-v">Country</div>
+			<div class="col-xs-8 no-padding color-blue">{{temporalCountry.name}}</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'country')">SELECT</a>
+			</div>
+		</div>	
+		<!-- Submit indicators & country-->
+		<div class="row content margin-all cta-selection">
+			<a  class="cta cta-darkest-blue"
+			    ng-click="viewController.state = 'view'; 
+			   			 bindTemporalScopes('Country', 'Indicators');">GENERATE DISTANCE <br> ANALYSIS</a>
+			<a  class="cta cta-light-gray"
+				ng-click="viewController.state = 'view';" 
+				ng-show="selectedCountry.name && selectedIndicators.items.length > 0">CANCEL</a>		
+		</div>
+	
 	</div>
 	<!-- LAYOUT VIEW -->
 	<div ng-if="viewController.state == 'view'">
 		<!-- LAYOUT VIEW RESUME -->
-		<div>
-			<div><strong>Focus Country:</strong> {{selectedCountry.name}}</div>
-			<div><strong>Indicator:</strong> <span ng-repeat="indicatorItem in selectedIndicators.items track by $index">{{indicatorItem.parent}} > {{indicatorItem.name}}, </span></div>
-			<div><button ng-click="viewController.state = 'selection';">Change</button></div>			
+		<div class="view-resume-header">
+			<div>Focus Country: {{selectedCountry.name}}</div>
+			<div>Indicator: 			
+				<span ng-repeat="(indicatorItemKey, indicatorItem) in selectedIndicators.items track by $index">
+					<span ng-if="indicatorItemKey > 0">,</span> 
+					{{indicatorItem.parent}} 
+					{{indicatorItem.name}}
+				</span>
+			</div>
+			<div>Year(s): {{selectedYears.start}}-{{selectedYears.end}}</div>
+			<div class="row content cta-selection">
+				<a  class="cta cta-darkest-blue border-white margin-controller margin-right margin-bottom" 
+					ng-click="viewController.state = 'selection';">CHANGE</a>
+			</div>		
 		</div>
 		<!-- LAYOUT VIEW MENU -->
-		<div>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'impacts';">Impacts</button>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'table';">Table</button>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'map';">Map</button>			
+		<div class="view-menu content margin-all">
+
+			<a  ng-class="(layoutView.state == 'impacts') ? 'cta-darkest-blue' : 'cta-light-gray'" 
+				ng-click="layoutView.state = 'impacts';" class="cta">Impacts</a>
+			<a  ng-class="(layoutView.state == 'table') ? 'cta-darkest-blue' : 'cta-light-gray'" 
+				ng-click="layoutView.state = 'table';" class="cta">Table</a>
+			<a  ng-class="(layoutView.state == 'map') ? 'cta-darkest-blue' : 'cta-light-gray'"  
+				ng-click="layoutView.state = 'map';" class="cta">Map</a>
+			<h3 class="color-blue">CAGE Distance Impacts</h3>
 		</div>
 		<!-- LAYOUT IMPACTS -->
 		<div ng-if="layoutView.state == 'impacts'">
-			<div ng-repeat="(key, sliders) in sliderSections" ng-class="key">
-				<div>{{key}}</div>
+			<div ng-repeat="(key, sliders) in sliderSections" class="content padding-all" ng-class="key" ng-if="checkSomeActiveIndicator(sliders)">
+				<div class="impacts-key">{{key}}</div>
 				<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
 					<div ng-if="sliderItem.default" ng-repeat="sliderItem in sliderSection" class="cage-slider-container">
-						<cage-slider name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
+						<cage-slider class="content margin-h" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
 					</div>
 				</div>
 			</div>
-			<div>
-				<button class="btn btn-primary" ng-click="layoutView.state = 'table';">VIEW RESULTS TABLE</button>
-				<a href="#" class="btn btn-primary" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+			<div class="content margin-all">
+				<a class="cta cta-darkest-blue" ng-click="layoutView.state = 'table';">VIEW RESULTS TABLE</a>
+			</div>
+			<hr>
+			<div class="caption margin-all">
+				<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+				<br>
+				<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Advanced: Estimate impacts via custom gravity model</a>
 			</div>
 		</div>
 		<!-- LAYOUT TABLE -->

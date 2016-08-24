@@ -112,3 +112,19 @@ footer {
 		}
 	}
 }
+ng-cage-footer{
+	footer{
+		padding: 20px 0px 20px 0px;
+		background-color: #ffffff;
+		color: $cage-footer-color;
+		@media (max-width: $break-mobile) and (max-height: 420px){
+			padding: 20px 0px 20px 50px;
+		}
+		.copyright {
+			margin-top: 0px;
+			text-align: center;
+			font-weight: 300;
+			font-size: 10px;
+		}
+	}
+}

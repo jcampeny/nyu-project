@@ -17,6 +17,7 @@ angular.module('app').directive('ngHeader', function ($rootScope, $window, Popup
     		if(toState.url != 'search'){
     			$scope.showSearch('close');    			
     		}
+    		$('body').removeClass('overflow');
     	});
     	$('[ui-sref="'+$rootScope.currentState+'"]').addClass('active');
 	    $scope.openRequest = function(view){

@@ -107,3 +107,69 @@
     }
   }
 }
+
+@mixin radio(){
+  input[type="radio"] {
+      display: none;
+  }
+  input[type="radio"] + span.custom-radio{
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      bottom: 3px;
+      border-radius: 100%;
+      background-color: #FFFFFF;
+      border: 1px solid $less-dark-blue;
+    }                   
+  }
+  input[type="radio"]:checked + span.custom-radio:before{
+    content: "\f111";
+    font-family: "FontAwesome";
+    font-size: 8px;
+    text-align: center;
+    line-height: 14px;
+    color: $less-dark-blue;
+  }
+}
+
+@mixin checkbox(){
+  input[type="checkbox"] {
+      display: none;
+  }
+  input[type="checkbox"] + span.custom-checkbox{
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      bottom: 3px;
+      background-color: #FFFFFF;
+      border: 1px solid $less-dark-blue;
+    }                   
+  }
+  input[type="checkbox"]:checked + span.custom-checkbox:before{
+    content: "\f00c";
+    font-family: "FontAwesome";
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    background-color: $less-dark-blue;
+    color: #FFFFFF;
+  }
+}

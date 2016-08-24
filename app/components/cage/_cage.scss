@@ -5,11 +5,14 @@ nyu-cage{
     	overflow: scroll;
     	margin-left: 0px;
     	margin-right: 0px;
-    	min-height: 100vh;
+    	min-height: calc(100vh - 50px);
     	min-width: 100%;
-    	padding-top:100px;
-    	/**/
-    	background-color: #8fb0c7;
+    	/**/    
+    	background-color: #FFFFFF;
+    	@media (max-width: $break-mobile) and (max-height: 420px) {
+    		min-width: calc(100% - 50px);
+    		min-height: 100vh;
+    	}
 	}
 	/*TESTING*/
 	div.form-login{
@@ -18,15 +21,39 @@ nyu-cage{
 	div.user-information{
 		margin: 90px;
 	}
-	.Cultural{background-color: hsla(340/8, 0%, 82%/1.7, 1)}
-	.Administrative{background-color: hsla(340/6, 0%, 82%/1.6, 1)}
-	.Geographic{background-color: hsla(340/4, 0%, 82%/1.5, 1)}
-	.Economic{background-color: hsla(340/2, 0%, 82%/1.4, 1)}
-	.Other{background-color: hsla(340/2, 0%, 82%/1.3, 1)}
-	.NA{background-color: hsla(340/2, 0%, 82%/1.2, 1)}
-	.Size{background-color: hsla(340/2, 0%, 82%/1, 1)}
+
+	.Cultural{background-color:$container-gray;}
+	.Administrative{background-color: $emerald-green;}
+	.Geographic{background-color: $apple-green;}
+	.Economic{background-color: $container-blue;}
+	.Other{background-color: $cage-blue-text;}
+	.NA{background-color: $cage-blue-text;}
+	.Size{background-color: $emerald-green;}
 	div.cage-slider-container{
 		    min-height: 70px;
 	}
 	/*END TESTING*/
+
+	/***************
+	*****CAGE******
+	***************/
+	.cta-selection{
+		a:first-child{float:left;}
+		a:last-child{float:right;}
+	}
+	//LAYOUT VIEW RESUME
+	.view-resume-header{
+		background-color: $darkest-blue;
+		color: white;
+		padding: 5%;
+		div{margin: 3% 0%;}
+	}
+	//LAYOUT VIEW MENU
+	.view-menu{
+		a{width: 30%;}
+	}
+	//LAYOUT IMPACTS
+	.impacts-key{
+		margin-bottom: 40px;
+	}
 }

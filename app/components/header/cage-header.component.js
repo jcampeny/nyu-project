@@ -165,7 +165,7 @@ angular.module('app').directive('ngCageHeader', function ($rootScope, $window, P
 			.unbind('touchmove')
 			.bind('touchmove', function(element){
 				var dir = scrollService.getDirectionOnTouchMove(element);
-				if(!$rootScope.headerOpened){
+				if(/*!$rootScope.headerOpened && !$rootScope.popUpOpened*/ false){
 					$scope.hideOnScroll = (dir == "down") ? true : false;
 					$scope.$apply();
 				}

@@ -1,11 +1,21 @@
-angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
+angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
     controllerAs: 'nyuCage',
-    controller: function ($scope, LoginService, $http, $rootScope) {
+    controller: function ($scope, LoginService, $http) {
+        /**********************
+        TEMPORAL SCOPES FILTERS
+        **********************/
+        $scope.bindTemporalScopes = function(){
+            angular.forEach(arguments, function(argument){
+                $scope['selected'+argument] = angular.copy($scope['temporal'+argument]);
+                console.log($scope['selected'+argument]);
+            });
+        };
 
         $scope.root = $rootScope;
+
         $scope.selectedCountry = {
             name : "",
             items : []
@@ -13,6 +23,28 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
         $scope.selectedIndicators = {
             items : []
         };
+
+        $scope.temporalCountry = {
+            name : "Spain",
+            items : ["Spain"]
+        };
+        $scope.temporalIndicators = {
+            items : [
+                {name: 'Exports', parent: 'Merchandise Trade'}/*,
+                {name: 'Imports', parent: 'Merchandise Trade'}*/
+            ]
+        };
+        $scope.popUpIndicators = angular.copy($scope.temporalIndicators);
+        $scope.popUpCountry = angular.copy($scope.temporalCountry);
+
+        $scope.selectedYears = {
+            start: "2005",
+            end : "2015"
+        };
+        /*************************
+        END TEMPORAL SCOPES FILTERS
+        *************************/
+
         var test = {};
         $http({
           url: 'localdata/content/distance-variables.json',
@@ -142,7 +174,18 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
         };
     },
     link: function(s, e, a){
-
+        /**************************
+        **Impacts view CONTROLLER**
+        **************************/
+        s.checkSomeActiveIndicator = function(sliders){
+            var found = false;
+            angular.forEach(sliders, function(slider){
+                angular.forEach(slider, function(sliderItem){
+                    if(sliderItem.default) found = true;
+                });
+            });
+            return found;
+        };
         /*******************
         **TABLE CONTROLLER**
         *******************/
@@ -213,7 +256,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
 
         s.viewController = new PopService('selection', false, 'test');
         s.layoutView = {
-            state : ''
+            state : 'impacts'
         };
 
         /************************
