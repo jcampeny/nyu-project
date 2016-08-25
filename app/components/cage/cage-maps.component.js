@@ -9,6 +9,19 @@ angular.module('app').directive('nyuCagemaps', function () {
       controller.renderMap();
     },
     controller: function ($scope, LoginService, $http, MapChartsService) {
+        var dataset;
+        $scope.newData = 0;
+
+        $scope.updateData = function(){
+            angular.forEach(dataset, function(d,i){
+                if(d.iso === "CAN"){
+                    d.total_percent = $scope.newData;
+                }
+            });
+
+            MapChartsService.updateData(dataset);
+        };
+
         this.renderMap = function(){
             var detailFile = "countries_50";
             var country = "usa";
@@ -21,39 +34,51 @@ angular.module('app').directive('nyuCagemaps', function () {
             MapChartsService.setZoom();
             MapChartsService.setProjection("equirectangular");
 
-            var carto = d3.cartogram()
-              .projection(MapChartsService.getMapObject().projection)
-              .properties(function(d) {
-                return dataById[d.properties.iso_a3];
-              });
+            // var carto = d3.cartogram()
+            //   .projection(MapChartsService.getMapObject().projection)
+            //   .properties(function(d) {
+            //     return dataById[d.properties.iso_a3];
+            //   });
 
-            d3.json('/localdata/vizdata/'+detailFile+'.json', function(topo) {
-              topology = topo;
+            d3.json('/localdata/vizdata/'+detailFile+'.json', function(topology) {
 
-              geometries = topology.objects[detailFile+'_geo'].geometries;
+                // Read the data for the cartogram
+                d3.csv("/localdata/vizdata/"+country+"_exports.csv", function(data) {
+                    dataset = data;
 
-              // Read the data for the cartogram
-              d3.csv("/localdata/vizdata/"+country+"_exports.csv", function(data) {
-                dataById = MapChartsService.setDataNest(data, country);
-                
-                var cartoFeatures = carto.features(topology, geometries); 
-                MapChartsService.resetMap(cartoFeatures);
-
-                var maxValue = d3.max(data,function(d){return d.total_percent;});
-                var minValue = d3.min(data,function(d){return d.total_percent;});
-                MapChartsService.setValueScale([minValue, maxValue], [0,$scope.mapWidth*0.02]);
-                MapChartsService.setValueFunction(function(d){
-                    if(d.properties){
-                        return d.properties.total_percent;    
-                    }else{
-                        return 0;
+                    if(country === "ger"){
+                        dataset.push({
+                          iso: "DEU",
+                          partner:"Germany",
+                          partner_percent:"#N/A",
+                          total:"0",
+                          total_percent:"20"
+                        });
+                    }else if(country === "usa"){
+                        dataset.push({
+                          iso: "USA",
+                          partner:"United States",
+                          partner_percent:"#N/A",
+                          total:"0",
+                          total_percent:"20"
+                        });
                     }
-                    
+
+                    dataById = MapChartsService.setDataNest(dataset, country);
+                    MapChartsService.setTopology(topology, topology.objects[detailFile+'_geo'].geometries);
+                    MapChartsService.setFocusCountry(country);
+                    MapChartsService.resetMap();
+
+                    var maxValue = d3.max(dataset,function(d){return parseFloat(d.total_percent);});
+                    var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
+                    MapChartsService.setValueScale([minValue, maxValue], [1.2, 0]);
+                    MapChartsService.setValueFunction(function(d){
+                        return d.total_percent;    
+                    });
+
+                    MapChartsService.addCircles(dataset);
+
                 });
-
-                MapChartsService.addFlags(cartoFeatures);
-
-              });
             });
         };
     }
