@@ -1,5 +1,5 @@
 <ul>
-	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="dropDownCollapsed[dropDownKey] = !dropDownCollapsed[dropDownKey]">
+	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="dropDownCollapsed[dropDownKey] = !dropDownCollapsed[dropDownKey]" ng-class="{'active' : dropDownCollapsed[dropDownKey]}">
 		<span>{{dropDownKey}}
 			<i class="fa" ng-class="(dropDownCollapsed[dropDownKey]) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
 		</span>

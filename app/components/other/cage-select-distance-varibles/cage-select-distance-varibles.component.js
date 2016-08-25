@@ -8,14 +8,14 @@ angular.module('app').directive('cageSelectDistanceVaribles', function () {
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
 
-        console.log($scope.variables[0]);
-        $scope.collapsed = "";
-
+        $scope.dropDownCollapsed = [];
+        $scope.subSectionCollapsed = [];
+        
         /*************************
         ***Logarithm controller***
         *************************/
         $scope.toggleCollapsed = function(scopeKey, newValue){
-            $scope[scopeKey] = newValue; 
+            $scope.dropDownCollapsed[scopeKey] = newValue; 
         };
 
     }

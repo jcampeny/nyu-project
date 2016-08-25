@@ -23,6 +23,9 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         $scope.selectedIndicators = {
             items : []
         };
+        $scope.selectedDistanceVariables = {
+            items : {}
+        };
 
         $scope.temporalCountry = {
             name : "Spain",
@@ -34,6 +37,10 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                 {name: 'Imports', parent: 'Merchandise Trade'}*/
             ]
         };
+        $scope.temporalDistanceVariables = {
+            items : {}
+        };
+
         $scope.popUpIndicators = angular.copy($scope.temporalIndicators);
         $scope.popUpCountry = angular.copy($scope.temporalCountry);
 
@@ -41,33 +48,35 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             start: "2005",
             end : "2015"
         };
+
+
         /*************************
         END TEMPORAL SCOPES FILTERS
         *************************/
+        
 
-        var test = {};
         $http({
           url: 'localdata/content/distance-variables.json',
           method: 'GET'
         }).then(function(response){
             
             angular.forEach(response.data, function(section, key){
-                test[key] = {};
+                $scope.selectedDistanceVariables.items[key] = {};
                 angular.forEach(section, function(subSection){
                     var itemItem = {
                         "classvar": subSection.classvar,
                         "name": subSection.name,
                         "varname": subSection.varname,
                         "default": subSection.default,
-                        "value" : 0.125
+                        "value" : Math.round(Math.pow(2,((Math.random())*6) - 3) * Math.pow(10 , 3)) / Math.pow(10,3)
                     };
-                    if(typeof test[key][subSection.source] == "undefined"){
-                        test[key][subSection.source] = [];
+                    if(typeof $scope.selectedDistanceVariables.items[key][subSection.source] == "undefined"){
+                        $scope.selectedDistanceVariables.items[key][subSection.source] = [];
                     }
-                    test[key][subSection.source].push(itemItem);
+                    $scope.selectedDistanceVariables.items[key][subSection.source].push(itemItem);
                 });
             });
-            $scope.sliderSections = test;
+            $scope.temporalDistanceVariables.items = angular.copy($scope.selectedDistanceVariables.items);
         });
 
         $scope.indicators = {
@@ -96,7 +105,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             }
         };
         
-        $scope.sliderSections = {
+        /*$scope.distanceVariables = {
         	"Cultural" : {
         		"CEPII Language" : [
 		        	{
@@ -117,7 +126,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                     }
                 ]
         	}
-        };
+        };*/
         $scope.countries = {
             "Individual Countries" : [
                 {name : "Afghanistan"},
@@ -172,6 +181,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                 {name : "Organization of American States"}
             ]
         };
+
     },
     link: function(s, e, a){
         /**************************
@@ -232,21 +242,41 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             {id: 'predictedFull', name: "Predicted [activity**] (full model, % of world)effects only, % of world)"}
         ];
 
+        /*******************
+        ***MAP CONTROLLER***
+        *******************/
+        s.countryMarkers = [
+            {id: 'flags', name: "Flags"},
+            {id: 'size', name: "Circles Proportional to [Size variable*] (% of rest of world)"},
+            {id: 'actual', name: "Circles Proportional to Actual [activity**] (% of world)"},
+            {id: 'predicted', name: "Circles Proportional to Predicted [activity**] (distance and size effects only, % of world)"},
+            {id: 'predictedFull', name: "Circles Proportional to Predicted [activity**] (full model, % of world) effects only, % of world)"}
+        ];
+        s.countryMarkerActive = {id: 'flags', name: "Flags"};
+        s.distanceShownActive = {id: 'cageDistance', name: "CAGE Distance"};
         /******************
         **VIEW CONTROLLER**
         *******************/
 
-        function PopService(state, open, popUpState){
+        function PopService(state, open, popUpState, popUpSize){
             this.state = state || 'selection';
             this.open = open || false;
             this.popUpState = popUpState || '';
+            this.popUpSize = popUpSize || 'big'; //big, normal, small
             this.lastPopUpState = popUpState || '';
 
-            this.toggleView = function(show, toPopUpState, toState){
+            /*
+            * show@boolean: Mostrar o no el popup
+            * toPopUpState@String : Determina el contenido a mostrar en el popUp
+            * toState@String : Determina el estado de la página (view || selection)
+            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || small)
+            */
+            this.toggleView = function(show, toPopUpState, toState, setPopUpSize){
                 this.lastPopUpState = this.popUpState;
                 this.open = show || false;
                 this.popUpState = toPopUpState;
                 this.state = toState || this.state;
+                this.popUpSize = setPopUpSize || 'big';
             };
 
             this.closePopUp = function(){
@@ -255,8 +285,11 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         }
 
         s.viewController = new PopService('selection', false, 'test');
+        //s.viewController.toggleView(true, 'distanceVariables', 'view');
+    s.viewController.toggleView(false, '', 'view');
+        //s.viewController.toggleView(true, 'login', 'view', 'big');
         s.layoutView = {
-            state : 'impacts'
+            state : 'table'
         };
 
         /************************

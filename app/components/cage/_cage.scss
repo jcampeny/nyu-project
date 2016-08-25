@@ -1,4 +1,16 @@
 nyu-cage{
+	.cage-mobile-view{display: block;}
+	.cage-desktop-view{display: none;}
+
+	@media only screen and (min-width: $break-laptop) {
+		.cage-mobile-view{display: none;}
+		.cage-desktop-view{display: block;}
+	}
+	a.custom-link-extender{
+		color: $darkest-blue;
+		text-decoration: underline;
+		display: block;
+	}
 	div.view-popup{
 		position: absolute;
     	z-index: 2;
@@ -37,23 +49,54 @@ nyu-cage{
 	/***************
 	*****CAGE******
 	***************/
-	.cta-selection{
-		a:first-child{float:left;}
-		a:last-child{float:right;}
+	.cage-mobile-view{
+		.cta-selection{
+			a:first-child{float:left;}
+			a:last-child{float:right;}
+		}
+		//LAYOUT VIEW RESUME
+		.view-resume-header{
+			background-color: $darkest-blue;
+			color: white;
+			padding: 5%;
+			div{margin: 3% 0%;}
+		}
+		//LAYOUT VIEW MENU
+		.view-menu{
+			text-align: center;
+			a{width: 32%;}
+		}
+		//LAYOUT IMPACTS
+		.layout-impacts{
+			.impacts-key{color: white;}	
+			.impacts-custom{a
+				{@extend a.custom-link-extender; }
+			}	
+		}
+		//LAYOUT TABLE
+		.layout-table{	
+			.export-link{@extend a.custom-link-extender; }
+			h3{ margin-bottom: 8px !important;}
+			select{
+				max-width: 90%;
+				option{
+					max-width: 90%;
+				}
+			}
+			table {
+				width: 90%;
+			}
+		}
+		//LAYOUT MAP
+		.layout-map{
+			custom-select{
+				margin-top: 0;		
+			}
+			.map-area{
+				background-color: $emerald-green;
+				padding-top: 62%;
+			}
+		}		
 	}
-	//LAYOUT VIEW RESUME
-	.view-resume-header{
-		background-color: $darkest-blue;
-		color: white;
-		padding: 5%;
-		div{margin: 3% 0%;}
-	}
-	//LAYOUT VIEW MENU
-	.view-menu{
-		a{width: 30%;}
-	}
-	//LAYOUT IMPACTS
-	.impacts-key{
-		margin-bottom: 40px;
-	}
+
 }

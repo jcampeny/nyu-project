@@ -32,11 +32,10 @@
 @import '../components/users-directives/csv-upload/csv-upload';
 @import '../components/other/cage-slider/cage-slider';
 @import '../components/other/cage-select-distance-varibles/cage-select-distance-varibles';
-@import '../components/other/indicator/indicator';
 @import '../components/other/dd-item/dd-item';
 @import '../components/other/dd-item-item/dd-item-item';
 @import '../components/other/dd-radio-item/dd-radio-item';
-
+@import '../components/other/custom-select/custom-select';
 
 body {
 	margin:0;
@@ -465,7 +464,6 @@ custom-view{
 	&.cta-huge{
 		padding: 20px 30px;
 	}
-
 	@media only screen and (max-width: $break-mobile) {
 		padding: 11px 13px;
 	    font-size: 1rem;

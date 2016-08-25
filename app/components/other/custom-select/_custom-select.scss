@@ -1,0 +1,38 @@
+custom-select{
+	display: block;
+	ul{
+		margin: 0; padding: 0;
+		list-style: none;
+		position: relative;
+		li{
+			color: #000000;
+			&.selected{
+				span{
+					display:block;
+					background-color: white;
+					color: #000000;
+					border: 1px solid #000000;
+					padding: 0.6em;
+					@include transition(all 0.2s ease-in-out);
+					i{float: right;}					
+				}
+
+			}
+		}
+		div.options{
+			position: absolute;
+			background-color: #fbfbfb;
+			z-index: 100;
+			width: 100%;
+			li{
+				span{
+					display:block;
+					color: #000000;
+					border: 1px solid #ffffff;
+					padding: 3% 5%;
+					@include transition(all 0.2s ease-in-out);					
+				}
+			}
+		}
+	}
+}
