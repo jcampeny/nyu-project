@@ -1,3 +1,23 @@
 user-register{
-
+	form{
+		padding: $margin-size;
+	}
+	@media only screen and (min-width: $break-laptop) {
+		form{
+			padding: 0;
+		}
+		.column-desktop{
+			float: left;
+			&.first-column, &.second-column{
+				width: 35%;
+				padding-left: $margin-size*2;
+			}
+			&.third-column{
+				width: 30%;
+				padding-left: $margin-size*2;
+				padding-right: $margin-size;
+			}
+		}
+		h3{margin-left : $margin-size*2 !important;}
+	}
 }

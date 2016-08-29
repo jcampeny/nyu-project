@@ -1,8 +1,19 @@
-<div ng-repeat="(key, infoItem) in root.actualUser.other.billing">
-	<label for="{{infoItem}}-user">{{key}}</label><br>
-	<input ng-if="state.isEditable" class="form-control" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
-	<div ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>
+<div class="desktop-column">
+	<div ng-repeat="(key, infoItem) in root.actualUser.other.billing" ng-if="$index < 5">
+		<label for="{{infoItem}}-user">{{key}}</label><br>
+		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+		<div class="content margin-bottom" ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>		
+	</div>
 </div>
-<button ng-if="state.isEditable" type="button" class="btn btn-default" ng-click="saveOtherInfo()">SAVE</button>
-<button ng-if="state.isEditable" type="button" class="btn btn-default" ng-click="state.isEditable = false">CANCEL</button>
-<button ng-if="!state.isEditable" type="button" class="btn btn-default" ng-click="state.isEditable = true">EDIT PROFILE INFO</button>
+<div class="desktop-column">
+	<div ng-repeat="(key, infoItem) in root.actualUser.other.billing" ng-if="$index > 5">
+		<label for="{{infoItem}}-user">{{key}}</label><br>
+		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+		<div class="content margin-bottom" ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>		
+	</div>
+</div>
+<div class="cta-section content padding-v">
+	<a href="#" ng-if="state.isEditable" class="cta cta-darkest-blue" ng-click="saveOtherInfo()">SAVE CHANGES</a>
+	<a href="#" ng-if="state.isEditable" class="cta cta-light-gray" ng-click="state.isEditable = false">CANCEL</a>
+	<a href="#" ng-if="!state.isEditable" class="cta cta-dark-blue" ng-click="state.isEditable = true">EDIT PROFILE INFO</a>	
+</div>

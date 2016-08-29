@@ -3,7 +3,7 @@
 	<div class="view-popup row" ng-if="viewController.open">
 		<!-- POPUP SELECTION COUNTRY -->
 		<div ng-if="viewController.popUpState == 'country'">
-			<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<h4>Country / Aggregate</h4>
 			<select-tag-input max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
 			<dd-item class="standard" variables="countries" result="popUpCountry" select-type="radio"></dd-item>
@@ -33,7 +33,6 @@
 		</div>
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 		<div ng-if="viewController.popUpState == 'distanceVariables'">
-			<div class="close-cross" ng-click="viewController.closePopUp(); layoutView.state = 'impacts';">X</div>
 			<cage-select-distance-varibles class="standard" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
 			<hr>
 			<div class="row content margin-all cta-selection">
@@ -46,22 +45,27 @@
 		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
-			<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<!-- POPUP USER NOT LOG -->
 			<div ng-if="!root.actualUser.logged">
-				<user-login callback="userLoginCallback"></user-login>
-				<button class="btn btn-primary" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</button>
-				<button class="btn btn-primary" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</button>
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
 			</div>
 			<!-- POPUP USER LOGGED -->
-			<div ng-if="root.actualUser.logged">
-				<a href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout></user-logout>
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
-			<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
+
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
 
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
@@ -73,14 +77,27 @@
 			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
-		<div ng-if="viewController.popUpState == 'userSettings'">
-			<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-			<user-change-pass></user-change-pass>
-			<user-information></user-information>
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h3 class="color-blue margin-all">Account Settings</h3>
+			<div class="content margin-h subscription-type">
+				<div class="color-blue">Subscription Type:</div>
+				<div>{{'Registered User'}}</div>
+				<div  class="content margin-bottom">{{'Free account'}}</div>
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+			</div>
+			<h3 class="color-blue margin-all">Access Details</h3>
+			<div class="content margin-h">
+				<div>Username: {{root.actualUser.name}}</div>
+				<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+				<user-change-pass></user-change-pass>
+			</div>
+			<h3 class="color-blue margin-all">Profile Information</h3>
+			<div class="content margin-h">
+				<user-information></user-information>				
+			</div>
 		</div>
-
 	</div>
-
 	<!-- LAYOUT -->
 	<div class="view-template" ng-if="!viewController.open">
 		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>

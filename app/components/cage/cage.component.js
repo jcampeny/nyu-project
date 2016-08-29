@@ -8,9 +8,12 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         TEMPORAL SCOPES FILTERS
         **********************/
         $scope.bindTemporalScopes = function(){
+            var from = 'temporal';
             angular.forEach(arguments, function(argument){
-                $scope['selected'+argument] = angular.copy($scope['temporal'+argument]);
-                console.log($scope['selected'+argument]);
+                if(argument == 'fromPopUp'){
+                    from = 'popUp';                   
+                }
+                $scope['selected'+argument] = angular.copy($scope[from+argument]);
             });
         };
 
@@ -262,21 +265,21 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             this.state = state || 'selection';
             this.open = open || false;
             this.popUpState = popUpState || '';
-            this.popUpSize = popUpSize || 'big'; //big, normal, small
+            this.popUpSize = popUpSize || 'big'; //big, normal, sm
             this.lastPopUpState = popUpState || '';
 
             /*
             * show@boolean: Mostrar o no el popup
             * toPopUpState@String : Determina el contenido a mostrar en el popUp
             * toState@String : Determina el estado de la página (view || selection)
-            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || small)
+            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || sm)
             */
             this.toggleView = function(show, toPopUpState, toState, setPopUpSize){
                 this.lastPopUpState = this.popUpState;
                 this.open = show || false;
                 this.popUpState = toPopUpState;
                 this.state = toState || this.state;
-                this.popUpSize = setPopUpSize || 'big';
+                this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
             };
 
             this.closePopUp = function(){
@@ -286,7 +289,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
 
         s.viewController = new PopService('selection', false, 'test');
         //s.viewController.toggleView(true, 'distanceVariables', 'view');
-    s.viewController.toggleView(false, '', 'view');
+        s.viewController.toggleView(false, '', 'selection');
         //s.viewController.toggleView(true, 'login', 'view', 'big');
         s.layoutView = {
             state : 'table'
@@ -296,7 +299,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         **USER LOGIN CALLBACK**
         ***********************/
         s.userLoginCallback = function(){
-            s.viewController.toggleView(true, 'userLog');
+            s.viewController.toggleView(true, 'userLog', 'view', 'xs');
         };
         s.viewTerms = function(){
             s.viewController.toggleView(true, 'userRegisterTerms');

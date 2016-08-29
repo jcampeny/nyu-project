@@ -2,14 +2,16 @@ cage-select-distance-varibles{
 		&.standard{
 			ul{
 				margin: 0; padding: 0;
+				list-style: none;
 				li{
+					list-style: none;
 					color: #000000;
 					span:first-child{
 						display:block;
 						background-color: $light-gray;
 						color: #000000;
 						border-bottom: 1px solid #E2E4E3;
-						padding: 0 0.6em;
+						padding: 0.6em;
 						@include transition(all 0.2s ease-in-out);
 						i{float: right;}
 						&.subsection{

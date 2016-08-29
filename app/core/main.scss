@@ -727,3 +727,8 @@ span.highlight-class{
 		padding-top: 0px;
 	}
 }
+@media only screen and (min-width: $break-laptop) {
+	.cage-view{
+		padding: 0;
+	}
+}

@@ -1,29 +1,35 @@
 nyu-cage{
+	
 	.margin-controller{
-		&.margin-all{margin: 5% 5%;}
-	    &.margin-h{margin: 0px 5%;}
-	    &.margin-v{margin: 5% 0px;}
-	    &.margin-no-bottom{margin: 5% 5% 0px 5%;}
-	    &.margin-no-top{margin: 0px 5% 5% 5%;}
-	    &.margin-top{margin-top:5%;}
-	   	&.margin-bottom{margin-bottom:5%;}
-	   	&.margin-left{margin-left:5%;}
-	    &.margin-right{margin-right: 5%;}
+		&.margin-all{margin: $margin-size $margin-size;}
+	    &.margin-h{margin: 0px $margin-size;}
+	    &.margin-v{margin: $margin-size 0px;}
+	    &.margin-no-bottom{margin: $margin-size $margin-size 0px $margin-size;}
+	    &.margin-no-top{margin: 0px $margin-size $margin-size $margin-size;}
+	    &.margin-top{margin-top:$margin-size;}
+	   	&.margin-bottom{margin-bottom:$margin-size;}
+	   	&.margin-left{margin-left:$margin-size;}
+	    &.margin-right{margin-right: $margin-size;}
 
-    	&.padding-all{padding: 5% 5%;}
-        &.padding-h{padding: 0px 5%;}
-        &.padding-v{padding: 5% 0px;}
-        &.padding-no-bottom{padding: 5% 5% 0px 5%;}
-        &.padding-no-top{padding: 0px 5% 5% 5%;}
-        &.padding-top{padding-top:5%;}
-       	&.padding-bottom{padding-bottom:5%;}
-       	&.padding-left{padding-left:5%;}
-        &.padding-right{padding-right: 5%;}
+    	&.padding-all{padding: $margin-size $margin-size;}
+        &.padding-h{padding: 0px $margin-size;}
+        &.padding-v{padding: $margin-size 0px;}
+        &.padding-no-bottom{padding: $margin-size $margin-size 0px $margin-size;}
+        &.padding-no-top{padding: 0px $margin-size $margin-size $margin-size;}
+        &.padding-top{padding-top:$margin-size;}
+       	&.padding-bottom{padding-bottom:$margin-size;}
+       	&.padding-left{padding-left:$margin-size;}
+        &.padding-right{padding-right: $margin-size;}
 	}
 
 	h1, h2, h3, .caption, .content{
 		font-family: 'Roboto', sans-serif;
 		@extend .margin-controller;
+	}
+
+	input.custom-input{
+		border-radius: 0;
+		border: 1px solid #626362;
 	}
 
 	h1{
@@ -49,19 +55,22 @@ nyu-cage{
 	.no-margin{margin: 0px 0px 0px 0px;}
 	
 	.text-align-right{text-align: right;}
+	.text-align-center{text-align: center;}
 
 	dd-radio-item, dd-item{
 		&.standard{
 			ul{
+				cursor: pointer;
 				margin: 0; padding: 0;
 				li{
+					list-style: none;
 					color: #000000;
 					span:first-child{
 						display:block;
 						background-color: $light-gray;
 						color: #000000;
 						border-bottom: 1px solid #E2E4E3;
-						padding: 3% 5%;
+						padding: 0.6em;
 						@include transition(all 0.2s ease-in-out);
 						i{float: right;}
 					}
@@ -78,15 +87,16 @@ nyu-cage{
 					}
 					ul{
 						li{//radio container
-							padding: 0% 5%;
-							&:first-child{padding-top: 5%;}
-							&:last-child{padding-bottom: 5%;}
+							list-style: none;
+							padding: 0% 0.6em;
+							&:first-child{padding-top: 0.6em;}
+							&:last-child{padding-bottom: 0.6em;}
 							label {
 								@include radio();
 							}
 							ul{
 								li{
-									padding: 0 5%;
+									padding: 0 0.6em;
 									&:first-child{padding-top: 0%;}
 									&:last-child{padding-bottom: 0%;}
 									label{

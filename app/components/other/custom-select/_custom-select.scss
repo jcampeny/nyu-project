@@ -4,6 +4,7 @@ custom-select{
 		margin: 0; padding: 0;
 		list-style: none;
 		position: relative;
+		cursor: pointer;
 		li{
 			color: #000000;
 			&.selected{
@@ -29,8 +30,11 @@ custom-select{
 					display:block;
 					color: #000000;
 					border: 1px solid #ffffff;
-					padding: 3% 5%;
-					@include transition(all 0.2s ease-in-out);					
+					padding: 0.6em;
+					@include transition(all 0.2s ease-in-out);
+					&:hover{
+						background-color: #dedede;
+					}					
 				}
 			}
 		}

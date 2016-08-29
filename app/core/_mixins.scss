@@ -60,7 +60,21 @@
      -moz-column-fill: auto;
           column-fill: auto;
 }
-
+@mixin custom-scroll() {
+  &::-webkit-scrollbar {
+      width: 6px;
+      background-color: transparent;
+  }
+   
+  &::-webkit-scrollbar-track {
+      border-radius: 5px;
+  }
+   
+  &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: $light-gray;
+  }
+}
 @mixin cross($size) {
   position:absolute;
   top: 20px;
