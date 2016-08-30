@@ -10,7 +10,6 @@ angular.module('app').directive('ddItem', function () {
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
         $scope.dropDownCollapsed = [];
-        console.log($scope.result);
 
         $scope.toggleSelection = function(item) {
             if ($scope.result.items.indexOf(item) > -1) {

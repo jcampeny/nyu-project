@@ -36,6 +36,7 @@
 @import '../components/other/dd-item-item/dd-item-item';
 @import '../components/other/dd-radio-item/dd-radio-item';
 @import '../components/other/custom-select/custom-select';
+@import '../components/data-viz/data-viz';
 
 body {
 	margin:0;
@@ -721,13 +722,25 @@ span.highlight-class{
 	padding-left: 0px;
 	padding-top: 50px;
 }
-@media (max-width: $break-mobile) and (max-height: 420px){
+
+@media only screen and (max-width: $break-laptop) {
+	.mobile-maps-footer{
+		footer{
+			padding: 10px 0px 10px 0px;				
+		}
+	}
+}
+@media (max-width: $break-mobile) and (max-height: 420px){ //HORIZONTAL
 	.cage-view{
 		padding-left: 50px;
 		padding-top: 0px;
 	}
+	.mobile-maps-footer{
+		display: none;
+	}
 }
-@media only screen and (min-width: $break-laptop) {
+
+@media only screen and (min-width: 1025px) {
 	.cage-view{
 		padding: 0;
 	}

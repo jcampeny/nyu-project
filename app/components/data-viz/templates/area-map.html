@@ -1,0 +1,55 @@
+<!--<a href="#" ng-click="viewController.closePopUp()">CLOSE</a>alo {{viewController.popUpView}}-->
+<!-- GENERAL SETTINGS -->
+<div class="general" ng-if="viewController.popUpView == 'general'">
+OMG GENERAL OPTIONS!!!!!
+	<a  class="cta cta-light-gray" ng-click="viewController.closePopUp();">CANCEL</a>
+</div>
+<!-- SPECIFIC SETTINGS -->
+<div class="specific" ng-if="viewController.popUpView != 'general'">
+	<!--<a  class="cta cta-darkest-blue" ng-click="viewController.popUpController(true, 'settings', 'general', '');">GO</a>
+	<a  class="cta cta-light-gray" ng-click="viewController.goBack();">CANCEL</a>-->
+	<!-- SPECIFIC COUNTRY -->
+	<div ng-if="viewController.popUpView == 'country'">
+		<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpCountry" select-type="checkbox"></dd-item>
+		<hr>
+		<div class="row content margin-all cta-selection">
+			<a  class="cta cta-darkest-blue"
+				ng-if="viewController.lastPopUpState() == 'closed'"
+			    ng-click="temporalCountry.name = popUpCountry.name;
+			    		temporalCountry.items = popUpCountry.items;
+			    		selectedCountry.name = temporalCountry.name;
+			    		selectedCountry.items = selectedCountry.items;  
+			   			viewController.goBack();">UPDATE VISUALIZATION</a>
+   			<a  class="cta cta-darkest-blue"
+   				ng-if="viewController.lastPopUpState() != 'closed'"
+   			    ng-click="temporalCountry.name = popUpCountry.name;
+   			    		temporalCountry.items = popUpCountry.items; 
+   			   			viewController.goBack();">UPDATE SELECTION</a>
+			<a  class="cta cta-light-gray"
+				ng-click="viewController.goBack();">CANCEL</a>		
+		</div>
+	</div>	
+	<!-- SPECIFIC INDICATORS -->
+	<div ng-if="viewController.popUpView == 'indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpIndicators"></dd-item-item>
+		<hr>
+		<div class="row content margin-all cta-selection">
+			<a  class="cta cta-darkest-blue"
+				ng-if="viewController.lastPopUpState() == 'closed'"
+			    ng-click="temporalIndicators.items = popUpIndicators.items;
+			    		selectedIndicators.items = selectedIndicators.items;  
+			   			viewController.goBack();">UPDATE VISUALIZATION</a>
+   			<a  class="cta cta-darkest-blue"
+   				ng-if="viewController.lastPopUpState() != 'closed'"
+   			    ng-click="temporalIndicators.items = popUpIndicators.items; 
+   			   			viewController.goBack();">UPDATE SELECTION</a>
+			<a  class="cta cta-light-gray"
+				ng-click="viewController.goBack();">CANCEL</a>			
+		</div>
+	</div> 
+</div>

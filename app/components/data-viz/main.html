@@ -1,0 +1,102 @@
+<div class="data-viz-mobile">
+	<!--CONTENT-->
+	<div class="layout"  ng-if="!viewController.open">
+		<!-- MENU SECTION -->
+		<div class="menu-section">
+			<a ui-sref="dataViz.areaMap" class="cta" 
+				ng-class="(viewController.state == 'dataViz.areaMap') ? 'cta-darkest-blue' : 'cta-light-gray'">AREA MAP</a>
+			<a ui-sref="dataViz.flowMap" class="cta" 
+				ng-class="(viewController.state == 'dataViz.flowMap') ? 'cta-darkest-blue' : 'cta-light-gray'">FLOW MAP</a>
+			<a ui-sref="dataViz.sankey" class="cta" 
+				ng-class="(viewController.state == 'dataViz.sankey') ? 'cta-darkest-blue' : 'cta-light-gray'">SANKEY</a>
+			<a ui-sref="dataViz.scatterplot" class="cta" 
+				ng-class="(viewController.state == 'dataViz.scatterplot') ? 'cta-darkest-blue' : 'cta-light-gray'">SCATTERPLOT</a>
+			<a ui-sref="dataViz.treemap" class="cta" 
+				ng-class="(viewController.state == 'dataViz.treemap') ? 'cta-darkest-blue' : 'cta-light-gray'">TREEMAP</a>
+			<a ui-sref="dataViz.barChart" class="cta" 
+				ng-class="(viewController.state == 'dataViz.barChart') ? 'cta-darkest-blue' : 'cta-light-gray'">BAR CHART</a>
+		</div>
+		<!-- MAP SECTION -->
+		<div class="map-section"></div>
+		<!-- OPTION SECTION -->
+		<div class="option-section row content margin-no-bottom">
+		    <div class="col-xs-8 content no-padding">
+		    	<!--<a href="#" class="country custom-link-extender" ng-click="viewController.toggleView(true, 'userLog');">USER</a>-->
+		    	<a href="#" class="country custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'country');">--{{selectedCountry.name}}--</a>
+		    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'indicators');">{{selectedIndicators.items}}</a>
+		    	<a href="#" class="years custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'years');">2015</a>  	
+		    </div>
+			<div class="col-xs-4 content no-padding">
+				<i class="fa fa-cog" aria-hidden="true" ng-click="viewController.popUpController(true, 'settings', 'general');"></i>
+				<i class="fa fa-play-circle-o" aria-hidden="true"></i>
+			</div>
+		</div>		
+	</div>
+	<!-- POPUP -->
+	<div class="view-popup" ng-if="viewController.open">
+		<!--GENERAL-->
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h3 class="color-blue margin-all">Account Settings</h3>
+			<div class="content margin-h subscription-type">
+				<div class="color-blue">Subscription Type:</div>
+				<div>{{'Registered User'}}</div>
+				<div  class="content margin-bottom">{{'Free account'}}</div>
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+			</div>
+			<h3 class="color-blue margin-all">Access Details</h3>
+			<div class="content margin-h">
+				<div>Username: {{root.actualUser.name}}</div>
+				<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+				<user-change-pass></user-change-pass>
+			</div>
+			<h3 class="color-blue margin-all">Profile Information</h3>
+			<div class="content margin-h">
+				<user-information></user-information>				
+			</div>
+		</div>
+		<!--INDIVIDUAL-->
+		<div ng-if="viewController.popUpState == 'settings'">
+			<nyu-area-map ng-if="viewController.state == 'dataViz.areaMap'" view-controller="viewController"></nyu-area-map>
+			<nyu-flow-map ng-if="viewController.state == 'dataViz.flowMap'" view-controller="viewController"></nyu-flow-map>
+			<nyu-sankey ng-if="viewController.state == 'dataViz.sankey'" view-controller="viewController"></nyu-sankey>
+			<nyu-scatterplot ng-if="viewController.state == 'dataViz.scatterplot'" view-controller="viewController"></nyu-scatterplot>
+			<nyu-treemap ng-if="viewController.state == 'dataViz.treemap'" view-controller="viewController"></nyu-treemap>
+			<nyu-bar-chart ng-if="viewController.state == 'dataViz.barChart'" view-controller="viewController"></nyu-bar-chart>			
+		</div>
+	</div>
+</div>

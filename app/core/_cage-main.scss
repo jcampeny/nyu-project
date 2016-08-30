@@ -1,4 +1,4 @@
-nyu-cage{
+nyu-cage, nyu-maps, .data-viz-view{
 	
 	.margin-controller{
 		&.margin-all{margin: $margin-size $margin-size;}
@@ -20,9 +20,29 @@ nyu-cage{
        	&.padding-bottom{padding-bottom:$margin-size;}
        	&.padding-left{padding-left:$margin-size;}
         &.padding-right{padding-right: $margin-size;}
+
+		&.margin-sm-all{margin: $margin-size-sm $margin-size-sm;}
+	    &.margin-sm-h{margin: 0px $margin-size-sm;}
+	    &.margin-sm-v{margin: $margin-size-sm 0px;}
+	    &.margin-sm-no-bottom{margin: $margin-size-sm $margin-size-sm 0px $margin-size-sm;}
+	    &.margin-sm-no-top{margin: 0px $margin-size-sm $margin-size-sm $margin-size-sm;}
+	    &.margin-sm-top{margin-top:$margin-size-sm;}
+	   	&.margin-sm-bottom{margin-bottom:$margin-size-sm;}
+	   	&.margin-sm-left{margin-left:$margin-size-sm;}
+	    &.margin-sm-right{margin-right: $margin-size-sm;}
+
+    	&.padding-sm-all{padding: $margin-size-sm $margin-size-sm;}
+        &.padding-sm-h{padding: 0px $margin-size-sm;}
+        &.padding-sm-v{padding: $margin-size-sm 0px;}
+        &.padding-sm-no-bottom{padding: $margin-size-sm $margin-size-sm 0px $margin-size-sm;}
+        &.padding-sm-no-top{padding: 0px $margin-size-sm $margin-size-sm $margin-size-sm;}
+        &.padding-sm-top{padding-top:$margin-size-sm;}
+       	&.padding-sm-bottom{padding-bottom:$margin-size-sm;}
+       	&.padding-sm-left{padding-left:$margin-size-sm;}
+        &.padding-sm-right{padding-right: $margin-size-sm;}
 	}
 
-	h1, h2, h3, .caption, .content{
+	h1, h2, h3, .caption, .content, .block{
 		font-family: 'Roboto', sans-serif;
 		@extend .margin-controller;
 	}
@@ -46,6 +66,9 @@ nyu-cage{
 	}
 	.caption{
 		font-size : 10px;
+	}
+	.block{
+		display:block;
 	}
 
 	.color-blue{color: $cage-blue-text;}
@@ -92,7 +115,7 @@ nyu-cage{
 							&:first-child{padding-top: 0.6em;}
 							&:last-child{padding-bottom: 0.6em;}
 							label {
-								@include radio();
+								@include radio();@include checkbox();
 							}
 							ul{
 								li{

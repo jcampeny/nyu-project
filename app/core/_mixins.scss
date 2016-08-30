@@ -186,4 +186,13 @@
     background-color: $less-dark-blue;
     color: #FFFFFF;
   }
+  input[type="checkbox"]:indeterminate + span.custom-checkbox:before{
+    content: "\f068";
+    font-family: "FontAwesome";
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    background-color: $less-dark-blue;
+    color: #FFFFFF;
+  }
 }

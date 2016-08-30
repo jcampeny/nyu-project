@@ -4,6 +4,8 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
     templateUrl: '../app/components/cage/cage.html',
     controllerAs: 'nyuCage',
     controller: function ($scope, LoginService, $http) {
+        $scope.root = $rootScope;
+        
         /**********************
         TEMPORAL SCOPES FILTERS
         **********************/
@@ -16,8 +18,6 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                 $scope['selected'+argument] = angular.copy($scope[from+argument]);
             });
         };
-
-        $scope.root = $rootScope;
 
         $scope.selectedCountry = {
             name : "",
