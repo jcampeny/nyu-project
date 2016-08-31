@@ -40,6 +40,26 @@ nyu-cage, nyu-maps, .data-viz-view{
        	&.padding-sm-bottom{padding-bottom:$margin-size-sm;}
        	&.padding-sm-left{padding-left:$margin-size-sm;}
         &.padding-sm-right{padding-right: $margin-size-sm;}
+
+		&.margin-xs-all{margin: $margin-size-xs $margin-size-xs;}
+	    &.margin-xs-h{margin: 0px $margin-size-xs;}
+	    &.margin-xs-v{margin: $margin-size-xs 0px;}
+	    &.margin-xs-no-bottom{margin: $margin-size-xs $margin-size-xs 0px $margin-size-xs;}
+	    &.margin-xs-no-top{margin: 0px $margin-size-xs $margin-size-xs $margin-size-xs;}
+	    &.margin-xs-top{margin-top:$margin-size-xs;}
+	   	&.margin-xs-bottom{margin-bottom:$margin-size-xs;}
+	   	&.margin-xs-left{margin-left:$margin-size-xs;}
+	    &.margin-xs-right{margin-right: $margin-size-xs;}
+
+    	&.padding-xs-all{padding: $margin-size-xs $margin-size-xs;}
+        &.padding-xs-h{padding: 0px $margin-size-xs;}
+        &.padding-xs-v{padding: $margin-size-xs 0px;}
+        &.padding-xs-no-bottom{padding: $margin-size-xs $margin-size-xs 0px $margin-size-xs;}
+        &.padding-xs-no-top{padding: 0px $margin-size-xs $margin-size-xs $margin-size-xs;}
+        &.padding-xs-top{padding-top:$margin-size-xs;}
+       	&.padding-xs-bottom{padding-bottom:$margin-size-xs;}
+       	&.padding-xs-left{padding-left:$margin-size-xs;}
+        &.padding-xs-right{padding-right: $margin-size-xs;}
 	}
 
 	h1, h2, h3, .caption, .content, .block{
@@ -80,6 +100,20 @@ nyu-cage, nyu-maps, .data-viz-view{
 	.text-align-right{text-align: right;}
 	.text-align-center{text-align: center;}
 
+	.float-left{float: left;}
+	.float-right{float: right;}
+	
+	.width-100{width: 100%;}
+
+	label.custom-input{
+		@include radio();
+		@include checkbox();
+	}
+
+	.un-activated-form{
+		opacity: 0.2;
+		pointer-events: none;
+	}
 	dd-radio-item, dd-item{
 		&.standard{
 			ul{

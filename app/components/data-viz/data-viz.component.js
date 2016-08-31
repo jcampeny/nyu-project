@@ -7,16 +7,38 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.root = $rootScope;
 
             $scope.selectedCountry = {name : "Spain", items : ["Spain"]};
-            $scope.selectedIndicators = {
-            items : [
-                    {name: 'Exports', parent: 'Merchandise Trade'}/*,
-                    {name: 'Imports', parent: 'Merchandise Trade'}*/
-                ]
-            };;
-            $scope.selectedYears = {items : []};
+            $scope.selectedIndicators = {items : [{name: 'Exports', parent: 'Merchandise Trade'}/*,{name: 'Imports', parent: 'Merchandise Trade'}*/]};
+            $scope.selectedYears = {start: '2005', end: '2015'};
+            
 
             $scope.countries = mapVariablesService.getData('country');
             $scope.indicators = mapVariablesService.getData('indicators');
+            $scope.years = mapVariablesService.getData('years');
+            $scope.colorByClassification = mapVariablesService.getData('colorByClassification');
+
+            /*************
+            ***AREA MAP***
+            **************/
+            $scope.selectedAreaMapGR ={ //General Radio
+                size : 'scale', //(scale | no-scale)
+                color : 'another', //(no-color | share | classification | another)
+                marker : 'no-markers' // (no-markers | flags | bubbles)
+            };
+            $scope.selectedAreaMapScale = {
+                percent : 20
+            };
+            $scope.selectedAreaMapCBC = {name : 'Region', id:'region'}; //ColorByClassification
+            $scope.selectedAreaMapAC = { //Another Color Indicator
+                country : {name : "Spain", items : ["Spain"]},
+                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'},{name: 'Imports', parent: 'Merchandise Trade'}]},
+                years : {start: '2005', end: '2015'}
+            }
+            $scope.selectedAreaMapOCV = { //Other color variables
+                maximum : false,
+                blending: false
+            };
+
+
         },
         link : function (s, e, a){
 
@@ -88,6 +110,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
                 s.viewController.state = $state.current.name;
                 s.viewController.backState = [];
+                s.viewController.popUpController(false, 'closed', 'general', '');
             });
 
             /************************

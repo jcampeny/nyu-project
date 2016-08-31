@@ -1,7 +1,7 @@
 <div class="data-viz-mobile">
 	<!--CONTENT-->
 	<div class="layout"  ng-if="!viewController.open">
-		<!-- MENU SECTION -->
+		<!-- MENU SECTION -->{{selectedScalePercent}}
 		<div class="menu-section">
 			<a ui-sref="dataViz.areaMap" class="cta" 
 				ng-class="(viewController.state == 'dataViz.areaMap') ? 'cta-darkest-blue' : 'cta-light-gray'">AREA MAP</a>
@@ -22,11 +22,14 @@
 		<div class="option-section row content margin-no-bottom">
 		    <div class="col-xs-8 content no-padding">
 		    	<!--<a href="#" class="country custom-link-extender" ng-click="viewController.toggleView(true, 'userLog');">USER</a>-->
-		    	<a href="#" class="country custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'country');">--{{selectedCountry.name}}--</a>
-		    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'indicators');">{{selectedIndicators.items}}</a>
-		    	<a href="#" class="years custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'years');">2015</a>  	
+		    	<a href="#" class="country custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'country');">
+		    		<span ng-repeat="country in selectedCountry.items">{{country}}</span></a>
+		    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'indicators');">
+					<span ng-repeat="indicator in selectedIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
+		    	</a>
+		    	<a href="#" class="years custom-link-extender" ng-click="viewController.popUpController(true, 'settings', 'years');">{{selectedYears.end}}</a>  	
 		    </div>
-			<div class="col-xs-4 content no-padding">
+			<div class="col-xs-4 content no-padding settings">
 				<i class="fa fa-cog" aria-hidden="true" ng-click="viewController.popUpController(true, 'settings', 'general');"></i>
 				<i class="fa fa-play-circle-o" aria-hidden="true"></i>
 			</div>

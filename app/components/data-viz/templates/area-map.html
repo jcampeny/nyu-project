@@ -1,36 +1,169 @@
 <!--<a href="#" ng-click="viewController.closePopUp()">CLOSE</a>alo {{viewController.popUpView}}-->
+
+
 <!-- GENERAL SETTINGS -->
 <div class="general" ng-if="viewController.popUpView == 'general'">
-OMG GENERAL OPTIONS!!!!!
-	<a  class="cta cta-light-gray" ng-click="viewController.closePopUp();">CANCEL</a>
+
+	<!-- SIZE SELECTION -->
+	<div class="size-selection">
+		<h3 class="margin-no-bottom color-blue">Size Selections</h3>
+
+		<!-- no-scale -->
+		<label class="custom-input content margin-no-bottom">
+			<input  type="radio" name="no-scale" value="no-scale" ng-model="temporalGeneralRadio.size">
+			<span class="custom-radio">No size distortion</span>		
+		</label>
+
+		<!-- scale -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="radio" name="scale" value="scale" ng-model="temporalGeneralRadio.size">
+			<span class="custom-radio">Scale countries to indicator values</span>		
+		</label>
+
+		<!--STANDARD VARIABLES country / indicators / years-->
+		<div ng-class="{'un-activated-form' : temporalGeneralRadio.size != 'scale'}">
+			<!-- Indicators -->
+			<div class="row content margin-no-bottom">
+				<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Indicator(s)</div>
+				<div class="col-xs-8 no-padding color-blue comma-container">
+					<span ng-repeat="indicator in temporalIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'indicators');">SELECT</a>
+				</div>
+			</div>	
+			<!-- Country -->
+			<div class="row content margin-no-bottom">		
+				<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Country</div>
+				<div class="col-xs-8 no-padding color-blue comma-container">
+					<span ng-repeat="country in temporalCountry.items">{{country}}</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'country');">SELECT</a>
+				</div>
+			</div>	
+			<!-- Years -->
+			<div class="row content margin-no-bottom">	
+				<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+				<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+					<span class="content color-blue float-left">{{temporalYears.start}}</span>
+					<span> to </span>
+					<span class="content color-blue float-right">{{temporalYears.end}}</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'years');">SELECT</a>
+				</div>
+			</div>
+			<!-- Size distortion -->
+			<div class="size-distortion row content margin-no-bottom">
+				<div class="col-xs-3 no-padding text-align-center content margin-xs-top padding-right">
+					<input class="custom-input width-100 text-align-center" type="number" name="scalePercent" ng-model="temporalScale.percent">
+				</div>
+				<div class="col-xs-9 no-padding">
+					Scale Focal Country/Countries to {{temporalScale.percent}}% of Map Area (0-100%)
+				</div>
+			</div>			
+		</div>
+	</div>
+	<hr>
+	<!-- COLOR SELECTION -->
+	<div class="color-section">
+		<h3 class="margin-no-bottom color-blue">Color Selections</h3>
+		<!-- no-color -->
+		<label class="custom-input content margin-no-bottom">
+			<input  type="radio" name="no-color" value="no-color" ng-model="temporalGeneralRadio.color">
+			<span class="custom-radio">No color scale</span>		
+		</label>
+
+		<!-- share -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="radio" name="share" value="share" ng-model="temporalGeneralRadio.color">
+			<span class="custom-radio">Color by Share of Partner in Opposite Direction</span>		
+		</label>
+
+		<!-- classification -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="radio" name="classification" value="classification" ng-model="temporalGeneralRadio.color">
+			<span class="custom-radio">Color by Classification</span>		
+		</label>
+		<div class="content margin-h padding-xs-top" ng-class="{'un-activated-form' : temporalGeneralRadio.color != 'classification'}">
+			<custom-select class="block padding-xs-bottom" options="colorByClassification" selected="temporalColorByClassification" on-select="" is-temporal="1"></custom-select>			
+		</div>
+
+		<!-- another -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="radio" name="another" value="another" ng-model="temporalGeneralRadio.color">
+			<span class="custom-radio">Select Another Indicator for Coloring</span>		
+		</label>
+		<div class="content margin-h padding-xs-top padding-sm-bottom" ng-class="{'un-activated-form' : temporalGeneralRadio.color != 'another'}">
+			<a href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.popUpController(true, 'settings', 'another-color');">SEE INDICATORS</a>
+		</div>
+
+		<!-- Other Color Var Maximum -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="checkbox" name="temporalOtherColorVarMaximum" value="temporalOtherColorVarMaximum" ng-model="temporalOtherColorVar.maximum">
+			<span class="custom-checkbox">Color Scale Maximum 100%</span>		
+		</label>
+
+		<!-- Other Color Var Blending -->
+		<label class="custom-input content margin-h padding-xs-top">
+			<input  type="checkbox" name="temporalOtherColorVarBlending" value="temporalOtherColorVarBlending" ng-model="temporalOtherColorVar.blending">
+			<span class="custom-checkbox">Allow Color Blending</span>		
+		</label>
+	</div> 
+	<hr>
+
+
+	<!-- COLOR SELECTION -->
+	<div class="marker-section">
+		<h3 class="margin-no-bottom color-blue">Marker Selections</h3>
+		<!-- no-markers -->
+		<label class="custom-input block margin-no-bottom">
+			<input  type="radio" name="no-markers" value="no-markers" ng-model="temporalGeneralRadio.marker">
+			<span class="custom-radio">No markers</span>		
+		</label>
+		<!-- flags -->
+		<label class="custom-input block margin-h padding-xs-top">
+			<input  type="radio" name="flags" value="flags" ng-model="temporalGeneralRadio.marker">
+			<span class="custom-radio">Flags</span>		
+		</label>
+		<!-- bubbles -->
+		<label class="custom-input block margin-h padding-xs-top">
+			<input  type="radio" name="bubbles" value="bubbles" ng-model="temporalGeneralRadio.marker">
+			<span class="custom-radio">Bubbles Proportional to an Indicator</span>		
+		</label>
+	</div>
+	<hr>
+
+	<!-- CTA -->
+	<div class="row content margin-all cta-selection text-align-center">
+		<a class="cta cta-darkest-blue float-left" ng-click="temporalToSelect();">UPDATE VISUALIZATION</a>
+		<a class="cta cta-light-gray float-right" ng-click="viewController.goBack();">CANCEL</a>
+	</div>
 </div>
+
+
+
+
+
+
+
 <!-- SPECIFIC SETTINGS -->
 <div class="specific" ng-if="viewController.popUpView != 'general'">
 	<!--<a  class="cta cta-darkest-blue" ng-click="viewController.popUpController(true, 'settings', 'general', '');">GO</a>
 	<a  class="cta cta-light-gray" ng-click="viewController.goBack();">CANCEL</a>-->
 	<!-- SPECIFIC COUNTRY -->
 	<div ng-if="viewController.popUpView == 'country'">
-		<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
 		<dd-item class="standard" variables="countries" result="popUpCountry" select-type="checkbox"></dd-item>
 		<hr>
-		<div class="row content margin-all cta-selection">
-			<a  class="cta cta-darkest-blue"
-				ng-if="viewController.lastPopUpState() == 'closed'"
-			    ng-click="temporalCountry.name = popUpCountry.name;
-			    		temporalCountry.items = popUpCountry.items;
-			    		selectedCountry.name = temporalCountry.name;
-			    		selectedCountry.items = selectedCountry.items;  
-			   			viewController.goBack();">UPDATE VISUALIZATION</a>
-   			<a  class="cta cta-darkest-blue"
-   				ng-if="viewController.lastPopUpState() != 'closed'"
-   			    ng-click="temporalCountry.name = popUpCountry.name;
-   			    		temporalCountry.items = popUpCountry.items; 
-   			   			viewController.goBack();">UPDATE SELECTION</a>
-			<a  class="cta cta-light-gray"
-				ng-click="viewController.goBack();">CANCEL</a>		
-		</div>
+		<cta-controller meta-data="country"
+			pop-up="popUpCountry" 
+			temporal="temporalCountry" 
+			selected="selectedCountry" 
+			view-controller="viewController">	
+		</cta-controller>
 	</div>	
 	<!-- SPECIFIC INDICATORS -->
 	<div ng-if="viewController.popUpView == 'indicators'">
@@ -38,18 +171,106 @@ OMG GENERAL OPTIONS!!!!!
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
 		<dd-item-item class="standard" variables="indicators" result="popUpIndicators"></dd-item-item>
 		<hr>
-		<div class="row content margin-all cta-selection">
-			<a  class="cta cta-darkest-blue"
-				ng-if="viewController.lastPopUpState() == 'closed'"
-			    ng-click="temporalIndicators.items = popUpIndicators.items;
-			    		selectedIndicators.items = selectedIndicators.items;  
-			   			viewController.goBack();">UPDATE VISUALIZATION</a>
-   			<a  class="cta cta-darkest-blue"
-   				ng-if="viewController.lastPopUpState() != 'closed'"
-   			    ng-click="temporalIndicators.items = popUpIndicators.items; 
-   			   			viewController.goBack();">UPDATE SELECTION</a>
-			<a  class="cta cta-light-gray"
-				ng-click="viewController.goBack();">CANCEL</a>			
-		</div>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpIndicators" 
+			temporal="temporalIndicators" 
+			selected="selectedIndicators" 
+			view-controller="viewController">	
+		</cta-controller>
 	</div> 
+	<!-- SPECIFIC YEARS -->
+	<div ng-if="viewController.popUpView == 'years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpYears"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpYears" 
+			temporal="temporalYears" 
+			selected="selectedYears" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+
+
+	<!-- SPECIFIC ANOTHER COLOR -->
+	<div ng-if="viewController.popUpView == 'another-color'">
+		<h3 class="color-blue margin-all">Select Another Indicator for Coloring</h3>
+		<!-- Indicators -->
+		<div class="row content margin-no-bottom">
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Indicator(s)</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="indicator in temporalAnotherColor.indicators.items">{{indicator.parent}} {{indicator.name}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'another-color-indicators');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Country -->
+		<div class="row content margin-no-bottom">		
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Country</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="country in temporalAnotherColor.country.items">{{country}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'another-color-country');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Years -->
+		<div class="row content margin-no-bottom">	
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+			<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+				<span class="content color-blue float-left">{{temporalAnotherColor.years.start}}</span>
+				<span> to </span>
+				<span class="content color-blue float-right">{{temporalAnotherColor.years.end}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'another-color-years');">SELECT</a>
+			</div>
+		</div>
+		<!-- CTA -->
+		<cta-controller meta-data="another-color"
+			pop-up="popUpAnotherColor" 
+			temporal="temporalAnotherColor" 
+			selected="selectedAnotherColor" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- SPECIFIC ANOTHER COLOR POPUP-->
+	<!-- another color indicator popup -->
+	<div ng-if="viewController.popUpView == 'another-color-indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpAnotherColor.indicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpAnotherColor.indicators" 
+			temporal="temporalAnotherColor.indicators" 
+			selected="selectedAnotherColor.indicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- another color country popup -->
+	<div ng-if="viewController.popUpView == 'another-color-country'">
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpAnotherColor.country" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpAnotherColor.country" select-type="checkbox"></dd-item>
+		<hr>
+		<cta-controller meta-data="country"
+			pop-up="popUpAnotherColor.country" 
+			temporal="temporalAnotherColor.country" 
+			selected="selectedAnotherColor.country" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- another color year popup -->
+	<div ng-if="viewController.popUpView == 'another-color-years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpAnotherColor.years"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpAnotherColor.years" 
+			temporal="temporalAnotherColor.years" 
+			selected="selectedAnotherColor.years" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+
 </div>

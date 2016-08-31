@@ -6,13 +6,19 @@ angular.module('app').directive('customSelect', function () {
     scope : {
     	options : '=',
         selected : '=',
-        onSelect : '='
+        onSelect : '=',
+        isTemporal : '@'
     },
     controller: function ($scope) {
         $scope.selected = $scope.selected || $scope.options[0];
 
         $scope.select = function(value){
-            $scope.selected = value;
+            if($scope.isTemporal){
+                $scope.selected.name = value.name;
+                $scope.selected.id = value.id;                
+            }else{
+                $scope.selected = value;
+            }
             if(typeof $scope.onSelect == 'function') $scope.onSelect(value.id);
             
         };

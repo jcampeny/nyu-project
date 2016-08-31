@@ -87,6 +87,16 @@ angular.module('app')
                     ]
                 }
             };
+            json.years = {
+                start : '2005',
+                end : '2015'
+            };
+            json.colorByClassification = [
+                {name: 'Region', id : 'region'},
+                {name: 'Continent', id : 'continent'},
+                {name: 'Income Level (World Bank)', id : 'income'},
+                {name: 'Development Level (IMF)', id : 'dev'}
+            ];
             return json[name];
         }
     });

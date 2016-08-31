@@ -139,10 +139,11 @@
       height: 16px;
       position: absolute;
       left: 0;
-      bottom: 3px;
+      top: 50%;
       border-radius: 100%;
       background-color: #FFFFFF;
       border: 1px solid $less-dark-blue;
+      @include transform(translateY(-50%));
     }                   
   }
   input[type="radio"]:checked + span.custom-radio:before{
@@ -172,9 +173,10 @@
       height: 16px;
       position: absolute;
       left: 0;
-      bottom: 3px;
+      top: 50%;
       background-color: #FFFFFF;
       border: 1px solid $less-dark-blue;
+      @include transform(translateY(-50%));
     }                   
   }
   input[type="checkbox"]:checked + span.custom-checkbox:before{

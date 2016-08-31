@@ -4,6 +4,10 @@ nyu-data-viz{
 		color: $darkest-blue;
 		text-decoration: underline;
 	}
+	.comma-container{
+		span:after{ content: ', ';}
+		span:last-child:after{ content: '';}
+	}
 	//MOBILE
 	.data-viz-mobile{
 		//POPUP
@@ -56,6 +60,14 @@ nyu-data-viz{
 					}
 				}
 				.years:after{content: '';}
+			}
+			a.custom-link-extender.country,
+			a.custom-link-extender.indicators{
+				span:after{ content: ', ';}
+				span:last-child:after{ content: '';}
+			}
+			.settings{
+				font-size: 40px;
 			}
 		}
 	}
