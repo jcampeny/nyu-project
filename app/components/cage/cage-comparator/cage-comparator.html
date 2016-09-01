@@ -1,0 +1,88 @@
+
+<div class="cage-mobile-view">
+	<!-- POPUP -->
+	<div class="view-popup row" ng-if="viewController.open">
+		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+		<div ng-if="viewController.popUpState == 'distanceVariables'">
+			<cage-select-distance-varibles class="standard" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
+			<hr>
+			<div class="cta-distance-variables row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="selectedDistanceVariables.items = temporalDistanceVariables.items; 
+				   			 viewController.closePopUp();">SAVE CHANGES</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h3 class="color-blue margin-all">Account Settings</h3>
+			<div class="content margin-h subscription-type">
+				<div class="color-blue">Subscription Type:</div>
+				<div>{{'Registered User'}}</div>
+				<div  class="content margin-bottom">{{'Free account'}}</div>
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+			</div>
+			<h3 class="color-blue margin-all">Access Details</h3>
+			<div class="content margin-h">
+				<div>Username: {{root.actualUser.name}}</div>
+				<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+				<user-change-pass></user-change-pass>
+			</div>
+			<h3 class="color-blue margin-all">Profile Information</h3>
+			<div class="content margin-h">
+				<user-information></user-information>				
+			</div>
+		</div>
+	</div>
+	<div class="layout" ng-if="!viewController.open">
+		<h3 class="color-blue margin-all">CAGE Comparator™ Country Comparison</h3>
+		<div class="caption margin-h">Please select two countries between which to examine cultural, administrative, geographic and economic (CAGE) distances and differences.</div>
+		<h3></h3>
+		<h3 class="color-blue margin-no-bottom padding-xs-bottom">Country 1</h3>
+		<custom-select class="content margin-no-top" options="countries['Individual Countries']" selected="selectedCountry1" on-select=""></custom-select>
+		<h3 class="color-blue margin-no-bottom padding-xs-bottom">Country 2</h3>
+		<custom-select class="content margin-no-top" options="countries['Individual Countries']" selected="selectedCountry2" on-select=""></custom-select>
+		<div class="cta-generate-analysis row">
+			<a href="#" class="cta cta-darkest-blue float-left" ng-click="generateDistanceAnalysis();">GENERATE DISTANCE <br> ANALYSIS</a>
+			<a href="#" class="cta cta-light-gray float-right">CANCEL</a>
+		</div>
+
+		<!-- GENERATED SELECTION -->
+		<div>{{distanceAnalysisToShow}}</div>
+	</div>
+</div>

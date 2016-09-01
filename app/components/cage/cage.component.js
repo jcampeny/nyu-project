@@ -79,7 +79,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                     $scope.selectedDistanceVariables.items[key][subSection.source].push(itemItem);
                 });
             });
-            $scope.temporalDistanceVariables.items = angular.copy($scope.selectedDistanceVariables.items);
+            $scope.temporalDistanceVariables = angular.copy($scope.selectedDistanceVariables);
         });
 
         $scope.indicators = {

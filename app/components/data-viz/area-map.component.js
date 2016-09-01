@@ -9,7 +9,7 @@ angular.module('app').directive('nyuAreaMap', function (mapVariablesService) {
     },
     controller: function ($scope, $rootScope, $filter, $q, EntitiesService, DataService, $state, deviceDetector) {
         $scope.parent = $scope.$parent.$parent;
-
+        $scope.root = $rootScope;
         /******************
         **** VARIABLES ****
         ******************/
@@ -25,6 +25,7 @@ angular.module('app').directive('nyuAreaMap', function (mapVariablesService) {
         $scope.selectedGeneralRadio          = $scope.parent.selectedAreaMapGR;
         $scope.selectedColorByClassification = $scope.parent.selectedAreaMapCBC;
         $scope.selectedAnotherColor          = $scope.parent.selectedAreaMapAC;
+        $scope.selectedBubble                = $scope.parent.selectedAreaMapBubble;
         $scope.selectedOtherColorVar         = $scope.parent.selectedAreaMapOCV;
 
         $scope.temporalCountry               = angular.copy($scope.selectedCountry);
@@ -34,12 +35,14 @@ angular.module('app').directive('nyuAreaMap', function (mapVariablesService) {
         $scope.temporalGeneralRadio          = angular.copy($scope.selectedGeneralRadio);
         $scope.temporalColorByClassification = angular.copy($scope.selectedColorByClassification);
         $scope.temporalAnotherColor          = angular.copy($scope.selectedAnotherColor);
+        $scope.temporalBubble                = angular.copy($scope.selectedBubble);
         $scope.temporalOtherColorVar         = angular.copy($scope.selectedOtherColorVar);
 
         $scope.popUpCountry      = angular.copy($scope.temporalCountry);
         $scope.popUpIndicators   = angular.copy($scope.temporalIndicators);
         $scope.popUpYears        = angular.copy($scope.temporalYears);
         $scope.popUpAnotherColor = angular.copy($scope.temporalAnotherColor);
+        $scope.popUpBubble       = angular.copy($scope.temporalBubble);
     },
     link: function (s, e, a){
         s.temporalToSelect = function(){
@@ -67,6 +70,12 @@ angular.module('app').directive('nyuAreaMap', function (mapVariablesService) {
             s.selectedAnotherColor.country.name     = s.temporalAnotherColor.country.name;
             s.selectedAnotherColor.years.start      = s.temporalAnotherColor.years.start;
             s.selectedAnotherColor.years.end        = s.temporalAnotherColor.years.end;
+            //bubbles
+            s.selectedBubble.indicators.items = s.temporalBubble.indicators.items;
+            s.selectedBubble.country.items    = s.temporalBubble.country.items;
+            s.selectedBubble.country.name     = s.temporalBubble.country.name;
+            s.selectedBubble.years.start      = s.temporalBubble.years.start;
+            s.selectedBubble.years.end        = s.temporalBubble.years.end;
             //other color variables
             s.selectedOtherColorVar.maximum  = s.temporalOtherColorVar.maximum;
             s.selectedOtherColorVar.blending = s.temporalOtherColorVar.blending;

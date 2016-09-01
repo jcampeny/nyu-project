@@ -1,4 +1,4 @@
-nyu-cage{
+nyu-cage-comparator{
 	.cage-mobile-view{display: block;}
 	.cage-desktop-view{display: none;}
 
@@ -230,6 +230,9 @@ nyu-cage{
 	    		min-height: 100vh;
 	    	}
 		}
+		.cta-distance-variables{
+			margin: 25px;
+		}
 		.cta-selection{
 			a:first-child{float:left;}
 			a:last-child{float:right;}
@@ -281,6 +284,14 @@ nyu-cage{
 			.map-area{
 				background-color: $emerald-green;
 				padding-top: 62%;
+			}
+		}
+		.layout{
+			.cta-generate-analysis{
+				margin: $margin-size;
+				.cta-darkest-blue{
+					line-height: 1.5em;
+				}
 			}
 		}		
 	}

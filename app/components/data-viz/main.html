@@ -16,8 +16,13 @@
 			<a ui-sref="dataViz.barChart" class="cta" 
 				ng-class="(viewController.state == 'dataViz.barChart') ? 'cta-darkest-blue' : 'cta-light-gray'">BAR CHART</a>
 		</div>
+
+
 		<!-- MAP SECTION -->
 		<div class="map-section"></div>
+
+
+		
 		<!-- OPTION SECTION -->
 		<div class="option-section row content margin-no-bottom">
 		    <div class="col-xs-8 content no-padding">
@@ -94,7 +99,7 @@
 		</div>
 		<!--INDIVIDUAL-->
 		<div ng-if="viewController.popUpState == 'settings'">
-			<nyu-area-map ng-if="viewController.state == 'dataViz.areaMap'" view-controller="viewController"></nyu-area-map>
+			<nyu-area-map  ng-if="viewController.state == 'dataViz.areaMap'" view-controller="viewController"></nyu-area-map>
 			<nyu-flow-map ng-if="viewController.state == 'dataViz.flowMap'" view-controller="viewController"></nyu-flow-map>
 			<nyu-sankey ng-if="viewController.state == 'dataViz.sankey'" view-controller="viewController"></nyu-sankey>
 			<nyu-scatterplot ng-if="viewController.state == 'dataViz.scatterplot'" view-controller="viewController"></nyu-scatterplot>
