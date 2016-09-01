@@ -9,6 +9,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    function resetMapObject(){
 	    	mapObject = {
 	    		type 		  : null,
+	    		dataset 	  : null,
 	    		dataNest 	  : null,
 				width         : 0,
 				height        : 0,
@@ -23,6 +24,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 				zoom          : null,
 				projection    : null,
 				path          : null,
+				colorScale 	  : null,
 				colorFunction : null,
 				valueScale 	  : null,
 				getValue	  : null,
@@ -38,6 +40,47 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    function setSize(width,height){
 	    	mapObject.width = width;
 	    	mapObject.height = height;
+	    }
+
+	    function setColorScale(){
+	    	// Define the colors with colorbrewer
+	    	mapObject.colorScale = colorbrewer.RdYlBu[3]
+	    	      .reverse()
+	    	      .map(function(rgb) { return d3.hsl(rgb); });
+	    }
+
+	    function setDataset(data, country){
+	    	mapObject.dataset = data;
+
+	    	var values = data
+	    	  .map(function(d){
+	    	    return parseFloat(d.total_percent);
+	    	  })
+	    	  .filter(function(n) {
+	    	    return !isNaN(n);
+	    	  })
+	    	  .sort(d3.ascending),
+	    	  lo = parseFloat(values[0]),
+	    	  hi = parseFloat(values[values.length - 1]);
+
+	    	var color = d3.scale.linear()
+	    	  .range(mapObject.colorScale)
+	    	  .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
+
+	    	setDataNest(data);
+	    	setFocusCountry(country);
+	    	
+	    	var maxValue = d3.max(data,function(d){return parseFloat(mapObject.getValue(d));});
+	    	var minValue = d3.min(data,function(d){return parseFloat(mapObject.getValue(d));});
+	    	setValueScale([minValue, maxValue], [1.2, 0]);
+	    	
+	    	setColorFunction(function(d){
+	    	  if(d){
+	    	    return color(parseFloat(d.total_percent));
+	    	  }else{
+	    	    return "";
+	    	  }
+	    	});
 	    }
 
 	    function iniMapLayers(){
@@ -73,6 +116,11 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    function setProjection(projName){
+	    	if(projName === null){
+	    		mapObject.projection = null;
+	    		return;
+	    	}
+
 	    	if(projName === "equirectangular"){
 	    		mapObject.projection = d3.geo.equirectangular();
 	    	}
@@ -85,7 +133,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	  );
 
 	    	// Scale it to fit nicely
-	    	s = s * 60;
+	    	s = s * 20;
 	    	mapObject.projection
 	    	    .scale(s)
 	    	    .center(t).translate([mapObject.width / 2, mapObject.height / 1.7]);	
@@ -101,18 +149,29 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 
-        function setTopology(topology, geometries){
-        	mapObject.dataFeatures = geometries.map(function(f) {
-    			return {
-    				type: "Feature",
-    				id: f.properties.iso_a3,
-    				properties: mapObject.dataNest[f.properties.iso_a3],
-    				geometry: {
-    					type: f.type,
-    					coordinates: topojson.feature(topology, f).geometry.coordinates
-    				}
-    			};
-          	});
+        function setTopology(topology, objects){
+   //      	var tempArray = geometries.map(function(f) {
+   //      		if(f.type === "Polygon"){
+   //      			return {
+   //      				type: "Feature",
+   //      				id: f.properties.iso_a3,
+   //      				properties: mapObject.dataNest[f.properties.iso_a3],
+   //      				geometry: {
+   //      					type: f.type,
+   //      					coordinates: topojson.feature(topology, f).geometry.coordinates
+   //      				}
+   //      			};
+   //      		}
+   //        	});
+
+   //        	mapObject.dataFeatures = [];
+
+			// for (var i = 0; i < tempArray.length; i++) {
+			// 	if (tempArray[i]) {
+			// 		mapObject.dataFeatures.push(tempArray[i]);
+			// 	}
+			// }
+			mapObject.dataFeatures = topojson.feature(topology, objects).features;
         }
 
 	    function setFocusCountry(iso){
@@ -122,18 +181,42 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    function resetMap(){
 	    	mapObject.path = d3.geo.path().projection(mapObject.projection);
 
-	    	mapObject.mapFeatures.data(mapObject.dataFeatures)
+	    	mapObject.mapFeatures
+	    		.data(mapObject.dataFeatures, function(d){return getId(d);})
 	    		.enter()
 	    	  	.append("path")
 	    	    .attr("class", "mapFeature")
 	    	    .attr("id", function(d) {
-	    	      return d.id;
+	    	      return getId(d);
 	    	    })
-	    	    .transition()
-				.duration(750)
-				.ease("linear")
-	    	    .attr("fill", "#ddd")
-	    	    .attr("d", mapObject.path);
+	    	    .attr("fill", function(d){ 
+	    	    	return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
+	    	    })
+	    	    .attr("d", mapObject.path)
+	    	    .on("click",function(d){
+	    	    	if(mapObject.type === "cartogram"){
+	    	    		if(getId(d).toUpperCase() === mapObject.focusCountry.iso){
+	    	    			return;
+	    	    		}
+	    	    		if(getId(d).toUpperCase() === "USA" || getId(d).toUpperCase() === "DEU"){
+	    	    			d3.json('/localdata/vizdata/'+getId(d).toUpperCase()+'_2014_TotalExports.json', function(topology) {
+	    	    				d3.csv("/localdata/vizdata/"+getId(d)+"_exports.csv", function(data) {
+	    	    					if(getId(d) === "DEU"){
+	    	    					    data.push({iso: "DEU",partner:"Germany",partner_percent:"#N/A",total:"0",total_percent:"20"});
+	    	    					}else if(getId(d) === "USA"){
+	    	    					    data.push({iso: "USA",partner:"United States",partner_percent:"#N/A",total:"0",total_percent:"20"});
+	    	    					}
+
+	    	    					setDataset(data, getId(d));
+		    	    				setTopology(topology, topology.objects[getId(d).toUpperCase()+'_2014_TotalExports']);
+		    	    				setFocusCountry(getId(d));
+		    	    				updateData(mapObject.dataFeatures);
+		    	    			});
+	    	    			});
+	    	    		}
+	    	    	}
+	    	    	console.log(d);
+	    	    });
 	    }
 
 	    function setColorFunction(colorFunction){
@@ -142,13 +225,29 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    function updateData(data){
 	    	if(mapObject.type === "cartogram"){
-				mapObject.mapFeatures
-					.data(data)
-						.transition()
-					.duration(750)
-					.ease("linear")
-					.attr("fill", mapObject.colorFunction)
+	    		// d3.selectAll('.mapFeature')
+	    		// 	.style("opacity","0");
+
+				d3.selectAll('.mapFeature')
+					.data(mapObject.dataFeatures, function(d){return getId(d);})
+					.transition()
+					// .delay(400)
+					// .duration(0)
+					.duration(4000)
+					.attr("fill", function(d){ 
+						return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
+					})
 					.attr("d", mapObject.path);
+
+				// d3.selectAll('.mapFeature')
+				// 	.style("opacity","1")
+				// 	.transition()
+				// 	.delay(400)
+				// 	.duration(400)
+				// 	.attr("fill", function(d){ 
+				// 		return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
+				// 	});
+
 
 			}else if(mapObject.type === "flags"){
 				updateFlags(data);
@@ -227,6 +326,10 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    /* PRIVATES */
+	    function getId(d){
+	    	return d.properties.iso_a3?d.properties.iso_a3:d.id;
+	    }
+
 	    function updateFlags(data){
 	    	mapObject.mapFlags.selectAll(".flag")
 	    		.data(data, function(d){ return d.iso; })
@@ -338,6 +441,8 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 			resetMapObject   : resetMapObject,
 			setType			 : setType,
 			setSize          : setSize,
+			setColorScale	 : setColorScale,
+			setDataset		 : setDataset,
 			iniMapLayers     : iniMapLayers,
 			setZoom          : setZoom,
 			setProjection    : setProjection,

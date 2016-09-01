@@ -234,15 +234,20 @@ document.onreadystatechange = function(){
         };
 
         carto.feature = function(topology, geom) {
-          return {
-            type: "Feature",
-            id: geom.properties.iso_a3,
-            properties: properties.call(null, geom, topology),
-            geometry: {
-              type: geom.type,
-              coordinates: topojson.feature(topology, geom).geometry.coordinates
+            var feature = topojson.feature(topology, geom);
+
+            if(feature.type === "Feature"){
+                return {
+                  type: "Feature",
+                  id: geom.properties.iso_a3,
+                  properties: properties.call(null, geom, topology),
+                  geometry: {
+                    type: geom.type,
+                    coordinates: topojson.feature(topology, geom).geometry.coordinates
+                  }
+                };
             }
-          };
+          
         };
 
         carto.features = function(topo, geometries) {

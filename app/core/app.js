@@ -130,7 +130,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('cage', {url:'/cage', templateUrl: '../app/core/cage-main.html', abstract: true})
 				.state('cage.cage', {url:'', template: '<nyu-cage></nyu-cage>'})
 				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
-				.state('cage.cartogram', {url:'/cartogram/:detail/:country', template: '<nyu-cartogram></nyu-cartogram>'})
+				.state('cage.cartogram', {url:'/cartogram/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 				
 				.state('app.custom', {url:':id', template: '<custom-view></custom-view>'});
 
