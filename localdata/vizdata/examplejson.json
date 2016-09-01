@@ -1,0 +1,19 @@
+{
+	"dataset": "usa_2015_exports",
+	"dep_vars": [
+		{"name":"var 1", "value": 2.2, ..., "parameter_n": "value_n"},
+		{"name":"var 2", "value": 1.4, ..., "parameter_n": "value_n"}
+		...
+		{"name":"var m", "value": 1.4, ..., "parameter_n": "value_n"}
+	],
+	"size_vars": [
+		{"name":"var 1", "value": 2.2, ..., "parameter_n": "value_n"},
+		{"name":"var 2", "value": 1.4, ..., "parameter_n": "value_n"}
+		...
+		{"name":"var m", "value": 1.4, ..., "parameter_n": "value_n"}
+	],
+	"years": ["2014", "2015", "2016"],
+	"olsppml": "ols",
+	"rse": true,
+	"suppress_fe_output": true
+}
