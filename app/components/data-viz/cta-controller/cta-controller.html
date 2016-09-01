@@ -1,0 +1,53 @@
+
+<!-- COUNTRY -->
+<div ng-if="metaData == 'country'">
+	<div class="row content margin-all cta-selection text-align-center">
+		<a  class="cta cta-darkest-blue  float-left"
+			ng-if="viewController.lastPopUpState() == 'closed'"
+		    ng-click="countryUpdate();">UPDATE VISUALIZATION</a>
+		<a  class="cta cta-darkest-blue  float-left"
+			ng-if="viewController.lastPopUpState() != 'closed'"
+			ng-click="countryUpdate();">UPDATE SELECTION</a>
+		<a  class="cta cta-light-gray float-right"
+			ng-click="viewController.goBack();">CANCEL</a>		
+	</div>	
+</div>
+
+<!-- INDICATORS -->
+<div ng-if="metaData == 'indicators'">
+	<div class="row content margin-all cta-selection text-align-center">
+		<a  class="cta cta-darkest-blue float-left"
+			ng-if="viewController.lastPopUpState() == 'closed'"
+		    ng-click="indicatorsUpdate();">UPDATE VISUALIZATION</a>
+		<a  class="cta cta-darkest-blue float-left"
+			ng-if="viewController.lastPopUpState() != 'closed'"
+		    ng-click="indicatorsUpdate();">UPDATE SELECTION</a>
+		<a  class="cta cta-light-gray float-right"
+			ng-click="viewController.goBack();">CANCEL</a>			
+	</div>	
+</div>
+
+<!-- YEARS -->
+<div ng-if="metaData == 'years'">
+	<div class="row content margin-all cta-selection text-align-center">
+		<a  class="cta cta-darkest-blue  float-left"
+			ng-if="viewController.lastPopUpState() == 'closed'"
+		    ng-click="yearsUpdate();">UPDATE VISUALIZATION</a>
+		<a  class="cta cta-darkest-blue  float-left"
+			ng-if="viewController.lastPopUpState() != 'closed'"
+		    ng-click="yearsUpdate();">UPDATE SELECTION</a>
+		<a  class="cta cta-light-gray float-right"
+			ng-click="viewController.goBack();">CANCEL</a>			
+	</div>	
+</div>	
+
+
+<!-- ANOTHER COLOR -->
+<div ng-if="metaData == 'another-color'">
+	<div class="row content margin-all cta-selection text-align-center">
+		<a  class="cta cta-darkest-blue float-left"
+		    ng-click="viewController.goBack();">UPDATE SELECTION</a>
+		<a  class="cta cta-light-gray float-right"
+			ng-click="anotherColorCancel();">CANCEL</a>			
+	</div>	
+</div>

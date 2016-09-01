@@ -1,18 +1,19 @@
 <div class="crucial" ng-if="root.actualUser.other.id > 0">
 	<div ng-show="view.state == 'editable'">	
 		<label for="actual-pass">Actual Password</label><br>
-		<input class="form-control" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"/><br>
+		<input class="form-control custom-input" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"/><br>
 
 		<label for="new-pass">New Password</label><br>
-		<input class="form-control" type="password" name="new-pass" id="new-pass" ng-model="newPass"/><br>
+		<input class="form-control custom-input" type="password" name="new-pass" id="new-pass" ng-model="newPass"/><br>
 
 		<label for="repeat-new-pass">Reapeat New Password</label><br>
-		<input class="form-control" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"/><br>
+		<input class="form-control custom-input" type="password" name="repeat-new-pass" id="repeat-new-pass" ng-model="newPassRepeated"/><br>
 
-		<button type="button" class="btn btn-default" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Save new Password</button>
+		<a href="#" class="cta cta-dark-blue" ng-click="saveNewPassword(actualPass, newPass, newPassRepeated)">Save new Password</a>
 	</div>
 	<div ng-show="view.state == 'notEditable'">
-		<button type="button" class="btn btn-default" ng-click="view.state = 'editable'">Change Password</button>
+		<a href="#" class="cta cta-dark-blue" ng-click="view.state = 'editable'">Change Password</a>
+
 	</div>
-	<div ng-show="view.state == 'success'">password changed</div>
+	<div ng-show="view.state == 'success'">Password changed</div>
 </div>

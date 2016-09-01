@@ -1,11 +1,24 @@
-angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
+angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
     controllerAs: 'nyuCage',
-    controller: function ($scope, LoginService, $http, $rootScope) {
-
+    controller: function ($scope, LoginService, $http) {
         $scope.root = $rootScope;
+        
+        /**********************
+        TEMPORAL SCOPES FILTERS
+        **********************/
+        $scope.bindTemporalScopes = function(){
+            var from = 'temporal';
+            angular.forEach(arguments, function(argument){
+                if(argument == 'fromPopUp'){
+                    from = 'popUp';                   
+                }
+                $scope['selected'+argument] = angular.copy($scope[from+argument]);
+            });
+        };
+
         $scope.selectedCountry = {
             name : "",
             items : []
@@ -13,29 +26,60 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
         $scope.selectedIndicators = {
             items : []
         };
-        var test = {};
+        $scope.selectedDistanceVariables = {
+            items : {}
+        };
+
+        $scope.temporalCountry = {
+            name : "Spain",
+            items : ["Spain"]
+        };
+        $scope.temporalIndicators = {
+            items : [
+                {name: 'Exports', parent: 'Merchandise Trade'}/*,
+                {name: 'Imports', parent: 'Merchandise Trade'}*/
+            ]
+        };
+        $scope.temporalDistanceVariables = {
+            items : {}
+        };
+
+        $scope.popUpIndicators = angular.copy($scope.temporalIndicators);
+        $scope.popUpCountry = angular.copy($scope.temporalCountry);
+
+        $scope.selectedYears = {
+            start: "2005",
+            end : "2015"
+        };
+
+
+        /*************************
+        END TEMPORAL SCOPES FILTERS
+        *************************/
+        
+
         $http({
           url: 'localdata/content/distance-variables.json',
           method: 'GET'
         }).then(function(response){
             
             angular.forEach(response.data, function(section, key){
-                test[key] = {};
+                $scope.selectedDistanceVariables.items[key] = {};
                 angular.forEach(section, function(subSection){
                     var itemItem = {
                         "classvar": subSection.classvar,
                         "name": subSection.name,
                         "varname": subSection.varname,
                         "default": subSection.default,
-                        "value" : 0.125
+                        "value" : Math.round(Math.pow(2,((Math.random())*6) - 3) * Math.pow(10 , 3)) / Math.pow(10,3)
                     };
-                    if(typeof test[key][subSection.source] == "undefined"){
-                        test[key][subSection.source] = [];
+                    if(typeof $scope.selectedDistanceVariables.items[key][subSection.source] == "undefined"){
+                        $scope.selectedDistanceVariables.items[key][subSection.source] = [];
                     }
-                    test[key][subSection.source].push(itemItem);
+                    $scope.selectedDistanceVariables.items[key][subSection.source].push(itemItem);
                 });
             });
-            $scope.sliderSections = test;
+            $scope.temporalDistanceVariables.items = angular.copy($scope.selectedDistanceVariables.items);
         });
 
         $scope.indicators = {
@@ -64,7 +108,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
             }
         };
         
-        $scope.sliderSections = {
+        /*$scope.distanceVariables = {
         	"Cultural" : {
         		"CEPII Language" : [
 		        	{
@@ -85,7 +129,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
                     }
                 ]
         	}
-        };
+        };*/
         $scope.countries = {
             "Individual Countries" : [
                 {name : "Afghanistan"},
@@ -140,9 +184,21 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
                 {name : "Organization of American States"}
             ]
         };
+
     },
     link: function(s, e, a){
-
+        /**************************
+        **Impacts view CONTROLLER**
+        **************************/
+        s.checkSomeActiveIndicator = function(sliders){
+            var found = false;
+            angular.forEach(sliders, function(slider){
+                angular.forEach(slider, function(sliderItem){
+                    if(sliderItem.default) found = true;
+                });
+            });
+            return found;
+        };
         /*******************
         **TABLE CONTROLLER**
         *******************/
@@ -189,21 +245,41 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
             {id: 'predictedFull', name: "Predicted [activity**] (full model, % of world)effects only, % of world)"}
         ];
 
+        /*******************
+        ***MAP CONTROLLER***
+        *******************/
+        s.countryMarkers = [
+            {id: 'flags', name: "Flags"},
+            {id: 'size', name: "Circles Proportional to [Size variable*] (% of rest of world)"},
+            {id: 'actual', name: "Circles Proportional to Actual [activity**] (% of world)"},
+            {id: 'predicted', name: "Circles Proportional to Predicted [activity**] (distance and size effects only, % of world)"},
+            {id: 'predictedFull', name: "Circles Proportional to Predicted [activity**] (full model, % of world) effects only, % of world)"}
+        ];
+        s.countryMarkerActive = {id: 'flags', name: "Flags"};
+        s.distanceShownActive = {id: 'cageDistance', name: "CAGE Distance"};
         /******************
         **VIEW CONTROLLER**
         *******************/
 
-        function PopService(state, open, popUpState){
+        function PopService(state, open, popUpState, popUpSize){
             this.state = state || 'selection';
             this.open = open || false;
             this.popUpState = popUpState || '';
+            this.popUpSize = popUpSize || 'big'; //big, normal, sm
             this.lastPopUpState = popUpState || '';
 
-            this.toggleView = function(show, toPopUpState, toState){
+            /*
+            * show@boolean: Mostrar o no el popup
+            * toPopUpState@String : Determina el contenido a mostrar en el popUp
+            * toState@String : Determina el estado de la página (view || selection)
+            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || sm)
+            */
+            this.toggleView = function(show, toPopUpState, toState, setPopUpSize){
                 this.lastPopUpState = this.popUpState;
                 this.open = show || false;
                 this.popUpState = toPopUpState;
                 this.state = toState || this.state;
+                this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
             };
 
             this.closePopUp = function(){
@@ -212,15 +288,18 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window) {
         }
 
         s.viewController = new PopService('selection', false, 'test');
+        //s.viewController.toggleView(true, 'distanceVariables', 'view');
+        s.viewController.toggleView(false, '', 'selection');
+        //s.viewController.toggleView(true, 'login', 'view', 'big');
         s.layoutView = {
-            state : ''
+            state : 'table'
         };
 
         /************************
         **USER LOGIN CALLBACK**
         ***********************/
         s.userLoginCallback = function(){
-            s.viewController.toggleView(true, 'userLog');
+            s.viewController.toggleView(true, 'userLog', 'view', 'xs');
         };
         s.viewTerms = function(){
             s.viewController.toggleView(true, 'userRegisterTerms');

@@ -1,13 +1,17 @@
 <ul>
-	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="toggleCollapsed('dropDownCollapsed', dropDownKey)">
-		<span>{{dropDownKey}}</span>
+	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="dropDownCollapsed[dropDownKey] = !dropDownCollapsed[dropDownKey]" ng-class="{'active' : dropDownCollapsed[dropDownKey]}">
+		<span>{{dropDownKey}}
+			<i class="fa" ng-class="(dropDownCollapsed[dropDownKey]) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
+		</span>
 		<ul>
-			<li ng-repeat="(inputItemKey, inputItem) in dropDown" uib-collapse="dropDownCollapsed != dropDownKey">
+			<li ng-repeat="(inputItemKey, inputItem) in dropDown" uib-collapse="!dropDownCollapsed[dropDownKey]">
 				<label ng-if="selectType == 'radio'">
-					<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem.name" ng-model="result.name">{{inputItem.name}}
+					<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem.name" ng-model="result.name">
+					<span class="custom-radio">{{inputItem.name}}</span>
 				</label>
 				<label ng-if="selectType == 'checkbox'">
-					<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.name" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)">{{inputItem.name}}
+					<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.name" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)">
+					<span class="custom-checkbox">{{inputItem.name}}</span>
 				</label>
 			</li>
 		</ul>

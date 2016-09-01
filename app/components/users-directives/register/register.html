@@ -1,55 +1,67 @@
 <form name="registerForm" ng-submit="registerUser(registerForm.$valid)">
-	<h3>Register</h3>
-	<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
-		<label class="control-label" for="registeremail">Email:</label>
-		<input class="form-control" type="email" name="registeremail" ng-model="register.email" required><br>
+	<!--COLUMN 1-->
+	<h3 ng-if="type == 'userRegister'" class="color-blue margin-v">Sign up for a Free Account</h3>
+	<div class="column-desktop first-column">
+		<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
+			<label class="control-label" for="registeremail">Email:</label>
+			<input class="form-control custom-input" type="email" name="registeremail" ng-model="register.email" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registername.$valid}">
+			<label class="control-label" for="registername">Username:</label>
+			<input class="form-control custom-input" type="text" name="registername" ng-model="register.name" ng-minlength="5" required><br>
+		</div>
+		<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
+			<label class="control-label" for="registerpass">Password:</label>
+			<input class="form-control custom-input" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
+			<label class="control-label" for="registerpassrepeat">Repeat password:</label>
+			<input class="form-control custom-input" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
+			<label class="control-label" for="registerfirst">First Name:</label>
+			<input class="form-control custom-input" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
+		</div>
+		<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
+			<label class="control-label" for="registerlast">Last Name:</label>
+			<input class="form-control custom-input" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercompany">Company:</label>
+			<input class="form-control custom-input" type="text" name="registercompany" ng-model="register.company"><br>
+		</div>
 	</div>
-	<div ng-class="{'has-success' : registerForm.registername.$valid}">
-		<label class="control-label" for="registername">Username:</label>
-		<input class="form-control" type="text" name="registername" ng-model="register.name" ng-minlength="5" required><br>
+	<!--COLUMN 2-->
+	<div class="column-desktop second-column">
+		<div>
+			<label class="control-label" for="registeradress">Address:</label>
+			<input class="form-control custom-input" type="text" name="registeradress" ng-model="register.address"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercity">City:</label>
+			<input class="form-control custom-input" type="text" name="registercity" ng-model="register.city"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerstate">State:</label>
+			<input class="form-control custom-input" type="text" name="registerstate" ng-model="register.state"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerpostcode">Postcode:</label>
+			<input class="form-control custom-input" type="text" name="registerpostcode" ng-model="register.postcode"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registercountry">Country:</label>
+			<input class="form-control custom-input" type="text" name="registercountry" ng-model="register.country"><br>
+		</div>
+		<div>
+			<label class="control-label" for="registerphone">Phone:</label>
+			<input class="form-control custom-input" type="text" name="registerphone" ng-model="register.phone"><br>
+		</div>
+		<div>By registering for this site, I accept the site’s <a class="custom-link-extender-inline" href="#" ng-click="terms()">Terms and Conditions.</a></div> 
+		
+		<a href="#" type="submit" class="cta cta-darkest-blue content margin-v" >SIGN UP</a>		
 	</div>
-	<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
-		<label class="control-label" for="registerpass">Password:</label>
-		<input class="form-control" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
-		<label class="control-label" for="registerpassrepeat">Repeat password:</label>
-		<input class="form-control" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
+	<div class="column-desktop third-column">
+		<div>Discover more about becoming a paid subscriber</div>
+		<a href="#" type="submit" class="cta cta-dark-blue" >VIEW SUBSCRIPTION DETAILS</a>	
 	</div>
-	<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
-		<label class="control-label" for="registerfirst">First Name:</label>
-		<input class="form-control" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
-	</div>
-	<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
-		<label class="control-label" for="registerlast">Last Name:</label>
-		<input class="form-control" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
-	</div>
-	<div>
-		<label class="control-label" for="registercompany">Company:</label>
-		<input class="form-control" type="text" name="registercompany" ng-model="register.company"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registeradress">Address:</label>
-		<input class="form-control" type="text" name="registeradress" ng-model="register.address"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registercity">City:</label>
-		<input class="form-control" type="text" name="registercity" ng-model="register.city"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registerstate">State:</label>
-		<input class="form-control" type="text" name="registerstate" ng-model="register.state"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registerpostcode">Postcode:</label>
-		<input class="form-control" type="text" name="registerpostcode" ng-model="register.postcode"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registercountry">Country:</label>
-		<input class="form-control" type="text" name="registercountry" ng-model="register.country"><br>
-	</div>
-	<div>
-		<label class="control-label" for="registerphone">Phone:</label>
-		<input class="form-control" type="text" name="registerphone" ng-model="register.phone"><br>
-	</div>
-	<div>By registering for this site, I accept the site’s <a href="#" ng-click="terms()">Terms and Conditions.</a></div> 
-	<button type="submit" class="btn btn-default" >Register</button>
+
 </form>

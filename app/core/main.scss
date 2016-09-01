@@ -1,6 +1,7 @@
 @import 'vars';
 @import 'mixins';
 @import 'generic_fade';
+@import 'cage-main';
 @import '../components/header/header';
 @import '../components/footer/footer';
 @import '../components/home/home';
@@ -31,11 +32,12 @@
 @import '../components/users-directives/csv-upload/csv-upload';
 @import '../components/other/cage-slider/cage-slider';
 @import '../components/other/cage-select-distance-varibles/cage-select-distance-varibles';
-@import '../components/other/indicator/indicator';
 @import '../components/other/dd-item/dd-item';
 @import '../components/other/dd-item-item/dd-item-item';
 @import '../components/other/dd-radio-item/dd-radio-item';
-
+@import '../components/other/custom-select/custom-select';
+@import '../components/other/from-to/from-to';
+@import '../components/data-viz/data-viz';
 
 body {
 	margin:0;
@@ -169,7 +171,7 @@ custom-view{
 			.arrow {
 				color: #FFFFFF;
 				border-color:#FFFFFF;
-				background-color: #004182;
+				background-color: $less-dark-blue;
 				box-shadow: inset 0px 0px 0.2px 1px #FFFFFF;
 				@include transition(all 0.4s);
 
@@ -179,11 +181,11 @@ custom-view{
 
 				&:hover{
 					background-color:#FFFFFF;
-					color: #004182;
-					border-color:#004182;
+					color: $less-dark-blue;
+					border-color:$less-dark-blue;
 
 					&:after{
-						border-color:#004182;
+						border-color:$less-dark-blue;
 					}
 				}
 			}
@@ -383,14 +385,23 @@ custom-view{
 		text-decoration: none;
 		
 		&.cta-light-blue{
-			background-color: #003162;
+			background-color: $light-blue;
 		}
 		&.cta-dark-blue{
-			background-color: #002141;
+			background-color: $dark-blue;
 		}
 		&.cta-blue-o{
-			background-color: #0080FF;
+			background-color: $pankaj-blue;
 			color:#FFFFFF;
+		}
+		&.cta-darkest-blue{
+			background-color: #FFFFFF;
+			color: $darkest-blue;
+		}
+		&.cta-light-gray{
+			background-color: $light-gray;
+			color: $dark-gray;
+			border: 1px solid $light-gray;
 		}
 	}
 	@media only screen and (min-width: $break-mobile){
@@ -398,30 +409,54 @@ custom-view{
 			text-decoration: none;
 			
 			&.cta-light-blue{
-				background-color: #003162;
+				background-color: $light-blue;
 			}
 			&.cta-dark-blue{
-				background-color: #002141;
+				background-color: $dark-blue;
 			}
 			&.cta-blue-o{
-				background-color: #0080FF;
+				background-color: $darkest-blue;
 				color:#FFFFFF;
+			}
+			&.cta-darkest-blue{
+				background-color: $darkest-blue;
+				color:#FFFFFF;
+			}
+			&.cta-light-gray{
+				background-color: $darkest-blue;
+				color:#FFFFFF;
+				border: 1px solid $darkest-blue;
 			}
 		}
 	}
 	&.cta-light-blue{
-		background-color: #0080FF;
+		background-color: $pankaj-blue;
 		color: #FFFFFF;
 	}
 
 	&.cta-dark-blue{
-		background-color: #004182;
+		background-color: $less-dark-blue;
 		color: #FFFFFF;
 	}
 
 	&.cta-blue-o{
-		color:#0080FF;
-		border: 1px solid #0080FF;
+		color:$pankaj-blue;
+		border: 1px solid $pankaj-blue;
+	}
+
+	&.cta-darkest-blue{
+		background-color: $darkest-blue;
+		color:#FFFFFF;
+		border: 1px solid $darkest-blue;
+		&.border-white{
+			border: 1px solid #FFFFFF;
+		}
+	}
+
+	&.cta-light-gray{
+		background-color: $light-gray;
+		color: $dark-gray;
+		border: 1px solid $light-gray;
 	}
 
 	&.cta-block{
@@ -431,7 +466,6 @@ custom-view{
 	&.cta-huge{
 		padding: 20px 30px;
 	}
-
 	@media only screen and (max-width: $break-mobile) {
 		padding: 11px 13px;
 	    font-size: 1rem;
@@ -612,13 +646,13 @@ span.highlight-class{
     cursor: pointer;
 	@include transition(all 0.4s);
     &:hover:active{
-    	background-color: #003162;
+    	background-color: $light-blue;
     	color: white;
     }
     @media only screen and (min-width: $break-mobile){
     	margin-bottom: 50px;
     	&:hover{
-    		background-color: #0080FF;
+    		background-color: $pankaj-blue;
     		color: white;
     	}
     }
@@ -683,4 +717,32 @@ span.highlight-class{
 
 .ng-fade.ng-hide-add {
   transition: all linear 500ms;
+}
+
+.cage-view{
+	padding-left: 0px;
+	padding-top: 50px;
+}
+
+@media only screen and (max-width: $break-laptop) {
+	.mobile-maps-footer{
+		footer{
+			padding: 10px 0px 10px 0px;				
+		}
+	}
+}
+@media (max-width: $break-mobile) and (max-height: 420px){ //HORIZONTAL
+	.cage-view{
+		padding-left: 50px;
+		padding-top: 0px;
+	}
+	.mobile-maps-footer{
+		display: none;
+	}
+}
+
+@media only screen and (min-width: 1025px) {
+	.cage-view{
+		padding: 0;
+	}
 }

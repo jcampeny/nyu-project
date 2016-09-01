@@ -1,208 +1,247 @@
 <!-- POPUP -->
-<div class="view-popup row" ng-if="viewController.open">
-	<!-- POPUP SELECTION COUNTRY -->
-	<div ng-if="viewController.popUpState == 'country'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<h4>Country / Aggregate</h4>
-		<select-tag-input max-tags="1" variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
-		<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
-	</div>
-	<!-- POPUP SELECTION INDICATORS -->
-	<div ng-if="viewController.popUpState == 'indicators'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<h4>INDICATORS</h4>
-		<dd-radio-item variables="indicators" result="selectedIndicators"></dd-radio-item>
-	</div>
-	<!-- POPUP DISTANCE VARIABLES TO SHOW-->
-	<div ng-if="viewController.popUpState == 'distanceVariables'">
-		<div class="close-cross" ng-click="viewController.closePopUp(); layoutView.state = 'impacts';">X</div>
-		<cage-select-distance-varibles variables="sliderSections"></cage-select-distance-varibles>
-	</div>
-	<!-- POPUP USER LOGIN/LOGOUT -->
-	<div ng-if="viewController.popUpState == 'userLog'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<!-- POPUP USER NOT LOG -->
-		<div ng-if="!root.actualUser.logged">
-			<user-login callback="userLoginCallback"></user-login>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</button>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</button>
-		</div>
-		<!-- POPUP USER LOGGED -->
-		<div ng-if="root.actualUser.logged">
-			<a href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-			<user-logout></user-logout>
-		</div>
-	</div>
-	<!-- POPUP USER REGISTER -->
-	<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-
-		<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
-
-	</div>
-	<!-- POPUP USER REGISTER TERMS -->
-	<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-		<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-		<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
-	</div>
-	<!-- POP USER SETTINGS -->
-	<div ng-if="viewController.popUpState == 'userSettings'">
-		<div class="close-cross" ng-click="viewController.closePopUp()">X</div>
-		<user-change-pass></user-change-pass>
-		<user-information></user-information>
-	</div>
-
-</div>
-
-<!-- LAYOUT -->
-<div class="view-template" ng-if="!viewController.open" style="margin-top: 100px;">
-	<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
-	<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
-	<div ng-if="viewController.state == 'selection'">
-		<h4>Country:</h4>
-			<div>
-				<span>Selected = {{selectedCountry.name}}</span>
-				<button ng-click="viewController.toggleView(true, 'country')">SELECT</button>
+<div class="cage-mobile-view">
+	<div class="view-popup row" ng-if="viewController.open">
+		<!-- POPUP SELECTION COUNTRY -->
+		<div ng-if="viewController.popUpState == 'country'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h4>Country / Aggregate</h4>
+			<select-tag-input max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
+			<dd-item class="standard" variables="countries" result="popUpCountry" select-type="radio"></dd-item>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="temporalCountry.name = popUpCountry.name;
+				    		temporalCountry.items = popUpCountry.items; 
+				   			viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
 			</div>
-		<h4>Indicators:</h4>
-			<div>
-				<span>Selected = {{selectedIndicators.items}}</span>
-				<button ng-click="viewController.toggleView(true, 'indicators')">SELECT</button>
-			</div>	
-		<button ng-click="viewController.state = 'view';">GENERATE DISTANCE ANALYSIS</button>	
-	</div>
-	<!-- LAYOUT VIEW -->
-	<div ng-if="viewController.state == 'view'">
-		<!-- LAYOUT VIEW RESUME -->
-		<div>
-			<div><strong>Focus Country:</strong> {{selectedCountry.name}}</div>
-			<div><strong>Indicator:</strong> <span ng-repeat="indicatorItem in selectedIndicators.items track by $index">{{indicatorItem.parent}} > {{indicatorItem.name}}, </span></div>
-			<div><button ng-click="viewController.state = 'selection';">Change</button></div>			
 		</div>
-		<!-- LAYOUT VIEW MENU -->
-		<div>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'impacts';">Impacts</button>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'table';">Table</button>
-			<button class="btn btn-primary" ng-click="layoutView.state = 'map';">Map</button>			
+		<!-- POPUP SELECTION INDICATORS -->
+		<div ng-if="viewController.popUpState == 'indicators'">
+			<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+			<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+			<dd-radio-item class="standard" variables="indicators" result="popUpIndicators"></dd-radio-item>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="temporalIndicators.items = popUpIndicators.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
 		</div>
-		<!-- LAYOUT IMPACTS -->
-		<div ng-if="layoutView.state == 'impacts'">
-			<div ng-repeat="(key, sliders) in sliderSections" ng-class="key">
-				<div>{{key}}</div>
-				<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
-					<div ng-if="sliderItem.default" ng-repeat="sliderItem in sliderSection" class="cage-slider-container">
-						<cage-slider name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
-					</div>
+		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+		<div ng-if="viewController.popUpState == 'distanceVariables'">
+			<cage-select-distance-varibles class="standard" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="selectedDistanceVariables.items = temporalDistanceVariables.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
 				</div>
 			</div>
-			<div>
-				<button class="btn btn-primary" ng-click="layoutView.state = 'table';">VIEW RESULTS TABLE</button>
-				<a href="#" class="btn btn-primary" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
 			</div>
 		</div>
-		<!-- LAYOUT TABLE -->
-		<div ng-if="layoutView.state == 'table'" ng-init="columnToShow = 'geographicDistance'">
-			<h1>TABLEEEEEEE</h1>
-			<!-- LAYOUT TABLE MOBILE -->
-			
-			<select ng-model="columnToShow" ng-click="sortBy($event)">
-					<option ng-repeat="tableHeaderItem in tableHeader" value="{{tableHeaderItem.id}}">{{tableHeaderItem.name}}</option>
-			</select>
-			
-			<table class="table">
-				<tr>
-					<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow != tableHeaderItem.id && tableHeaderItem.id !='country') && deviceDetector.isMobile() ">
-						{{tableHeaderItem.name}} 
-						<button class="btn btn-primary" ng-click="sortBy(tableHeaderItem.id)">
-							<i ng-show="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-desc" aria-hidden="true"></i>
-							<i ng-hide="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-asc" aria-hidden="true"></i>
-						</button>
-					</th>
-				</tr>
-				<tr ng-repeat="tableItem in tableResult  | orderBy:propertyName:reverse">
-					<td ng-show="deviceDetector.isMobile()">{{tableItem.name}}</td>
-					<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow != tableItemItemKey) && deviceDetector.isMobile()">{{tableItemItem}}</td>
-				</tr>
-			</table>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+
 		</div>
-		<!-- LAYOUT MAP -->
-		<div ng-if="layoutView.state == 'map'">
-			<h1>MAAAAAAAAAAAAAP</h1>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h3 class="color-blue margin-all">Account Settings</h3>
+			<div class="content margin-h subscription-type">
+				<div class="color-blue">Subscription Type:</div>
+				<div>{{'Registered User'}}</div>
+				<div  class="content margin-bottom">{{'Free account'}}</div>
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+			</div>
+			<h3 class="color-blue margin-all">Access Details</h3>
+			<div class="content margin-h">
+				<div>Username: {{root.actualUser.name}}</div>
+				<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+				<user-change-pass></user-change-pass>
+			</div>
+			<h3 class="color-blue margin-all">Profile Information</h3>
+			<div class="content margin-h">
+				<user-information></user-information>				
+			</div>
 		</div>
 	</div>
+	<!-- LAYOUT -->
+	<div class="view-template" ng-if="!viewController.open">
+		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
+		<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
+		<div ng-if="viewController.state == 'selection'">
+			<h3 class="color-blue margin-all">CAGE Comparator™ Distance Analysis Selections</h3>
+
+			<!-- Indicators -->
+			<div class="row content margin-h">
+				<div class="caption">Indicator (International Flow/Stock): Please select the type of international activity you would like the model to use for calibrating CAGE Distance effects.</div>
+				<div class="col-xs-12 no-padding margin-controller margin-v">Indicator</div>
+				<div class="col-xs-8 no-padding color-blue">
+					<span ng-repeat="(indicatorItemKey, indicatorItem) in temporalIndicators.items">
+						<span ng-if="indicatorItemKey > 0">,</span> 
+						{{indicatorItem.parent}} 
+						{{indicatorItem.name}}
+					</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'indicators')">SELECT</a>
+				</div>
+			</div>	
+			<!-- Country -->
+			<div class="row content margin-all">		
+				<div class="caption">Countries / Aggregate: Please select a focal country or aggregate from which CAGE Distance to all other countries will be calculated.</div>
+				<div class="col-xs-12 no-padding margin-controller margin-v">Country</div>
+				<div class="col-xs-8 no-padding color-blue">{{temporalCountry.name}}</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'country')">SELECT</a>
+				</div>
+			</div>	
+			<!-- Submit indicators & country-->
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="viewController.state = 'view'; 
+				   			 bindTemporalScopes('Country', 'Indicators');">GENERATE DISTANCE <br> ANALYSIS</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.state = 'view';" 
+					ng-show="selectedCountry.name && selectedIndicators.items.length > 0">CANCEL</a>		
+			</div>
+		
+		</div>
+		<!-- LAYOUT VIEW -->
+		<div ng-if="viewController.state == 'view'">
+			<!-- LAYOUT VIEW RESUME -->
+			<div class="view-resume-header">
+				<div>Focus Country: {{selectedCountry.name}}</div>
+				<div>Indicator: 			
+					<span ng-repeat="(indicatorItemKey, indicatorItem) in selectedIndicators.items track by $index">
+						<span ng-if="indicatorItemKey > 0">,</span> 
+						{{indicatorItem.parent}} 
+						{{indicatorItem.name}}
+					</span>
+				</div>
+				<div>Year(s): {{selectedYears.start}}-{{selectedYears.end}}</div>
+				<div class="row content cta-selection">
+					<a  class="cta cta-darkest-blue border-white" 
+						ng-click="viewController.state = 'selection';">CHANGE</a>
+				</div>		
+			</div>
+			<!-- LAYOUT VIEW MENU -->
+			<div class="view-menu content margin-all">
+				<a  ng-class="(layoutView.state == 'impacts') ? 'cta-darkest-blue' : 'cta-light-gray'" 
+					ng-click="layoutView.state = 'impacts';" class="cta">Impacts</a>
+				<a  ng-class="(layoutView.state == 'table') ? 'cta-darkest-blue' : 'cta-light-gray'" 
+					ng-click="layoutView.state = 'table';" class="cta">Table</a>
+				<a  ng-class="(layoutView.state == 'map') ? 'cta-darkest-blue' : 'cta-light-gray'"  
+					ng-click="layoutView.state = 'map';" class="cta">Map</a>
+			</div>
+			<!-- LAYOUT IMPACTS -->
+			<div class="layout-impacts" ng-if="layoutView.state == 'impacts'">
+				<h3 class="color-blue margin-controller padding-all no-margin">CAGE Distance Impacts</h3>
+				<div ng-repeat="(key, sliders) in selectedDistanceVariables.items" class="content padding-all" ng-class="key" ng-if="checkSomeActiveIndicator(sliders)">
+					<div class="impacts-key margin-controller margin-no-top">{{key}}</div>
+					<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
+						<div ng-if="sliderItem.default" ng-repeat="sliderItem in sliderSection" class="cage-slider-container content margin-v">
+							<cage-slider class="content margin-h" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
+						</div>
+					</div>
+				</div>
+				<div class="content margin-all">
+					<a class="cta cta-darkest-blue" ng-click="layoutView.state = 'table';">VIEW RESULTS TABLE</a>
+				</div>
+				<hr>
+				<div class="content margin-all impacts-custom">
+					<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+					<br>
+					<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Advanced: Estimate impacts via custom gravity model</a>
+				</div>
+			</div>
+			<!-- LAYOUT TABLE -->
+			<div ng-if="layoutView.state == 'table'" class="layout-table">
+				<a class="export-link margin-controller margin-all padding-top">Export dataset to the maps and visualization platform >></a>
+
+				<h3 class="color-blue padding-top margin-controller margin-h">Value to Display</h3>
+				<!-- LAYOUT TABLE MOBILE 
+				<select class="content margin-no-top" ng-model="columnToShow" ng-click="sortBy($event)">
+						<option ng-repeat="tableHeaderItem in tableHeader" value="{{tableHeaderItem.id}}">{{tableHeaderItem.name}}</option>
+				</select>-->
+				<custom-select class="content margin-no-top" options="tableHeader" selected="columnToShow" on-select="sortBy"></custom-select>
+				<table class="table content margin-all">
+					<tr>
+						<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow.id != tableHeaderItem.id && tableHeaderItem.id !='country') && deviceDetector.isMobile() " ng-click="sortBy(tableHeaderItem.id)">
+							<span ng-hide="tableHeaderItem.name != 'Country' && deviceDetector.isMobile()"
+								  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && deviceDetector.isMobile()}">{{tableHeaderItem.name}} </span>
+							<span ng-hide="tableHeaderItem.name == 'Country' && deviceDetector.isMobile()">
+								<i ng-show="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-desc" aria-hidden="true"></i>
+								<i ng-hide="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-asc" aria-hidden="true"></i>
+							</span>
+						</th>
+					</tr>
+					<tr ng-repeat="tableItem in tableResult  | orderBy:propertyName:reverse">
+						<td ng-show="deviceDetector.isMobile()">{{$index}}. {{tableItem.name}}</td>
+						<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow.id != tableItemItemKey) && deviceDetector.isMobile()">{{tableItemItem}}</td>
+					</tr>
+				</table>
+			</div>
+			<!-- LAYOUT MAP -->
+			<div class="layout-map" ng-if="layoutView.state == 'map'">
+				<h3 class="color-blue margin-controller margin-h">Country Markers</h3>
+				<custom-select class="content margin-all" options="countryMarkers" selected="countryMarkerActive" on-select=""></custom-select>
+				<h3 class="color-blue margin-controller margin-h">Distance Shown</h3>
+				<custom-select class="content margin-all" options="tableHeader" selected="distanceShownActive" on-select=""></custom-select>
+				<div class="map-area map-area content margin-h"></div>
+			</div>
+		</div>
+	</div>	
 </div>
 
 
-<!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+<div class="cage-desktop-view" ng-include="'../app/components/cage/cage-desktop.html'"></div>
+<!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-<div class="view-popup row" ng-if="popUpController.open" style="display:none;">
-	<!-- CAGE SLIDER -->
-	<button ng-click="popUpController.togglePopUp(false)" style="    margin-top: 100px;">aaaa</button>
-	<div class="col-xs-12 col-md-3" ng-repeat="(key, sliders) in sliderSections" ng-class="key" >
-		<div>{{key}}</div>
-		<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
-			<cage-slider ng-if="sliderItem.default" class="col-xs-12" ng-repeat="sliderItem in sliderSection" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>
-		</div>
-	</div>
-	<!-- END CAGE SLIDER -->
-</div>
-
-
-
-
-<div class="view-template" ng-if="!popUpController.open" style="display: none;">
-<button  style="    margin-top: 100px;">aaaa</button>
-
-<!-- PAYPAL -->
+PAYPAL 
 <paypal-payment></paypal-payment>
-<!-- ENDPAYPAL-->
-<div class="form-login row" ng-if="!root.actualUser.logged">
-	<user-login class="col-xs-6"></user-login>
-	<user-register class="col-xs-6"></user-register>	
-</div>
+ENDPAYPAL
 
-
-
-<!-- INTRO -->
-<div class="col-xs-12 col-md-3" style="clear: both;">
-<!--country-->
-	<div>Selected = {{selectedCountry.name}}{{selectedCountry.items}}</div>
-	<select-tag-input variables="countries" result="selectedCountry" dataType="country"></select-tag-input>
-	<dd-item variables="countries" result="selectedCountry" select-type="radio"></dd-item>
-<!--end country-->
-	<indicator variables="countries"></indicator>
-	<hr>	
-</div>
-<!-- END INTRO -->
-
-<!-- SELECT DISTANCE VARIABLES -->
-<div class="col-xs-12">
-	<cage-select-distance-varibles variables="sliderSections"></cage-select-distance-varibles>
-</div>
-<!-- END SELECT DISTANCE VARIABLES -->
-
-<div class="user-information row" ng-if="root.actualUser.logged">
-	<div class="col-xs-4">
-<!--GENERAL USER INFO-->
-		<h2>Welcome {{root.actualUser.nicename}}!</h2>
-		<span> Name : {{root.actualUser.name}}</span> <br> 
-		<span> Email : {{root.actualUser.email}}</span> <br>
-		<user-logout></user-logout>
-		<button type="button" class="btn btn-primary btn-default" ng-click="showOther = !showOther">{{(!showOther) ? 'Show': 'Hide';}} user Info</button>
-<!--UPLOAD-->
+UPLOAD
 		<h2>SUBIR CSV:</h2>
 		<csv-upload></csv-upload>
-<!--USERS CSV-->	    
+USERS CSV	    
 
     	<h2>CSVs subidos:</h2>
     	<csv-show></csv-show>
 
 	</div>
-<!--OTHER INFO-->	
-	<div class="other-information col-xs-8" ng-if="showOther">
-		<user-change-pass class="col-xs-6"></user-change-pass>
-		<user-information class="col-xs-6"></user-information>
-	</div>
-</div>
-</div>
+-->

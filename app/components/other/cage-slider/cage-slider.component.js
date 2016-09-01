@@ -8,8 +8,8 @@ angular.module('app').directive('cageSlider', function ($document) {
     	value : '@'
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
-
-    	/*************************
+        $scope.description =  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente accusantium, pariatur suscipit possimus quis, impedit repudiandae optio consequuntur ratione sed, officia tenetur fugiat. Provident, nisi veniam, atque illum minus optio!";
+        /*************************
     	***Logarithm controller***
     	*************************/
 
@@ -24,12 +24,17 @@ angular.module('app').directive('cageSlider', function ($document) {
     		if(decimals){
     			logResult = Math.round(logResult * Math.pow(10,decimals)) / Math.pow(10,decimals);
     		}
+
     		return logResult;
     	};
 
-    	$scope.fromLogToPercent = function (x) {
+    	$scope.fromLogToPercent = function (x, fromTemplate) {
     		var logScale = getBaseLog (2, x);
     		var percentResult = ((logScale + 3) / 6) * 100;
+            if(fromTemplate){
+                percentResult = percentResult - ((percentResult-50)*2)/50;
+            }
+            
     		return percentResult;
     	};
 
@@ -45,8 +50,6 @@ angular.module('app').directive('cageSlider', function ($document) {
     		{text : "4",   value : (5/6) * 100},
     		{text : "8",   value : (6/6) * 100}
     	];
-
-    	//watchear range i logValue(nuevo)
 
         $scope.logValue = $scope.value;
 

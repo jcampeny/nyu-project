@@ -4,7 +4,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
-
+		//$rootScope.popUpOpened = false;
 		$rootScope.actualUser = {
             name : "",
             email : "",
@@ -132,6 +132,14 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
 				.state('cage.cartogram', {url:'/cartogram/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 				
+				.state('dataViz', {url: '/data-viz', templateUrl: '../app/core/data-viz-main.html', abstract: true})
+				.state('dataViz.areaMap', {url:'/area-map', template: '<nyu-area-map></nyu-area-map>'})
+				.state('dataViz.flowMap', {url:'/flow-map', template: '<nyu-flow-map></nyu-flow-map>'})
+				.state('dataViz.sankey', {url:'/sankey', template: '<nyu-sankey></nyu-sankey>'})
+				.state('dataViz.scatterplot', {url:'/scatterplot', template: '<nyu-scatterplot></nyu-scatterplot>'})
+				.state('dataViz.treemap', {url:'/treemap', template: '<nyu-treemap></nyu-treemap>'})
+				.state('dataViz.barChart', {url:'/bar-chart', template: '<nyu-bar-chart></nyu-bar-chart>'})
+
 				.state('app.custom', {url:':id', template: '<custom-view></custom-view>'});
 
 			$locationProvider.html5Mode(true);

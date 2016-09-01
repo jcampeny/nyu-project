@@ -1,0 +1,183 @@
+<div class="cage-desktop-view">
+	<!--Shape-->
+	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
+	<!--POPUP-->
+	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState, 'view', 'big')">BACK</button>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POP USER SETTINGS subs & pass -->
+			<div class="column-settings first-column">
+				<h3 class="color-blue margin-all">Account Settings</h3>
+				<div class="content margin-h subscription-type">
+					<div class="color-blue">Subscription Type:</div>
+					<div>{{'Registered User'}}</div>
+					<div  class="content margin-bottom">{{'Free account'}}</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+				</div>
+				<h3 class="color-blue margin-all">Access Details</h3>
+				<div class="content margin-h">
+					<div>Username: {{root.actualUser.name}}</div>
+					<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+					<user-change-pass></user-change-pass>
+				</div>
+			</div>
+			<div class="column-settings second-column">
+				<h3 class="color-blue margin-all">Profile Information</h3>
+				<div class="content margin-h">
+					<user-information></user-information>				
+				</div>				
+			</div>
+
+		</div>
+	</div>
+	<!--LAYOUT-->
+	<div class="view-template">
+		<div class="user-header-menu content margin-all">
+			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-user" aria-hidden="true"></i></a>
+			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
+		</div>
+		
+		<!--LAYOUT SELECTION-->
+		<div ng-if="viewController.state == 'selection'" class="layout-selection row">
+			<h3 class="color-blue margin-all">CAGE Comparator™ Distance Analysis Selections</h3>
+
+			<!-- Indicators -->
+			<div class="content margin-h column-selection">
+				<div class="caption padding-all">Indicator (International Flow/Stock): Please select the type of international activity you would like the model to use for calibrating CAGE Distance effects.</div>
+				<div class="content-scroll">
+					<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+					<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+					<dd-radio-item class="standard content padding-no-top" variables="indicators" result="popUpIndicators"></dd-radio-item>
+				</div>
+			</div>	
+			<!-- Country -->
+			<div class="content margin-h column-selection">		
+				<div class="caption padding-all">Countries / Aggregate: Please select a focal country or aggregate from which CAGE Distance to all other countries will be calculated.</div>
+				<div class="content-scroll">
+					<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+					<div class="caption color-pankaj-gray margin-no-top">Select One Country or Aggregate</div>
+					<select-tag-input class="content padding-h" max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
+					<dd-item class="standard content padding-all" variables="countries" result="popUpCountry" select-type="radio"></dd-item>					
+				</div>
+
+			</div>	
+			<!-- Submit indicators & country-->
+			<div class="row content margin-h cta-selection column-selection-cta">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="viewController.state = 'view'; 
+				   			 bindTemporalScopes('fromPopUp', 'Country', 'Indicators');">GENERATE DISTANCE <br> ANALYSIS</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.state = 'view';" 
+					ng-show="selectedCountry.name && selectedIndicators.items.length > 0">CANCEL</a>		
+			</div>
+		
+		</div>
+		<!--LAYOUT VIEW-->
+		<div class="row content margin-h padding-top" ng-if="viewController.state == 'view'">
+			<!-- LAYOUT VIEW RESUME -->
+			<div class="options-column">
+				<div class="view-resume-header">
+					<div>Focus Country: {{selectedCountry.name}}</div>
+					<div>Indicator: 			
+						<span ng-repeat="(indicatorItemKey, indicatorItem) in selectedIndicators.items track by $index">
+							<span ng-if="indicatorItemKey > 0">,</span> 
+							{{indicatorItem.parent}} 
+							{{indicatorItem.name}}
+						</span>
+					</div>
+					<div>Year(s): {{selectedYears.start}}-{{selectedYears.end}}</div>
+					<div class="row content cta-selection">
+						<a  class="cta cta-darkest-blue border-white" 
+							ng-click="viewController.state = 'selection';">CHANGE</a>
+					</div>		
+				</div>
+				<!--LAYOUT SELECTION IMPACTS-->
+				<h3 class="color-blue margin-controller padding-all no-margin">CAGE Distance Impacts</h3>
+				<div class="layout-impacts">
+					<div ng-repeat="(key, sliders) in selectedDistanceVariables.items" class="content padding-v" ng-class="key" ng-if="checkSomeActiveIndicator(sliders)">
+						<div class="impacts-key margin-controller margin-no-top">{{key}}</div>
+						<div ng-repeat="(sliderSectionKey, sliderSection) in sliders">
+							<div ng-if="sliderItem.default" ng-repeat="sliderItem in sliderSection" class="cage-slider-container content margin-v">
+								<cage-slider class="content margin-h" name="{{sliderItem.name}}" value="{{sliderItem.value}}"></cage-slider>						
+							</div>
+						</div>
+					</div>
+					<div class="content margin-all impacts-custom">
+						<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+						<br>
+						<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Advanced: Estimate impacts via custom gravity model</a>
+					</div>
+				</div>
+			</div>
+			<div class="selection-content">
+				<!--LAYOUT SELECTION MENU-->
+				<div class="view-menu content padding-h">
+					<div>View Results As:</div>
+					<a  ng-class="(layoutView.state == 'table') ? 'cta-darkest-blue' : 'cta-light-gray'" 
+						ng-click="layoutView.state = 'table';" class="cta">Table</a>
+					<a  ng-class="(layoutView.state == 'map') ? 'cta-darkest-blue' : 'cta-light-gray'"  
+						ng-click="layoutView.state = 'map';" class="cta">Map</a>
+				</div>	
+				<!--LAYOUT SELECTION CONTENT-->
+				<div ng-if="layoutView.state == 'table'" class="layout-table content margin-h">
+					<a class="custom-link-extender content margin-v">Export dataset to the maps and visualization platform >></a>
+					<!-- LAYOUT TABLE MOBILE -->
+					<table class="table content">
+						<tr>
+							<th ng-repeat="tableHeaderItem in tableHeader"  ng-click="sortBy(tableHeaderItem.id)" class="color-blue">
+								<span ng-hide="tableHeaderItem.name != 'Country' && deviceDetector.isMobile()"
+									  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && deviceDetector.isMobile()}">{{tableHeaderItem.name}} </span>
+								<span ng-hide="tableHeaderItem.name == 'Country'">
+									<i ng-show="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-desc" aria-hidden="true"></i>
+									<i ng-hide="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-asc" aria-hidden="true"></i>
+								</span>
+							</th>
+						</tr>
+						<tr ng-repeat="tableItem in tableResult  | orderBy:propertyName:reverse">
+							
+							<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem">{{$parent.$index + 1}}. {{tableItemItem}}</td>
+						</tr>
+					</table>
+				</div>
+				<div ng-if="layoutView.state == 'map'" class="layout-map content margin-h">
+					<h3 class="color-blue margin-controller margin-top">Country Markers</h3>
+					<custom-select class="content margin-bottom" options="countryMarkers" selected="countryMarkerActive" on-select=""></custom-select>
+					<h3 class="color-blue margin-controller margin-top">Distance Shown</h3>
+					<custom-select class="content margin-bottom" options="tableHeader" selected="distanceShownActive" on-select=""></custom-select>
+					<div class="map-area content no-margin"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

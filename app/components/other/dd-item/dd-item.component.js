@@ -9,8 +9,7 @@ angular.module('app').directive('ddItem', function () {
         selectType : '@'
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
-        $scope.dropDownCollapsed = "";
-        console.log($scope.result);
+        $scope.dropDownCollapsed = [];
 
         $scope.toggleSelection = function(item) {
             if ($scope.result.items.indexOf(item) > -1) {

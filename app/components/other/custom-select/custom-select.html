@@ -1,0 +1,16 @@
+<ul ng-click="showOptions = !showOptions;">
+	<li class="selected">
+		<span>
+			{{selected.name}} 
+			<i class="fa" ng-class="(showOptions) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
+		</span>
+	</li>
+	<div class="options" uib-collapse="!showOptions">	
+		<li ng-if="option.name != selected.name" ng-repeat="option in options" ng-click="select(option);">
+		<span>
+			{{option.name}}
+		</span>
+		</li>
+	</div>
+
+</ul>

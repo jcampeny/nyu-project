@@ -1,0 +1,74 @@
+nyu-data-viz{
+	display: block;
+	a.custom-link-extender{
+		color: $darkest-blue;
+		text-decoration: underline;
+	}
+	.comma-container{
+		span:after{ content: ', ';}
+		span:last-child:after{ content: '';}
+	}
+	//MOBILE
+	.data-viz-mobile{
+		//POPUP
+		div.view-popup{
+			position: absolute;
+	    	z-index: 2;
+	    	overflow: scroll;
+	    	margin-left: 0px;
+	    	margin-right: 0px;
+	    	min-height: calc(100vh - 50px);
+	    	min-width: 100%;
+	    	background-color: #FFFFFF;
+	    	@media (max-width: $break-mobile) and (max-height: 420px) {
+	    		min-width: calc(100% - 50px);
+	    		min-height: 100vh;
+	    	}
+		}
+		//MENU SECTION
+		.menu-section{
+			padding: $margin-size-xs;
+			text-align: center;
+			a{
+				width: 32.3%;
+				white-space: nowrap;
+	    		margin: 2px 0px;
+	    		letter-spacing: 0px;
+			}
+		}
+		//MAP SECTION
+		.map-section{
+			background-color: $emerald-green;
+			height: calc(100vh - 260px);
+			@media (max-width: $break-mobile) and (max-height: 420px){ //HORIZONTAL
+				height: calc(100vh - 140px);
+			}
+			
+		}
+		//OPTION SECTION
+		.option-section{
+			margin-top: 15px !important;
+			.country, .indicators, .years{
+				display: block;
+			}
+			@media (max-width: $break-mobile) and (max-height: 420px){
+				.country, .indicators, .years{
+					display: inline;
+					&:after{
+						content: ' | ';
+
+					}
+				}
+				.years:after{content: '';}
+			}
+			a.custom-link-extender.country,
+			a.custom-link-extender.indicators{
+				span:after{ content: ', ';}
+				span:last-child:after{ content: '';}
+			}
+			.settings{
+				font-size: 40px;
+			}
+		}
+	}
+}

@@ -60,7 +60,21 @@
      -moz-column-fill: auto;
           column-fill: auto;
 }
-
+@mixin custom-scroll() {
+  &::-webkit-scrollbar {
+      width: 6px;
+      background-color: transparent;
+  }
+   
+  &::-webkit-scrollbar-track {
+      border-radius: 5px;
+  }
+   
+  &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: $light-gray;
+  }
+}
 @mixin cross($size) {
   position:absolute;
   top: 20px;
@@ -105,5 +119,82 @@
     &:before{
       width: 25px;
     }
+  }
+}
+
+@mixin radio(){
+  input[type="radio"] {
+      display: none;
+  }
+  input[type="radio"] + span.custom-radio{
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      border-radius: 100%;
+      background-color: #FFFFFF;
+      border: 1px solid $less-dark-blue;
+      @include transform(translateY(-50%));
+    }                   
+  }
+  input[type="radio"]:checked + span.custom-radio:before{
+    content: "\f111";
+    font-family: "FontAwesome";
+    font-size: 8px;
+    text-align: center;
+    line-height: 14px;
+    color: $less-dark-blue;
+  }
+}
+
+@mixin checkbox(){
+  input[type="checkbox"] {
+      display: none;
+  }
+  input[type="checkbox"] + span.custom-checkbox{
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      background-color: #FFFFFF;
+      border: 1px solid $less-dark-blue;
+      @include transform(translateY(-50%));
+    }                   
+  }
+  input[type="checkbox"]:checked + span.custom-checkbox:before{
+    content: "\f00c";
+    font-family: "FontAwesome";
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    background-color: $less-dark-blue;
+    color: #FFFFFF;
+  }
+  input[type="checkbox"]:indeterminate + span.custom-checkbox:before{
+    content: "\f068";
+    font-family: "FontAwesome";
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    background-color: $less-dark-blue;
+    color: #FFFFFF;
   }
 }
