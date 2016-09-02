@@ -24,7 +24,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
         $scope.indicators = mapVariablesService.getData('indicators');
         $scope.years = mapVariablesService.getData('years');
 
-        $scope.selectedIndicators        = { items : []};
+        $scope.selectedIndicators        = { items : [{name: 'Exports', parent: 'Merchandise Trade'}]};
         $scope.selectedDistanceVariables = { items : {}};
         $scope.selectedYears             = { start: "2005", end : "2015"};
         $scope.selectedSize              = { gdp : true, population : false};
@@ -197,7 +197,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
                         angular.forEach(items, function(item){
                             if(item.default){
                                 if(itemsToPrint !== ""){comma = ", ";}
-                                itemsToPrint +=  comma + item.name 
+                                itemsToPrint +=  comma + item.name ;
                             } 
                         });
                     });
