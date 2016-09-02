@@ -6,6 +6,8 @@ angular.module('app').directive('nyuCageComparator', function (deviceDetector, $
     controller: function ($scope, LoginService, $http) {
         $scope.root = $rootScope;
 
+        $scope.analysisGenerated = false;
+
         $scope.selectedDistanceVariables = {
             items : {}
         };
@@ -21,7 +23,7 @@ angular.module('app').directive('nyuCageComparator', function (deviceDetector, $
         $scope.selectedCountry1 = {
             name : 'Afghanistan'
         };
-        $scope.selectedCountry1 = {
+        $scope.selectedCountry2 = {
             name : 'Albania'
         };
         $http({
@@ -47,11 +49,43 @@ angular.module('app').directive('nyuCageComparator', function (deviceDetector, $
             });
             $scope.temporalDistanceVariables = angular.copy($scope.selectedDistanceVariables);
             $scope.distanceAnalysisToShow = angular.copy($scope.selectedDistanceVariables);
+
+            parseDistanceVariables();
         });
         /*************************
-        ****GENERATED ANALYSIS****
+        ****TABLE PARSE + CONTROLLER****
         *************************/
-        
+        function parseDistanceVariables (){
+            var randomValue = ['No', 'Yes', '503', '1.5'];
+            var randomInfo = ['Source: CEPII', 'Various, Year: 2007', 'Source: CEPII, Year: 2002', 'Source: CIA World Factbook, Year: 2008 '];
+            angular.forEach($scope.distanceAnalysisToShow.items, function(itemCultural, aKey){
+                angular.forEach(itemCultural, function(itemCepii, bKey){
+                    angular.forEach(itemCepii, function(item, cKey){
+                        item.comparatorValue = randomValue[Math.floor(Math.random() * randomValue.length)];
+                        item.comparatorInfo = randomInfo[Math.floor(Math.random() * randomInfo.length)];
+                        
+                    });
+                });
+            });
+            $scope.temporalDistanceVariables = angular.copy($scope.distanceAnalysisToShow);
+            $scope.selectedDistanceVariables = $scope.distanceAnalysisToShow;
+
+            console.log($scope.distanceAnalysisToShow);
+        }
+        $scope.activatedOptions = function(items){
+            var show = false;
+            angular.forEach(items, function(itemArray){
+                angular.forEach(itemArray, function(item){
+                    if(item.default) show = true;
+                });
+            });
+            return show;
+        }
+        //GENERATE DISTANCE ANALYSIS
+        $scope.generateDistanceAnalysis = function(){
+            $scope.analysisGenerated = true;
+            console.log($scope.selectedCountry1, $scope.selectedCountry2);
+        };
 
     },
     link: function(s, e, a){
@@ -85,10 +119,7 @@ angular.module('app').directive('nyuCageComparator', function (deviceDetector, $
         //s.viewController.toggleView(true, 'distanceVariables', 'view');
         //s.viewController.toggleView(true, 'distanceVariables', 'selection');
         s.viewController.toggleView(false, '', 'selection');
-        //GENERATE DISTANCE ANALYSIS
-        s.generateDistanceAnalysis = function(){
-            console.log(s.selectedCountry1, s.selectedCountry2);
-        };
+
         /************************
         **USER LOGIN CALLBACK**
         ***********************/
