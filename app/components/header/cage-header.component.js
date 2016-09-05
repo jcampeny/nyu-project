@@ -13,7 +13,7 @@ angular.module('app').directive('ngCageHeader', function ($rootScope, $window, P
     		$scope.toggleCollapsed(stateCurrent);
     		$('[ui-sref="'+fromState.name+'"]').removeClass('active');
     		$('[ui-sref="'+toState.name+'"]').addClass('active');
-    		
+    		$('body').removeClass('overflow');
     		if(toState.url != 'search'){
     			$scope.showSearch('close');    			
     		}
