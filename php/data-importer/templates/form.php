@@ -7,13 +7,13 @@
 		<div class="error small name"></div>
 
 		<label for="ulvl">Level of user can access it:</label>
-		<input type="number" name="ulvl" id="ulvl" class="form-control" min="0" max="4"/>
-		<div class="small">0-admin, 1-superpremium, 2-premium, 3-registered, 4-unregistered</div>
+		<input type="number" name="ulvl" id="ulvl" class="form-control" min="1" max="5"/>
+		<div class="small">5-admin, 4-superpremium, 3-premium, 2-registered, 1-unregistered</div>
 		<div class="error small ulvl"></div>
 
 		<div class="checkbox">
 		  <label>
-		    <input type="checkbox" name="confidential" id="confidential" value="confidential">
+		    <input type="checkbox" name="confidential" id="confidential" value="">
 		    Data are confidential
 		  </label>
 		</div>

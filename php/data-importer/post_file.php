@@ -25,6 +25,7 @@ if ( isset($_POST["submit"]) ) {
 
             move_uploaded_file($temp_name, $file_path . $file_name);
             echo "Stored in: " . $file_path . $file_name . "<br />";
+            include_once('post_metadata.php');
             
         }
     } else {

@@ -33,3 +33,48 @@ hr{
 .delete-all .delete-all-btn{
 	margin: 10px 0px 20px 0px;
 } 
+
+div.folder-section{
+	color: white;
+	padding-top: 50px;
+	width: 50%;
+}
+div.folder-section ul.folder:first-child{
+	height: 40px;
+	margin-left: 0px;
+}
+
+div.folder-section ul.folder {
+	height: 40px;
+	overflow: hidden;
+	transition: all 0.5s ease-in-out;
+	margin-left: 20px;
+}
+ul.folder li {
+	margin-left: 20px;
+	border-radius: 0px 0px 0px 0px;
+	background-color: #2E80FF;
+	padding: 10px;
+}
+div.folder-section div.folder-name {
+	cursor: pointer;
+	border-radius: 0px 0px 0px 10px;
+	background-color: #004182;
+	    padding: 10px;
+}
+div.folder-section div.edit-form{
+}
+div.folder-section div.hide-form{
+	display: none;
+}
+
+div.folder-section span.edit-form,
+div.folder-section span.delete-form{
+	cursor: pointer;
+}
+div.folder-section input{
+	display: block;
+}
+li {
+    margin-bottom: 0px;
+}

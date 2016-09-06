@@ -3,8 +3,8 @@
 init();
 function init(){
 	if ( isset($_POST["submit"]) ) {
-		require_once('post_file.php');
-		require_once('post_metadata.php');
+		include_once('post_file.php');
+		
 	}else{
 		include ('templates/form.php');
 	}

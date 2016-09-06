@@ -1,12 +1,12 @@
 <?php
+
 global $wpdb;
 if ( isset($_POST["submit"]) ) {
 
-print_r($_POST);
     $post_data = array(
         'name'         => $_POST['name'],
         'ulvl'         => $_POST['ulvl'],
-        'confidential' => $_POST['confidential'],
+        'confidential' => ($_POST['confidential']) ? 1 : 0,
         'source'       => $_POST['source'],
         'notes'        => $_POST['notes'],
         'unit'         => $_POST['unit'],
@@ -20,8 +20,10 @@ print_r($_POST);
         'datafile'     => $_POST['datafile'],
         'varname'      =>  $_POST['varname']   
     );
+
     $table = 'data_importer';
     $wpdb->insert( $table, $post_data); 
+
 }
 
 /*

@@ -6,11 +6,9 @@
 	});
 
 	$(document).on('submit', function(e) {
-		//if(!isValid()){
-			//e.preventDefault();
-		//}
-		//e.preventDefault();
-		//isValid();
+		if(!isValid()){
+			e.preventDefault();
+		}
 	});
 
 	function isValid () {
@@ -50,9 +48,9 @@
 		}else {
 			
 			if($(obj)[0].checked){
-				$(obj).val('efgegerg');
+				$(obj).val('1');
 			}
-			console.log($(obj));
+			//console.log($(obj));//GUARDAR TRUE O FALSE EN LA BASE DE DATOS EN FUNCION DEL CHECKBOX
 		}
 		return state;
 	}
@@ -114,4 +112,27 @@
 		}
 
 	}
+
+	$('.folder-name').on('click', function(e){
+		console.log();
+		var parent = $(this).parent();
+		if(parent.attr('state') == 'closed'){
+			parent.css({'height' : 'inherit'});
+			parent.attr('state', 'opened');			
+		}else{
+			parent.css({'height' : ''});
+			parent.attr('state', 'closed');
+		}
+
+	});
+
+	$('.edit-form').on('click', function(){
+		var id = $(this).attr('edit-form-id');
+		var editForm = $('div[edit-form = "'+id+'"]');
+		if(editForm.hasClass('hide-form')){
+			editForm.removeClass('hide-form');
+		}else{
+			editForm.addClass('hide-form');
+		}
+	});
 } )( jQuery );
