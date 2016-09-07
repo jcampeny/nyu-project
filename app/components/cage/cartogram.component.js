@@ -21,6 +21,7 @@ angular.module('app').directive('nyuCartogram', function () {
     },
     controller: function ($scope, $timeout, $stateParams, MapChartsService) {
         var dataset, country = "";
+        $scope.year = 2005;
 
         if($stateParams.country !== ""){
             country = $stateParams.country;
@@ -38,7 +39,7 @@ angular.module('app').directive('nyuCartogram', function () {
             MapChartsService.setZoom();
             MapChartsService.setProjection(null);
 
-            d3.json('/localdata/vizdata/'+country.toUpperCase()+'_2014_TotalExports.json', function(topology) {
+            d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
 
                 // Read the data for the cartogram
                 d3.csv("/localdata/vizdata/"+country+"_exports.csv", function(data) {
@@ -58,11 +59,27 @@ angular.module('app').directive('nyuCartogram', function () {
                     }
 
                     MapChartsService.setDataset(dataset, country);
-                    MapChartsService.setTopology(topology, topology.objects[country.toUpperCase()+'_2014_TotalExports']);
+                    MapChartsService.setTopology(topology, topology.objects['Exports_'+$scope.year+'_DEU']);
                     MapChartsService.resetMap();
 
                 });
             });
+        };
+
+        $scope.updateData = function(){
+          $scope.year++;
+          if($scope.year <= 2015){
+            d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
+                MapChartsService.setTopology(topology, topology.objects['Exports_'+$scope.year+'_DEU']);
+                MapChartsService.updateData();
+            });  
+
+            $timeout(function(){
+              $scope.updateData($scope.year+1);
+            },1000);
+          }
+          
+          
         };
     }
   };
