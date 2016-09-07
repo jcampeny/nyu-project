@@ -59,7 +59,7 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
