@@ -1,5 +1,5 @@
 //Controller general de las 6 vistas del data-viz
-angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize){
+angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize, CsvService){
     return {
         restrict : 'E',
         templateUrl : function(e, a){
@@ -11,6 +11,14 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
         },
         controller : function ($scope) {
             $scope.root = $rootScope;
+
+            /**** TEST CSV IMPORTER ******/
+            getCSV ();
+            function getCSV () {
+                CsvService.getCSVFromDataImporter($scope.root.actualUser).then(function(response){
+                    console.log(response.data);
+                });         
+            }
 
             $scope.selectedCountry = {name : "Spain", items : ["Spain"]};
             $scope.selectedIndicators = {items : [{name: 'Exports', parent: 'Merchandise Trade'}/*,{name: 'Imports', parent: 'Merchandise Trade'}*/]};

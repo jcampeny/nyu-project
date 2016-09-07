@@ -1,6 +1,6 @@
 var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha', 'ngStorage', 'ngCsvImport', 'ngCsv', 'matchMedia'])
 
-	.controller("mainController", [ '$scope', '$rootScope', '$timeout', 'DataService', '$state', 'screenSize', function($scope, $rootScope, $timeout, DataService, $state, screenSize) {
+	.controller("mainController", [ '$scope', '$rootScope', '$timeout', 'DataService', '$state', 'screenSize', 'LoginService', function($scope, $rootScope, $timeout, DataService, $state, screenSize, LoginService) {
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
@@ -31,6 +31,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
             pass : "",
             role : 0
         };
+        $rootScope.actualUser = LoginService.getStorageUser() || $rootScope.actualUser;
+        
 		DataService.downloadMedia();
 
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
