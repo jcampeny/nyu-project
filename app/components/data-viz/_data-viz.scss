@@ -1,4 +1,11 @@
 nyu-data-viz{
+	&[mobile="active"]{display: block;}
+	&[desktop="active"]{display: none;}
+
+	@media only screen and (min-width: $break-laptop) {
+		&[mobile="active"]{display: none;}
+		&[desktop="active"]{display: block;}
+	}
 	display: block;
 	a.custom-link-extender{
 		color: $darkest-blue;
@@ -8,7 +15,187 @@ nyu-data-viz{
 		span:after{ content: ', ';}
 		span:last-child:after{ content: '';}
 	}
-	//MOBILE
+
+	/************
+	***DEKSTOP***
+	************/
+	.data-viz-desktop{
+		position: relative;
+		div.background-shape{
+			width: 100%;
+			height: calc(100% + 54px);
+			position: fixed;
+			opacity: 0;
+			display:none;
+			z-index: 1;
+			@include transition(all 0.4s ease-in-out);
+			&.active{
+				display: block;
+				background-color: #E4E6E3;
+				opacity: 0.9;
+			}
+		}
+		div.view-popup{
+			position: fixed;
+			z-index: 10;
+			overflow-y: scroll;
+			margin-left: 0px;
+			margin-right: 0px;
+
+			height: 600px;
+			max-height: 100vh;
+			max-width: 990px;
+
+			background-color: #FFFFFF;
+			top: 50%;
+			left: 50%;
+			@include transform(translate(-50%, -50%));
+			&.big{
+				width: 100%;
+			}
+			&.normal{
+				width: 66%;
+				min-width: 500px;
+				max-width: 660px;
+			}
+			&.sm{
+				width: 33%;
+				min-width: 300px;
+				max-width: 350px;
+			}
+			&.xs{
+				width: 33%;
+				min-width: 300px;
+				max-width: 350px;
+				height: 200px;
+			}
+			@include custom-scroll();
+		}
+		//POPUP USER SETTINGS
+		div.user-settings{
+			.column-settings{
+				float:left;
+				margin-top: $margin-size;
+				&.first-column{
+					width: 33%;
+				}
+				&.second-column{
+					width: 66%;
+				}
+			}
+		}
+		//LAYOUT
+		div.layout{
+			//USER MANAGER HEADER MENU
+			.user-header-menu{
+				position: absolute;
+	    		right: 0;
+	    		top: 0;
+	    		font-size: 25px;
+	    		a{
+	    			color: black;
+	    		}
+			}
+			//LATERAL SETTINGS MENU
+			.settings-menu{
+				width: 320px;
+				float:left;
+				position: relative;
+				background-color: $super-light-gray;
+				//nav state
+				.nav-menu{
+					padding: $margin-size-xs;
+					text-align: center;
+					a{
+						width: 32.3%;
+						white-space: nowrap;
+						margin: 2px 0px;
+						letter-spacing: 0px;
+						font-size: 11px;
+						padding: 0.6em;
+					}
+				}
+
+				//options layout
+				.option-section{
+					overflow-y: scroll;
+					height: calc(100vh - 330px);
+					@include custom-scroll();
+
+					span.caption{cursor:pointer;}
+					.size-section{
+						a.country, a.indicators, a.years{
+							display: block;
+							padding-top: 10px;
+						}
+						p{
+							margin: $margin-size-xs 0;
+						}
+					}
+					.color-section{
+						p{margin: $margin-size-xs 0;}
+					}
+					.marker-section{
+						p{margin: $margin-size-xs 0;}
+					}
+				}
+
+				//float section 
+				.float-section{
+					@media only screen and (min-width: $break-laptop){
+						position: absolute;
+						top: 0;
+						left: 100%;
+						width: 100%;
+						background-color: $super-light-gray;
+						margin-left: 10px;
+
+						overflow-y: scroll;
+						max-height: 100%;
+						@include custom-scroll();
+						.cta{
+							font-size: 10px;
+							letter-spacing: 1px;
+						}						
+					}
+				}
+				.aux-views{
+					display: none;
+					@media only screen and (min-width: $break-laptop){
+						display: block;
+						position: absolute;
+						left: 200%;
+						top: 0;
+						width: 100%;
+						margin-left: 20px;
+						background-color: $super-light-gray;	
+
+						overflow-y: scroll;
+						max-height: 100%;
+						@include custom-scroll();
+						.cta{
+							font-size: 10px;
+							letter-spacing: 1px;
+						}					
+					}
+
+				}
+			}
+			//MAP
+			.map-section{
+				width: 100%;
+				height: 500px;
+				width: calc(100% - 400px);
+				background-color: $emerald-green;
+				height: calc(100vh - 240px);
+				float: left;
+			}
+		}
+	}
+
+	/***********
+	***MOBILE***
+	************/
 	.data-viz-mobile{
 		//POPUP
 		div.view-popup{

@@ -1,4 +1,4 @@
-nyu-cage, nyu-maps, .data-viz-view{
+nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modeler{
 	
 	.margin-controller{
 		&.margin-all{margin: $margin-size $margin-size;}
@@ -91,6 +91,7 @@ nyu-cage, nyu-maps, .data-viz-view{
 		display:block;
 	}
 
+	.color-white{color: #FFFFFF;}
 	.color-blue{color: $cage-blue-text;}
 	.color-pankaj-gray{color: $pankaj-gray;}
 
@@ -104,7 +105,8 @@ nyu-cage, nyu-maps, .data-viz-view{
 	.float-right{float: right;}
 	
 	.width-100{width: 100%;}
-
+	
+	.fw-normal{font-weight: normal;}
 	label.custom-input{
 		@include radio();
 		@include checkbox();

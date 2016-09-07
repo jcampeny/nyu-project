@@ -1,0 +1,481 @@
+<!-- MOBILE -->
+<div class="cage-mobile-view" ng-if="root.isMobile">
+	<!-- POPUP -->
+	<div class="view-popup row" ng-if="viewController.open">
+		<!-- POPUP SELECTION INDICATORS -->
+		<div ng-if="viewController.popUpState == 'indicators'">
+			<h3 class="color-blue margin-no-bottom">Dependent Variable Indicator (International Flow / Stock)</h3>
+			<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+			<dd-item-item class="standard" variables="indicators" result="popUpIndicators"></dd-item-item>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="temporalIndicators.items = popUpIndicators.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- YEARS -->
+		<div ng-if="viewController.popUpState == 'years'">
+			<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+			<from-to class="content margin-all" result="popUpYears"></from-to>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="temporalYears.start = popUpYears.start; temporalYears.end = popUpYears.end;
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+		<div ng-if="viewController.popUpState == 'distanceVariables'">
+			<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"></cage-select-distance-varibles>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue"
+				    ng-click="temporalDistanceVariables.items = popUpDistanceVariables.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<h3 class="color-blue margin-all">Account Settings</h3>
+			<div class="content margin-h subscription-type">
+				<div class="color-blue">Subscription Type:</div>
+				<div>{{'Registered User'}}</div>
+				<div  class="content margin-bottom">{{'Free account'}}</div>
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+			</div>
+			<h3 class="color-blue margin-all">Access Details</h3>
+			<div class="content margin-h">
+				<div>Username: {{root.actualUser.name}}</div>
+				<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+				<user-change-pass></user-change-pass>
+			</div>
+			<h3 class="color-blue margin-all">Profile Information</h3>
+			<div class="content margin-h">
+				<user-information></user-information>				
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- LAYOUT -->
+	<div class="view-template" ng-if="!viewController.open">
+		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
+		<!-- LAYOUT SELECTION -->
+		<div ng-if="viewController.state == 'selection'">
+			<h3 class="color-blue margin-all">Gravity Model Settings</h3>
+			<!-- Indicators -->
+			<div class="row content margin-h">
+				<div class="col-xs-12 no-padding content padding-xs-bottom">Dependent Variable Indicator (International Flow / Stock)</div>
+				<div class="col-xs-8 no-padding color-blue">
+					<span ng-repeat="(indicatorItemKey, indicatorItem) in temporalIndicators.items">
+						<span ng-if="indicatorItemKey > 0">,</span> {{indicatorItem.parent}} {{indicatorItem.name}}
+					</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'indicators')">SELECT</a>
+				</div>
+			</div>
+			<!-- Years -->
+			<div class="row content margin-no-bottom">	
+				<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+				<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+					<span class="content color-blue float-left">{{temporalYears.start}}</span>
+					<span> to </span>
+					<span class="content color-blue float-right">{{temporalYears.end}}</span>
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'years')">SELECT</a>
+				</div>
+			</div>
+			<!-- Distance Variables -->
+			<div class="row content margin-no-bottom">
+				<div class="col-xs-12 no-padding content padding-xs-bottom">Distance Variables</div>
+				<div class="col-xs-8 no-padding color-blue">
+						{{printDistanceVariables(temporalDistanceVariables)}}
+				</div>
+				<div class="col-xs-4 no-padding text-align-right">
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'distanceVariables')">SELECT</a>
+				</div>
+			</div>
+			<!-- Size Variable(s) -->
+			<div class="content margin-no-bottom">
+				<h3 class="color-blue no-margin">Size Variable(s)</h3>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalSizeGdp" value="temporalSizeGdp" ng-model="temporalSize.gdp">
+					<span class="custom-checkbox">GDP</span>		
+				</label>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalSizePopulation" value="temporalSizePopulation" ng-model="temporalSize.population">
+					<span class="custom-checkbox">Population</span>		
+				</label>
+			</div>
+			<!-- Estimator -->
+			<div class="content margin-no-bottom">
+				<h3 class="color-blue no-margin">Estimator</h3>
+					<label class="custom-input block padding-xs-top">
+						<input  type="radio" name="ols" value="ols" ng-model="temporalEstimator.state">
+						<span class="custom-radio">OLS</span>		
+					</label>
+					<label class="custom-input block padding-xs-top">
+						<input  type="radio" name="ppml" value="ppml" ng-model="temporalEstimator.state">
+						<span class="custom-radio">PPML</span>		
+					</label>
+			</div>
+			<!-- Fixed Effects -->
+			<div class="content margin-no-bottom">
+				<h3 class="color-blue no-margin">Fixed Effects</h3>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalEffectsReporter" value="temporalEffectsReporter" ng-model="temporalEffects.reporter">
+					<span class="custom-checkbox">Reporter</span>		
+				</label>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalEffectsPartner" value="temporalEffectsPartner" ng-model="temporalEffects.partner">
+					<span class="custom-checkbox">Partner</span>		
+				</label>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalEffectsYear" value="temporalEffectsYear" ng-model="temporalEffects.year">
+					<span class="custom-checkbox">Year</span>		
+				</label>
+			</div>
+			<!-- Options -->
+			<div class="content margin-no-bottom">
+				<h3 class="color-blue no-margin">Options</h3>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalOptionsRobust" value="temporalOptionsRobust" ng-model="temporalOptions.robust">
+					<span class="custom-checkbox">Robust Standard Errors</span>		
+				</label>
+				<label class="custom-input block padding-xs-top">
+					<input  type="checkbox" name="temporalOptionsOmit" value="temporalOptionsOmit" ng-model="temporalOptions.omit">
+					<span class="custom-checkbox">Omit fixed effects output</span>		
+				</label>
+			</div>
+			<!-- CTA SELECTION -->
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue float-left"
+				    ng-click="viewController.state = 'view'; 
+				   			 bindTemporalScopes('Indicators', 'DistanceVariables', 'Years', 'Size', 'Estimator', 'Effects', 'Options');">CALCULATE</a>
+				<a  class="cta cta-light-gray float-right"
+					ng-click="viewController.state = 'view';" 
+					ng-if="firstCalculated">CANCEL</a>		
+			</div>
+		</div>
+		<!-- LAYOUT VIEW -->
+		<div ng-if="viewController.state == 'view'">
+			<h3 class="color-blue margin-all">Gravity Model Results</h3>
+			<div class="content margin-h color-blue">Value to Display</div>
+			<custom-select class="content margin-h" options="valueToDisplay" selected="columnToShow" on-select=""></custom-select>
+			<!-- TABLE -->
+			<table class="table content margin-no-bottom">
+				<tr ng-repeat="itemObj in tableResult">
+					<td>{{itemObj.name}}</td>
+					<td ng-repeat="(key, item) in itemObj" ng-if="!$first && key == columnToShow.id">{{item}}</td>
+				</tr>
+			</table>
+			<hr>
+			<div class="caption margin-h">
+				***p&lt;0.01 <br>
+				**p&lt;0.05 <br>
+				*p&lt;0.1 <br>
+				Robust standard errors in parentheses, clustered by country-pair.
+			</div>	
+			<hr>
+			<div class="content margin-h text-align-center">
+				<a href="#" class="cta cta-darkest-blue width-100" ng-click="viewController.state = 'selection';">EDIT SETTINGS</a>				
+			</div>
+			<hr>
+			<a href="#" class="custom-link-extender content margin-h">Advanced: Export Gravity Model Results to Distance Analysis</a>	
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DESKTOP -->
+
+<div class="cage-desktop-view"  ng-if="root.isDesktop">
+	<!--Shape-->
+	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
+	<!--POPUP-->
+	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
+		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+		<div ng-if="viewController.popUpState == 'distanceVariables'" class="distance-variables">
+			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue caption float-left"
+				    ng-click="selectedDistanceVariables.items = temporalDistanceVariables.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray caption float-right"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegister')">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userRegisterPremium')">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState, 'view', 'big')">BACK</button>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POP USER SETTINGS subs & pass -->
+			<div class="column-settings first-column">
+				<h3 class="color-blue margin-all">Account Settings</h3>
+				<div class="content margin-h subscription-type">
+					<div class="color-blue">Subscription Type:</div>
+					<div>{{'Registered User'}}</div>
+					<div  class="content margin-bottom">{{'Free account'}}</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+				</div>
+				<h3 class="color-blue margin-all">Access Details</h3>
+				<div class="content margin-h">
+					<div>Username: {{root.actualUser.name}}</div>
+					<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+					<user-change-pass></user-change-pass>
+				</div>
+			</div>
+			<div class="column-settings second-column">
+				<h3 class="color-blue margin-all">Profile Information</h3>
+				<div class="content margin-h">
+					<user-information></user-information>				
+				</div>				
+			</div>
+
+		</div>
+	</div>
+	<!--LAYOUT-->
+	<div class="view-template row">
+		<div class="user-header-menu content margin-all">
+			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-user" aria-hidden="true"></i></a>
+			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
+		</div>
+		<!-- LATERAL SETTINGS MENU -->
+		<div class="settings-menu content margin-all">
+			<div class="option-section">
+				<!-- Indicators-->
+				<div class="option-item indicators" ng-click="viewController.toggleView(false, 'indicators')">
+					<span>Dependent Variable Indicator (International Flow / Stock)</span>
+					<div ng-show="displayIndicators" class="caption margin-sm-top">
+						<span ng-repeat="indicatorItem in temporalIndicators.items">
+							{{indicatorItem.parent}} {{indicatorItem.name}} <br>
+						</span>
+					</div>
+					<span class="see-more" ng-click="displayIndicators = !displayIndicators;">
+						<span ng-show="!displayIndicators">SEE</span>
+						<span ng-show="displayIndicators">HIDE</span> SELECTION
+					</span>
+				</div>
+				<!-- Years-->
+				<div class="option-item years" ng-click="viewController.toggleView(false, 'years')">Year(s) <br> {{temporalYears.end}}</div>
+				<!-- Distance Variables-->
+				<div class="option-item distance-variables"  ng-click="viewController.toggleView(false, 'distanceVariables');">Distance Variables
+					<div ng-show="displayDistanceVariables" class="caption margin-sm-top">
+					<span ng-repeat="cultural in temporalDistanceVariables">
+						<span ng-repeat="cepii in cultural">
+							<span ng-repeat="items in cepii">
+								<span ng-repeat="item in items" ng-if="item.default">{{item.name}} <br></span>
+							</span>
+						</span>
+					</span>
+					</div>
+					<span class="see-more" ng-click="displayDistanceVariables = !displayDistanceVariables;">
+						<span ng-show="!displayDistanceVariables">SEE</span>
+						<span ng-show="displayDistanceVariables">HIDE</span> SELECTION
+					</span>
+				</div>
+				<!-- Other options-->
+				<div class="other-options">
+					<!-- Size Variable(s) -->
+					<div class="content margin-no-bottom">
+						<h3 class="color-blue no-margin">Size Variable(s)</h3>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalSizeGdp" value="temporalSizeGdp" ng-model="temporalSize.gdp">
+							<span class="custom-checkbox">GDP</span>		
+						</label>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalSizePopulation" value="temporalSizePopulation" ng-model="temporalSize.population">
+							<span class="custom-checkbox">Population</span>		
+						</label>
+					</div>
+					<!-- Estimator -->
+					<div class="content margin-no-bottom">
+						<h3 class="color-blue no-margin">Estimator</h3>
+							<label class="custom-input block padding-xs-top">
+								<input  type="radio" name="ols" value="ols" ng-model="temporalEstimator.state">
+								<span class="custom-radio">OLS</span>		
+							</label>
+							<label class="custom-input block padding-xs-top">
+								<input  type="radio" name="ppml" value="ppml" ng-model="temporalEstimator.state">
+								<span class="custom-radio">PPML</span>		
+							</label>
+					</div>
+					<!-- Fixed Effects -->
+					<div class="content margin-no-bottom">
+						<h3 class="color-blue no-margin">Fixed Effects</h3>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalEffectsReporter" value="temporalEffectsReporter" ng-model="temporalEffects.reporter">
+							<span class="custom-checkbox">Reporter</span>		
+						</label>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalEffectsPartner" value="temporalEffectsPartner" ng-model="temporalEffects.partner">
+							<span class="custom-checkbox">Partner</span>		
+						</label>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalEffectsYear" value="temporalEffectsYear" ng-model="temporalEffects.year">
+							<span class="custom-checkbox">Year</span>		
+						</label>
+					</div>
+					<!-- Options -->
+					<div class="content margin-no-bottom">
+						<h3 class="color-blue no-margin">Options</h3>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalOptionsRobust" value="temporalOptionsRobust" ng-model="temporalOptions.robust">
+							<span class="custom-checkbox">Robust Standard Errors</span>		
+						</label>
+						<label class="custom-input block padding-xs-top">
+							<input  type="checkbox" name="temporalOptionsOmit" value="temporalOptionsOmit" ng-model="temporalOptions.omit">
+							<span class="custom-checkbox">Omit fixed effects output</span>		
+						</label>
+					</div>
+				</div>
+				<hr>
+				<div class="cta-section content margin-all">
+					<a href="#" class="cta cta-darkest-blue" ng-click="viewController.state = 'view'; 
+				   		bindTemporalScopes('Indicators', 'DistanceVariables', 'Years', 'Size', 'Estimator', 'Effects', 'Options');">CALCULATE</a>
+				</div>
+			</div>
+			<a href="#" class="custom-link-extender">Advanced: Export Gravity Model Results to Distance Analysis</a>
+			<!-- SETTINGS -->
+			<div class="float-popup" ng-if="(viewController.popUpState == 'indicators' || viewController.popUpState == 'years' || viewController.popUpState == 'distanceVariables')">	
+				<!-- POPUP SELECTION INDICATORS -->
+				<div ng-if="viewController.popUpState == 'indicators'">
+					<h3 class="color-blue margin-no-bottom">Dependent Variable Indicator (International Flow / Stock)</h3>
+					<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+					<dd-item-item class="standard" variables="indicators" result="popUpIndicators"></dd-item-item>
+					<hr>
+					<div class="row content margin-all cta-selection">
+						<a  class="cta cta-darkest-blue"
+						    ng-click="temporalIndicators.items = popUpIndicators.items; 
+						   			 viewController.popUpState ='';">UPDATE SELECTION</a>
+						<a  class="cta cta-light-gray"
+							ng-click="viewController.popUpState ='';">CANCEL</a>		
+					</div>
+				</div>
+				<!-- YEARS -->
+				<div ng-if="viewController.popUpState == 'years'">
+					<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+					<from-to class="content margin-all" result="popUpYears"></from-to>
+					<hr>
+					<div class="row content margin-all cta-selection">
+						<a  class="cta cta-darkest-blue"
+						    ng-click="temporalYears.start = popUpYears.start; temporalYears.end = popUpYears.end;
+						   			 viewController.popUpState ='';">UPDATE SELECTION</a>
+						<a  class="cta cta-light-gray"
+							ng-click="viewController.popUpState ='';">CANCEL</a>		
+					</div>
+				</div>
+				<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+				<div ng-if="viewController.popUpState == 'distanceVariables'">
+					<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"></cage-select-distance-varibles>
+					<hr>
+					<div class="row content margin-all cta-selection">
+						<a  class="cta cta-darkest-blue"
+						    ng-click="temporalDistanceVariables.items = popUpDistanceVariables.items; 
+						   			 viewController.popUpState ='';">UPDATE SELECTION</a>
+						<a  class="cta cta-light-gray"
+							ng-click="viewController.popUpState ='';">CANCEL</a>		
+					</div>
+				</div>	
+			</div>
+		</div>
+		<!-- TABLE SECTION -->
+		<div class="table-section content margin-top" ng-if="viewController.state == 'view'">
+			<!-- TABLE -->
+			<table class="table content margin-no-bottom">
+				<tr><th></th><th ng-repeat="item in valueToDisplay">{{item.name}}</th></tr>
+				<tr ng-repeat="itemObj in tableResult">
+					<td ng-repeat="(key, item) in itemObj">{{item}}</td>
+				</tr>
+			</table>
+			<div class="caption margin-h">
+				***p&lt;0.01 <br>
+				**p&lt;0.05 <br>
+				*p&lt;0.1 <br>
+				Robust standard errors in parentheses, clustered by country-pair.
+			</div>	
+		</div>
+	</div>
+</div>

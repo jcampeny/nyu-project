@@ -1,10 +1,24 @@
 //Controller general de las 6 vistas del data-viz
-angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService){
+angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize, CsvService){
     return {
         restrict : 'E',
-        templateUrl: '../app/components/data-viz/main.html',
+        templateUrl : function(e, a){
+            var url = '../app/components/data-viz/main.html';
+            if(a.desktop){
+                url = '../app/components/data-viz/main-desktop.html';
+            }
+            return url;
+        },
         controller : function ($scope) {
             $scope.root = $rootScope;
+
+            /**** TEST CSV IMPORTER ******/
+            getCSV ();
+            function getCSV () {
+                CsvService.getCSVFromDataImporter($scope.root.actualUser).then(function(response){
+                    console.log(response.data);
+                });         
+            }
 
             $scope.selectedCountry = {name : "Spain", items : ["Spain"]};
             $scope.selectedIndicators = {items : [{name: 'Exports', parent: 'Merchandise Trade'}/*,{name: 'Imports', parent: 'Merchandise Trade'}*/]};
@@ -16,6 +30,9 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.years = mapVariablesService.getData('years');
             $scope.colorByClassification = mapVariablesService.getData('colorByClassification');
 
+            $scope.comparisonTooltips = {
+                state : false
+            };
             /*************
             ***AREA MAP***
             **************/
@@ -32,12 +49,16 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                 country : {name : "Spain", items : ["Spain"]},
                 indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'},{name: 'Imports', parent: 'Merchandise Trade'}]},
                 years : {start: '2005', end: '2015'}
-            }
+            };
+            $scope.selectedAreaMapBubble = { //Bubbles Proportional to an Indicator
+                country : {name : "Spain", items : ["Spain"]},
+                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'},{name: 'Imports', parent: 'Merchandise Trade'}]},
+                years : {start: '2005', end: '2015'}
+            };
             $scope.selectedAreaMapOCV = { //Other color variables
                 maximum : false,
                 blending: false
             };
-
 
         },
         link : function (s, e, a){
@@ -50,6 +71,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                 this.lastPopUpState = popUpState || '';
                 this.popUpView = ''; //controla el estado de la vista del pop (general || others...)
                 this.backState = [];
+                this.auxView = ''; //controla la vista del nivel 2 de los settings en desktop
                 this.backState.push(angular.copy(this));
 
                 /*
@@ -64,6 +86,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                     this.popUpState = toPopUpState || 'closed';
                     this.state = toState || this.state;
                     this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
+                    this.auxView = '';
                     this.backState.push(angular.copy(this));
                 };
                 /*
@@ -72,23 +95,28 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                 * toPopUpView@String : Determina el estado de la vista del popup
                 * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || sm)
                 */
-                this.popUpController = function(show, toPopUpState, toPopUpView, setPopUpSize, isBacked){
+                this.popUpController = function(show, toPopUpState, toPopUpView, setPopUpSize, isBacked, auxView){
                     this.open = show || false;
                     this.popUpState = toPopUpState;
                     this.popUpView = toPopUpView || '';
                     this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
+                    this.auxView = auxView || '';
+
                     if(isBacked !== true){
                         this.backState.push(angular.copy(this));
                     }
-                    
-                    
+                };
+
+                this.showAuxView = function(auxView){
+                    this.auxView = auxView;
+                    this.backState.push(angular.copy(this));
                 };
 
                 this.goBack = function(){
                     this.backState.splice(-1,1);
                     var ls = this.backState[this.backState.length - 1];
                     if(ls){
-                        this.popUpController(ls.open, ls.popUpState, ls.popUpView, ls.popUpSize, true);
+                        this.popUpController(ls.open, ls.popUpState, ls.popUpView, ls.popUpSize, true, ls.auxView);
                     }else{
                         this.popUpController(false, 'closed', 'general', '');
                     }
@@ -101,7 +129,12 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
 
                 this.lastPopUpState = function(){
                     return this.backState[this.backState.length - 2].popUpState || 'closed';
-                }
+                };
+
+                this.reset = function(){
+                    this.backState = [];
+                    this.popUpController(false, 'closed', 'general', '');
+                };
             }
 
             s.viewController = new PopService($state.current.name, false, 'closed');
@@ -109,18 +142,28 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             //s.viewController.toggleView(true, 'userLog', s.actualState, 'big');
             $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
                 s.viewController.state = $state.current.name;
+                s.viewController.auxView = '';
                 s.viewController.backState = [];
                 s.viewController.popUpController(false, 'closed', 'general', '');
             });
+
+            s.popUpDesktopController = function () {
+                return s.viewController.popUpState == 'userLog' || 
+                    s.viewController.popUpState == 'userRegister' || 
+                    s.viewController.popUpState == 'userRegisterPremium' || 
+                    s.viewController.popUpState == 'userUpgradePremium' || 
+                    s.viewController.popUpState == 'userRegisterTerms' ||
+                    s.viewController.popUpState == 'userSettings';
+            }
 
             /************************
             **USER LOGIN CALLBACK**
             ***********************/
             s.userLoginCallback = function(){
-                s.viewController.toggleView(true, 'userLog', 'view', 'xs');
+                s.viewController.popUpController(true, 'userRegisterPremium', '', 'xs');
             };
             s.viewTerms = function(){
-                s.viewController.toggleView(true, 'userRegisterTerms');
+                s.viewController.popUpController(true, 'userRegisterTerms');
             };
         }
     };

@@ -6,3 +6,5 @@ release/
 tmp
 wordpress
 localdata/vizdata
+php/data-importer/upload/
+

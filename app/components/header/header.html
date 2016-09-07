@@ -67,8 +67,25 @@
 						<li><a ui-sref="app.other">Other Teaching Materials</a></li>
 					</ul>
 				</li>
-				<li><a ui-sref="#">Maps &amp; Visualizations</a></li>
-				<li><a ui-sref="cage.cage">CAGE Comparator&trade;</a></li>
+				<li>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}" class="has-submenu">Maps & Visualizations</a>
+					<ul class="submenu">
+						<li><a ui-sref="dataViz.areaMap">Area Map</a></li>
+						<li><a ui-sref="dataViz.flowMap">Flow Map</a></li>
+						<li><a ui-sref="dataViz.sankey">Sankey</a></li>
+						<li><a ui-sref="dataViz.scatterplot">Scatterplot</a></li>
+						<li><a ui-sref="dataViz.treemap">Treemap</a></li>
+						<li><a ui-sref="dataViz.barChart">Bar chart</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" class="has-submenu">CAGE Comparator&trade;</a>
+					<ul class="submenu">
+						<li><a ui-sref="cage.cage">CAGE</a></li>
+						<li><a ui-sref="cage.comparator">CAGE Comparator</a></li>
+						<li><a ui-sref="cage.gravityModeler">Gravity Modeler</a></li>
+					</ul>
+				</li>
 				<!--<li><a ng-click="showSpeakerPopup()" href="#">Request As Speaker</a></li>-->
 				<li><a ng-click="openRequest('request')" href="#">Request As Speaker</a></li>
 				
@@ -123,8 +140,25 @@
 						<li><a ui-sref="app.other">Other Teaching Materials</a></li>
 					</ul>
 				</li>
-				<li><a ui-sref="#" ng-class="{'active': getCurrentStateGroup() == 'visualizations'}" ng-click=" getCurrentStateGroup() == 'visualizations' && toggleMenu()">Maps & Visualizations</a></li>
-				<li><a ui-sref="cage.cage" ng-class="{'active': getCurrentStateGroup() == 'cage'}" ng-click=" getCurrentStateGroup() == 'cage' && toggleMenu()">CAGE Comparator&trade;</a></li>
+				<li ng-click="toggleCollapsed('dataviz')">
+					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}">Maps & Visualizations</a>
+					<ul class="submenu" uib-collapse="collapsed != 'dataviz'">
+						<li><a ui-sref="dataViz.areaMap">Area Map</a></li>
+						<li><a ui-sref="dataViz.flowMap">Flow Map</a></li>
+						<li><a ui-sref="dataViz.sankey">Sankey</a></li>
+						<li><a ui-sref="dataViz.scatterplot">Scatterplot</a></li>
+						<li><a ui-sref="dataViz.treemap">Treemap</a></li>
+						<li><a ui-sref="dataViz.barChart">Bar chart</a></li>
+					</ul>
+				</li>
+				<li ng-click="toggleCollapsed('cage')">
+					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'cage'}">CAGE Comparator&trade;</a>
+					<ul class="submenu" uib-collapse="collapsed != 'cage'">
+						<li><a ui-sref="cage.cage">CAGE</a></li>
+						<li><a ui-sref="cage.comparator">CAGE Comparator</a></li>
+						<li><a ui-sref="cage.gravityModeler">Gravity Modeler</a></li>
+					</ul>
+				</li>
 				<!--<li><a href="#" ng-click="showSpeakerPopup()">Request As Speaker</a></li>-->
 				<li><a href="#" ng-click="openRequest('request')">Request As Speaker</a></li>
 				<li ng-hide="getCurrentStateGroup() == 'search'" class="search-option" ng-click="searchSubmit(searchInput)">

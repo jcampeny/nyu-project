@@ -6,6 +6,7 @@ cage-select-distance-varibles{
 				li{
 					list-style: none;
 					color: #000000;
+					cursor: pointer;
 					span:first-child{
 						display:block;
 						background-color: $light-gray;
@@ -40,6 +41,7 @@ cage-select-distance-varibles{
     					}
 						li{//radio container
 							padding: 0 0.6em;
+							cursor: pointer;
 							&:first-child{padding-top: 5%;}
 							&:last-child{padding-bottom: 5%;}
 							label {
@@ -48,6 +50,7 @@ cage-select-distance-varibles{
 							ul{
 								li{
 									padding: 2% 5%;
+									cursor: pointer;
 									&:first-child{padding-top: 0%;}
 									&:last-child{padding-bottom: 0%;}
 									label{

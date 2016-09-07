@@ -1,7 +1,9 @@
-nyu-cage{
+nyu-cage-gravity-modeler{
 	.cage-mobile-view{display: block;}
 	.cage-desktop-view{display: none;}
-
+	table.table{
+		width: auto !important;
+	}
 	@media only screen and (min-width: $break-laptop) {
 		.cage-mobile-view{display: none;}
 		.cage-desktop-view{display: block;}
@@ -49,6 +51,80 @@ nyu-cage{
 	//DESKTOP
 	.cage-desktop-view{
 		position: relative;
+		//options
+		.settings-menu{
+			width: 320px;
+			float:left;
+			position: relative;
+			background-color: $super-light-gray;
+			.option-section{
+				overflow-x: hidden;
+				overflow-y: scroll;
+				height: calc(100vh - 340px);
+				@include custom-scroll();
+				.option-item{
+					padding: 10px 10px;
+					padding-right: 50px;
+					border-bottom: 1px solid #FFFFFF;
+					position: relative;
+					cursor:pointer;
+					&:hover{
+						background-color: $light-gray;
+					}
+					&:after{
+						content: "\f105";
+						font-family: "FontAwesome";
+						font-size: 20px;
+						position: absolute;
+						right: 15px;
+						top: 50%;
+						@include transform(translateY(-50%));
+					}
+					span.see-more{
+						display: block;
+						font-size: 10px;
+						color: $pankaj-gray;
+						padding-top: $margin-size-xs;
+					}
+				}
+			}
+			a.custom-link-extender{
+				background: white;
+				padding: $margin-size;
+			}
+		}
+		//float-popup
+		.float-popup{
+			@media only screen and (min-width: $break-laptop){
+				position: absolute;
+				top: 0;
+				left: 100%;
+				width: 100%;
+				background-color: $super-light-gray;
+				margin-left: 10px;
+
+				overflow-y: scroll;
+				max-height: 100%;
+				@include custom-scroll();
+				.cta{
+					font-size: 10px;
+					letter-spacing: 1px;
+				}						
+			}
+		}
+		//table
+		.table-section{
+			width: 100%;
+			height: 500px;
+			width: calc(100% - 400px);
+			height: calc(100vh - 240px);
+			float: left;
+
+			overflow-x: scroll;
+			overflow-y: scroll;
+			max-height: 100%;
+			@include custom-scroll();
+		}
 		div.background-shape{
 			width: 100%;
 			height: calc(100% + 54px);

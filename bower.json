@@ -11,7 +11,7 @@
     "angular-mocks": "~1.4.5",
     "bootstrap": "latest",
     "d3": "3.5.17",
-    "topojson":"1.4.6",
+    "topojson": "1.4.6",
     "font-awesome": "^4.5.0",
     "jquery": "latest",
     "angular-translate": "^2.11.0",
@@ -21,7 +21,8 @@
     "angular-recaptcha": "^3.0.3",
     "ngstorage": "^0.3.10",
     "angular-csv-import": "^0.0.36",
-    "ng-csv": "^0.3.6"
+    "ng-csv": "^0.3.6",
+    "angular-media-queries": "^0.6.1"
   },
   "devDependencies": {}
 }

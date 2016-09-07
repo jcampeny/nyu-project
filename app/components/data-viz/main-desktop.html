@@ -1,0 +1,157 @@
+<div class="data-viz-desktop">
+	<!--Shape-->
+	<div class="background-shape"  ng-class="{'active' : popUpDesktopController()}" ng-click="viewController.closePopUp()"></div>
+	<!--POPUP-->
+	<div class="view-popup row" ng-if="popUpDesktopController();" ng-class="viewController.popUpSize">
+		<!-- POPUP USER LOGIN/LOGOUT -->
+		<div ng-if="viewController.popUpState == 'userLog'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POPUP USER NOT LOG -->
+			<div ng-if="!root.actualUser.logged">
+				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
+				<div class="register content margin-all">
+					<div class="content margin-top">Not yet registered? Register now for free</div>				
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'userRegister');">SIGN UP FOR FREE ACCOUNT</a>
+					<div class="content margin-top">Discover the benefits of becoming a paid subscriber</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'userRegisterPremium');">VIEW SUBSCRIPTION DETAILS</a>
+				</div>
+			</div>
+			<!-- POPUP USER LOGGED -->
+			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.popUpController(true, 'userSettings');">View Account Settings</a>
+				<user-logout class="content margin-v"></user-logout>
+			</div>
+		</div>
+		<!-- POPUP USER REGISTER -->
+		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<button class="btn btn-primary" ng-click="viewController.goBack();">BACK</button>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+		</div>
+		<!-- POPUP USER REGISTER TERMS -->
+		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
+			<button class="btn btn-primary" ng-click="viewController.goBack();">BACK</button>
+			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		</div>
+		<!-- POP USER SETTINGS -->
+		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
+			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<!-- POP USER SETTINGS subs & pass -->
+			<div class="column-settings first-column">
+				<h3 class="color-blue margin-all">Account Settings</h3>
+				<div class="content margin-h subscription-type">
+					<div class="color-blue">Subscription Type:</div>
+					<div>{{'Registered User'}}</div>
+					<div  class="content margin-bottom">{{'Free account'}}</div>
+					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'userUpgradePremium', '', 'big');">PURCHASE SUBSCRIPTION</a>				
+				</div>
+				<h3 class="color-blue margin-all">Access Details</h3>
+				<div class="content margin-h">
+					<div>Username: {{root.actualUser.name}}</div>
+					<div class="content margin-bottom">Email: {{root.actualUser.email}}</div>
+					<user-change-pass></user-change-pass>
+				</div>
+			</div>
+			<div class="column-settings second-column">
+				<h3 class="color-blue margin-all">Profile Information</h3>
+				<div class="content margin-h">
+					<user-information></user-information>				
+				</div>				
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!-- LAYOUT menu lateral + map -->
+	<div class="layout row">
+		<!-- USER MENU -->
+		<div class="user-header-menu content margin-all">
+			<a href="#" ng-click="viewController.popUpController(true, 'userLog', '', 'sm');"><i class="fa fa-user" aria-hidden="true"></i></a>
+			<a href="#" ng-click="viewController.popUpController(true, 'userLog', '', 'sm');"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
+		</div>
+
+
+		<!-- LATERAL SETTINGS MENU -->
+		<div class="settings-menu content margin-all">
+			<!-- NAV MENU -->
+			<div class="nav-menu">
+				<a ui-sref="dataViz.areaMap" class="cta" 
+					ng-class="(viewController.state == 'dataViz.areaMap') ? 'cta-darkest-blue' : 'cta-light-gray'">AREA MAP</a>
+				<a ui-sref="dataViz.flowMap" class="cta" 
+					ng-class="(viewController.state == 'dataViz.flowMap') ? 'cta-darkest-blue' : 'cta-light-gray'">FLOW MAP</a>
+				<a ui-sref="dataViz.sankey" class="cta" 
+					ng-class="(viewController.state == 'dataViz.sankey') ? 'cta-darkest-blue' : 'cta-light-gray'">SANKEY</a>
+				<a ui-sref="dataViz.scatterplot" class="cta" 
+					ng-class="(viewController.state == 'dataViz.scatterplot') ? 'cta-darkest-blue' : 'cta-light-gray'">SCATTERPLOT</a>
+				<a ui-sref="dataViz.treemap" class="cta" 
+					ng-class="(viewController.state == 'dataViz.treemap') ? 'cta-darkest-blue' : 'cta-light-gray'">TREEMAP</a>
+				<a ui-sref="dataViz.barChart" class="cta" 
+					ng-class="(viewController.state == 'dataViz.barChart') ? 'cta-darkest-blue' : 'cta-light-gray'">BAR CHART</a>
+			</div>
+			<!-- OPTION SECTION -->
+			<div class="option-section">
+				<!-- size -->
+				<div class="size-section">
+					<h3 class="margin-no-bottom color-blue">Size Selections 
+						<span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-size');">EDIT</span>
+					</h3>
+				    <div class="content no-padding margin-h">
+				    	<a href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country');">
+				    		<span ng-repeat="country in selectedCountry.items">{{country}}</span></a>
+				    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'indicators');">
+							<span ng-repeat="indicator in selectedIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
+				    	</a>
+				    	<a href="#" class="years custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'years');">{{selectedYears.end}}</a>
+				    	<p ng-show="selectedAreaMapGR.size == 'no-scale'">No size distortion</p>
+				    	<p ng-show="selectedAreaMapGR.size == 'scale'">Scale countries to indicator values</p>
+				    	<p>Scale Focal Country/Countries to {{selectedAreaMapScale.percent}}% of Map Area (0-100%)</p>  	
+				    </div>					
+				</div>
+				<hr>
+				<!-- color -->
+				<div class="color-section">
+					<h3 class="margin-no-bottom color-blue">Color Selections
+						<span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-color');">EDIT</span>
+					</h3>	
+					<div class="content no-padding margin-h">
+						<p ng-show="selectedAreaMapGR.color == 'no-color'">No color scale</p>
+						<p ng-show="selectedAreaMapGR.color == 'share'">Color by Share of Partner in Opposite Direction</p>
+						<p ng-show="selectedAreaMapGR.color == 'classification'">Color by Classification</p>
+						<p ng-show="selectedAreaMapGR.color == 'another'">Select Another Indicator for Coloring</p> 
+					</div>				
+				</div>
+				<hr>
+				<!-- marker -->
+				<div class="marker-section">
+					<h3 class="margin-no-bottom color-blue">Marker Selections
+						<span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-marker');">EDIT</span>
+					</h3>
+					<div class="content no-padding margin-h">
+						<p ng-show="selectedAreaMapGR.marker == 'no-markers'">No markers</p>
+						<p ng-show="selectedAreaMapGR.marker == 'flags'">Flags</p>
+						<p ng-show="selectedAreaMapGR.marker == 'bubbles'">Bubbles Proportional to an Indicator</p> 
+					</div>					
+				</div>
+				<hr>
+				<label class="custom-input content margin-h padding-xs-top fw-normal">
+					<input  type="checkbox" name="comparisonTooltips" value="comparisonTooltips" ng-model="comparisonTooltips.state">
+					<span class="custom-checkbox">Country Comparison Tooltips</span>		
+				</label>
+			</div>
+			
+			<!-- SETTINGS -->
+			<div ng-if="viewController.popUpState == 'settings'">
+				<nyu-area-map  ng-if="viewController.state == 'dataViz.areaMap'" view-controller="viewController"></nyu-area-map>
+				<nyu-flow-map ng-if="viewController.state == 'dataViz.flowMap'" view-controller="viewController"></nyu-flow-map>
+				<nyu-sankey ng-if="viewController.state == 'dataViz.sankey'" view-controller="viewController"></nyu-sankey>
+				<nyu-scatterplot ng-if="viewController.state == 'dataViz.scatterplot'" view-controller="viewController"></nyu-scatterplot>
+				<nyu-treemap ng-if="viewController.state == 'dataViz.treemap'" view-controller="viewController"></nyu-treemap>
+				<nyu-bar-chart ng-if="viewController.state == 'dataViz.barChart'" view-controller="viewController"></nyu-bar-chart>			
+			</div>
+		</div>
+		<!-- MAP SECTION -->
+		<div class="map-section content margin-top"></div>
+	</div>
+</div>

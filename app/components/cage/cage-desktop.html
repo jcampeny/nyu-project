@@ -3,6 +3,18 @@
 	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
 	<!--POPUP-->
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
+		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
+		<div ng-if="viewController.popUpState == 'distanceVariables'" class="distance-variables">
+			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
+			<hr>
+			<div class="row content margin-all cta-selection">
+				<a  class="cta cta-darkest-blue caption float-left"
+				    ng-click="selectedDistanceVariables.items = temporalDistanceVariables.items; 
+				   			 viewController.closePopUp();">UPDATE SELECTION</a>
+				<a  class="cta cta-light-gray caption float-right"
+					ng-click="viewController.closePopUp();">CANCEL</a>		
+			</div>
+		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
 			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
@@ -94,7 +106,7 @@
 			</div>	
 			<!-- Submit indicators & country-->
 			<div class="row content margin-h cta-selection column-selection-cta">
-				<a  class="cta cta-darkest-blue"
+				<a  class="cta cta-darkest-blue block margin-bottom"
 				    ng-click="viewController.state = 'view'; 
 				   			 bindTemporalScopes('fromPopUp', 'Country', 'Indicators');">GENERATE DISTANCE <br> ANALYSIS</a>
 				<a  class="cta cta-light-gray"
@@ -134,7 +146,7 @@
 						</div>
 					</div>
 					<div class="content margin-all impacts-custom">
-						<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Select Other Distance Variables</a>
+						<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables', 'view', 'sm')">Select Other Distance Variables</a>
 						<br>
 						<a href="#" class="" ng-click="viewController.toggleView(true, 'distanceVariables')">Advanced: Estimate impacts via custom gravity model</a>
 					</div>

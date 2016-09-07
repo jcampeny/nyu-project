@@ -1,10 +1,27 @@
-var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha', 'ngStorage', 'ngCsvImport', 'ngCsv'])
+var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngResource', 'ngSanitize', 'pascalprecht.translate', 'ngTagsInput', '720kb.socialshare', 'ng.deviceDetector', 'vcRecaptcha', 'ngStorage', 'ngCsvImport', 'ngCsv', 'matchMedia'])
 
-	.controller("mainController", [ '$scope', '$rootScope', '$timeout', 'DataService', '$state', function($scope, $rootScope, $timeout, DataService, $state) {
+	.controller("mainController", [ '$scope', '$rootScope', '$timeout', 'DataService', '$state', 'screenSize', 'LoginService', function($scope, $rootScope, $timeout, DataService, $state, screenSize, LoginService) {
 		/*DataService.getMedia('file').then(function(images){
 			console.log(images);
 		});*/
 		//$rootScope.popUpOpened = false;
+
+		/******************
+		*** MEDIAQUERIE ***
+		******************/
+
+		$scope.isMobile = screenSize.is('xs, sm');
+		$scope.isDesktop = !screenSize.is('xs, sm');
+		$rootScope.isMobile = screenSize.is('xs, sm');
+		$rootScope.isDesktop = !screenSize.is('xs, sm');
+
+		screenSize.on('xs, sm', function(match){
+		    $scope.isDesktop = !match;
+		    $scope.isMobile = match;
+		    $rootScope.isDesktop = !match;
+		    $rootScope.isMobile = match;
+		});
+
 		$rootScope.actualUser = {
             name : "",
             email : "",
@@ -14,6 +31,8 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
             pass : "",
             role : 0
         };
+        $rootScope.actualUser = LoginService.getStorageUser() || $rootScope.actualUser;
+        
 		DataService.downloadMedia();
 
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
@@ -129,8 +148,11 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				
 				.state('cage', {url:'/cage', templateUrl: '../app/core/cage-main.html', abstract: true})
 				.state('cage.cage', {url:'', template: '<nyu-cage></nyu-cage>'})
+				.state('cage.comparator', {url:'/comparator', template: '<nyu-cage-comparator></nyu-cage-comparator>'})
+				.state('cage.gravityModeler', {url:'/gravity-modeler', template: '<nyu-cage-gravity-modeler></nyu-cage-gravity-modeler>'})
 				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
 				.state('cage.cartogram', {url:'/cartogram/:country', template: '<nyu-cartogram></nyu-cartogram>'})
+
 				
 				.state('dataViz', {url: '/data-viz', templateUrl: '../app/core/data-viz-main.html', abstract: true})
 				.state('dataViz.areaMap', {url:'/area-map', template: '<nyu-area-map></nyu-area-map>'})

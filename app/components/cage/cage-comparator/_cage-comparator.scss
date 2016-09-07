@@ -1,11 +1,11 @@
-nyu-cage{
-	.cage-mobile-view{display: block;}
+nyu-cage-comparator{
+	/*.cage-mobile-view{display: block;}
 	.cage-desktop-view{display: none;}
 
 	@media only screen and (min-width: $break-laptop) {
 		.cage-mobile-view{display: none;}
 		.cage-desktop-view{display: block;}
-	}
+	}*/
 	a.custom-link-extender{
 		color: $darkest-blue;
 		text-decoration: underline;
@@ -102,6 +102,54 @@ nyu-cage{
 
 			}
 		}
+		//view TEMPLATE
+		.view-template{
+			//USER MANAGER HEADER MENU
+			.user-header-menu{
+				position: absolute;
+	    		right: 0;
+	    		top: 0;
+	    		font-size: 25px;
+	    		a{
+	    			color: black;
+	    		}
+			}
+			//SELECTION COUNTRIES
+			.selection-zone{
+				background-color: $super-light-gray;
+				.cta-generate-analysis{
+					margin: $margin-size !important;
+				}
+			}
+			.table-distance{
+				.Cultural{background-color:$container-gray;}
+				.Administrative{background-color: $emerald-green;}
+				.Geographic{background-color: $apple-green;}
+				.Economic{background-color: $container-blue;}
+				.Other{background-color: $cage-blue-text;}
+				.NA{background-color: $cage-blue-text;}
+				.Size{background-color: $emerald-green;}
+				.items{
+					padding-left: 40px;
+				}
+			}
+			.table-ungenerated{
+				div{
+					background-color: $light-gray;
+					border-bottom: 1px solid $normal-gray;
+					&:first-child{
+						border-top: 1px solid $normal-gray;
+					}					
+				}
+			}
+			.custom-scroll-section{
+				height: calc(100vh - 340px);
+				overflow: auto;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				@include custom-scroll();
+			}
+		}
 		//POPUP USER SETTINGS
 		div.user-settings{
 			.column-settings{
@@ -115,16 +163,7 @@ nyu-cage{
 				}
 			}
 		}
-		//USER MANAGER HEADER MENU
-		.user-header-menu{
-			position: absolute;
-    		right: 0;
-    		top: 0;
-    		font-size: 25px;
-    		a{
-    			color: black;
-    		}
-		}
+
 		//LAYOUT SELECTION
 		div.layout-selection{
 			width: 90%;
@@ -230,6 +269,9 @@ nyu-cage{
 	    		min-height: 100vh;
 	    	}
 		}
+		.cta-distance-variables{
+			margin: 25px;
+		}
 		.cta-selection{
 			a:first-child{float:left;}
 			a:last-child{float:right;}
@@ -281,6 +323,35 @@ nyu-cage{
 			.map-area{
 				background-color: $emerald-green;
 				padding-top: 62%;
+			}
+		}
+		.layout{
+			.cta-generate-analysis{
+				margin: $margin-size;
+				.cta-darkest-blue{
+					line-height: 1.5em;
+				}
+			}
+			.table-distance{
+				.Cultural{background-color:$container-gray;}
+				.Administrative{background-color: $emerald-green;}
+				.Geographic{background-color: $apple-green;}
+				.Economic{background-color: $container-blue;}
+				.Other{background-color: $cage-blue-text;}
+				.NA{background-color: $cage-blue-text;}
+				.Size{background-color: $emerald-green;}
+				.items{
+					padding-left: 40px;
+				}
+			}
+			.table-ungenerated{
+				div{
+					background-color: $light-gray;
+					border-bottom: 1px solid $normal-gray;
+					&:first-child{
+						border-top: 1px solid $normal-gray;
+					}					
+				}
 			}
 		}		
 	}

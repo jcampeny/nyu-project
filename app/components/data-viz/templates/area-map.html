@@ -2,10 +2,10 @@
 
 
 <!-- GENERAL SETTINGS -->
-<div class="general" ng-if="viewController.popUpView == 'general'">
+<div class="general float-section" ng-if="viewController.popUpView == 'general' || viewController.popUpView == 'general-size' || viewController.popUpView == 'general-color' || viewController.popUpView == 'general-marker'">
 
 	<!-- SIZE SELECTION -->
-	<div class="size-selection">
+	<div class="size-selection" ng-if="viewController.popUpView == 'general' || viewController.popUpView == 'general-size'">
 		<h3 class="margin-no-bottom color-blue">Size Selections</h3>
 
 		<!-- no-scale -->
@@ -29,7 +29,9 @@
 					<span ng-repeat="indicator in temporalIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
 				</div>
 				<div class="col-xs-4 no-padding text-align-right">
-					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'indicators');">SELECT</a>
+					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'indicators');">SELECT</a>
+					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('indicators');">SELECT</a>
+					
 				</div>
 			</div>	
 			<!-- Country -->
@@ -39,7 +41,8 @@
 					<span ng-repeat="country in temporalCountry.items">{{country}}</span>
 				</div>
 				<div class="col-xs-4 no-padding text-align-right">
-					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'country');">SELECT</a>
+					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'country');">SELECT</a>
+					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('country');">SELECT</a>
 				</div>
 			</div>	
 			<!-- Years -->
@@ -51,7 +54,8 @@
 					<span class="content color-blue float-right">{{temporalYears.end}}</span>
 				</div>
 				<div class="col-xs-4 no-padding text-align-right">
-					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'years');">SELECT</a>
+					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'years');">SELECT</a>
+					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('years');">SELECT</a>
 				</div>
 			</div>
 			<!-- Size distortion -->
@@ -65,9 +69,9 @@
 			</div>			
 		</div>
 	</div>
-	<hr>
+	<hr ng-if="viewController.popUpView == 'general'">
 	<!-- COLOR SELECTION -->
-	<div class="color-section">
+	<div class="color-section" ng-if="viewController.popUpView == 'general' || viewController.popUpView == 'general-color'">
 		<h3 class="margin-no-bottom color-blue">Color Selections</h3>
 		<!-- no-color -->
 		<label class="custom-input content margin-no-bottom">
@@ -96,7 +100,8 @@
 			<span class="custom-radio">Select Another Indicator for Coloring</span>		
 		</label>
 		<div class="content margin-h padding-xs-top padding-sm-bottom" ng-class="{'un-activated-form' : temporalGeneralRadio.color != 'another'}">
-			<a href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.popUpController(true, 'settings', 'another-color');">SEE INDICATORS</a>
+			<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.popUpController(true, 'settings', 'another-color');">SEE INDICATORS</a>
+			<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.showAuxView('another-color');">SEE INDICATORS</a>
 		</div>
 
 		<!-- Other Color Var Maximum -->
@@ -111,11 +116,11 @@
 			<span class="custom-checkbox">Allow Color Blending</span>		
 		</label>
 	</div> 
-	<hr>
+	<hr ng-if="viewController.popUpView == 'general'">
 
 
-	<!-- COLOR SELECTION -->
-	<div class="marker-section">
+	<!-- MARKER SELECTION -->
+	<div class="marker-section" ng-if="viewController.popUpView == 'general' || viewController.popUpView == 'general-marker'">
 		<h3 class="margin-no-bottom color-blue">Marker Selections</h3>
 		<!-- no-markers -->
 		<label class="custom-input block margin-no-bottom">
@@ -132,6 +137,10 @@
 			<input  type="radio" name="bubbles" value="bubbles" ng-model="temporalGeneralRadio.marker">
 			<span class="custom-radio">Bubbles Proportional to an Indicator</span>		
 		</label>
+		<div class="content margin-h padding-xs-top padding-sm-bottom" ng-class="{'un-activated-form' : temporalGeneralRadio.marker != 'bubbles'}">
+			<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.popUpController(true, 'settings', 'bubbles');">SEE INDICATORS</a>
+			<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue margin-controller margin-left" ng-click="viewController.showAuxView('bubbles');">SEE INDICATORS</a>
+		</div>
 	</div>
 	<hr>
 
@@ -149,7 +158,7 @@
 
 
 <!-- SPECIFIC SETTINGS -->
-<div class="specific" ng-if="viewController.popUpView != 'general'">
+<div class="specific float-section" ng-if="viewController.popUpView != 'general'">
 	<!--<a  class="cta cta-darkest-blue" ng-click="viewController.popUpController(true, 'settings', 'general', '');">GO</a>
 	<a  class="cta cta-light-gray" ng-click="viewController.goBack();">CANCEL</a>-->
 	<!-- SPECIFIC COUNTRY -->
@@ -273,4 +282,314 @@
 		</cta-controller>
 	</div>
 
+
+
+
+
+
+
+
+	<!-- SPECIFIC BUBBLES -->
+	<div ng-if="viewController.popUpView == 'bubbles'">
+		<h3 class="color-blue margin-all">Bubbles Proportional to an Indicator</h3>
+		<!-- Indicators -->
+		<div class="row content margin-no-bottom">
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Indicator(s)</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="indicator in temporalBubble.indicators.items">{{indicator.parent}} {{indicator.name}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'bubble-indicators');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Country -->
+		<div class="row content margin-no-bottom">		
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Country</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="country in temporalBubble.country.items">{{country}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'bubble-country');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Years -->
+		<div class="row content margin-no-bottom">	
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+			<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+				<span class="content color-blue float-left">{{temporalBubble.years.start}}</span>
+				<span> to </span>
+				<span class="content color-blue float-right">{{temporalBubble.years.end}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'bubble-years');">SELECT</a>
+			</div>
+		</div>
+		<!-- CTA -->
+		<cta-controller meta-data="another-color"
+			pop-up="popUpBubble" 
+			temporal="temporalBubble" 
+			selected="selectedBubble" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- SPECIFIC BUBBLE POPUP-->
+	<!-- bubble indicator popup -->
+	<div ng-if="viewController.popUpView == 'bubble-indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpBubble.indicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpBubble.indicators" 
+			temporal="temporalBubble.indicators" 
+			selected="selectedBubble.indicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- bubble country popup -->
+	<div ng-if="viewController.popUpView == 'bubble-country'">
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpBubble.country" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpBubble.country" select-type="checkbox"></dd-item>
+		<hr>
+		<cta-controller meta-data="country"
+			pop-up="popUpBubble.country" 
+			temporal="temporalBubble.country" 
+			selected="selectedBubble.country" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- bubble year popup -->
+	<div ng-if="viewController.popUpView == 'bubble-years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpBubble.years"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpBubble.years" 
+			temporal="temporalBubble.years" 
+			selected="selectedBubble.years" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- AUXILIAR VIEWS FOR DESKTOP -->
+
+<div class="aux-views" ng-if="viewController.auxView != ''">
+	<!-- AUXILIAR INDICATORS -->
+	<div ng-if="viewController.auxView == 'indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpIndicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpIndicators" 
+			temporal="temporalIndicators" 
+			selected="selectedIndicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div> 
+	<!-- AUXILIAR COUNTRY -->
+	<div ng-if="viewController.auxView == 'country'">
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpCountry" select-type="checkbox"></dd-item>
+		<hr>
+		<cta-controller meta-data="country"
+			pop-up="popUpCountry" 
+			temporal="temporalCountry" 
+			selected="selectedCountry" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>	
+	<!-- AUXILIAR YEARS -->
+	<div ng-if="viewController.auxView == 'years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpYears"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpYears" 
+			temporal="temporalYears" 
+			selected="selectedYears" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+
+
+
+	<!-- Auxiliar ANOTHER COLOR -->
+	<div ng-if="viewController.auxView == 'another-color'">
+		<h3 class="color-blue margin-all">Select Another Indicator for Coloring</h3>
+		<!-- Indicators -->
+		<div class="row content margin-no-bottom">
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Indicator(s)</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="indicator in temporalAnotherColor.indicators.items">{{indicator.parent}} {{indicator.name}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('another-color-indicators');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Country -->
+		<div class="row content margin-no-bottom">		
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Country</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="country in temporalAnotherColor.country.items">{{country}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('another-color-country');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Years -->
+		<div class="row content margin-no-bottom">	
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+			<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+				<span class="content color-blue float-left">{{temporalAnotherColor.years.start}}</span>
+				<span> to </span>
+				<span class="content color-blue float-right">{{temporalAnotherColor.years.end}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('another-color-years');">SELECT</a>
+			</div>
+		</div>
+		<!-- CTA -->
+		<cta-controller meta-data="another-color"
+			pop-up="popUpAnotherColor" 
+			temporal="temporalAnotherColor" 
+			selected="selectedAnotherColor" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- AUXILIAR ANOTHER COLOR POPUP-->
+	<!-- another color indicator popup -->
+	<div ng-if="viewController.auxView == 'another-color-indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpAnotherColor.indicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpAnotherColor.indicators" 
+			temporal="temporalAnotherColor.indicators" 
+			selected="selectedAnotherColor.indicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- another color country popup -->
+	<div ng-if="viewController.auxView == 'another-color-country'">
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpAnotherColor.country" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpAnotherColor.country" select-type="checkbox"></dd-item>
+		<hr>
+		<cta-controller meta-data="country"
+			pop-up="popUpAnotherColor.country" 
+			temporal="temporalAnotherColor.country" 
+			selected="selectedAnotherColor.country" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- another color year popup -->
+	<div ng-if="viewController.auxView == 'another-color-years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpAnotherColor.years"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpAnotherColor.years" 
+			temporal="temporalAnotherColor.years" 
+			selected="selectedAnotherColor.years" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+
+
+
+
+
+
+	<!-- AUXILIAR BUBBLES -->
+	<div ng-if="viewController.auxView == 'bubbles'">
+		<h3 class="color-blue margin-all">Bubbles Proportional to an Indicator</h3>
+		<!-- Indicators -->
+		<div class="row content margin-no-bottom">
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Indicator(s)</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="indicator in temporalBubble.indicators.items">{{indicator.parent}} {{indicator.name}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('bubble-indicators');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Country -->
+		<div class="row content margin-no-bottom">		
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Country</div>
+			<div class="col-xs-8 no-padding color-blue comma-container">
+				<span ng-repeat="country in temporalBubble.country.items">{{country}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('bubble-country');">SELECT</a>
+			</div>
+		</div>	
+		<!-- Years -->
+		<div class="row content margin-no-bottom">	
+			<div class="col-xs-12 no-padding margin-controller margin-xs-bottom">Year(s)</div>
+			<div class="col-xs-8 no-padding text-align-center content margin-xs-top padding-right">
+				<span class="content color-blue float-left">{{temporalBubble.years.start}}</span>
+				<span> to </span>
+				<span class="content color-blue float-right">{{temporalBubble.years.end}}</span>
+			</div>
+			<div class="col-xs-4 no-padding text-align-right">
+				<a href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('bubble-years');">SELECT</a>
+			</div>
+		</div>
+		<!-- CTA -->
+		<cta-controller meta-data="another-color"
+			pop-up="popUpBubble" 
+			temporal="temporalBubble" 
+			selected="selectedBubble" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- AUXILIAR BUBBLE POPUP-->
+	<!-- bubble indicator popup -->
+	<div ng-if="viewController.auxView == 'bubble-indicators'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-item class="standard" variables="indicators" result="popUpBubble.indicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpBubble.indicators" 
+			temporal="temporalBubble.indicators" 
+			selected="selectedBubble.indicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- bubble country popup -->
+	<div ng-if="viewController.auxView == 'bubble-country'">
+		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries" result="popUpBubble.country" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries" result="popUpBubble.country" select-type="checkbox"></dd-item>
+		<hr>
+		<cta-controller meta-data="country"
+			pop-up="popUpBubble.country" 
+			temporal="temporalBubble.country" 
+			selected="selectedBubble.country" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
+	<!-- bubble year popup -->
+	<div ng-if="viewController.auxView == 'bubble-years'">
+		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
+		<from-to class="content margin-all" result="popUpBubble.years"></from-to>
+		<cta-controller meta-data="years"
+			pop-up="popUpBubble.years" 
+			temporal="temporalBubble.years" 
+			selected="selectedBubble.years" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div>
 </div>

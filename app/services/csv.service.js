@@ -5,7 +5,8 @@ angular
             setCSV : setCSV,
             getCSV : getCSV,
             deleteCSV : deleteCSV,
-            activeCSV : activeCSV            
+            activeCSV : activeCSV,
+            getCSVFromDataImporter : getCSVFromDataImporter           
         };
 
         function setCSV(user, csv, other){
@@ -34,6 +35,13 @@ angular
             $rootScope.$broadcast('activeCSV', {
                 csv : csv
             });
+        }
+
+        /****************************
+        ***** DATA IMPORTER CSV *****
+        ****************************/
+        function getCSVFromDataImporter (user) {
+            return $http.post('php/woocommerce/get-CSV-data-importer.php', user);
         }
     }]);
 

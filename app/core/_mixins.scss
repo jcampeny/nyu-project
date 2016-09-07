@@ -142,6 +142,7 @@
       top: 50%;
       border-radius: 100%;
       background-color: #FFFFFF;
+      background-color: transparent;
       border: 1px solid $less-dark-blue;
       @include transform(translateY(-50%));
     }                   
@@ -175,6 +176,7 @@
       left: 0;
       top: 50%;
       background-color: #FFFFFF;
+      background-color: transparent;
       border: 1px solid $less-dark-blue;
       @include transform(translateY(-50%));
     }                   
