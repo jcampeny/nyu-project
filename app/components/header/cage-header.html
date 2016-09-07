@@ -1,5 +1,6 @@
 <header>
 	<div class="header-mobile-h" ng-class="{'all-opened':headerOpened}">
+		<user-header class="user-header-menu content margin-all" color="#FFFFFF" stroke-width="1.2"></user-header>
 		<div class="input-container-mobile" ng-class="stateName">			
 			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode === 13 ? searchSubmit(searchInput) : null" ng-model="searchInput">
 			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>
@@ -153,6 +154,7 @@
 		</div>
 	</div>
 	<div class="header-mobile" ng-class="{'hide-menu' : hideOnScroll}">
+		<user-header class="user-header-menu content margin-all" color="#FFFFFF" stroke-width="1.2"></user-header>
 		<div class="input-container-mobile" ng-class="stateName">			
 			<input id="input-search-container" type="text" name="search" placeholder="Type to search..." ng-keyup="$event.keyCode === 13 ? searchSubmit(searchInput) : null" ng-model="searchInput">
 			<a href="#" class="btn-icon"><i class="fa fa-search"  aria-hidden="true" ng-click="searchSubmit(searchInput)"></i></a>

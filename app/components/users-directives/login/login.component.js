@@ -1,4 +1,4 @@
-angular.module('app').directive('userLogin', function () {
+angular.module('app').directive('userLogin', function (errorService) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/login/login.html',
@@ -16,6 +16,9 @@ angular.module('app').directive('userLogin', function () {
             pass : "",
             role : 0
         };
+        $scope.loading = false;
+        $scope.showForgot = false;
+        $scope.errorHandler = new errorService.errorHandler();
 
         $rootScope.actualUser = LoginService.getStorageUser() || angular.copy(emptyUser);
 
@@ -23,11 +26,12 @@ angular.module('app').directive('userLogin', function () {
         *******LOGIN*******
         *******************/
         $scope.logIn = function(name, pass){
+            $scope.loading = true;
             $rootScope.actualUser = LoginService.getStorageUser() || angular.copy(emptyUser);
             if(!$rootScope.actualUser.logged && name && pass){
                 LoginService.loginUser(name, pass)
                     .then(function(response){
-                        console.log(response);
+                        //console.log(response);
                         $rootScope.actualUser.name = response.data.user_display_name;
                         $rootScope.actualUser.email = response.data.user_email;
                         $rootScope.actualUser.nicename = response.data.user_nicename;
@@ -35,7 +39,7 @@ angular.module('app').directive('userLogin', function () {
                         $rootScope.actualUser.other = "";
 
                         LoginService.encryptPassword($rootScope.actualUser, pass).then(function(response){
-                            console.log(response);
+                            //console.log(response);
 
                             if(response.data.status == 'success'){
                                 $rootScope.actualUser.pass = response.data.content;
@@ -46,18 +50,21 @@ angular.module('app').directive('userLogin', function () {
                                 getUserInfo();   
                                                            
                             }else{
-                                console.log(response.data.content);
+                                $scope.errorHandler.setError(response.data.content);
                             }
-
+                            $scope.loading = false;
                         });
 
                     })
                     .catch( function( error ) {
-                        console.log('Error', error.data.message);
+                        $scope.errorHandler.setError(error.data.message);
+                        $scope.loading = false;
                     });                   
             }else{
-                console.error('not filled');
+                $scope.errorHandler.setError('not filled');
+                $scope.loading = false;
             }
+
         };
 
         /*******************

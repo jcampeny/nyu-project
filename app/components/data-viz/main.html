@@ -66,14 +66,14 @@
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 
 			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
 
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<button class="btn btn-default" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
 			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->

@@ -162,9 +162,35 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             s.userLoginCallback = function(){
                 s.viewController.popUpController(true, 'userRegisterPremium', '', 'xs');
             };
+            s.userLogoutCallback = function(){
+                s.viewController.popUpController(true, 'userLog', '', 'sm');
+            };
             s.viewTerms = function(){
                 s.viewController.popUpController(true, 'userRegisterTerms');
             };
+
+            /*********************
+            ****USER HEADER *****
+            ********************/
+            $rootScope.$on('userHeaderClick', function(event, data){
+                switch (data.name) {
+                    case 'log':
+                        var size = s.root.actualUser.logged ? 'xs' : 'sm';
+                        s.viewController.popUpController(true, 'userLog', '', 'sm');
+                        break;
+                    case 'share':
+                        //code
+                        break;
+                    case 'help':
+                        //code
+                        break;
+                    case 'download':
+                        //code
+                        break;
+                    default:
+                        //default
+                }
+            });
         }
     };
 });

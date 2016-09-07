@@ -15,7 +15,14 @@ nyu-data-viz{
 		span:after{ content: ', ';}
 		span:last-child:after{ content: '';}
 	}
-
+	.close-cross{
+		text-align: right;
+		@include cross(0.7);
+    	top: $margin-size;
+    	right: $margin-size;
+    	width: $margin-size;
+    	height: $margin-size;
+	}
 	/************
 	***DEKSTOP***
 	************/

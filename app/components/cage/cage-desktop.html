@@ -1,6 +1,6 @@
-<div class="cage-desktop-view">
+<div class="cage-desktop-view" ng-if="root.isDesktop">
 	<!--Shape-->
-	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
+	<div class="background-shape"  ng-click="viewController.closePopUp()" ng-class="{'active' : viewController.open}"></div>
 	<!--POPUP-->
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
@@ -31,7 +31,7 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
@@ -75,10 +75,11 @@
 	</div>
 	<!--LAYOUT-->
 	<div class="view-template">
-		<div class="user-header-menu content margin-all">
+		<!--<div class="user-header-menu content margin-all">
 			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-user" aria-hidden="true"></i></a>
 			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
-		</div>
+		</div>-->
+		<user-header class="user-header-menu content margin-all" color="#282A39" stroke-width="1.1"></user-header>
 		
 		<!--LAYOUT SELECTION-->
 		<div ng-if="viewController.state == 'selection'" class="layout-selection row">

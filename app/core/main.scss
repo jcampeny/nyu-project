@@ -30,6 +30,7 @@
 @import '../components/users-directives/change-pass/change-pass';
 @import '../components/users-directives/information/information';
 @import '../components/users-directives/csv-upload/csv-upload';
+@import '../components/users-directives/user-header/user-header';
 @import '../components/other/cage-slider/cage-slider';
 @import '../components/cage/cage-comparator/cage-comparator';
 @import '../components/cage/cage-gravity-modeler/cage-gravity-modeler';
@@ -61,6 +62,9 @@ input {
 custom-view{
 	display:block;
 	min-height: 50vh;
+}
+.error{
+	color : #a94442;
 }
 .margin-content {
 	max-width: 1280px;

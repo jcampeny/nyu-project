@@ -1,11 +1,11 @@
-<ul ng-click="showOptions = !showOptions;">
+<ul ng-click="show.options = !show.options;">
 	<li class="selected">
-		<span>
+		<span open="1">
 			{{selected.name}} 
-			<i class="fa" ng-class="(showOptions) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
+			<i class="fa" ng-class="(show.options) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
 		</span>
 	</li>
-	<div class="options" uib-collapse="!showOptions">	
+	<div class="options" uib-collapse="!show.options">	
 		<li ng-if="option.name != selected.name" ng-repeat="option in options" ng-click="select(option);">
 		<span>
 			{{option.name}}

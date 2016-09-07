@@ -1,5 +1,5 @@
 <!-- POPUP -->
-<div class="cage-mobile-view">
+<div class="cage-mobile-view" ng-if="root.isMobile">
 	<div class="view-popup row" ng-if="viewController.open">
 		<!-- POPUP SELECTION COUNTRY -->
 		<div ng-if="viewController.popUpState == 'country'">
@@ -59,7 +59,7 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
@@ -100,7 +100,6 @@
 	</div>
 	<!-- LAYOUT -->
 	<div class="view-template" ng-if="!viewController.open">
-		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
 		<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
 		<div ng-if="viewController.state == 'selection'">
 			<h3 class="color-blue margin-all">CAGE Comparator™ Distance Analysis Selections</h3>
@@ -200,18 +199,18 @@
 				<custom-select class="content margin-no-top" options="tableHeader" selected="columnToShow" on-select="sortBy"></custom-select>
 				<table class="table content margin-all">
 					<tr>
-						<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow.id != tableHeaderItem.id && tableHeaderItem.id !='country') && deviceDetector.isMobile() " ng-click="sortBy(tableHeaderItem.id)">
-							<span ng-hide="tableHeaderItem.name != 'Country' && deviceDetector.isMobile()"
-								  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && deviceDetector.isMobile()}">{{tableHeaderItem.name}} </span>
-							<span ng-hide="tableHeaderItem.name == 'Country' && deviceDetector.isMobile()">
+						<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow.id != tableHeaderItem.id && tableHeaderItem.id !='country') && root.isMobile " ng-click="sortBy(tableHeaderItem.id)">
+							<span ng-hide="tableHeaderItem.name != 'Country' && root.isMobile"
+								  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && root.isMobile}">{{tableHeaderItem.name}} </span>
+							<span ng-hide="tableHeaderItem.name == 'Country' && root.isMobile">
 								<i ng-show="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-desc" aria-hidden="true"></i>
 								<i ng-hide="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-asc" aria-hidden="true"></i>
 							</span>
 						</th>
 					</tr>
 					<tr ng-repeat="tableItem in tableResult  | orderBy:propertyName:reverse">
-						<td ng-show="deviceDetector.isMobile()">{{$index}}. {{tableItem.name}}</td>
-						<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow.id != tableItemItemKey) && deviceDetector.isMobile()">{{tableItemItem}}</td>
+						<td ng-show="root.isMobile">{{$index}}. {{tableItem.name}}</td>
+						<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow.id != tableItemItemKey) && root.isMobile">{{tableItemItem}}</td>
 					</tr>
 				</table>
 			</div>

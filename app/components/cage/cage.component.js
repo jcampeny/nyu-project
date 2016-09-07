@@ -265,7 +265,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             this.state = state || 'selection';
             this.open = open || false;
             this.popUpState = popUpState || '';
-            this.popUpSize = popUpSize || 'big'; //big, normal, sm
+            this.popUpSize = popUpSize || 'big'; //big, normal, sm, xs
             this.lastPopUpState = popUpState || '';
 
             /*
@@ -299,11 +299,37 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         **USER LOGIN CALLBACK**
         ***********************/
         s.userLoginCallback = function(){
-            s.viewController.toggleView(true, 'userLog', 'view', 'xs');
+            s.viewController.toggleView(true, 'userLog', '', 'xs');
+        };
+        s.userLogoutCallback = function(){
+            s.viewController.toggleView(true, 'userLog', '', 'sm');
         };
         s.viewTerms = function(){
             s.viewController.toggleView(true, 'userRegisterTerms');
         };
+        /*********************
+        ****USER HEADER *****
+        ********************/
+
+        $rootScope.$on('userHeaderClick', function(event, data){
+            switch (data.name) {
+                case 'log':
+                    var size = s.root.actualUser.logged ? 'xs' : 'sm';
+                    s.viewController.toggleView(true, 'userLog', '', size);
+                    break;
+                case 'share':
+                    //code
+                    break;
+                case 'help':
+                    //code
+                    break;
+                case 'download':
+                    //code
+                    break;
+                default:
+                    //default
+            }
+        });
     }
   };
 });
