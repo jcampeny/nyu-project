@@ -200,7 +200,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	    		}
 	    	    		if(getId(d).toUpperCase() === "USA" || getId(d).toUpperCase() === "DEU"){
 	    	    			d3.json('/localdata/vizdata/'+getId(d).toUpperCase()+'_2014_TotalExports.json', function(topology) {
-	    	    				d3.csv("/localdata/vizdata/"+getId(d)+"_exports.csv", function(data) {
+	    	    				d3.csv("/localdata/vizdata/"+getId(d).toLowerCase()+"_exports.csv", function(data) {
 	    	    					if(getId(d) === "DEU"){
 	    	    					    data.push({iso: "DEU",partner:"Germany",partner_percent:"#N/A",total:"0",total_percent:"20"});
 	    	    					}else if(getId(d) === "USA"){
@@ -233,7 +233,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 					.transition()
 					// .delay(400)
 					// .duration(0)
-					.duration(4000)
+					.duration(1000)
 					.attr("fill", function(d){ 
 						return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
 					})
