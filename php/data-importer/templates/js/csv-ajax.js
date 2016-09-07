@@ -67,9 +67,9 @@
 	function validateUser(obj){
 		var value = obj.val();
 		var state = {success : true, error : ''};
-		if (!value || value < 0 || value > 4) {
+		if (!value || value < 1 || value > 5) {
 			state.success = false;
-			state.error = 'Invalid user level. (Min: 0, Max: 4)';
+			state.error = 'Invalid user level. (Min: 1, Max: 5)';
 		}
 		return state;
 	}
