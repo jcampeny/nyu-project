@@ -67,11 +67,24 @@ add_action('wp_ajax_test_response', 'text_ajax_process_request');
 
 
 function delete_ajax_process_request() {
+	global $wpdb;
 	$table = 'data_importer';
 	$where = array( 'ID' => $_POST['id'] );
-	//$wpdb->delete( $table , $where );
-	//echo $wpdb->delete( $table , $where );
-	echo 'hi';
+	$url_array = explode('|', $_POST['path']);
+	
+	$url = 'upload';
+	foreach ($url_array as $url_key => $url_item) {
+		$url .= '/'.$url_item;
+	}
+
+	$old = getcwd(); 
+	chdir($_SERVER['DOCUMENT_ROOT'].'/wordpress/wp-content/plugins/data-importer/'.$url);
+	unlink($_POST['filename']);
+	chdir($old);  
+
+	$wpdb->delete( $table , $where );
+
+	echo 'deleted';
 	wp_die();
 }
 add_action('wp_ajax_delete_response', 'delete_ajax_process_request');

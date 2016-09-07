@@ -114,7 +114,6 @@
 	}
 
 	$('.folder-name').on('click', function(e){
-		console.log();
 		var parent = $(this).parent();
 		if(parent.attr('state') == 'closed'){
 			parent.css({'height' : 'inherit'});

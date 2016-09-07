@@ -17,7 +17,7 @@ function getEditor ($url, $file) {
 	}
 	$is_checked = ($file_db->confidential) ? 'checked' : '';
 	$edit_icon = '<span class="dashicons dashicons-edit edit-form" edit-form-id="'.$file_db->id.'"></span>';
-	$delete_icon = '<span class="dashicons dashicons-trash delete-form"  edit-form-id="'.$file_db->id.'"></span>';
+	$delete_icon = '<span class="dashicons dashicons-trash delete-form"  edit-form-id="'.$file_db->id.'" path="'.$file_db->datatree.'" filename="'.$file_db->filename.'"></span>';
 	$edit_form = getForm($file_db);
 	if($file_db){
 		return $edit_icon.$delete_icon.$edit_form;		

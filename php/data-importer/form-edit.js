@@ -31,17 +31,26 @@ jQuery(document).ready( function($){
 
 
 	$('.delete-form').on('click', function(e){
-		if (confirm('Are you sure you want to save this thing into the database?')) {
+		if (confirm('Are you sure you want to delete this file?')) {
+			var domElement = $(this);
+		    var id = domElement.attr('edit-form-id');
+		    var path = domElement.attr('path');
+		    var filename = domElement.attr('filename');
 		    var data = {};
+
 		    data.action = 'delete_response';
-		    var id = $(this).attr('edit-form-id');
-		    console.log(id);
+		    data.id = id;
+		    data.path = path;
+			data.filename = filename;
+
 		    $.post({
 		    	//url : '/wordpress/wp-content/plugins/data-importer/update-db.php',
 		    	url : the_ajax_script.ajaxurl,
 		    	data : data,
 		    	success : function(dataa){
-		    		console.log(dataa);
+		    		if(dataa == 'deleted'){
+		    			domElement.parent().css({'display' : 'none'});		    			
+		    		}
 		    	}
 		    });
 		}
