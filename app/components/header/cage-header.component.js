@@ -4,6 +4,7 @@ angular.module('app').directive('ngCageHeader', function ($rootScope, $window, P
     templateUrl: '../app/components/header/cage-header.html',
     controllerAs: 'cageHeader',
     controller: function ($scope) {
+    	$scope.root = $rootScope;
     	$('body').removeClass('overflow');
     	$scope.headerFixed = false;
     	$scope.stateName = $state.current.url;
@@ -23,17 +24,16 @@ angular.module('app').directive('ngCageHeader', function ($rootScope, $window, P
 	    $scope.openRequest = function(view){
     		PopupService.openPopUp(true, view);
     	};
-    	if(deviceDetector.isMobile()){
-    		$scope.headerFixed = true;
-    	}else{
-		    angular.element($window).bind("scroll", function(e) {
-		        if($window.scrollY > 87){
-		        	$scope.headerFixed = true;
-		        }else{
-		        	$scope.headerFixed = false;
-		        }
-		        $scope.$apply();
-		   	});    		
+    	
+    	fixHeader();
+    	angular.element($window).bind("resize", function(e){
+    		$scope.headerFixed = false;
+    		fixHeader();
+    	});
+    	function fixHeader(){
+	    	if($scope.root.isMobile){
+	    		$scope.headerFixed = true;
+	    	}   		
     	}
 
 
