@@ -30,7 +30,7 @@ angular.module('app').directive('ctaController', function () {
             if($scope.viewController.lastPopUpState() == 'closed'){
                 $scope.selected.items = $scope.temporal.items;                
             }
- console.log($scope);
+
             $scope.viewController.goBack();
         };
         $scope.anotherColorCancel = function(){
