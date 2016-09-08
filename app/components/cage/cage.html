@@ -3,7 +3,6 @@
 	<div class="view-popup row" ng-if="viewController.open">
 		<!-- POPUP SELECTION COUNTRY -->
 		<div ng-if="viewController.popUpState == 'country'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<h4>Country / Aggregate</h4>
 			<select-tag-input max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
 			<dd-item class="standard" variables="countries" result="popUpCountry" select-type="radio"></dd-item>
@@ -45,7 +44,7 @@
 		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<!-- POPUP USER NOT LOG -->
 			<div ng-if="!root.actualUser.logged">
 				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
@@ -65,20 +64,21 @@
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
 
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<h3 class="color-blue margin-all">Account Settings</h3>
 			<div class="content margin-h subscription-type">
 				<div class="color-blue">Subscription Type:</div>

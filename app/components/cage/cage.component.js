@@ -1,4 +1,4 @@
-angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope) {
+angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope, PopupService) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
@@ -261,33 +261,8 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         **VIEW CONTROLLER**
         *******************/
 
-        function PopService(state, open, popUpState, popUpSize){
-            this.state = state || 'selection';
-            this.open = open || false;
-            this.popUpState = popUpState || '';
-            this.popUpSize = popUpSize || 'big'; //big, normal, sm, xs
-            this.lastPopUpState = popUpState || '';
 
-            /*
-            * show@boolean: Mostrar o no el popup
-            * toPopUpState@String : Determina el contenido a mostrar en el popUp
-            * toState@String : Determina el estado de la página (view || selection)
-            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || sm)
-            */
-            this.toggleView = function(show, toPopUpState, toState, setPopUpSize){
-                this.lastPopUpState = this.popUpState;
-                this.open = show || false;
-                this.popUpState = toPopUpState;
-                this.state = toState || this.state;
-                this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
-            };
-
-            this.closePopUp = function(){
-                this.open = false;
-            };
-        }
-
-        s.viewController = new PopService('selection', false, 'test');
+        s.viewController = new PopupService.PopupService('selection', false, 'test');
         //s.viewController.toggleView(true, 'distanceVariables', 'view');
         s.viewController.toggleView(false, '', 'selection');
         //s.viewController.toggleView(true, 'login', 'view', 'big');

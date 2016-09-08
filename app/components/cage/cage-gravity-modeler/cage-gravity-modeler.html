@@ -63,16 +63,15 @@
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
@@ -101,7 +100,6 @@
 
 	<!-- LAYOUT -->
 	<div class="view-template" ng-if="!viewController.open">
-		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
 		<!-- LAYOUT SELECTION -->
 		<div ng-if="viewController.state == 'selection'">
 			<h3 class="color-blue margin-all">Gravity Model Settings</h3>
@@ -243,7 +241,7 @@
 
 <div class="cage-desktop-view"  ng-if="root.isDesktop">
 	<!--Shape-->
-	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
+	<div class="background-shape"  ng-class="{'active' : viewController.open}"   ng-click="viewController.closePopUp();"></div>
 	<!--POPUP-->
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
@@ -279,14 +277,13 @@
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState, 'view', 'big')">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
@@ -317,22 +314,26 @@
 		</div>
 	</div>
 	<!--LAYOUT-->
-	<div class="view-template row">
-		<div class="user-header-menu content margin-all">
-			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-user" aria-hidden="true"></i></a>
-			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
-		</div>
+	<div class="view-template row content no-margin">
+		<user-header class="user-header-menu content margin-all" color="#282A39" stroke-width="1"></user-header>
 		<!-- LATERAL SETTINGS MENU -->
+		<div class="header-info-content">
+			<div class="left-content"><h3 class="margin-no-bottom"   ng-class="{'color-blue' : viewController.state != 'view'}">Gravity Model Settings</h3></div>
+			<div class="right-content content margin-left padding-left"><h3 class="margin-no-bottom "   ng-class="{'color-blue' : viewController.state == 'view'}">Gravity Model Results</h3></div>
+		</div>
 		<div class="settings-menu content margin-all">
 			<div class="option-section">
 				<!-- Indicators-->
-				<div class="option-item indicators" ng-click="viewController.toggleView(false, 'indicators')">
-					<span>Dependent Variable Indicator (International Flow / Stock)</span>
-					<div ng-show="displayIndicators" class="caption margin-sm-top">
-						<span ng-repeat="indicatorItem in temporalIndicators.items">
-							{{indicatorItem.parent}} {{indicatorItem.name}} <br>
-						</span>
+				<div class="option-item indicators">
+					<div  ng-click="viewController.toggleView(false, 'indicators')">
+						<span>Dependent Variable Indicator (International Flow / Stock)</span>
+						<div ng-show="displayIndicators" class="caption margin-sm-top">
+							<span ng-repeat="indicatorItem in temporalIndicators.items">
+								{{indicatorItem.parent}} {{indicatorItem.name}} <br>
+							</span>
+						</div>						
 					</div>
+
 					<span class="see-more" ng-click="displayIndicators = !displayIndicators;">
 						<span ng-show="!displayIndicators">SEE</span>
 						<span ng-show="displayIndicators">HIDE</span> SELECTION
@@ -341,15 +342,18 @@
 				<!-- Years-->
 				<div class="option-item years" ng-click="viewController.toggleView(false, 'years')">Year(s) <br> {{temporalYears.end}}</div>
 				<!-- Distance Variables-->
-				<div class="option-item distance-variables"  ng-click="viewController.toggleView(false, 'distanceVariables');">Distance Variables
-					<div ng-show="displayDistanceVariables" class="caption margin-sm-top">
-					<span ng-repeat="cultural in temporalDistanceVariables">
-						<span ng-repeat="cepii in cultural">
-							<span ng-repeat="items in cepii">
-								<span ng-repeat="item in items" ng-if="item.default">{{item.name}} <br></span>
+				<div class="option-item distance-variables">
+					<div ng-click="viewController.toggleView(false, 'distanceVariables');">
+						<span>Distance Variables</span>
+						<div ng-show="displayDistanceVariables" class="caption margin-sm-top">
+						<span ng-repeat="cultural in temporalDistanceVariables">
+							<span ng-repeat="cepii in cultural">
+								<span ng-repeat="items in cepii">
+									<span ng-repeat="item in items" ng-if="item.default">{{item.name}} <br></span>
+								</span>
 							</span>
 						</span>
-					</span>
+						</div>					
 					</div>
 					<span class="see-more" ng-click="displayDistanceVariables = !displayDistanceVariables;">
 						<span ng-show="!displayDistanceVariables">SEE</span>

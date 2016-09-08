@@ -161,6 +161,9 @@ nyu-cage{
 				color: white;
 				padding: 5%;
 				width: calc(100% - 5px);
+				height: calc(100vh - 807px);
+				overflow-y: scroll;
+				@include custom-scroll();
 				div{margin: 3% 0%;}
 			}
 			//LAYOUT VIEW IMPACTS

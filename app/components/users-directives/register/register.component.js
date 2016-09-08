@@ -19,7 +19,6 @@ angular.module('app').directive('userRegister', function () {
         /* 
         * $scope.type = userRegister || userRegisterPremium || userUpgradePremium
         */
-        console.log($scope.type);
         $scope.registerUser = function(isValid){
             if(isValid){
                 LoginService.createUser($scope.register).then(function(response){

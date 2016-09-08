@@ -16,7 +16,7 @@
 		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<!-- POPUP USER NOT LOG -->
 			<div ng-if="!root.actualUser.logged">
 				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
@@ -36,16 +36,17 @@
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
 
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
@@ -114,7 +115,7 @@
 <!-- DESKTOP -->
 <div class="cage-desktop-view" ng-if="root.isDesktop">
 	<!--Shape-->
-	<div class="background-shape"  ng-class="{'active' : viewController.open}"></div>
+	<div class="background-shape"  ng-class="{'active' : viewController.open}"  ng-click="viewController.closePopUp();"></div>
 	<!--POPUP-->
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
@@ -131,7 +132,7 @@
 		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<!-- POPUP USER NOT LOG -->
 			<div ng-if="!root.actualUser.logged">
 				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
@@ -150,14 +151,13 @@
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState, 'view', 'big')">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
@@ -188,16 +188,14 @@
 	</div>
 	<!--LAYOUT-->
 	<div class="view-template row">
-		<div class="user-header-menu content margin-all">
-			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-user" aria-hidden="true"></i></a>
-			<a href="#" ng-click="viewController.toggleView(true, 'userLog', 'view', 'sm')"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
-		</div>
+		
 		<div class="information col-xs-12 row content padding-all">
 			<div class="col-xs-4">
 				<h3 class="color-blue margin-all">CAGE Comparator™ Country Comparison</h3>
 				<div class="caption margin-h">Please select two countries between which to examine cultural, administrative, geographic and economic (CAGE) distances and differences.</div>
 			</div>
 		</div>
+		<user-header class="user-header-menu content margin-all" color="#282A39" stroke-width="1"></user-header>
 		<div class="col-xs-4">
 			<div class="selection-zone content margin-h padding-top">
 				<h3 class="color-blue margin-h padding-xs-bottom">Country 1</h3>
