@@ -41,7 +41,7 @@ function select_product_process_request() {//request
 }
 add_action('wp_ajax_select_product', 'select_product_process_request');
 
-//SELECT
+//DELETE
 function delete_product_process_request() {//request
 	global $wpdb;
 	$table = 'nyu_product';
@@ -51,6 +51,26 @@ function delete_product_process_request() {//request
 	
 	wp_die();
 }
-add_action('wp_ajax_delete_product', 'delete_product_process_request');
+
+//UPDATE
+function edit_product_process_request() {//request
+	global $wpdb;
+	$table = 'nyu_product';
+	$where = array( 'ID' => $_POST['id'] );
+
+	$post_data = array(
+		'name'           => $_POST['name'],
+		'description'    => $_POST['description'],
+		'type_cycle'     => $_POST['type_cycle'],
+		'cost_cycle_USD' => $_POST['cost_cycle_USD'],
+		'cost_cycle_EUR' => $_POST['cost_cycle_EUR'],
+		'student'        => $_POST['student']  
+	);
+
+	echo $wpdb->update( $table, $post_data, $where);
+	
+	wp_die();
+}
+add_action('wp_ajax_edit_product', 'edit_product_process_request');
 
 ?>

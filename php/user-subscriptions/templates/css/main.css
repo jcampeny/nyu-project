@@ -80,4 +80,5 @@ li {
 }
 table {margin-top: 25px;}
 .row{ margin: 20px 0px 0px 0px; padding: 0px 30px;}
-.dashicons-trash{cursor:pointer;}
+.dashicons-trash, .dashicons-edit, .dashicons-yes, .dashicons-no-alt{cursor:pointer;}
+tr.edit{display: none;}
