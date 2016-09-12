@@ -1,6 +1,7 @@
 <form id="create-user" class="row">
 	<h2>New User:</h2>
 	<div class="error error-content"></div>
+	<div class="success success-content">User created!</div>
 	<div class="col-xs-6">
 		<div class="form-group">
 			<label for="user-name">Username:</label>
@@ -21,6 +22,13 @@
 		  <label>
 		    <input type="checkbox" value="" name="user-newsletter" id="user-newsletter">
 		    Subscribe to Newsletter
+		  </label>
+		</div>
+
+		<div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="" name="user-blocked" id="user-blocked">
+		    Blocked
 		  </label>
 		</div>
 

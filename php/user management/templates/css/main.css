@@ -84,3 +84,10 @@ table {margin-top: 25px;}
 tr.edit{display: none;}
 a.show-more-info{display : block; margin: 20px 0px;}
 div.other-information-woo{display: none;}
+.success-content{
+	display: none; 
+	border-left: 4px solid #3fdc88;    
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    margin: 5px 15px 2px;
+    padding: 1px 12px;
+}
