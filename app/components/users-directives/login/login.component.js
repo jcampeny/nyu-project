@@ -31,40 +31,37 @@ angular.module('app').directive('userLogin', function (errorService) {
             if(!$rootScope.actualUser.logged && name && pass){
                 LoginService.loginUser(name, pass)
                     .then(function(response){
-                        //console.log(response);
-                        $rootScope.actualUser.name = response.data.user_display_name;
-                        $rootScope.actualUser.email = response.data.user_email;
-                        $rootScope.actualUser.nicename = response.data.user_nicename;
-                        $rootScope.actualUser.logged = true;
-                        $rootScope.actualUser.other = "";
+                        console.log(response);
+                        if(response.data.status == 'success'){
+                            $rootScope.actualUser.name     = response.data.content.name;
+                            $rootScope.actualUser.email    = response.data.content.email;
+                            $rootScope.actualUser.nicename = response.data.content.name;
+                            $rootScope.actualUser.pass     = response.data.content.pass;
+                            $rootScope.actualUser.other    = response.data.content.other;
+                            $rootScope.actualUser.logged   = true;
+                            
 
-                        LoginService.encryptPassword($rootScope.actualUser, pass).then(function(response){
-                            //console.log(response);
+                            LoginService.setStorageUser($rootScope.actualUser);
 
-                            if(response.data.status == 'success'){
-                                $rootScope.actualUser.pass = response.data.content;
-                                //guardamos a localStorage
-                                LoginService.setStorageUser($rootScope.actualUser);
-                                //$scope.getCSV(); llamar los csv des del service
-                                if(typeof $scope.callback == 'function'){$scope.callback();}
-                                getUserInfo();   
-                                                           
-                            }else{
-                                $scope.errorHandler.setError(response.data.content);
-                            }
-                            $scope.loading = false;
-                        });
+                            $rootScope.$broadcast('userLogged', {
+                                user : $rootScope.actualUser
+                            });
 
+                            if(typeof $scope.callback == 'function'){$scope.callback();}
+
+                        }else{
+                            $scope.errorHandler.setError(response.data.content);
+                        }
+                        $scope.loading = false;
                     })
                     .catch( function( error ) {
                         $scope.errorHandler.setError(error.data.message);
                         $scope.loading = false;
                     });                   
             }else{
-                $scope.errorHandler.setError('not filled');
+                $scope.errorHandler.setError('User or password not filled');
                 $scope.loading = false;
             }
-
         };
 
         /*******************
@@ -88,7 +85,7 @@ angular.module('app').directive('userLogin', function (errorService) {
         /*******************
         ******USER INFO******
         *******************/
-        function getUserInfo(){
+        /*function getUserInfo(){
             
             LoginService.getUserInfo($rootScope.actualUser).then(function(userInfo){
                 if(typeof userInfo.data == 'object'){
@@ -98,7 +95,7 @@ angular.module('app').directive('userLogin', function (errorService) {
                     console.error(userInfo);
                 }
             });
-        }
+        }*/
     }
   };
 });

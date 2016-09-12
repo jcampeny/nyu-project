@@ -13,8 +13,12 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.root = $rootScope;
 
             /**** TEST CSV IMPORTER ******/
-            getCSV ();
+            $rootScope.$on('userLogged', function(event, data){
+                getCSV ();
+            });
+            
             function getCSV () {
+                console.log($scope.root.actualUser);
                 CsvService.getCSVFromDataImporter($scope.root.actualUser).then(function(response){
                     console.log(response.data);
                 });         
@@ -86,10 +90,12 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             **USER LOGIN CALLBACK**
             ***********************/
             s.userLoginCallback = function(){
-                s.viewController.popUpController(true, 'userRegisterPremium', '', 'xs');
+                var size = s.root.actualUser.logged ? 'xs' : 'sm';
+                s.viewController.popUpController(true, 'userLog', '', size);
             };
             s.userLogoutCallback = function(){
-                s.viewController.popUpController(true, 'userLog', '', 'sm');
+                var size = s.root.actualUser.logged ? 'xs' : 'sm';
+                s.viewController.popUpController(true, 'userLog', '', size);
             };
             s.viewTerms = function(){
                 s.viewController.popUpController(true, 'userRegisterTerms');
@@ -102,7 +108,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                 switch (data.name) {
                     case 'log':
                         var size = s.root.actualUser.logged ? 'xs' : 'sm';
-                        s.viewController.popUpController(true, 'userLog', '', 'sm');
+                        s.viewController.popUpController(true, 'userLog', '', size);
                         break;
                     case 'share':
                         //code

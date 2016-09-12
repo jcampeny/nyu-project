@@ -2,6 +2,16 @@ user-register{
 	form{
 		padding: $margin-size;
 	}
+	.page-count{
+		position: absolute;
+		right: 30px;
+		top: 60px;
+	}
+	.subscription-column{
+		label {
+			@include radio();@include checkbox();
+		}
+	}
 	@media only screen and (min-width: $break-laptop) {
 		form{
 			padding: 0;
@@ -19,5 +29,18 @@ user-register{
 			}
 		}
 		h3{margin-left : $margin-size*2 !important;}
+		.premium-form{
+			.info-column, .subscription-column{
+				h3{margin-left : 0 !important;}				
+			}
+			.info-column{
+				float : left;
+				width: 30%;
+			}
+			.subscription-column{
+				float : left;
+				width: 70%;
+			}
+		}
 	}
 }

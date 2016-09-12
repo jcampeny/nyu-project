@@ -102,7 +102,7 @@ jQuery(document).ready( function($){
 
 				$('[accept]').on('click', function(e){
 					var id = $(this).attr('accept');
-					editSubscription(id);
+					editUser(id);
 				});
 			}
 		});
@@ -122,7 +122,7 @@ jQuery(document).ready( function($){
 		content += '<td delete="'+id+'">'+'<span class="dashicons dashicons-trash"></span>'+'</td>'+'</tr>';
 		//edit
 		content += '<tr class="edit" edit-row="'+id+'">'+'<td>'+id+'</td>' ;
-		content += '<td><input type="text" name="name" id="user-name_'+id+'" value="'+row.username+'"></td>' ;
+		content += '<td>'+row.username+'</td>' ;
 		content += '<td><select name="user_role" id="user_role_'+id+'">';
 		content += '<option value="1"'+ ((row.nyu_user.role == "1") ? "selected" : "") +'>1 - Unregistered</option>';
 		content += '<option value="2"'+ ((row.nyu_user.role == "2") ? "selected" : "") +'>2 - Registered</option>';
@@ -137,8 +137,8 @@ jQuery(document).ready( function($){
 		return content;
 	}
 
-	function editSubscription(id) {
-		if(confirm('Are you sure you want to edit this subscription?')){
+	function editUser(id) {
+		if(confirm('Are you sure you want to edit this User?')){
 			var role = parseInt($('#user_role_'+id).val());
 			var data = {
 				action : 'edit_user',

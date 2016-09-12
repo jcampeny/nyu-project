@@ -18,7 +18,7 @@
 			</div>
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
-				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.popUpController(true, 'userSettings');">View Account Settings</a>
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.popUpController(true, 'userSettings');">View Account Settings</a><br>
 				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-angular.module('app').directive('userRegister', function () {
+angular.module('app').directive('userRegister', function (errorService, $rootScope) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/register/register.html',
@@ -9,8 +9,11 @@ angular.module('app').directive('userRegister', function () {
         type : "="
     },
     controller: function ($scope, LoginService, $http) {
-
+        $scope.root = $rootScope;
         $scope.register = {};
+        $scope.subSelected = {
+            radio : ''
+        };
         //obtenemos la información del localStorage
 
         /*******************
@@ -19,22 +22,43 @@ angular.module('app').directive('userRegister', function () {
         /* 
         * $scope.type = userRegister || userRegisterPremium || userUpgradePremium
         */
-        $scope.registerUser = function(isValid){
-            if(isValid){
+        $scope.registerViewController = new viewController();
+        $scope.errorHandler = new errorService.errorHandler();
+        $scope.aaa = function(){console.log($scope.subSelected.radio);};
+        $scope.registerUser = function(registerForm){console.log(registerForm);
+            if(registerForm.$valid){
                 LoginService.createUser($scope.register).then(function(response){
                     if(response.data.status == 'success'){
-                        console.log(response.data.content);
                         if(typeof $scope.callback == 'function'){$scope.callback();} 
                         //$scope.logIn(response.data.content.username, $scope.register.pass);                        
                     }else{
-                        console.log(response.data.content);
+                        $scope.errorHandler.setError(response.data.content);
                     }
-
                 });
             }else{
-                console.log('falta algo');
+                $scope.errorHandler.setError('The information you entered is incorrect');
             }
-        };  
+        }; 
+
+        if(!$rootScope.subscriptions) getSubscriptions();
+        
+        function getSubscriptions() {   
+            LoginService.getSubscriptions().then(function(response){console.log(response);
+                if(response.data.status == 'success'){
+                    $rootScope.subscriptions = response.data.content;
+                }
+            });
+        }
+
+        function viewController(){
+            this.state = '1';
+            this.next = function () {
+                this.state = (this.state == '1') ? '2' : '1' ;
+            };
+            this.back = function () {
+                this.state = (this.state == '2') ? '1' : '2' ;
+            }
+        };
     }
   };
 });

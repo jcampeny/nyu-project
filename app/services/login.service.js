@@ -16,6 +16,7 @@ angular
             encryptPassword : encryptPassword,
             changePassword : changePassword,
             resetPassword : resetPassword,
+            getSubscriptions : getSubscriptions
 
         };
 
@@ -25,13 +26,14 @@ angular
         /*
         -- Logea el usuario al woocommerce --
         InPut   : username@String,  pass@String
-        Return  : error@String || user{username, email, user_nicename}
+        Return  : error@String || user{username, email, other{}}
         */ 
         function loginUser(username, password){
-            return $http.post( apiHost + '/jwt-auth/v1/token', {
-                username : username,
-                password : password
-            });
+            var data = {
+                name : username,
+                pass : password
+            };
+            return $http.post('/php/woocommerce/login-user.php', data);
         }
         /*
         -- Obtiene toda la información del usuario --
@@ -89,7 +91,6 @@ angular
         }
         /*
         -- Resetea la password y envia un mail con la nueva password --
-        TODO    : CREAR LA NUEVA PASSWORD EN EL SERVIDOR
         Checks  : usuario existe 
         InPut   : user {username@String, pass@String}, pass@String
         Return  : response {
@@ -102,7 +103,17 @@ angular
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }
-
+        /*
+        -- Obtiene todas las suscripciones creadas en el CMS --
+        Checks  : 
+        InPut   : 
+        Return  : response {
+                    status@String('error' || 'success'), 
+                    content@Array}
+        */ 
+        function getSubscriptions(){
+            return $http.post('php/woocommerce/get-subscriptions.php');
+        }
 
 
         /*******************

@@ -1,8 +1,14 @@
 <?php
 require 'controller.php';
+require 'db-connection.php';
 
 $postdata = file_get_contents("php://input");
 $newUser = json_decode($postdata);
+$newUser->newsletter = ($newUser->newsletter) ? 1 : 0;
+
+$conn = getConnection();
+$sql = "INSERT INTO nyu_user (id, name, email, role, special, newsletter, blocked) 
+        VALUES (NULL, '$newUser->name', '$newUser->email', 2, 0, '$newUser->newsletter', 0)";
 
 $data = [
     'email' => $newUser->email,
@@ -40,6 +46,7 @@ $response_array['status'] = 'success';
 
 try {
     $response_array['content'] = $woocommerce->post('customers', $data);
+    $resultado = $conn->query($sql);
 } catch (Exception $e) {
     $response_array['status'] = 'error'; 
     $response_array['content'] = $e->getMessage();
