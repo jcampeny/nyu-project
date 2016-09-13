@@ -4,6 +4,7 @@ require_once 'connections/connections.php';
 require_once 'encrypt_ekd/encrypt_ekd.php';
 
 class User {
+	private $id;
 	private $name; //name's user
 	private $email; //email's user
 	private $other; //other information from user (billing)
@@ -16,6 +17,7 @@ class User {
 	private $role;
 	private $newsletter;
 	private $blocked;
+	private $special;
 
 	function __construct($userName, $userPass){
 
@@ -74,9 +76,11 @@ class User {
 		$sql = "SELECT * FROM nyu_user WHERE name = '$this->name' AND email = '$this->email'";
 		if ($resultado = $conn->query($sql)) {
 		    while($row = $resultado->fetch_array(MYSQLI_ASSOC)){
-		    	$this->role = $row['role'];
-		    	$this->newsletter = $row['newsletter'];
-		    	$this->blocked = $row['blocked'];
+				$this->id         = $row['id'];
+				$this->role       = $row['role'];
+				$this->newsletter = $row['newsletter'];
+				$this->blocked    = $row['blocked'];
+				$this->special    = $row['special'];
 		    	$rows = $row;
 			}
 			$resultado->close();
@@ -91,8 +95,20 @@ class User {
 			'other' => $this->other
 			);
 	}
-	public function get_role(){
-		return $this->role;
+	public function get_id(){//return int
+		return $this->id;
+	} 
+	//cuando haga el get_rol verifique el último purchase del y checkee la caducidad (a menos que sea special)
+	public function get_role(){//return int
+		
+		if($this->special == 0){
+			$last_purchase = $this->get_last_purchase();
+			//getproduct ($last_purchase['id'])
+			//(last_purchase.date + product.cylce_type (in ms)) < actualData --=> IS ACTIVE
+		}
+
+		return $last_purchase;
+		//return $this->role;
 	}
 	public function get_newsletter(){
 		return $this->newsletter;
@@ -102,7 +118,8 @@ class User {
 	}
 	//check
 	public function check_permission($role){
-		return ($role >= $this->role);
+		$actual_role = $this->get_role();
+		return ($actual_role >= $role);
 	}
 
 	/***********
@@ -126,5 +143,29 @@ class User {
 		);
 		$context  = stream_context_create($options);
 		return @file_get_contents($this->url.$this->api, false, $context);
+	}
+
+	private function get_last_purchase(){
+		require_once 'db-connection.php';
+		$conn = getConnection();
+		$rows = null;
+		$sql = "SELECT * FROM nyu_purchase WHERE id_user = '$this->id'";
+		if ($resultado = $conn->query($sql)) {
+		    while($row = $resultado->fetch_array(MYSQLI_ASSOC)){
+
+		    	if($rows != null){
+		    	//state == completed
+		    		$saved_row_date = strtotime($rows['purchase_date']);
+		    		$actual_row_date = strtotime($row['purchase_date']);
+		    		if($saved_row_date < $actual_row_date){
+		    			$rows = $row;
+		    		}
+		    	}else{
+		    		$rows = $row;		    		
+		    	}
+			}
+			$resultado->close();
+		}
+		return $rows;
 	}
 }

@@ -83,26 +83,26 @@ jQuery(document).ready( function($){
 
 				$('.users-container').append(content);
 
-				$('[delete]').on('click', function(e){
-					var id = $(this).attr('delete');
+				$('[delete-user]').on('click', function(e){
+					var id = $(this).attr('delete-user');
 					deleteUser(id);
 				});
 
-				$('[edit]').on('click', function(e){
-					var id = $(this).attr('edit');
+				$('[edit-user]').on('click', function(e){
+					var id = $(this).attr('edit-user');
 					$('[edit-row="'+id+'"]').css({'display' : 'table-row'});
 					$('[info-row="'+id+'"]').css({'display' : 'none'});
 				});
 
-				$('[cancel]').on('click', function(e){
-					var id = $(this).attr('cancel');
+				$('[cancel-user]').on('click', function(e){
+					var id = $(this).attr('cancel-user');
 					$('[edit-row="'+id+'"]').css({'display' : 'none'});
 					$('[info-row="'+id+'"]').css({'display' : 'table-row'});
 				});
 
-				$('[accept]').on('click', function(e){
-					var id = $(this).attr('accept');
-					editUser(id);
+				$('[accept-user]').on('click', function(e){
+					var id = $(this).attr('accept-user');
+					editSubscription(id);
 				});
 			}
 		});
@@ -118,11 +118,11 @@ jQuery(document).ready( function($){
 		content += '<td>'+row.nyu_user.role+'</td>' ;
 		content += '<td>'+((newsletter == 'checked') ? 'Yes' : 'No')+'</td>' ;
 		content += '<td>'+((blocked == 'checked') ? 'Yes' : 'No')+'</td>' ;
-		content += '<td edit="'+id+'">'+'<span class="dashicons dashicons-edit"></span>'+'</td>' ;
-		content += '<td delete="'+id+'">'+'<span class="dashicons dashicons-trash"></span>'+'</td>'+'</tr>';
+		content += '<td edit-user="'+id+'">'+'<span class="dashicons dashicons-edit"></span>'+'</td>' ;
+		content += '<td delete-user="'+id+'">'+'<span class="dashicons dashicons-trash"></span>'+'</td>'+'</tr>';
 		//edit
 		content += '<tr class="edit" edit-row="'+id+'">'+'<td>'+id+'</td>' ;
-		content += '<td>'+row.username+'</td>' ;
+		content += '<td><input type="text" name="name" id="user-name_'+id+'" value="'+row.username+'"></td>' ;
 		content += '<td><select name="user_role" id="user_role_'+id+'">';
 		content += '<option value="1"'+ ((row.nyu_user.role == "1") ? "selected" : "") +'>1 - Unregistered</option>';
 		content += '<option value="2"'+ ((row.nyu_user.role == "2") ? "selected" : "") +'>2 - Registered</option>';
@@ -132,13 +132,13 @@ jQuery(document).ready( function($){
 		content += '</select></td>';
 		content += '<td><input type="checkbox" name="newsletter" id="nyu-newsletter_'+id+'" '+newsletter+'></td>' ;
 		content += '<td><input type="checkbox" name="blocked" id="nyu-blocked_'+id+'" '+blocked+'></td>' ;
-		content += '<td accept="'+id+'">'+'<span class="dashicons dashicons-yes"></span>'+'</td>' ;
-		content += '<td cancel="'+id+'">'+'<span class="dashicons dashicons-no-alt"></span>'+'</td>'+'</tr>';
+		content += '<td accept-user="'+id+'">'+'<span class="dashicons dashicons-yes"></span>'+'</td>' ;
+		content += '<td cancel-user="'+id+'">'+'<span class="dashicons dashicons-no-alt"></span>'+'</td>'+'</tr>';
 		return content;
 	}
 
-	function editUser(id) {
-		if(confirm('Are you sure you want to edit this User?')){
+	function editSubscription(id) {
+		if(confirm('Are you sure you want to edit this subscription?')){
 			var role = parseInt($('#user_role_'+id).val());
 			var data = {
 				action : 'edit_user',

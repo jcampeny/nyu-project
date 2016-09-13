@@ -23,7 +23,7 @@ angular.module('app').directive('userLogout', function () {
         $scope.logOut = function(){
             $rootScope.actualUser = angular.copy(emptyUser);
             LoginService.resetStorageUser();
-            if(typeof $scope.onLogout() == 'function') $scope.onLogout();
+            if(typeof $scope.onLogout == 'function') $scope.onLogout();
         };
 
     }

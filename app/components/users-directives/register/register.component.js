@@ -1,4 +1,4 @@
-angular.module('app').directive('userRegister', function (errorService, $rootScope) {
+angular.module('app').directive('userRegister', function (errorService, $rootScope, PaypalService) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/register/register.html',
@@ -6,15 +6,30 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
     scope : {
         terms : "=",
         callback : "=", 
-        type : "="
+        type : "=",
+        viewController : "="
     },
     controller: function ($scope, LoginService, $http) {
         $scope.root = $rootScope;
         $scope.register = {};
         $scope.subSelected = {
-            radio : ''
+            radio : '',
+            renew : false
         };
         //obtenemos la información del localStorage
+        $scope.errorHandler = new errorService.errorHandler();
+        /*******************
+        *****PAYPAL*********
+        *******************/
+        $scope.sendPayment = function(){
+            PaypalService.sendPayment($scope.root.actualUser, $scope.subSelected.radio, $scope.subSelected.renew).then(function(response){
+                if(response.data.status == "success"){
+                    window.location.replace(response.data.content);
+                }else{
+                    $scope.errorHandler.setError(response.data.content);
+                }
+            });
+        };
 
         /*******************
         ******NEW USER******
@@ -23,14 +38,28 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
         * $scope.type = userRegister || userRegisterPremium || userUpgradePremium
         */
         $scope.registerViewController = new viewController();
-        $scope.errorHandler = new errorService.errorHandler();
-        $scope.aaa = function(){console.log($scope.subSelected.radio);};
-        $scope.registerUser = function(registerForm){console.log(registerForm);
+
+        $scope.registerUser = function(registerForm){//console.log(registerForm, $scope.subSelected);
             if(registerForm.$valid){
-                LoginService.createUser($scope.register).then(function(response){
+                LoginService.createUser($scope.register).then(function(response){console.log(response, $scope.type);
                     if(response.data.status == 'success'){
-                        if(typeof $scope.callback == 'function'){$scope.callback();} 
-                        //$scope.logIn(response.data.content.username, $scope.register.pass);                        
+                        $rootScope.actualUser.name     =  response.data.content.user.username;
+                        $rootScope.actualUser.email    =  response.data.content.user.email;
+                        $rootScope.actualUser.nicename =  response.data.content.user.username;
+                        $rootScope.actualUser.pass     =  response.data.content.pass;
+                        $rootScope.actualUser.other    =  response.data.content.user.billing;
+                        $rootScope.actualUser.logged   = true;
+                        
+                        $rootScope.$broadcast('userLogged', {
+                            user : $rootScope.actualUser
+                        });
+                        LoginService.setStorageUser($rootScope.actualUser);
+
+                        if($scope.type != 'userRegister' && $scope.subSelected.radio !== ''){
+                            $scope.sendPayment();
+                        }else if($scope.type == 'userRegister'){
+                            if(typeof $scope.callback == 'function'){$scope.callback();} 
+                        }                      
                     }else{
                         $scope.errorHandler.setError(response.data.content);
                     }
@@ -43,9 +72,12 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
         if(!$rootScope.subscriptions) getSubscriptions();
         
         function getSubscriptions() {   
-            LoginService.getSubscriptions().then(function(response){console.log(response);
+            LoginService.getSubscriptions().then(function(response){
                 if(response.data.status == 'success'){
-                    $rootScope.subscriptions = response.data.content;
+                    $rootScope.subscriptions = {'D' : [], 'W' : [], 'M' : [], 'Y' : []};
+                    angular.forEach(response.data.content, function(subscriptions) {
+                        $rootScope.subscriptions[subscriptions.type_cycle].push(subscriptions);
+                    });
                 }
             });
         }

@@ -1,0 +1,10 @@
+<div class="color-blue">Subscription Type:</div>
+<div ng-if="!validUser.accountSettings">
+	<div>{{'Registered User'}}</div>
+	<div  class="content margin-bottom">{{'Free account'}}</div>	
+</div>
+<div ng-if="validUser.accountSettings">
+	<div>{{'Registered User'}}</div>
+	<div  class="content margin-bottom">{{'Premium account'}}</div>	
+</div>
+<a ng-if="!validUser.accountSettings" href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>

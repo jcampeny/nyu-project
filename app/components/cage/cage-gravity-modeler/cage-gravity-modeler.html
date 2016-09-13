@@ -57,7 +57,7 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
@@ -65,7 +65,7 @@
 
 			<div class="close-cross" ng-click="viewController.goBack();"></div>
 
-			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState" view-controller="viewController"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
@@ -78,10 +78,7 @@
 			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<h3 class="color-blue margin-all">Account Settings</h3>
 			<div class="content margin-h subscription-type">
-				<div class="color-blue">Subscription Type:</div>
-				<div>{{'Registered User'}}</div>
-				<div  class="content margin-bottom">{{'Free account'}}</div>
-				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+				<user-sub-type view-controller="viewController"></user-sub-type> 			
 			</div>
 			<h3 class="color-blue margin-all">Access Details</h3>
 			<div class="content margin-h">
@@ -272,13 +269,13 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 			<div class="close-cross" ng-click="viewController.goBack();"></div>
-			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState" view-controller="viewController"></user-register>
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
@@ -292,10 +289,7 @@
 			<div class="column-settings first-column">
 				<h3 class="color-blue margin-all">Account Settings</h3>
 				<div class="content margin-h subscription-type">
-					<div class="color-blue">Subscription Type:</div>
-					<div>{{'Registered User'}}</div>
-					<div  class="content margin-bottom">{{'Free account'}}</div>
-					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+					<user-sub-type view-controller="viewController"></user-sub-type> 				
 				</div>
 				<h3 class="color-blue margin-all">Access Details</h3>
 				<div class="content margin-h">

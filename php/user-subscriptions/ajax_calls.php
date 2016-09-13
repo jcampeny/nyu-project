@@ -51,7 +51,7 @@ function delete_product_process_request() {//request
 	
 	wp_die();
 }
-
+add_action('wp_ajax_delete_product', 'delete_product_process_request');
 //UPDATE
 function edit_product_process_request() {//request
 	global $wpdb;

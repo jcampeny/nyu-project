@@ -138,13 +138,15 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
         **USER LOGIN CALLBACK**
         ***********************/
         s.userLoginCallback = function(){
-            s.viewController.toggleView(true, 'userLog', '', 'xs');
+            var size = s.root.actualUser.logged ? 'xs' : 'sm';
+            s.viewController.popUpController(true, 'userLog', '', size);
         };
         s.userLogoutCallback = function(){
-            s.viewController.toggleView(true, 'userLog', '', 'sm');
+            var size = s.root.actualUser.logged ? 'xs' : 'sm';
+            s.viewController.popUpController(true, 'userLog', '', size);
         };
         s.viewTerms = function(){
-            s.viewController.toggleView(true, 'userRegisterTerms');
+            s.viewController.popUpController(true, 'userRegisterTerms');
         };
         /*********************
         ****USER HEADER *****

@@ -13,6 +13,7 @@ angular.module('app').directive('userInformation', function () {
             //todo
             console.log('to do');
         };
+
     }
   };
 });
