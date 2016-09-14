@@ -6,24 +6,26 @@ angular.module('app').directive('userChangePass', function () {
     scope : {
         callback : '@'
     },
-    controller: function ($scope, LoginService, $http, $rootScope) {
+    controller: function ($scope, LoginService, $http, $rootScope, errorService) {
         $scope.root = $rootScope;
         $scope.view = {state : 'notEditable'};
+
+        $scope.loading = false;
+        $scope.errorHandler = new errorService.errorHandler();
         /*******************
         ******NEW PASS******
         *******************/
         $scope.saveNewPassword = function(actualPass, newPass, newPassRepeated){
-            //todo
+            $scope.loading = true;
             LoginService.encryptPassword($rootScope.actualUser, actualPass).then(function(actualPassEncrypted){
                 if(newPass == newPassRepeated){
                     if($scope.root.actualUser.pass == actualPassEncrypted.data.content){
                         LoginService.changePassword($scope.root.actualUser, newPass).then(function(response){
-                            console.log(response);
                             if(response.data.status == 'success'){
-                                console.log(response.data.content); //all OK 
+                                $scope.errorHandler.setError('');
 
                                 if(typeof $scope.callback == 'function'){$scope.callback();} 
-                                
+                        
                                 LoginService.encryptPassword($rootScope.actualUser, newPass).then(function(responseEncrypt){
                                     if(responseEncrypt.data.status == 'success'){
                                         $rootScope.actualUser.pass = responseEncrypt.data.content;
@@ -31,20 +33,23 @@ angular.module('app').directive('userChangePass', function () {
                                         LoginService.setStorageUser($rootScope.actualUser);
                                         $scope.view = {state : 'success'};
                                     }else{
-                                        console.log(response.data.content);
+                                        $scope.errorHandler.setError(response.data.content);
                                     }
 
                                 });                  
                             }else{
                                 console.log(response.data.content);//user no exist o pass incorrecta
                             }
+                            $scope.loading = false;
                         });
                     }else{
-                       console.log('Error', 'pass incorrecta', $scope.root.actualUser.pass, actualPassEncrypted.data.content); 
+                        $scope.errorHandler.setError('The new password is incorrect');
+                        $scope.loading = false;  
                     }
                 }else{
-                    console.log('las passwornd no son iguales');
-                }                
+                    $scope.errorHandler.setError('The repeated password is incorrect');
+                    $scope.loading = false;  
+                }              
             });
 
         }; 

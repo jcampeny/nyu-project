@@ -1,5 +1,6 @@
 <div class="crucial" ng-if="root.actualUser.other.id > 0">
-	<div ng-show="view.state == 'editable'">	
+	<div ng-if="errorHandler.haveError" class="error">{{errorHandler.error}}</div>
+	<div ng-show="view.state == 'editable'" ng-class="{'loading' : loading}">	
 		<label for="actual-pass">Actual Password</label><br>
 		<input class="form-control custom-input" type="password" name="actual-pass" id="actual-pass" ng-model="actualPass"/><br>
 
