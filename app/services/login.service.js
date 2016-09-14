@@ -13,6 +13,7 @@ angular
             getStorageUser : getStorageUser,
             resetStorageUser : resetStorageUser,
             getUserInfo : getUserInfo,
+            updateUserInfo: updateUserInfo,
             encryptPassword : encryptPassword,
             changePassword : changePassword,
             resetPassword : resetPassword,
@@ -44,6 +45,20 @@ angular
             return $http.post('/php/woocommerce/info-user.php', user);
         }
 
+        /*
+        -- Actualiza la información del usuario --
+        InPut   : user {username@String, pass@String}, information{...}
+        Return  : error@String || Boolean
+        */ 
+        function updateUserInfo(user, newInfo){
+            var item = {
+                name : user.name,
+                pass : user.pass,
+                new_info : newInfo
+            };
+
+            return $http.post('/php/woocommerce/update-user.php', item);
+        }
         /*
         -- Crea un usuario nuevo --
         Checks  : usuario no existe en DB + email no existe en DB

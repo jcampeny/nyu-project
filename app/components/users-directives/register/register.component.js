@@ -47,12 +47,13 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
                 LoginService.createUser($scope.register).then(function(response){
                     $scope.viewController.setLoading(false);
                     if(response.data.status == 'success'){
-                        $rootScope.actualUser.name     =  response.data.content.user.username;
-                        $rootScope.actualUser.email    =  response.data.content.user.email;
-                        $rootScope.actualUser.nicename =  response.data.content.user.username;
-                        $rootScope.actualUser.pass     =  response.data.content.pass;
-                        $rootScope.actualUser.other    =  response.data.content.user.billing;
-                        $rootScope.actualUser.logged   = true;
+                        $rootScope.actualUser.name       =  response.data.content.user.username;
+                        $rootScope.actualUser.email      =  response.data.content.user.email;
+                        $rootScope.actualUser.nicename   =  response.data.content.user.username;
+                        $rootScope.actualUser.pass       =  response.data.content.pass;
+                        $rootScope.actualUser.other      =  response.data.content.user.billing;
+                        $rootScope.actualUser.newsletter =  response.data.content.user.newsletter;
+                        $rootScope.actualUser.logged     = true;
                         
                         $rootScope.$broadcast('userLogged', {
                             user : $rootScope.actualUser

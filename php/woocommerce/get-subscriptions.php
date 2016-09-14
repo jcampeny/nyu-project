@@ -19,7 +19,7 @@ if ($resultado = $conn->query($sql)) {
     	array_push($rows, $row);
 	}
 	$response_array['content'] = $rows;
-	$resultado->close();
+	$conn->close();
 	print json_encode($response_array);
 }else{
 	$response_array['content'] = "Not saved";

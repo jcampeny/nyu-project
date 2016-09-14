@@ -40,7 +40,7 @@ angular.module('app').directive('userChangePass', function () {
                             }
                         });
                     }else{
-                       console.log('Error', 'pass incorrecta'); 
+                       console.log('Error', 'pass incorrecta', $scope.root.actualUser.pass, actualPassEncrypted.data.content); 
                     }
                 }else{
                     console.log('las passwornd no son iguales');

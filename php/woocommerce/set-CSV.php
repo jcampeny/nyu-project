@@ -38,6 +38,7 @@ if($user->status == "success"){
 		if ($resultado = $conn->query($sql)) {
 		    $response_array['status'] = 'success';
 			$response_array['content'] = 'Saved';
+			$conn->close();
 		}else{
 			$response_array['content'] = "Not saved";
 		}

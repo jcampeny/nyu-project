@@ -1,19 +1,29 @@
-<div class="desktop-column">
+<div class="desktop-column" ng-class="{'loading' : loading}">
 	<div ng-repeat="(key, infoItem) in root.actualUser.other.billing" ng-if="$index < 5">
 		<label for="{{infoItem}}-user">{{key}}</label><br>
-		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
+		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" value="{{root.actualUser.other.billing[key]}}" ng-model="user[key]">
+
 		<div class="content margin-bottom" ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>		
 	</div>
+
+	<label class="custom content" ng-class="{'no-pointer' : !state.isEditable, 'margin-top' : state.isEditable}">
+	  <input type="checkbox" value="" name="newsletter" id="newsletter" ng-model="user.newsletter">
+	  <span class="custom-checkbox" ng-class="{'blocked-cta' : !state.isEditable}">I would like to receive e-mails from Professor Ghemawat to keep up-to-date on his latest research.</span>
+	</label>
+
 </div>
-<div class="desktop-column">
+
+<div class="desktop-column" ng-class="{'loading' : loading}">
 	<div ng-repeat="(key, infoItem) in root.actualUser.other.billing" ng-if="$index > 5">
 		<label for="{{infoItem}}-user">{{key}}</label><br>
-		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" ng-model="root.actualUser.other.billing[key]">
-		<div class="content margin-bottom" ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>		
+		<input ng-if="state.isEditable" class="form-control custom-input" type="text" name="{{infoItem}}" id="{{infoItem}}-user" value="{{root.actualUser.other.billing[key]}}" ng-model="user[key]">
+
+		<div class="content margin-bottom" ng-if="!state.isEditable">{{root.actualUser.other.billing[key] || '-'}}</div>
 	</div>
 </div>
-<div class="cta-section content padding-v">
-	<a href="#" ng-if="state.isEditable" class="cta cta-darkest-blue" ng-click="saveOtherInfo()">SAVE CHANGES</a>
-	<a href="#" ng-if="state.isEditable" class="cta cta-light-gray" ng-click="state.isEditable = false">CANCEL</a>
-	<a href="#" ng-if="!state.isEditable" class="cta cta-dark-blue" ng-click="state.isEditable = true">EDIT PROFILE INFO</a>	
+
+<div class="cta-section content padding-v" ng-class="{'loading' : loading}">
+	<a href="#" ng-show="state.isEditable" class="cta cta-darkest-blue" ng-click="saveOtherInfo()">SAVE CHANGES</a>
+	<a href="#" ng-show="state.isEditable" class="cta cta-light-gray" ng-click="state.isEditable = false">CANCEL</a>
+	<a href="#" ng-show="!state.isEditable" class="cta cta-dark-blue" ng-click="state.isEditable = true">EDIT PROFILE INFO</a>	
 </div>

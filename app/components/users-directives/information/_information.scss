@@ -1,4 +1,22 @@
 user-information{
+	label.custom {
+		@include radio();@include checkbox();
+		padding-left: 0px !important;
+		span.custom-checkbox:before{
+			top: 20% !important;
+		}
+		span.custom-checkbox{
+			margin: 0px !important;
+		}
+	}
+
+	.blocked-cta{ opacity: 0.4; }
+	.no-pointer{ pointer-events: none; }
+	.loading{
+		opacity: 0.4;
+		pointer-events: none;
+	}
+	
 	@media only screen and (min-width: $break-laptop) {
 		.desktop-column{
 			float: left;

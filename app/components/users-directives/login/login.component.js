@@ -33,12 +33,13 @@ angular.module('app').directive('userLogin', function (errorService) {
                     .then(function(response){
                         console.log(response);
                         if(response.data.status == 'success'){
-                            $rootScope.actualUser.name     = response.data.content.name;
-                            $rootScope.actualUser.email    = response.data.content.email;
-                            $rootScope.actualUser.nicename = response.data.content.name;
-                            $rootScope.actualUser.pass     = response.data.content.pass;
-                            $rootScope.actualUser.other    = response.data.content.other;
-                            $rootScope.actualUser.logged   = true;
+                            $rootScope.actualUser.name       = response.data.content.name;
+                            $rootScope.actualUser.email      = response.data.content.email;
+                            $rootScope.actualUser.nicename   = response.data.content.name;
+                            $rootScope.actualUser.pass       = response.data.content.pass;
+                            $rootScope.actualUser.other      = response.data.content.other;
+                            $rootScope.actualUser.newsletter = response.data.content.newsletter;
+                            $rootScope.actualUser.logged     = true;
                             
 
                             LoginService.setStorageUser($rootScope.actualUser);

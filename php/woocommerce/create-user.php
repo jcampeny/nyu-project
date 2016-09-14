@@ -47,6 +47,7 @@ $response_array['status'] = 'success';
 
 try {
     $temporal_array['user'] = $woocommerce->post('customers', $data);
+    $temporal_array['user']['newsletter'] = ($newUser->newsletter == 1) ? true : false;
     $resultado = $conn->query($sql);
     $temporal_array['pass'] = encrypt_decrypt('encrypt', encrypt_decrypt('encrypt', $newUser->pass));
     $response_array['content'] = $temporal_array;

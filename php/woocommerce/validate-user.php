@@ -12,6 +12,7 @@ class User {
 	private $api = 'wp-json/jwt-auth/v1/token';
 	public $error;
 	public $status;
+	public $id_woo;
 
 	//nyu information
 	private $role;
@@ -58,6 +59,7 @@ class User {
 		foreach ($customers as &$customer) {
 		    
 		    if( $this->name  == $customer["username"] && $this->email == $customer["email"]){
+		    	$this->id_woo = $customer["id"];
 		        $actualCustomer = $customer;
 		        break;
 		    }
@@ -92,7 +94,8 @@ class User {
 		return array(
 			'name' => $this->name, 
 			'email' => $this->email,
-			'other' => $this->other
+			'other' => $this->other,
+			'newsletter' => (($this->newsletter == 1) ? true : false)
 			);
 	}
 	public function get_id(){//return int
