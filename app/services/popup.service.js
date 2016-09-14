@@ -52,7 +52,7 @@ angular.module('app')
                 this.popUpView = toPopUpView || '';
                 this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
                 this.auxView = auxView || '';
-console.log(show, toPopUpState, toPopUpView, setPopUpSize, isBacked, auxView);
+
                 if(isBacked !== true){
                     this.backState.push(angular.copy(this));
                 }
