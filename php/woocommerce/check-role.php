@@ -22,8 +22,8 @@ if($user->status == "success"){
 	$response_array['content'] = $user->error;
 }
 
-//print json_encode($response_array);
-print json_encode($user->get_role());
+print json_encode($response_array);
+//print json_encode($user->get_role());
 
 
 

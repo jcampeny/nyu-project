@@ -22,7 +22,9 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
         *****PAYPAL*********
         *******************/
         $scope.sendPayment = function(){
+            $scope.viewController.setLoading(true);
             PaypalService.sendPayment($scope.root.actualUser, $scope.subSelected.radio, $scope.subSelected.renew).then(function(response){
+                $scope.viewController.setLoading(false);
                 if(response.data.status == "success"){
                     window.location.replace(response.data.content);
                 }else{
@@ -41,7 +43,9 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
 
         $scope.registerUser = function(registerForm){//console.log(registerForm, $scope.subSelected);
             if(registerForm.$valid){
-                LoginService.createUser($scope.register).then(function(response){console.log(response, $scope.type);
+                $scope.viewController.setLoading(true);
+                LoginService.createUser($scope.register).then(function(response){
+                    $scope.viewController.setLoading(false);
                     if(response.data.status == 'success'){
                         $rootScope.actualUser.name     =  response.data.content.user.username;
                         $rootScope.actualUser.email    =  response.data.content.user.email;
@@ -72,7 +76,9 @@ angular.module('app').directive('userRegister', function (errorService, $rootSco
         if(!$rootScope.subscriptions) getSubscriptions();
         
         function getSubscriptions() {   
+            $scope.viewController.setLoading(true);
             LoginService.getSubscriptions().then(function(response){
+                $scope.viewController.setLoading(false);
                 if(response.data.status == 'success'){
                     $rootScope.subscriptions = {'D' : [], 'W' : [], 'M' : [], 'Y' : []};
                     angular.forEach(response.data.content, function(subscriptions) {

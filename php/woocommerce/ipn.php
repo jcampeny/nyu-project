@@ -71,7 +71,7 @@
                     WHERE id = $_POST['custom']";
 
                 $resultado = $conn->query($sql);
-                $resultado->close();
+                $conn->close();
 
             }
             else if (strcmp ($response, "INVALID") == 0){ 

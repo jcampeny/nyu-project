@@ -24,7 +24,7 @@ angular.module('app')
             this.backState = [];
             this.auxView = ''; //controla la vista del nivel 2 de los settings en desktop
             this.backState.push(angular.copy(this));
-
+            this.loading = false;
             /*
             * show@boolean: Mostrar o no el popup
             * toPopUpState@String : Determina el contenido a mostrar en el popUp
@@ -52,7 +52,7 @@ angular.module('app')
                 this.popUpView = toPopUpView || '';
                 this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
                 this.auxView = auxView || '';
-
+console.log(show, toPopUpState, toPopUpView, setPopUpSize, isBacked, auxView);
                 if(isBacked !== true){
                     this.backState.push(angular.copy(this));
                 }
@@ -75,7 +75,9 @@ angular.module('app')
             };
 
             this.closePopUp = function(){
-                this.popUpController(false, 'closed', 'general', 'big');
+                if(!this.loading){
+                    this.popUpController(false, 'closed', 'general', 'big');
+                }
             };
 
             this.lastPopUpState = function(){
@@ -85,6 +87,10 @@ angular.module('app')
             this.reset = function(){
                 this.backState = [];
                 this.popUpController(false, 'closed', 'general', '');
+            };
+
+            this.setLoading = function (state){
+                this.loading = state;
             };
         }
     });

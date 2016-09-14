@@ -83,7 +83,7 @@ class User {
 				$this->special    = $row['special'];
 		    	$rows = $row;
 			}
-			$resultado->close();
+			$conn->close();
 		}
 		return $rows;
 	}
@@ -103,12 +103,39 @@ class User {
 		
 		if($this->special == 0){
 			$last_purchase = $this->get_last_purchase();
-			//getproduct ($last_purchase['id'])
-			//(last_purchase.date + product.cylce_type (in ms)) < actualData --=> IS ACTIVE
+
+			$last_purchase_date = strtotime($last_purchase['purchase_date']);
+			$actual_date        = strtotime(date('Y-m-d'));
+			$cycle_type         = $last_purchase['type_cycle'];
+
+			$day_in_ms = 24 * 60 * 60 * 1000;
+
+			switch ($last_purchase['type_cycle']) {
+				case 'D':
+					$cycle_type = $day_in_ms;
+					break;
+				case 'W':
+					$cycle_type = 7 * $day_in_ms;
+					break;
+				case 'M':
+					$cycle_type = 31 * $day_in_ms;
+					break;
+				case 'Y':
+					$cycle_type = 365 * $day_in_ms;
+					break;
+			}
+
+			$have_active_subscription = ($last_purchase_date + $cycle_type) > $actual_date;
+
+			$new_role = ($have_active_subscription) ? 3 : 2;
+
+			if($new_role != $this->role)
+				if($this->update_role($new_role))
+					$this->role = $new_role; 
+			
 		}
 
-		return $last_purchase;
-		//return $this->role;
+		return $this->role;
 	}
 	public function get_newsletter(){
 		return $this->newsletter;
@@ -149,23 +176,30 @@ class User {
 		require_once 'db-connection.php';
 		$conn = getConnection();
 		$rows = null;
-		$sql = "SELECT * FROM nyu_purchase WHERE id_user = '$this->id'";
-		if ($resultado = $conn->query($sql)) {
-		    while($row = $resultado->fetch_array(MYSQLI_ASSOC)){
+		$sql = "SELECT purchase.purchase_date, product.type_cycle 
+				FROM nyu_purchase as purchase, nyu_product as product 
+				WHERE purchase.id_user = $this->id
+				AND purchase.state = 'Completed'
+				AND purchase.id_product = product.id
+				ORDER BY purchase.purchase_date DESC";
 
-		    	if($rows != null){
-		    	//state == completed
-		    		$saved_row_date = strtotime($rows['purchase_date']);
-		    		$actual_row_date = strtotime($row['purchase_date']);
-		    		if($saved_row_date < $actual_row_date){
-		    			$rows = $row;
-		    		}
-		    	}else{
-		    		$rows = $row;		    		
-		    	}
-			}
-			$resultado->close();
+		if ($resultado = $conn->query($sql)) {
+			$rows = $resultado->fetch_array(MYSQLI_ASSOC);
+			$conn->close();
 		}
 		return $rows;
+	}
+
+	private function update_role($new_role){
+		require_once 'db-connection.php';
+		$conn = getConnection();
+		$sql = "UPDATE nyu_user
+				SET role = $new_role
+				WHERE id = $this->id";
+
+		$resultado = $conn->query($sql);
+		$conn->close();
+
+		return $resultado;
 	}
 }

@@ -103,7 +103,7 @@ function getSub($id){
 	    while($row = $resultado->fetch_array(MYSQLI_ASSOC)){
 	    	$rows[] = $row;
 		}
-		$resultado->close();
+		$conn->close();
 		return $rows[0];
 	}else{
 		return FALSE;
