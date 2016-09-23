@@ -1,9 +1,8 @@
 <!-- POPUP -->
-<div class="cage-mobile-view">
+<div class="cage-mobile-view" ng-if="root.isMobile">
 	<div class="view-popup row" ng-if="viewController.open">
 		<!-- POPUP SELECTION COUNTRY -->
 		<div ng-if="viewController.popUpState == 'country'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
 			<h4>Country / Aggregate</h4>
 			<select-tag-input max-tags="1" variables="countries" result="popUpCountry" dataType="country"></select-tag-input>
 			<dd-item class="standard" variables="countries" result="popUpCountry" select-type="radio"></dd-item>
@@ -45,7 +44,7 @@
 		</div>
 		<!-- POPUP USER LOGIN/LOGOUT -->
 		<div ng-if="viewController.popUpState == 'userLog'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<!-- POPUP USER NOT LOG -->
 			<div ng-if="!root.actualUser.logged">
 				<user-login class="content margin-bottom" callback="userLoginCallback"></user-login>
@@ -59,32 +58,30 @@
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
 				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.toggleView(true, 'userSettings')">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
 
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
 
-			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState" view-controller="viewController"></user-register>
 
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+			<!--<button class="btn btn-primary" ng-click="viewController.toggleView(true, viewController.lastPopUpState)">BACK</button>-->
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
 			<h3 class="color-blue margin-all">Account Settings</h3>
 			<div class="content margin-h subscription-type">
-				<div class="color-blue">Subscription Type:</div>
-				<div>{{'Registered User'}}</div>
-				<div  class="content margin-bottom">{{'Free account'}}</div>
-				<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'userUpgradePremium', 'view', 'big')">PURCHASE SUBSCRIPTION</a>				
+				<user-sub-type view-controller="viewController"></user-sub-type> 			
 			</div>
 			<h3 class="color-blue margin-all">Access Details</h3>
 			<div class="content margin-h">
@@ -100,7 +97,6 @@
 	</div>
 	<!-- LAYOUT -->
 	<div class="view-template" ng-if="!viewController.open">
-		<button ng-click="viewController.toggleView(true, 'userLog')"><i class="fa fa-user" aria-hidden="true"></i></button>
 		<!-- LAYOUT SELECTION COUNTRY & INDICATORS -->
 		<div ng-if="viewController.state == 'selection'">
 			<h3 class="color-blue margin-all">CAGE Comparator™ Distance Analysis Selections</h3>
@@ -200,18 +196,18 @@
 				<custom-select class="content margin-no-top" options="tableHeader" selected="columnToShow" on-select="sortBy"></custom-select>
 				<table class="table content margin-all">
 					<tr>
-						<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow.id != tableHeaderItem.id && tableHeaderItem.id !='country') && deviceDetector.isMobile() " ng-click="sortBy(tableHeaderItem.id)">
-							<span ng-hide="tableHeaderItem.name != 'Country' && deviceDetector.isMobile()"
-								  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && deviceDetector.isMobile()}">{{tableHeaderItem.name}} </span>
-							<span ng-hide="tableHeaderItem.name == 'Country' && deviceDetector.isMobile()">
+						<th ng-repeat="tableHeaderItem in tableHeader" ng-hide="(columnToShow.id != tableHeaderItem.id && tableHeaderItem.id !='country') && root.isMobile " ng-click="sortBy(tableHeaderItem.id)">
+							<span ng-hide="tableHeaderItem.name != 'Country' && root.isMobile"
+								  ng-class="{'color-blue' :tableHeaderItem.name == 'Country' && root.isMobile}">{{tableHeaderItem.name}} </span>
+							<span ng-hide="tableHeaderItem.name == 'Country' && root.isMobile">
 								<i ng-show="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-desc" aria-hidden="true"></i>
 								<i ng-hide="tableHeaderItem.id == propertyName && reverse" class="fa fa-sort-asc" aria-hidden="true"></i>
 							</span>
 						</th>
 					</tr>
 					<tr ng-repeat="tableItem in tableResult  | orderBy:propertyName:reverse">
-						<td ng-show="deviceDetector.isMobile()">{{$index}}. {{tableItem.name}}</td>
-						<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow.id != tableItemItemKey) && deviceDetector.isMobile()">{{tableItemItem}}</td>
+						<td ng-show="root.isMobile">{{$index}}. {{tableItem.name}}</td>
+						<td ng-repeat="(tableItemItemKey, tableItemItem) in tableItem" ng-hide="(columnToShow.id != tableItemItemKey) && root.isMobile">{{tableItemItem}}</td>
 					</tr>
 				</table>
 			</div>

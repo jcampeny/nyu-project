@@ -2,10 +2,51 @@ user-register{
 	form{
 		padding: $margin-size;
 	}
+	label {
+		@include radio();@include checkbox();
+		padding-left: 0px !important;
+		span.custom-checkbox:before{
+			top: 20% !important;
+		}
+		span.custom-checkbox{
+			margin: 0px !important;
+		}
+	}
+	.page-count{
+		position: absolute;
+		right: 30px;
+		top: 60px;
+		i{
+			font-size: 25px;
+			position: absolute;
+			top: -4px;
+			left: -21px;
+			cursor: pointer;
+		}
+	}
+	.subscription-column{
+		.blocked-cta{
+			opacity: 0.2;
+			pointer-events: none;
+		}
+	}
+	@media only screen and (max-width: $break-laptop){
+		.subscription-column{
+			padding: 0px !important;
+			h3,div.content{padding: 0px !important;}
+		}
+		form{
+			padding-top: 0px
+		}
+		.premium-form{padding-bottom: 0px !important;}
+		br.desktop{display : none;}
+		button.purchase{font-size: 10px !important;}
+	}
 	@media only screen and (min-width: $break-laptop) {
 		form{
 			padding: 0;
 		}
+		hr{display : none;}
 		.column-desktop{
 			float: left;
 			&.first-column, &.second-column{
@@ -19,5 +60,18 @@ user-register{
 			}
 		}
 		h3{margin-left : $margin-size*2 !important;}
+		.premium-form{
+			.info-column, .subscription-column{
+				h3{margin-left : 0 !important;}				
+			}
+			.info-column{
+				float : left;
+				width: 30%;
+			}
+			.subscription-column{
+				float : left;
+				width: 70%;
+			}
+		}
 	}
 }

@@ -13,9 +13,11 @@ angular
             getStorageUser : getStorageUser,
             resetStorageUser : resetStorageUser,
             getUserInfo : getUserInfo,
+            updateUserInfo: updateUserInfo,
             encryptPassword : encryptPassword,
             changePassword : changePassword,
             resetPassword : resetPassword,
+            getSubscriptions : getSubscriptions
 
         };
 
@@ -25,13 +27,14 @@ angular
         /*
         -- Logea el usuario al woocommerce --
         InPut   : username@String,  pass@String
-        Return  : error@String || user{username, email, user_nicename}
+        Return  : error@String || user{username, email, other{}}
         */ 
         function loginUser(username, password){
-            return $http.post( apiHost + '/jwt-auth/v1/token', {
-                username : username,
-                password : password
-            });
+            var data = {
+                name : username,
+                pass : password
+            };
+            return $http.post('/php/woocommerce/login-user.php', data);
         }
         /*
         -- Obtiene toda la información del usuario --
@@ -42,6 +45,20 @@ angular
             return $http.post('/php/woocommerce/info-user.php', user);
         }
 
+        /*
+        -- Actualiza la información del usuario --
+        InPut   : user {username@String, pass@String}, information{...}
+        Return  : error@String || Boolean
+        */ 
+        function updateUserInfo(user, newInfo){
+            var item = {
+                name : user.name,
+                pass : user.pass,
+                new_info : newInfo
+            };
+
+            return $http.post('/php/woocommerce/update-user.php', item);
+        }
         /*
         -- Crea un usuario nuevo --
         Checks  : usuario no existe en DB + email no existe en DB
@@ -89,7 +106,6 @@ angular
         }
         /*
         -- Resetea la password y envia un mail con la nueva password --
-        TODO    : CREAR LA NUEVA PASSWORD EN EL SERVIDOR
         Checks  : usuario existe 
         InPut   : user {username@String, pass@String}, pass@String
         Return  : response {
@@ -102,7 +118,17 @@ angular
             };
             return $http.post('/php/woocommerce/reset-password.php', item);
         }
-
+        /*
+        -- Obtiene todas las suscripciones creadas en el CMS --
+        Checks  : 
+        InPut   : 
+        Return  : response {
+                    status@String('error' || 'success'), 
+                    content@Array}
+        */ 
+        function getSubscriptions(){
+            return $http.post('php/woocommerce/get-subscriptions.php');
+        }
 
 
         /*******************

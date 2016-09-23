@@ -1,8 +1,15 @@
 <?php
 require 'controller.php';
+require 'db-connection.php';
+require_once 'encrypt_ekd/encrypt_ekd.php';
 
 $postdata = file_get_contents("php://input");
 $newUser = json_decode($postdata);
+$newUser->newsletter = ($newUser->newsletter) ? 1 : 0;
+
+$conn = getConnection();
+$sql = "INSERT INTO nyu_user (id, name, email, role, special, newsletter, blocked) 
+        VALUES (NULL, '$newUser->name', '$newUser->email', 2, 0, '$newUser->newsletter', 0)";
 
 $data = [
     'email' => $newUser->email,
@@ -39,7 +46,11 @@ $data = [
 $response_array['status'] = 'success'; 
 
 try {
-    $response_array['content'] = $woocommerce->post('customers', $data);
+    $temporal_array['user'] = $woocommerce->post('customers', $data);
+    $temporal_array['user']['newsletter'] = ($newUser->newsletter == 1) ? true : false;
+    $resultado = $conn->query($sql);
+    $temporal_array['pass'] = encrypt_decrypt('encrypt', encrypt_decrypt('encrypt', $newUser->pass));
+    $response_array['content'] = $temporal_array;
 } catch (Exception $e) {
     $response_array['status'] = 'error'; 
     $response_array['content'] = $e->getMessage();

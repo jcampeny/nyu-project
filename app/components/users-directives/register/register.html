@@ -1,67 +1,145 @@
-<form name="registerForm" ng-submit="registerUser(registerForm.$valid)">
-	<!--COLUMN 1-->
-	<h3 ng-if="type == 'userRegister'" class="color-blue margin-v">Sign up for a Free Account</h3>
-	<div class="column-desktop first-column">
-		<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
-			<label class="control-label" for="registeremail">Email:</label>
-			<input class="form-control custom-input" type="email" name="registeremail" ng-model="register.email" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registername.$valid}">
-			<label class="control-label" for="registername">Username:</label>
-			<input class="form-control custom-input" type="text" name="registername" ng-model="register.name" ng-minlength="5" required><br>
-		</div>
-		<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
-			<label class="control-label" for="registerpass">Password:</label>
-			<input class="form-control custom-input" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
-			<label class="control-label" for="registerpassrepeat">Repeat password:</label>
-			<input class="form-control custom-input" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
-			<label class="control-label" for="registerfirst">First Name:</label>
-			<input class="form-control custom-input" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
-		</div>
-		<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
-			<label class="control-label" for="registerlast">Last Name:</label>
-			<input class="form-control custom-input" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercompany">Company:</label>
-			<input class="form-control custom-input" type="text" name="registercompany" ng-model="register.company"><br>
-		</div>
+<div class="page-count" ng-if="type == 'userRegisterPremium' && root.isDesktop"><i ng-click="registerViewController.back()" class="fa fa-angle-left" aria-hidden="true" ng-if="registerViewController.state == '2'"></i> {{registerViewController.state}} of 2</div>
+<div ng-if="(registerViewController.state == '1' && type == 'userRegisterPremium') || type == 'userUpgradePremium'" class="premium-form block padding-all">
+	<div class="info-column">
+		<h3 class="color-blue margin-v">Subscription Types</h3>
+		<div class="content margin-bottom"><span class="color-blue">Standard subscriptions</span> provide unlimited access to all Maps & Visualizations and the CAGE Comparator™ Distance Analysis, Country Comparison and Gravity Modeler.</div>
+		<div class="content margin-bottom"><span class="color-blue">Premium subscriptions</span> provide access to even more datasets and also allows users to upload their own data and to access and download premium data.</div>
+		<div class="content margin-bottom"><span class="color-blue">Student subscriptions</span> are equivalent to Standard Subscriptions but provide access at a discounted rate for currently enrolled full-time students.</div>
 	</div>
-	<!--COLUMN 2-->
-	<div class="column-desktop second-column">
-		<div>
-			<label class="control-label" for="registeradress">Address:</label>
-			<input class="form-control custom-input" type="text" name="registeradress" ng-model="register.address"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercity">City:</label>
-			<input class="form-control custom-input" type="text" name="registercity" ng-model="register.city"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerstate">State:</label>
-			<input class="form-control custom-input" type="text" name="registerstate" ng-model="register.state"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerpostcode">Postcode:</label>
-			<input class="form-control custom-input" type="text" name="registerpostcode" ng-model="register.postcode"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registercountry">Country:</label>
-			<input class="form-control custom-input" type="text" name="registercountry" ng-model="register.country"><br>
-		</div>
-		<div>
-			<label class="control-label" for="registerphone">Phone:</label>
-			<input class="form-control custom-input" type="text" name="registerphone" ng-model="register.phone"><br>
-		</div>
-		<div>By registering for this site, I accept the site’s <a class="custom-link-extender-inline" href="#" ng-click="terms()">Terms and Conditions.</a></div> 
+	<hr>
+	<div class="subscription-column content padding-left">
+		<h3 class="color-blue margin-v padding-left">Select the type of subscription:</h3>
+		<!-- DAILY-->
 		
-		<a href="#" type="submit" class="cta cta-darkest-blue content margin-v" >SIGN UP</a>		
-	</div>
-	<div class="column-desktop third-column">
-		<div>Discover more about becoming a paid subscriber</div>
-		<a href="#" type="submit" class="cta cta-dark-blue" >VIEW SUBSCRIPTION DETAILS</a>	
-	</div>
+		<div ng-repeat="sub in root.subscriptions.D" ng-if="sub.type_cycle == 'D'" class="content padding-left">
+			<div class="content color-blue" ng-if="$first">Daily Subscription</div>
+			<label>
+				<input type="radio" value="{{sub.id}}" ng-model="subSelected.radio">
+				<span class="custom-radio">{{sub.name}} - ${{sub.cost_cycle_USD}} ({{sub.cost_cycle_EUR}}€) per day</span>
+			</label>
+		</div>
+		<!-- WEEKLY -->
+		
+		<div ng-repeat="sub in root.subscriptions.W" ng-if="sub.type_cycle == 'W'" class="content padding-left">
+			<div class="content color-blue margin-top" ng-if="$first">Weekly Subscription</div>
+			<label>
+				<input type="radio" value="{{sub.id}}" ng-model="subSelected.radio">
+				<span class="custom-radio">{{sub.name}} - ${{sub.cost_cycle_USD}} ({{sub.cost_cycle_EUR}}€) per week</span>
+			</label>
+		</div>
+		<!-- MONTHLY -->
+		
+		<div ng-repeat="sub in root.subscriptions.M" ng-if="sub.type_cycle == 'M'" class="content padding-left">
+			<div class="content color-blue margin-top" ng-if="$first">Monthly Subscription</div>
+			<label>
+				<input type="radio" value="{{sub.id}}" ng-model="subSelected.radio">
+				<span class="custom-radio">{{sub.name}} - ${{sub.cost_cycle_USD}} ({{sub.cost_cycle_EUR}}€) per month</span>
+			</label>
+		</div>
+		<!-- YEARLY -->
+		
+		<div ng-repeat="sub in root.subscriptions.Y" ng-if="sub.type_cycle == 'Y'" class="content  padding-left">
+			<div class="content color-blue margin-top" ng-if="$first">Yearly Subscription</div>
+			<label>
+				<input type="radio" value="{{sub.id}}" ng-model="subSelected.radio">
+				<span class="custom-radio">{{sub.name}} - ${{sub.cost_cycle_USD}} ({{sub.cost_cycle_EUR}}€) per year</span>
+			</label>
+		</div>
 
-</form>
+		<div class="content margin-bottom padding-left">
+			<div class="content color-blue margin-top">Bulk Subscriptions</div>
+			<p>Substantial discounts are available for bulk (25+ users) subscriptions. Please contact us to request bulk pricing information and in your message please indicate the number of user accounts, how long you would like the accounts active and whether the accounts will be used for educational or business use.</p>
+		</div>
+		<hr>
+		<div class="row content padding-right">
+			<div class="checkbox col-xs-12 col-sm-8 block padding-left">
+			  <label>
+			    <input type="checkbox" value="" name="renew" id="renew" ng-model="subSelected.renew">
+			    <span class="custom-checkbox">Automatically renew my subscription</span>
+			  </label>
+			</div>
+			<a ng-if="root.isDesktop && type == 'userRegisterPremium'" class="cta cta-darkest-blue float-right" ng-click="registerViewController.next();" ng-class="{'blocked-cta' : subSelected.radio == ''}">NEXT</a>
+		</div>
+		<hr>
+		<div class="content padding-bottom margin-bottom text-align-right" ng-if="type == 'userUpgradePremium'">
+			<a ng-click="sendPayment()" ng-class="{'blocked-cta' : subSelected.radio == ''}" class="cta cta-darkest-blue">PAYPAL</a>			
+		</div>
+	</div>
+	
+</div>
+<div ng-if="(registerViewController.state == '2' && type == 'userRegisterPremium') || type == 'userRegister' || (type != 'userUpgradePremium' && root.isMobile)">
+	<form name="registerForm" ng-submit="registerUser(registerForm)">
+		<!--COLUMN 1-->
+		<h3 ng-if="type == 'userRegister'" class="color-blue margin-v">Sign up for a Free Account</h3>
+		<h3 ng-if="type == 'userRegisterPremium'" class="color-blue margin-v">Account Details</h3>
+		<div class="column-desktop first-column">
+			<div ng-class="{'has-success' : registerForm.registeremail.$valid}">
+				<label class="control-label" for="registeremail">Email:</label>
+				<input class="form-control custom-input" type="email" name="registeremail" ng-model="register.email" required><br>
+			</div>
+			<div ng-class="{'has-success' : registerForm.registername.$valid}">
+				<label class="control-label" for="registername">Username:</label>
+				<input class="form-control custom-input" type="text" name="registername" ng-model="register.name" ng-minlength="3" required><br>
+			</div>
+			<div ng-class="{'has-success' : (registerForm.registerpass.$valid && registerForm.registerpassrepeat.$valid && register.pass == register.passrepeat) }">
+				<label class="control-label" for="registerpass">Password:</label>
+				<input class="form-control custom-input" type="password" name="registerpass" ng-model="register.pass" ng-minlength="3" required><br>
+				<label class="control-label" for="registerpassrepeat">Repeat password:</label>
+				<input class="form-control custom-input" type="password" name="registerpassrepeat" ng-model="register.passrepeat" ng-minlength="3" required><br>
+			</div>
+			<div ng-class="{'has-success' : registerForm.registerfirst.$valid}">
+				<label class="control-label" for="registerfirst">First Name:</label>
+				<input class="form-control custom-input" type="text" name="registerfirst" ng-model="register.first" ng-minlength="2" required><br>
+			</div>
+			<div ng-class="{'has-success' : registerForm.registerlast.$valid}">
+				<label class="control-label" for="registerlast">Last Name:</label>
+				<input class="form-control custom-input" type="text" name="registerlast" ng-model="register.last" ng-minlength="2" required><br>
+			</div>
+			<div>
+				<label class="control-label" for="registercompany">Company:</label>
+				<input class="form-control custom-input" type="text" name="registercompany" ng-model="register.company"><br>
+			</div>
+		</div>
+		<!--COLUMN 2-->
+		<div class="column-desktop second-column">
+			<div>
+				<label class="control-label" for="registeradress">Address:</label>
+				<input class="form-control custom-input" type="text" name="registeradress" ng-model="register.address"><br>
+			</div>
+			<div>
+				<label class="control-label" for="registercity">City:</label>
+				<input class="form-control custom-input" type="text" name="registercity" ng-model="register.city"><br>
+			</div>
+			<div>
+				<label class="control-label" for="registerstate">State:</label>
+				<input class="form-control custom-input" type="text" name="registerstate" ng-model="register.state"><br>
+			</div>
+			<div>
+				<label class="control-label" for="registerpostcode">Postcode:</label>
+				<input class="form-control custom-input" type="text" name="registerpostcode" ng-model="register.postcode"><br>
+			</div>
+			<div>
+				<label class="control-label" for="registercountry">Country:</label>
+				<input class="form-control custom-input" type="text" name="registercountry" ng-model="register.country"><br>
+			</div>
+			<div>
+				<label class="control-label" for="registerphone">Phone:</label>
+				<input class="form-control custom-input" type="text" name="registerphone" ng-model="register.phone"><br>
+			</div>
+			<div class="checkbox">
+			  <label>
+			    <input type="checkbox" value="" name="newsletter" id="newsletter" ng-model="register.newsletter">
+			    <span class="custom-checkbox">I would like to receive e-mails from Professor Ghemawat to keep up-to-date on his latest research.</span>
+			  </label>
+			</div>
+			<div class="content margin-v">By registering for this site, I accept the site’s <a class="custom-link-extender" href="#" ng-click="terms()">Terms and Conditions.</a></div> 
+			
+			<button type="submit" class="cta cta-darkest-blue content margin-bottom" ng-if="type == 'userRegister'">SIGN UP</button>		
+		</div>
+		<div class="column-desktop third-column">
+			<div ng-if="type == 'userRegister'" class="content margin-bottom">Discover more about becoming a paid subscriber</div>
+			<a href="#" class="cta cta-dark-blue" ng-if="type == 'userRegister'" ng-click="viewController.popUpController(true, 'userRegisterPremium');">VIEW SUBSCRIPTION DETAILS</a>
+			<button type="submit" class="cta cta-darkest-blue content margin-top purchase" ng-if="type == 'userRegisterPremium'">PURCHASE <br class="desktop"> SUBSCRIPTION</button>	
+		</div>
+	</form>
+</div>

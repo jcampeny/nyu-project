@@ -7,8 +7,14 @@ angular
             sendPayment : sendPayment
         };
         
-        function sendPayment(user){
-            return $http.post('php/woocommerce/send-payment.php', user);
+        function sendPayment(user, subId, subRenew){
+        	var item = {
+        		name : user.name,
+        		pass : user.pass,
+        		sub_id  : subId,
+        		sub_renew  : subRenew
+        	};
+            return $http.post('php/woocommerce/send-payment.php', item);
         }
        
     }]);

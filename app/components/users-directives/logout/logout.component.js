@@ -3,6 +3,9 @@ angular.module('app').directive('userLogout', function () {
     restrict: 'E',
     templateUrl: '../app/components/users-directives/logout/logout.html',
     controllerAs: 'userLogout',
+    scope : {
+        onLogout : '='
+    },
     controller: function ($scope, LoginService, $http, $rootScope) {
         var emptyUser = {
             name : "",
@@ -20,6 +23,7 @@ angular.module('app').directive('userLogout', function () {
         $scope.logOut = function(){
             $rootScope.actualUser = angular.copy(emptyUser);
             LoginService.resetStorageUser();
+            if(typeof $scope.onLogout == 'function') $scope.onLogout();
         };
 
     }

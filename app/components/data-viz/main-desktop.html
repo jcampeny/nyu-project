@@ -18,20 +18,20 @@
 			</div>
 			<!-- POPUP USER LOGGED -->
 			<div ng-if="root.actualUser.logged" class="content margin-all text-align-center">
-				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.popUpController(true, 'userSettings');">View Account Settings</a>
-				<user-logout class="content margin-v"></user-logout>
+				<a class="custom-link-extender content margin-v" href="#" ng-click="viewController.popUpController(true, 'userSettings');">View Account Settings</a><br>
+				<user-logout on-logout="userLogoutCallback" class="content margin-v"></user-logout>
 			</div>
 		</div>
 		<!-- POPUP USER REGISTER -->
 		<div ng-if="viewController.popUpState == 'userRegister' || viewController.popUpState == 'userRegisterPremium' || viewController.popUpState == 'userUpgradePremium'">
-			<div class="close-cross" ng-click="viewController.closePopUp()"></div>
-			<button class="btn btn-primary" ng-click="viewController.goBack();">BACK</button>
-			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState"></user-register>
+			<div class="close-cross" ng-click="viewController.goBack();"></div>
+			<!--<button class="btn btn-primary" ng-click="viewController.goBack();">BACK</button>-->
+			<user-register terms="viewTerms" callback="userLoginCallback" type="viewController.popUpState" view-controller="viewController"></user-register>
 		</div>
 		<!-- POPUP USER REGISTER TERMS -->
 		<div ng-if="viewController.popUpState == 'userRegisterTerms'">
-			<button class="btn btn-primary" ng-click="viewController.goBack();">BACK</button>
-			<div>CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
+		<div class="close-cross" ng-click="viewController.goBack();"></div>
+		<div class="content padding-all">CAGE Comparator™ Terms and Conditions......... (like lorem)</div>	
 		</div>
 		<!-- POP USER SETTINGS -->
 		<div ng-if="viewController.popUpState == 'userSettings'" class="user-settings">
@@ -40,10 +40,7 @@
 			<div class="column-settings first-column">
 				<h3 class="color-blue margin-all">Account Settings</h3>
 				<div class="content margin-h subscription-type">
-					<div class="color-blue">Subscription Type:</div>
-					<div>{{'Registered User'}}</div>
-					<div  class="content margin-bottom">{{'Free account'}}</div>
-					<a href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'userUpgradePremium', '', 'big');">PURCHASE SUBSCRIPTION</a>				
+					<user-sub-type view-controller="viewController"></user-sub-type> 				
 				</div>
 				<h3 class="color-blue margin-all">Access Details</h3>
 				<div class="content margin-h">
@@ -66,12 +63,12 @@
 
 	<!-- LAYOUT menu lateral + map -->
 	<div class="layout row">
-		<!-- USER MENU -->
+		<!-- USER MENU 
 		<div class="user-header-menu content margin-all">
 			<a href="#" ng-click="viewController.popUpController(true, 'userLog', '', 'sm');"><i class="fa fa-user" aria-hidden="true"></i></a>
 			<a href="#" ng-click="viewController.popUpController(true, 'userLog', '', 'sm');"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>	
-		</div>
-
+		</div>-->
+		<user-header class="user-header-menu content margin-all" color="#282A39" stroke-width="1"></user-header>
 
 		<!-- LATERAL SETTINGS MENU -->
 		<div class="settings-menu content margin-all">
@@ -139,6 +136,19 @@
 					<input  type="checkbox" name="comparisonTooltips" value="comparisonTooltips" ng-model="comparisonTooltips.state">
 					<span class="custom-checkbox">Country Comparison Tooltips</span>		
 				</label>
+				<div class="content padding-all settings text-align-center row no-margin">
+					<svg class="content float-left cursor-pointer" width="35px" height="35px" ng-click="viewController.popUpController(true, 'settings', 'general');">
+						<circle fill="none" stroke="#222637" stroke-miterlimit="10" cx="16.889" cy="16.889" r="16.389"/>
+						<path fill="none" stroke="#222637" stroke-miterlimit="10" d="M24.934,16.764c-0.002-1.133,0.684-2.104,1.66-2.523    c-0.236-0.883-0.59-1.717-1.045-2.486c-1,0.424-2.201,0.23-3.016-0.584c-0.814-0.811-1.008-2.004-0.592-3.004    c-0.771-0.449-1.609-0.797-2.496-1.031c-0.393,1.037-1.389,1.779-2.564,1.779c-1.176,0-2.171-0.742-2.564-1.779    c-0.891,0.234-1.732,0.586-2.509,1.039c0.497,1.025,0.33,2.289-0.52,3.139c-0.847,0.848-2.104,1.016-3.127,0.527    c-0.451,0.781-0.797,1.629-1.025,2.523c1.098,0.361,1.895,1.383,1.895,2.602c0.001,1.202-0.773,2.211-1.848,2.584    c0.246,0.891,0.611,1.73,1.078,2.504c1.029-0.516,2.31-0.354,3.168,0.504c0.84,0.838,1.014,2.082,0.542,3.098    c0.785,0.439,1.635,0.77,2.531,0.988c0.381-1.063,1.387-1.826,2.578-1.826c1.16-0.002,2.146,0.715,2.551,1.729    c0.881-0.25,1.711-0.617,2.477-1.082c-0.441-1.008-0.256-2.225,0.566-3.047c0.805-0.807,1.982-1.008,2.975-0.607    c0.439-0.775,0.771-1.615,0.994-2.504C25.641,18.897,24.934,17.913,24.934,16.764z"/>
+						<circle fill="none" stroke="#222637" stroke-miterlimit="10" cx="16.881" cy="16.832" r="2.617"/>
+					</svg>
+					<svg class="content float-right cursor-pointer" width="35px" height="35px">
+						<circle fill="none" stroke="#222637" stroke-miterlimit="10" cx="16.889" cy="16.889" r="16.389"/>
+						<polygon fill="none" stroke="#222637" stroke-miterlimit="10" points="12.324,9.426 25.152,16.832 12.324,24.239  "/>
+					</svg>
+					<!--<i class="fa fa-cog" aria-hidden="true" ng-click="viewController.popUpController(true, 'settings', 'general');"></i>
+					<i class="fa fa-play-circle-o" aria-hidden="true"></i>-->
+				</div>
 			</div>
 			
 			<!-- SETTINGS -->

@@ -31,8 +31,16 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
             pass : "",
             role : 0
         };
-        $rootScope.actualUser = LoginService.getStorageUser() || $rootScope.actualUser;
         
+        $rootScope.actualUser = $rootScope.actualUser;
+        if(LoginService.getStorageUser()){
+        	$rootScope.actualUser = LoginService.getStorageUser();
+        	$rootScope.$broadcast('userLogged', {
+        	    user : $rootScope.actualUser
+        	});
+        }
+
+
 		DataService.downloadMedia();
 
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){

@@ -1,4 +1,4 @@
-angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope) {
+angular.module('app').directive('nyuCage', function (deviceDetector, $window, $rootScope, PopupService) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cage.html',
@@ -261,33 +261,8 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         **VIEW CONTROLLER**
         *******************/
 
-        function PopService(state, open, popUpState, popUpSize){
-            this.state = state || 'selection';
-            this.open = open || false;
-            this.popUpState = popUpState || '';
-            this.popUpSize = popUpSize || 'big'; //big, normal, sm
-            this.lastPopUpState = popUpState || '';
 
-            /*
-            * show@boolean: Mostrar o no el popup
-            * toPopUpState@String : Determina el contenido a mostrar en el popUp
-            * toState@String : Determina el estado de la página (view || selection)
-            * setPopUpSize@String : Determina el tamaño del popUp (enfocada a Desktop) (big || normal || sm)
-            */
-            this.toggleView = function(show, toPopUpState, toState, setPopUpSize){
-                this.lastPopUpState = this.popUpState;
-                this.open = show || false;
-                this.popUpState = toPopUpState;
-                this.state = toState || this.state;
-                this.popUpSize = setPopUpSize || 'big'; //big, normal, sm
-            };
-
-            this.closePopUp = function(){
-                this.open = false;
-            };
-        }
-
-        s.viewController = new PopService('selection', false, 'test');
+        s.viewController = new PopupService.PopupService('selection', false, 'test');
         //s.viewController.toggleView(true, 'distanceVariables', 'view');
         s.viewController.toggleView(false, '', 'selection');
         //s.viewController.toggleView(true, 'login', 'view', 'big');
@@ -299,11 +274,39 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         **USER LOGIN CALLBACK**
         ***********************/
         s.userLoginCallback = function(){
-            s.viewController.toggleView(true, 'userLog', 'view', 'xs');
+            var size = s.root.actualUser.logged ? 'xs' : 'sm';
+            s.viewController.popUpController(true, 'userLog', '', size);
+        };
+        s.userLogoutCallback = function(){
+            var size = s.root.actualUser.logged ? 'xs' : 'sm';
+            s.viewController.popUpController(true, 'userLog', '', size);
         };
         s.viewTerms = function(){
-            s.viewController.toggleView(true, 'userRegisterTerms');
+            s.viewController.popUpController(true, 'userRegisterTerms');
         };
+        /*********************
+        ****USER HEADER *****
+        ********************/
+
+        $rootScope.$on('userHeaderClick', function(event, data){
+            switch (data.name) {
+                case 'log':
+                    var size = s.root.actualUser.logged ? 'xs' : 'sm';
+                    s.viewController.toggleView(true, 'userLog', '', size);
+                    break;
+                case 'share':
+                    //code
+                    break;
+                case 'help':
+                    //code
+                    break;
+                case 'download':
+                    //code
+                    break;
+                default:
+                    //default
+            }
+        });
     }
   };
 });

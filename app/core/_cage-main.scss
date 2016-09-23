@@ -105,6 +105,8 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 	.float-right{float: right;}
 	
 	.width-100{width: 100%;}
+
+	.cursor-pointer{cursor: pointer;}
 	
 	.fw-normal{font-weight: normal;}
 	label.custom-input{
@@ -147,7 +149,7 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 					ul{
 						li{//radio container
 							list-style: none;
-							padding: 0% 0.6em;
+							padding: 0.4em 0.6em;
 							&:first-child{padding-top: 0.6em;}
 							&:last-child{padding-bottom: 0.6em;}
 							label {
@@ -155,7 +157,7 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 							}
 							ul{
 								li{
-									padding: 0 0.6em;
+									padding: 0 1.8em;
 									&:first-child{padding-top: 0%;}
 									&:last-child{padding-bottom: 0%;}
 									label{
