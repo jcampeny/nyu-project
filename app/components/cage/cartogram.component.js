@@ -76,7 +76,7 @@ angular.module('app').directive('nyuCartogram', function () {
 
             $timeout(function(){
               $scope.updateData($scope.year+1);
-            },1000);
+            },400);
           }
           
           

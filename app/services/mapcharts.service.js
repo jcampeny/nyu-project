@@ -230,10 +230,6 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 				d3.selectAll('.mapFeature')
 					.data(mapObject.dataFeatures, function(d){return getId(d);})
-					.transition()
-					// .delay(400)
-					// .duration(0)
-					.duration(1000)
 					.attr("fill", function(d){ 
 						return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
 					})
