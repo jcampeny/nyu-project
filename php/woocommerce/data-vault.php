@@ -59,7 +59,7 @@ $conn = getConnection();
 $response_array['status'] = 'error';
 $response_array['content'] = '';
 
-$role_minimum = 0
+$role_minimum = 0;
 
 if($user->status == "success"){
 	if($user_role >= $role_minimum){
