@@ -26,7 +26,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
 
             $scope.selectedCountry = {name : "United States", items : ["United States"]};
             $scope.selectedIndicators = {items : [{name: 'Exports', parent: 'Merchandise Trade'}/*,{name: 'Imports', parent: 'Merchandise Trade'}*/]};
-            $scope.selectedYears = {start: '2014', end: '2015'};
+            $scope.selectedYears = {start: '2015', end: '2015'};
             
 
             $scope.countries = mapVariablesService.getData('country');

@@ -42,36 +42,40 @@ $conn = new mysqli(
 	'datavault'
 );
 
+
 // Check connection
-if ($conn->connect_error) {
+if ($conn->connect_error !== NULL) {
 	$response_array['content'] = "Connection failed: " . $conn->connect_error;
     die("Connection failed: " . $conn->connect_error);
-    print json_encode($response_array)
+    print json_encode($response_array);
 }
 
+// $user = new User($user_data->name, $user_data->pass);
+$user_role = 0;
 
-
-$user = new User($user_data->name, $user_data->pass);
-$user_role = $user->get_role();
-
-$conn = getConnection();
+// $conn = getConnection();
 
 $response_array['status'] = 'error';
 $response_array['content'] = '';
 
 $role_minimum = 0;
 
-if($user->status == "success"){
+// if($user->status == "success"){
 	if($user_role >= $role_minimum){
 
 		$sql = "SELECT * FROM GCI 
-				WHERE code=$item_data->code 
-				AND iso1 = $item_data->iso 
+				WHERE code='$item_data->code'
+				AND (iso1='$item_data->iso' or iso1='World')
 				AND year=$item_data->year";
 
 		if ($resultado = $conn->query($sql)) {
 		    $response_array['status'] = 'success';
 			$response_array['content'] = $resultado;
+			// $response_array['data'] = array();
+
+			while ($row = $resultado->fetch_object()){
+		        $response_array['data'][] = $row;
+		    }
 			$conn->close();
 		}else{
 			$response_array['content'] = "Not saved";
@@ -79,9 +83,9 @@ if($user->status == "success"){
 	}else{
 		$response_array['content'] = "Role not valid";
 	}
-}else{
-	$response_array['content'] = $user->error;
-}
+// }else{
+// 	$response_array['content'] = $user->error;
+// }
 
 print json_encode($response_array);
 
