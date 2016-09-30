@@ -19,6 +19,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 				mapFeatures   : null,
 				mapCircles	  : null,
 				mapFlags	  : null,
+				mapLegend	  : null,
 				dataFeatures  : null,
 				tooltip       : null,
 				zoom          : null,
@@ -44,7 +45,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    function setColorScale(){
 	    	// Define the colors with colorbrewer
-	    	mapObject.colorScale = colorbrewer.RdYlBu[3]
+	    	mapObject.colorScale = ["#D64601","#FFFFDA","#2A6285"]
 	    	      .reverse()
 	    	      .map(function(rgb) { return d3.hsl(rgb); });
 	    }
@@ -65,7 +66,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    	var color = d3.scale.linear()
 	    	  .range(mapObject.colorScale)
-	    	  .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
+	    	  .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
 
 	    	setDataNest(data);
 	    	setFocusCountry(country);
@@ -105,6 +106,14 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 			mapObject.tooltip = d3.select("#map-container")
 				.append("div")
 				.attr("class", "ttip hidden");
+
+			mapObject.mapLegend = mapObject.map.append("g")
+				.attr("id", "mapLeyend")
+				.attr("transform","translate("+(mapObject.width/3)+","+(mapObject.height-25)+")");
+
+			mapObject.mapWatermark = mapObject.map.append("g")
+				.attr("id", "mapWatermark")
+				.attr("transform","translate("+(mapObject.width - 105)+","+(mapObject.height-50)+")");
 	    }
 
 	    function setZoom(){
@@ -133,7 +142,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	  );
 
 	    	// Scale it to fit nicely
-	    	s = s * 20;
+	    	s = s * 60;
 	    	mapObject.projection
 	    	    .scale(s)
 	    	    .center(t).translate([mapObject.width / 2, mapObject.height / 1.7]);	
@@ -150,28 +159,31 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 
         function setTopology(topology, objects){
-   //      	var tempArray = geometries.map(function(f) {
-   //      		if(f.type === "Polygon"){
-   //      			return {
-   //      				type: "Feature",
-   //      				id: f.properties.iso_a3,
-   //      				properties: mapObject.dataNest[f.properties.iso_a3],
-   //      				geometry: {
-   //      					type: f.type,
-   //      					coordinates: topojson.feature(topology, f).geometry.coordinates
-   //      				}
-   //      			};
-   //      		}
-   //        	});
+			mapObject.dataFeatures = topojson.feature(topology, objects).features;
 
-   //        	mapObject.dataFeatures = [];
+			// if(!mapObject.dataFeatures){
+			// 	var tempArray = objects.map(function(f) {
+	  //       		if(f.type === "Polygon"){
+	  //       			return {
+	  //       				type: "Feature",
+	  //       				id: f.properties.iso_a3,
+	  //       				properties: mapObject.dataNest[f.properties.iso_a3],
+	  //       				geometry: {
+	  //       					type: f.type,
+	  //       					coordinates: topojson.feature(topology, f).geometry.coordinates
+	  //       				}
+	  //       			};
+	  //       		}
+	  //         	});
 
-			// for (var i = 0; i < tempArray.length; i++) {
-			// 	if (tempArray[i]) {
-			// 		mapObject.dataFeatures.push(tempArray[i]);
+	  //         	mapObject.dataFeatures = [];
+
+			// 	for (var i = 0; i < tempArray.length; i++) {
+			// 		if (tempArray[i]) {
+			// 			mapObject.dataFeatures.push(tempArray[i]);
+			// 		}
 			// 	}
 			// }
-			mapObject.dataFeatures = topojson.feature(topology, objects).features;
         }
 
 	    function setFocusCountry(iso){
@@ -179,6 +191,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    function resetMap(){
+	    	addWatermark();
 	    	mapObject.path = d3.geo.path().projection(mapObject.projection);
 
 	    	mapObject.mapFeatures
@@ -187,10 +200,15 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	  	.append("path")
 	    	    .attr("class", "mapFeature")
 	    	    .attr("id", function(d) {
-	    	      return getId(d);
+	    	      	return getId(d);
 	    	    })
 	    	    .attr("fill", function(d){ 
-	    	    	return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
+	    	    	if(mapObject.type === "cartogram"){
+	    	    		return mapObject.colorFunction(mapObject.dataNest[getId(d)]) || "#CBCBCB";	
+	    	    	}else{
+	    	    		return "transparent";
+	    	    	}
+	    	    	
 	    	    })
 	    	    .attr("d", mapObject.path)
 	    	    .on("click",function(d){
@@ -263,15 +281,23 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    function addCircles(data){
-	    	mapObject.mapCircles = mapObject.mapCircles.selectAll("circle").data(data);
-	    	 
-	    	mapObject.mapCircles
+	    	mapObject.mapCircles.selectAll(".circle")
+	    		.data(data, function(d){ return d.iso; })
 	    	  	.enter()
 	    	  	.append("circle")
+	    	  	.attr("class", "circle")
 	    	  	.attr("circle-id", function(d) {
-	    	  	  return d.id;
+	    	  	  return d.iso;
 	    	  	})
-	    	    .attr("transform", function(d) { return "translate(" + mapObject.path.centroid(d) + ")"; })
+	    	    .attr("transform", function(d) {
+	    	    	var dataFeature = getDataFeature(d.iso);
+	    	    	if(dataFeature !== null){
+	    	    		return "translate(" + mapObject.path.centroid(dataFeature) + ")"; 	
+	    	    	}else{
+	    	    		return "translate(0,0)"; 
+	    	    	}
+	    	    	
+	    	    })
 	    	    .attr("r", function(d){
 	    	    	return mapObject.valueScale(mapObject.getValue(d));
 	    	    });
@@ -316,14 +342,114 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 						return mapObject.path.centroid(dataFeature)[1];	
 					}
 				})
+				.style("display",function(d){
+					if(getDataFeature(d.iso) === null){
+						return "none";
+					}
+				})
 				.attr("width", "20px")
 				.attr("height", "15px")
 				.attr("preserveAspectRatio", "none");
 	    }
 
+	    function addLegend(minValue, maxValue){
+	    	if(mapObject.type === "cartogram"){
+	    		var legendWidth = mapObject.width/3;
+	    		var rectWidth = legendWidth/9;
+	    		var dataInterval = maxValue - minValue;
+	    		var dataIntervalUnit = dataInterval/7;
+	    		var legendData = [];
+
+	    		for(var i=1 ; i<8 ; i++){
+	    			legendData.push(maxValue - i*dataIntervalUnit);
+	    		}
+	    		
+	    		mapObject.mapLegend.selectAll('.legend-item')
+	    			.data(legendData)
+	    			.enter()
+	    			.append('rect')
+	    			.attr('class','legend-item')
+	    			.attr('x',function(d,i){ return i*rectWidth;})
+	    			.attr('y',10)
+	    			.attr('width',rectWidth+'px')
+	    			.attr('height','12px')
+	    			.attr('fill',function(d,i){
+	    				return mapObject.colorFunction({total_percent:d});
+	    			});
+
+    			mapObject.mapLegend.selectAll('.legend-item-text')
+    				.data(legendData)
+    				.enter()
+    				.append('text')
+    				.attr('class','legend-item-text')
+    				.attr('x',function(d,i){ return (i+1)*rectWidth;})
+    				.attr('y',5)
+    				.attr('text-anchor','middle')
+    				.text(function(d,i){
+    					if(i<legendData.length-1){
+    						return Math.round(parseFloat(d))+'%';	
+    					}else{
+    						return "";
+    					}
+    				});
+
+    			var unknowWidth = rectWidth*1.5;
+    			mapObject.mapLegend
+    				.append('rect')
+    				.attr('class','legend-item')
+    				.attr('x',8*rectWidth)
+    				.attr('y',10)
+    				.attr('width',unknowWidth+'px')
+    				.attr('height','12px')
+    				.attr('fill',"#CBCBCB");
+
+    			mapObject.mapLegend
+    				.append('text')
+    				.attr('class','legend-item-text')
+    				.attr('x',(8*rectWidth + (unknowWidth/2)))
+    				.attr('y',5)
+    				.attr('text-anchor','middle')
+    				.text("Unknown");
+
+			}else if(mapObject.type === "flags"){
+				
+			}else if(mapObject.type === "circles"){
+				
+			}
+	    }
+
+	    function deleteMapLayers(){
+	    	d3.select("svg #layer").remove();
+	    	d3.select("svg #mapLeyend").remove();
+	    	d3.select("svg #mapWatermark").remove();
+	    }
+
 	    /* PRIVATES */
+	    function addWatermark(){
+
+	    	mapObject.mapWatermark
+	    		.append('text')
+	    		.attr('class','watermark-text')
+	    		.attr('x',0)
+	    		.attr('y',0)
+	    		.attr('text-anchor','start')
+	    		.text("© Pankaj Ghemawat");
+
+	    	mapObject.mapWatermark
+	    		.append('text')
+	    		.attr('class','watermark-text')
+	    		.attr('x',0)
+	    		.attr('y',10)
+	    		.attr('text-anchor','start')
+	    		.text("Source: www.ghemawat.com");
+	    }
+
 	    function getId(d){
-	    	return d.properties.iso_a3?d.properties.iso_a3:d.id;
+	    	if(d.properties){
+	    		return  d.properties.iso_a3?d.properties.iso_a3:d.properties.id;
+	    	}else{
+	    		return d.id;
+	    	}
 	    }
 
 	    function updateFlags(data){
@@ -339,7 +465,11 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 						var focusId = mapObject.focusCountry.iso;
 						var focusPoint = [d3.select('#flag_'+focusId).attr("x"), d3.select('#flag_'+focusId).attr("y")];
 
-						return getNewDistance(focusPoint, currentPoint, mapObject.valueScale(mapObject.getValue(d)))[0];						
+						if(isNaN(getNewDistance(focusPoint, currentPoint, mapObject.valueScale(mapObject.getValue(d)))[0])){
+							console.log(d);
+						}else{
+							return getNewDistance(focusPoint, currentPoint, mapObject.valueScale(mapObject.getValue(d)))[0];
+						}
 					}
 				})
 				.attr("y", function (d) {
@@ -356,7 +486,14 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    }
 
 	    function updateCircles(data){
-
+	    	mapObject.mapCircles.selectAll(".circle")
+	    		.data(data, function(d){ return d.iso; })
+	    		.transition()
+	    		.duration(700)
+	    		.attr("r", function(d){
+	    			return mapObject.valueScale(mapObject.getValue(d));
+	    		});
+				
 	    }
 
 	    
@@ -374,6 +511,10 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    // Point p1 focus - p2 relative
 	    function getNewDistance(p1, p2, modifier){
+	    	if(parseFloat(p1[0]) === parseFloat(p2[0]) && parseFloat(p1[1]) === parseFloat(p2[1])){
+	    		return p1;
+	    	}
+
 	    	var distX = Math.abs(p2[0] - p1[0]);
 	    	var distY = Math.abs(p2[1] - p1[1]);
 	    	var h = Math.sqrt( Math.pow(distX,2) + Math.pow(distY,2));
@@ -425,7 +566,7 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    function getDataFeature(iso){
 			for(var i=0; i<mapObject.dataFeatures.length ; i++){
-				if(mapObject.dataFeatures[i].id === iso){
+				if(mapObject.dataFeatures[i].properties.iso_a3 === iso){
 					return mapObject.dataFeatures[i];
 				}
 			}
@@ -452,7 +593,9 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 			setValueFunction : setValueFunction,
 			addCircles		 : addCircles,
 			addFlags		 : addFlags,
-			fetchFlags		 : fetchFlags
+			fetchFlags		 : fetchFlags,
+			addLegend		 : addLegend,
+			deleteMapLayers  : deleteMapLayers
 		});
 
 

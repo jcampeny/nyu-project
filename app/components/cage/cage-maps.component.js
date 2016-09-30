@@ -8,9 +8,10 @@ angular.module('app').directive('nyuCagemaps', function () {
       scope.mapHeight = $('#map-container').height();  
       controller.renderMap();
     },
-    controller: function ($scope, LoginService, $http, MapChartsService) {
+    controller: function ($scope, $stateParams, LoginService, $http, MapChartsService) {
         var dataset;
         $scope.newData = 0;
+        $scope.type = $stateParams.type;
 
         $scope.updateData = function(){
             angular.forEach(dataset, function(d,i){
@@ -22,23 +23,21 @@ angular.module('app').directive('nyuCagemaps', function () {
             MapChartsService.updateData(dataset);
         };
 
+        MapChartsService.fetchFlags();
+        MapChartsService.resetMapObject();
+        MapChartsService.setType($stateParams.type);
+        MapChartsService.setColorScale();
+
         this.renderMap = function(){
             var detailFile = "countries_50";
-            var country = "usa";
+            var country = "USA";
 
-            MapChartsService.fetchFlags();
-            MapChartsService.resetMapObject();
-            MapChartsService.setType("circles");
+            d3.select("svg #layer").remove();
             MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
             MapChartsService.iniMapLayers();
             MapChartsService.setZoom();
             MapChartsService.setProjection("equirectangular");
 
-            // var carto = d3.cartogram()
-            //   .projection(MapChartsService.getMapObject().projection)
-            //   .properties(function(d) {
-            //     return dataById[d.properties.iso_a3];
-            //   });
 
             d3.json('/localdata/vizdata/'+detailFile+'.json', function(topology) {
 
@@ -46,38 +45,33 @@ angular.module('app').directive('nyuCagemaps', function () {
                 d3.csv("/localdata/vizdata/"+country+"_exports.csv", function(data) {
                     dataset = data;
 
-                    if(country === "ger"){
-                        dataset.push({
-                          iso: "DEU",
-                          partner:"Germany",
-                          partner_percent:"#N/A",
-                          total:"0",
-                          total_percent:"20"
-                        });
-                    }else if(country === "usa"){
-                        dataset.push({
-                          iso: "USA",
-                          partner:"United States",
-                          partner_percent:"#N/A",
-                          total:"0",
-                          total_percent:"20"
-                        });
+                    MapChartsService.setValueFunction(function(d){
+                        if(d){
+                          return d.total_percent;      
+                        }else{
+                          return 0;
+                        }
+                    }); 
+
+                    if(country === "GER"){
+                        dataset.push({iso: "DEU",partner:"Germany",partner_percent:"#N/A",total:"0",total_percent:"20"});
+                    }else if(country === "USA"){
+                        dataset.push({iso: "USA",partner:"United States",partner_percent:"#N/A",total:"0",total_percent:"20"});
                     }
 
-                    dataById = MapChartsService.setDataNest(dataset, country);
-                    MapChartsService.setTopology(topology, topology.objects[detailFile+'_geo'].geometries);
-                    MapChartsService.setFocusCountry(country);
+                    MapChartsService.setDataset(dataset, country);
+                    MapChartsService.setTopology(topology, topology.objects[detailFile+'_geo']);
                     MapChartsService.resetMap();
 
                     var maxValue = d3.max(dataset,function(d){return parseFloat(d.total_percent);});
                     var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
-                    MapChartsService.setValueScale([minValue, maxValue], [1.2, 0]);
-                    MapChartsService.setValueFunction(function(d){
-                        return d.total_percent;    
-                    });
+                    MapChartsService.setValueScale([minValue, maxValue], [0, 20]);
 
-                    MapChartsService.addCircles(dataset);
-
+                    if($stateParams.type === "circles"){
+                      MapChartsService.addCircles(dataset);
+                    }else if($stateParams.type === "flags"){
+                      MapChartsService.addFlags(dataset);
+                    }
                 });
             });
         };

@@ -158,7 +158,7 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
 				.state('cage.cage', {url:'', template: '<nyu-cage></nyu-cage>'})
 				.state('cage.comparator', {url:'/comparator', template: '<nyu-cage-comparator></nyu-cage-comparator>'})
 				.state('cage.gravityModeler', {url:'/gravity-modeler', template: '<nyu-cage-gravity-modeler></nyu-cage-gravity-modeler>'})
-				.state('cage.cagemaps', {url:'/cagemaps', template: '<nyu-cagemaps></nyu-cagemaps>'})
+				.state('cage.cagemaps', {url:'/cagemaps/:type', template: '<nyu-cagemaps></nyu-cagemaps>'})
 				.state('cage.cartogram', {url:'/cartogram/:country', template: '<nyu-cartogram></nyu-cartogram>'})
 
 				

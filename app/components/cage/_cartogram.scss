@@ -1,10 +1,27 @@
 .cartogram-container{
-	padding: 50px;
+	// padding: 50px;
 
 	#map-container {
-		min-height: 60vh;
-		margin-top: 20px;
-		border: 2px solid black;
+		height: calc(100vh - 240px);
+		// margin-top: 20px;
+		// border: 2px solid black;
+	}
+
+	#mapLeyend{
+		.legend-item-text{
+			font-size:10px;
+			fill:#000000;
+			color:#000000;
+		}
+	}
+
+	#mapWatermark{
+		.watermark-text{
+			font-weight: 300;
+			font-size: 8px;
+			fill:#868988;
+			color:#868988;
+		}
 	}
 
 	path.mapFeature {
