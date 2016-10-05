@@ -32,15 +32,21 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       );
     },
     controller: function ($scope, $timeout, MapChartsService, mapVariablesService) {
-        var dataset, country = "", countryName = "";
+        var dataset, country = "", countryName = "", self = this;
         
         // MapChartsService.fetchFlags();
         MapChartsService.resetMapObject();
         MapChartsService.setType("cartogram");
         MapChartsService.setColorScale();
 
-        this.renderMap = function(country, indicator, year){
-            if(country && country[0]){
+        this.renderMap = function(country, indicator, year, countryIso){
+            if(countryIso){
+              if(mapVariablesService.getCountryByISO(countryIso) === null){
+                return;
+              }else{
+                country = countryIso;
+              }
+            }else if(country && country[0]){
               countryName = country[0];
               country = mapVariablesService.getCountryISO(country[0]);
             }
@@ -49,7 +55,10 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
               return;
             }
 
-
+            MapChartsService.setClickFunction(function(newCountry){
+              $scope.country = [mapVariablesService.getCountryByISO(newCountry).name];
+              self.renderMap(null, indicator, year, newCountry);
+            });
             MapChartsService.deleteMapLayers();
             MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
             MapChartsService.iniMapLayers();
@@ -63,20 +72,45 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                 DataVaultService.getCartogramIndicator('m.exports', country, year).then(function(result){
                   dataset = [];
 
+                  var data = result.data.data.sort(function(a,b){
+                    return parseFloat(a.value) - parseFloat(b.value);
+                  });
+                  var totalCountry = 0;
                   var worldValues = {};
-                  angular.forEach(result.data.data, function(d){
+                  var nonZeroValues = 0;
+
+                  angular.forEach(data, function(d){
                     if(d.iso1 === "World"){
                       worldValues[d.iso2] = parseFloat(d.value);
+                    
+                    }else if(d.iso1 === country && d.iso2 === "World"){
+                      totalCountry = parseFloat(d.value);
                     }
                   });
 
-                  angular.forEach(result.data.data, function(d){
+                  angular.forEach(data, function(d){
                     if(d.iso1 === country && d.iso2 !== "World"){
                       d.iso = d.iso2;
                       d.total_percent = parseFloat(d.value) / worldValues[d.iso2] * 100;
+                      d.total_received = parseFloat(d.value) / totalCountry * 100;
                       dataset.push(d);
                     }
                   });
+
+                  angular.forEach(dataset,function(d,i){
+                    if(Math.round(d.total_percent) > 0 && nonZeroValues === 0){
+                      nonZeroValues = dataset.length - i;
+                    }
+                  });
+                  var skipValues = dataset.length - nonZeroValues;
+                  var perncentiles = {
+                    "p2"  : skipValues + Math.round(nonZeroValues * 2 / 100),
+                    "p4"  : skipValues + Math.round(nonZeroValues * 4 / 100),
+                    "p8"  : skipValues + Math.round(nonZeroValues * 8 / 100),
+                    "p16" : skipValues + Math.round(nonZeroValues * 16 / 100),
+                    "p32" : skipValues + Math.round(nonZeroValues * 32 / 100),
+                    "p64" : skipValues + Math.round(nonZeroValues * 64 / 100)
+                  };
                     
                   MapChartsService.setValueFunction(function(d){
                       if(d){
@@ -90,7 +124,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
                     dataset.push({iso: country,partner:countryName, partner_percent:"#N/A",total:"0",total_percent:maxValue});
 
-                    MapChartsService.setDataset(dataset, country);
+                    MapChartsService.setDataset(dataset, country, perncentiles);
                     MapChartsService.setTopology(topology, topology.objects['Exports_'+year+'_'+country]);
                     MapChartsService.resetMap();
                     

@@ -1,5 +1,5 @@
 
-angular.module('app').service("MapChartsService",["ArrayService", function(ArrayService) {
+angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", function(ArrayService, mapVariablesService) {
 	    var mapObject = {};
 
 	    function getMapObject(){
@@ -30,7 +30,8 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 				valueScale 	  : null,
 				getValue	  : null,
 				countryFlags  : null,
-				focusCountry  : null
+				focusCountry  : null,
+				clickFunction : null
 		    };
 	    }
 
@@ -45,12 +46,12 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 
 	    function setColorScale(){
 	    	// Define the colors with colorbrewer
-	    	mapObject.colorScale = ["#D64601","#FFFFDA","#2A6285"]
+	    	mapObject.colorScale = ["#D64601","#EA9252","#FCBB82","#FFFFDA","#A0D3D3","#3982A1","#2A6285"]
 	    	      .reverse()
 	    	      .map(function(rgb) { return d3.hsl(rgb); });
 	    }
 
-	    function setDataset(data, country){
+	    function setDataset(data, country, perncentiles){
 	    	mapObject.dataset = data;
 
 	    	var values = data
@@ -64,24 +65,29 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	  lo = parseFloat(values[0]),
 	    	  hi = parseFloat(values[values.length - 1]);
 
-	    	var color = d3.scale.linear()
-	    	  .range(mapObject.colorScale)
-	    	  .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
-
 	    	setDataNest(data);
 	    	setFocusCountry(country);
 	    	
 	    	var maxValue = d3.max(data,function(d){return parseFloat(mapObject.getValue(d));});
 	    	var minValue = d3.min(data,function(d){return parseFloat(mapObject.getValue(d));});
 	    	setValueScale([minValue, maxValue], [1.2, 0]);
-	    	
-	    	setColorFunction(function(d){
-	    	  if(d){
-	    	    return color(parseFloat(d.total_percent));
-	    	  }else{
-	    	    return "";
-	    	  }
-	    	});
+
+	    	if(mapObject.type === "cartogram"){
+		    	var color = d3.scale.linear()
+		    	  .range(mapObject.colorScale)
+		    	  // .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
+		    	  .domain([0, values[perncentiles.p2], values[perncentiles.p4], values[perncentiles.p8], values[perncentiles.p16], values[perncentiles.p32], values[perncentiles.p64]]);
+
+		    	
+		    	
+		    	setColorFunction(function(d){
+		    	  if(d){
+		    	    return color(parseFloat(d.total_percent));
+		    	  }else{
+		    	    return "";
+		    	  }
+		    	});
+		    }
 	    }
 
 	    function iniMapLayers(){
@@ -114,6 +120,9 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 			mapObject.mapWatermark = mapObject.map.append("g")
 				.attr("id", "mapWatermark")
 				.attr("transform","translate("+(mapObject.width - 105)+","+(mapObject.height-50)+")");
+
+			mapObject.tooltip = d3.select('#map-container').append('div')
+				.attr("id", "mapTooltip");
 	    }
 
 	    function setZoom(){
@@ -216,25 +225,40 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	    		if(getId(d).toUpperCase() === mapObject.focusCountry.iso){
 	    	    			return;
 	    	    		}
-	    	    		if(getId(d).toUpperCase() === "USA" || getId(d).toUpperCase() === "DEU"){
-	    	    			d3.json('/localdata/vizdata/'+getId(d).toUpperCase()+'_2014_TotalExports.json', function(topology) {
-	    	    				d3.csv("/localdata/vizdata/"+getId(d).toLowerCase()+"_exports.csv", function(data) {
-	    	    					if(getId(d) === "DEU"){
-	    	    					    data.push({iso: "DEU",partner:"Germany",partner_percent:"#N/A",total:"0",total_percent:"20"});
-	    	    					}else if(getId(d) === "USA"){
-	    	    					    data.push({iso: "USA",partner:"United States",partner_percent:"#N/A",total:"0",total_percent:"20"});
-	    	    					}
-
-	    	    					setDataset(data, getId(d));
-		    	    				setTopology(topology, topology.objects[getId(d).toUpperCase()+'_2014_TotalExports']);
-		    	    				setFocusCountry(getId(d));
-		    	    				updateData(mapObject.dataFeatures);
-		    	    			});
-	    	    			});
+	    	    		if(mapObject.clickFunction !== null){
+	    	    			mapObject.clickFunction(getId(d).toUpperCase());
 	    	    		}
 	    	    	}
 	    	    	console.log(d);
-	    	    });
+	    	    })
+	    	    .on('mousemove', function(d) {
+                    var mouse = d3.mouse(mapObject.map.node()).map(function(d) {
+                        return parseInt(d);
+                    });
+                    var country = mapVariablesService.getCountryByISO(d.properties.iso_a3);
+                    if(country !== null && country.iso !== mapObject.focusCountry.iso){
+                    	var mapWidth = parseInt(mapObject.map.style("width"));
+                    	var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
+
+                    	mapObject.tooltip.classed('show', true)
+                    	    .attr('style', 'left:' + (tooltipLeft) +
+                    	            'px; top:' + (mouse[1] - 35) + 'px')
+                    	    .html(
+                    	    	"<div class='title'>"+country.name+""+
+                    	    	"<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>"+
+                    	    	"<div class='item'>Common Official Language: No</div>"+
+                    	    	"<div class='item'>Colonial Linkage: Yes</div>"+
+                    	    	"<div class='item'>Trade Agreement: Yes</div>"+
+                    	    	"<div class='item'>Regional Bloc: Yes</div>"+
+                    	    	"<div class='item'>Physical Distance: No</div>"+
+                    	    	"<div class='item'>Common Border: No</div>"+
+                    	    	"<div class='item'>Ratio of Per Capita Income: No</div>"
+                    	    );
+                    }
+                })
+                .on('mouseout', function() {
+                    mapObject.tooltip.classed('show', false);
+                });
 	    }
 
 	    function setColorFunction(colorFunction){
@@ -422,6 +446,11 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 	    	d3.select("svg #layer").remove();
 	    	d3.select("svg #mapLeyend").remove();
 	    	d3.select("svg #mapWatermark").remove();
+	    	d3.select('#mapTooltip').remove();
+	    }
+
+	    function setClickFunction(clickFunction){
+	    	mapObject.clickFunction = d3.functor(clickFunction);
 	    }
 
 	    /* PRIVATES */
@@ -595,7 +624,8 @@ angular.module('app').service("MapChartsService",["ArrayService", function(Array
 			addFlags		 : addFlags,
 			fetchFlags		 : fetchFlags,
 			addLegend		 : addLegend,
-			deleteMapLayers  : deleteMapLayers
+			deleteMapLayers  : deleteMapLayers,
+			setClickFunction : setClickFunction
 		});
 
 

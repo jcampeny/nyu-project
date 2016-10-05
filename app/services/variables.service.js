@@ -338,11 +338,23 @@ angular.module('app')
         ];
 
         return {
-            getData : getData,
-            getCountryISO: getCountryISO
+            getData         : getData,
+            getCountryISO   : getCountryISO,
+            getCountryByISO : getCountryByISO
         };
         function getData(name){
             return json[name];
+        }
+        function getCountryByISO(iso){
+            var country = null;
+
+            angular.forEach(json.country["Individual Countries"],function(c){
+                if(c.iso === iso){
+                    country = c;
+                }
+            });
+
+            return country;
         }
         function getCountryISO(name){
             var iso = null;

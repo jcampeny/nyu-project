@@ -1,29 +1,59 @@
+#map-container {
+	position:relative;
+	height: calc(100vh - 240px);
+	// margin-top: 20px;
+	// border: 2px solid black;
+}
+
+#mapLeyend{
+	.legend-item-text{
+		font-size:10px;
+		fill:#000000;
+		color:#000000;
+	}
+}
+
+#mapWatermark{
+	.watermark-text{
+		font-weight: 300;
+		font-size: 8px;
+		fill:#868988;
+		color:#868988;
+	}
+}
+
+#mapTooltip {
+	position:absolute;
+	min-width: 200px;
+	padding:7px;
+	border-radius: 2px;
+	background-color:rgba(239, 240, 240, 0.9);
+	font-size: 12px;
+	pointer-events: none;
+	@include opacity(0);
+	@include transition(opacity 0.2s linear, display 0s linear 0.2s);
+
+	&.show {
+		@include opacity(1);
+	}
+
+	.title{
+		font-size: 14px;
+		color:#0093FD;
+	}
+
+	.item{
+		display:block;
+		margin-bottom: 5px; 
+		color:#000000;
+	}
+}
+
+
 .cartogram-container{
 	// padding: 50px;
 
-	#map-container {
-		height: calc(100vh - 240px);
-		// margin-top: 20px;
-		// border: 2px solid black;
-	}
-
-	#mapLeyend{
-		.legend-item-text{
-			font-size:10px;
-			fill:#000000;
-			color:#000000;
-		}
-	}
-
-	#mapWatermark{
-		.watermark-text{
-			font-weight: 300;
-			font-size: 8px;
-			fill:#868988;
-			color:#868988;
-		}
-	}
-
+	
 	path.mapFeature {
 	    stroke: #666;
 	    stroke-width: .5;
