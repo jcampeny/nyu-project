@@ -78,6 +78,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                   var totalCountry = 0;
                   var worldValues = {};
                   var nonZeroValues = 0;
+                  var skipThreshold = 0.001;
 
                   angular.forEach(data, function(d){
                     if(d.iso1 === "World"){
@@ -97,20 +98,33 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     }
                   });
 
+                  dataset = dataset.sort(function(a,b){
+                    return parseFloat(a.total_percent) - parseFloat(b.total_percent);
+                  });
                   angular.forEach(dataset,function(d,i){
-                    if(Math.round(d.total_percent) > 0 && nonZeroValues === 0){
+                    if(d.total_received > skipThreshold && nonZeroValues === 0){
                       nonZeroValues = dataset.length - i;
                     }
                   });
                   var skipValues = dataset.length - nonZeroValues;
-                  var perncentiles = {
-                    "p2"  : skipValues + Math.round(nonZeroValues * 2 / 100),
-                    "p4"  : skipValues + Math.round(nonZeroValues * 4 / 100),
-                    "p8"  : skipValues + Math.round(nonZeroValues * 8 / 100),
-                    "p16" : skipValues + Math.round(nonZeroValues * 16 / 100),
-                    "p32" : skipValues + Math.round(nonZeroValues * 32 / 100),
-                    "p64" : skipValues + Math.round(nonZeroValues * 64 / 100)
+                  var percentiles = {
+                    "p2"  : skipValues + Math.round(nonZeroValues * 98 / 100),
+                    "p4"  : skipValues + Math.round(nonZeroValues * 96 / 100),
+                    "p8"  : skipValues + Math.round(nonZeroValues * 92 / 100),
+                    "p16" : skipValues + Math.round(nonZeroValues * 84 / 100),
+                    "p32" : skipValues + Math.round(nonZeroValues * 68 / 100),
+                    "p64" : skipValues + Math.round(nonZeroValues * 46 / 100)
                   };
+
+                  var percentilesValues = [
+                    0,
+                    dataset[percentiles.p64].total_percent,
+                    dataset[percentiles.p32].total_percent,
+                    dataset[percentiles.p16].total_percent,
+                    dataset[percentiles.p8].total_percent,
+                    dataset[percentiles.p4].total_percent,
+                    dataset[percentiles.p2].total_percent
+                  ];
                     
                   MapChartsService.setValueFunction(function(d){
                       if(d){
@@ -124,31 +138,31 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
                     dataset.push({iso: country,partner:countryName, partner_percent:"#N/A",total:"0",total_percent:maxValue});
 
-                    MapChartsService.setDataset(dataset, country, perncentiles);
+                    MapChartsService.setDataset(dataset, country, percentilesValues);
                     MapChartsService.setTopology(topology, topology.objects['Exports_'+year+'_'+country]);
                     MapChartsService.resetMap();
                     
                     
-                    MapChartsService.addLegend(minValue, maxValue);
+                    MapChartsService.addLegend(percentilesValues);
                 });
             });
         };
 
-        $scope.updateData = function(){
-          $scope.year++;
-          if($scope.year <= 2015){
-            d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
-                MapChartsService.setTopology(topology, topology.objects['Exports_'+$scope.year+'_DEU']);
-                MapChartsService.updateData();
-            });  
+        // $scope.updateData = function(){
+        //   $scope.year++;
+        //   if($scope.year <= 2015){
+        //     d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
+        //         MapChartsService.setTopology(topology, topology.objects['Exports_'+$scope.year+'_DEU']);
+        //         MapChartsService.updateData();
+        //     });  
 
-            $timeout(function(){
-              $scope.updateData($scope.year+1);
-            },400);
-          }
+        //     $timeout(function(){
+        //       $scope.updateData($scope.year+1);
+        //     },400);
+        //   }
           
           
-        };
+        // };
     }
   };
 });

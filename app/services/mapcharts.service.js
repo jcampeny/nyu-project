@@ -45,13 +45,13 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    }
 
 	    function setColorScale(){
-	    	// Define the colors with colorbrewer
-	    	mapObject.colorScale = ["#D64601","#EA9252","#FCBB82","#FFFFDA","#A0D3D3","#3982A1","#2A6285"]
-	    	      .reverse()
+	    	// Define the colors with colorbrewer #280000
+	    	// mapObject.colorScale = ["#D64601","#D64601","#EA9252","#FCBB82","#FFFFDA","#A0D3D3","#3982A1","#2A6285","#2A6285"]
+	    	mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
 	    	      .map(function(rgb) { return d3.hsl(rgb); });
 	    }
 
-	    function setDataset(data, country, perncentiles){
+	    function setDataset(data, country, percentiles){
 	    	mapObject.dataset = data;
 
 	    	var values = data
@@ -76,9 +76,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 		    	var color = d3.scale.linear()
 		    	  .range(mapObject.colorScale)
 		    	  // .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
-		    	  .domain([0, values[perncentiles.p2], values[perncentiles.p4], values[perncentiles.p8], values[perncentiles.p16], values[perncentiles.p32], values[perncentiles.p64]]);
-
-		    	
+		    	  .domain(percentiles);
 		    	
 		    	setColorFunction(function(d){
 		    	  if(d){
@@ -376,20 +374,14 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				.attr("preserveAspectRatio", "none");
 	    }
 
-	    function addLegend(minValue, maxValue){
+	    function addLegend(percentiles){
 	    	if(mapObject.type === "cartogram"){
+	    		var percArray = percentiles.reverse();
 	    		var legendWidth = mapObject.width/3;
 	    		var rectWidth = legendWidth/9;
-	    		var dataInterval = maxValue - minValue;
-	    		var dataIntervalUnit = dataInterval/7;
-	    		var legendData = [];
-
-	    		for(var i=1 ; i<8 ; i++){
-	    			legendData.push(maxValue - i*dataIntervalUnit);
-	    		}
 	    		
 	    		mapObject.mapLegend.selectAll('.legend-item')
-	    			.data(legendData)
+	    			.data(percArray)
 	    			.enter()
 	    			.append('rect')
 	    			.attr('class','legend-item')
@@ -402,7 +394,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    			});
 
     			mapObject.mapLegend.selectAll('.legend-item-text')
-    				.data(legendData)
+    				.data(percArray)
     				.enter()
     				.append('text')
     				.attr('class','legend-item-text')
@@ -410,7 +402,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
     				.attr('y',5)
     				.attr('text-anchor','middle')
     				.text(function(d,i){
-    					if(i<legendData.length-1){
+    					if(i<percArray.length-1){
     						return Math.round(parseFloat(d))+'%';	
     					}else{
     						return "";
