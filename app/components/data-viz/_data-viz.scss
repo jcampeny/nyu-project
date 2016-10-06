@@ -156,6 +156,7 @@ nyu-data-viz{
 						width: 100%;
 						background-color: $super-light-gray;
 						margin-left: 10px;
+						z-index: 5;
 
 						overflow-y: scroll;
 						max-height: 100%;
@@ -176,6 +177,7 @@ nyu-data-viz{
 						width: 100%;
 						margin-left: 20px;
 						background-color: $super-light-gray;	
+						z-index: 5;
 
 						overflow-y: scroll;
 						max-height: 100%;
