@@ -37,7 +37,7 @@ angular.module('app').directive('nyuCagemaps', function () {
             MapChartsService.setProjection("equirectangular");
 
 
-            d3.json('/localdata/vizdata/'+detailFile+'.json', function(topology) {
+            d3.json('/localdata/vizdata/countries_50.json', function(topology) {
 
                 // Read the data for the cartogram
                 d3.csv("/localdata/vizdata/"+country+"_exports.csv", function(data) {

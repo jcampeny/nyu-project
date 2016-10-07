@@ -70,6 +70,10 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 	input.custom-input{
 		border-radius: 0;
 		border: 1px solid #626362;
+
+		&[disabled="disabled"]{
+			background: #cdcdcd;
+		}
 	}
 
 	h1{

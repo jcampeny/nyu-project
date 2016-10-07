@@ -123,7 +123,7 @@
 				<!-- marker -->
 				<div class="marker-section">
 					<h3 class="margin-no-bottom color-blue">Marker Selections
-						<span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-marker');">EDIT</span>
+						<!-- <span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-marker');">EDIT</span> -->
 					</h3>
 					<div class="content no-padding margin-h">
 						<p ng-show="selectedAreaMapGR.marker == 'no-markers'">No markers</p>
@@ -142,10 +142,10 @@
 						<path fill="none" stroke="#222637" stroke-miterlimit="10" d="M24.934,16.764c-0.002-1.133,0.684-2.104,1.66-2.523    c-0.236-0.883-0.59-1.717-1.045-2.486c-1,0.424-2.201,0.23-3.016-0.584c-0.814-0.811-1.008-2.004-0.592-3.004    c-0.771-0.449-1.609-0.797-2.496-1.031c-0.393,1.037-1.389,1.779-2.564,1.779c-1.176,0-2.171-0.742-2.564-1.779    c-0.891,0.234-1.732,0.586-2.509,1.039c0.497,1.025,0.33,2.289-0.52,3.139c-0.847,0.848-2.104,1.016-3.127,0.527    c-0.451,0.781-0.797,1.629-1.025,2.523c1.098,0.361,1.895,1.383,1.895,2.602c0.001,1.202-0.773,2.211-1.848,2.584    c0.246,0.891,0.611,1.73,1.078,2.504c1.029-0.516,2.31-0.354,3.168,0.504c0.84,0.838,1.014,2.082,0.542,3.098    c0.785,0.439,1.635,0.77,2.531,0.988c0.381-1.063,1.387-1.826,2.578-1.826c1.16-0.002,2.146,0.715,2.551,1.729    c0.881-0.25,1.711-0.617,2.477-1.082c-0.441-1.008-0.256-2.225,0.566-3.047c0.805-0.807,1.982-1.008,2.975-0.607    c0.439-0.775,0.771-1.615,0.994-2.504C25.641,18.897,24.934,17.913,24.934,16.764z"/>
 						<circle fill="none" stroke="#222637" stroke-miterlimit="10" cx="16.881" cy="16.832" r="2.617"/>
 					</svg>
-					<svg class="content float-right cursor-pointer" width="35px" height="35px">
+					<!-- <svg class="content float-right cursor-pointer" width="35px" height="35px">
 						<circle fill="none" stroke="#222637" stroke-miterlimit="10" cx="16.889" cy="16.889" r="16.389"/>
 						<polygon fill="none" stroke="#222637" stroke-miterlimit="10" points="12.324,9.426 25.152,16.832 12.324,24.239  "/>
-					</svg>
+					</svg> -->
 					<!--<i class="fa fa-cog" aria-hidden="true" ng-click="viewController.popUpController(true, 'settings', 'general');"></i>
 					<i class="fa fa-play-circle-o" aria-hidden="true"></i>-->
 				</div>
@@ -163,7 +163,13 @@
 		</div>
 		<!-- MAP SECTION -->
 		<div class="map-section content margin-top">
-			<nyu-cartogram country="selectedCountry.items" indicator="selectedIndicators.items" year="selectedYears.start"></nyu-cartogram>
+			<nyu-cartogram 
+				country="selectedCountry.items" 
+				indicator="selectedIndicators.items" 
+				year="selectedYears.start" 
+				distortion="selectedAreaMapGR.size" 
+				country-comp-tooltip="comparisonTooltips.state"
+			></nyu-cartogram>
 		</div>
 	</div>
 </div>

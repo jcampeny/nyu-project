@@ -74,7 +74,8 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 		    	var color = d3.scale.linear()
 		    	  .range(mapObject.colorScale)
 		    	  // .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
-		    	  .domain(percentiles);
+		    	  .domain(percentiles)
+		    	  .clamp(true);
 		    	
 		    	setColorFunction(function(d){
 		    	  if(d){
@@ -237,20 +238,25 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    			var mapWidth = parseInt(mapObject.map.style("width"));
 	    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
 
+	    	    			var tooltipContent = 
+	    	    				"<div class='title'>"+country.name+""+
+    	    			    	"<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>";
+
+    	    			    if(mapObject.compTooltips){
+    	    			    	tooltipContent += 
+    	    			    		"<div class='item'>Common Official Language: No</div>"+
+    	    			    		"<div class='item'>Colonial Linkage: Yes</div>"+
+    	    			    		"<div class='item'>Trade Agreement: Yes</div>"+
+    	    			    		"<div class='item'>Regional Bloc: Yes</div>"+
+    	    			    		"<div class='item'>Physical Distance: No</div>"+
+    	    			    		"<div class='item'>Common Border: No</div>"+
+    	    			    		"<div class='item'>Ratio of Per Capita Income: No</div>";
+    	    			    }
+
 	    	    			mapObject.tooltip.classed('show', true)
 	    	    			    .attr('style', 'left:' + (tooltipLeft) +
 	    	    			            'px; top:' + (mouse[1] - 35) + 'px')
-	    	    			    .html(
-	    	    			    	"<div class='title'>"+country.name+""+
-	    	    			    	"<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>"+
-	    	    			    	"<div class='item'>Common Official Language: No</div>"+
-	    	    			    	"<div class='item'>Colonial Linkage: Yes</div>"+
-	    	    			    	"<div class='item'>Trade Agreement: Yes</div>"+
-	    	    			    	"<div class='item'>Regional Bloc: Yes</div>"+
-	    	    			    	"<div class='item'>Physical Distance: No</div>"+
-	    	    			    	"<div class='item'>Common Border: No</div>"+
-	    	    			    	"<div class='item'>Ratio of Per Capita Income: No</div>"
-	    	    			    );
+	    	    			    .html(tooltipContent);
 	    	    		}
 	    	    	}
                 })
@@ -503,6 +509,10 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	mapObject.clickFunction = d3.functor(clickFunction);
 	    }
 
+	    function setConfigVar(configVar, value){
+	    	mapObject[configVar] = value;
+	    }
+
 	    /* PRIVATES */
 	    function addWatermark(){
 
@@ -679,7 +689,8 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 			fetchFlags		 : fetchFlags,
 			addLegend		 : addLegend,
 			deleteMapLayers  : deleteMapLayers,
-			setClickFunction : setClickFunction
+			setClickFunction : setClickFunction,
+			setConfigVar	 : setConfigVar
 		});
 
 

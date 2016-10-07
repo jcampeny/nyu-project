@@ -5,7 +5,7 @@ angular.module('app')
 		return $http.post('/php/woocommerce/data-vault.php', {
 			user : $rootScope.actualUser,
 			item : {
-				code : 'm.exports',
+				code : code,
 				iso : iso,
 				year : year
 			}
@@ -16,7 +16,7 @@ angular.module('app')
 		return $http.post('/php/woocommerce/cartogram-get-data.php', {
 			user : $rootScope.actualUser,
 			item : {
-				code : 'm.exports',
+				code : code,
 				iso : iso,
 				reason : 'years'
 			}
