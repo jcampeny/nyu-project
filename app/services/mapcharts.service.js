@@ -45,8 +45,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    }
 
 	    function setColorScale(){
-	    	// Define the colors with colorbrewer #280000
-	    	// mapObject.colorScale = ["#D64601","#D64601","#EA9252","#FCBB82","#FFFFDA","#A0D3D3","#3982A1","#2A6285","#2A6285"]
 	    	mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
 	    	      .map(function(rgb) { return d3.hsl(rgb); });
 	    }
@@ -125,7 +123,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    function setZoom(){
 	    	mapObject.zoom = d3.behavior.zoom()
-                .scaleExtent([1, 10])
+                .scaleExtent([1, 8])
                 .on('zoom', doZoom);
 
 	    	mapObject.map.call(mapObject.zoom);
@@ -230,29 +228,31 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    	console.log(d);
 	    	    })
 	    	    .on('mousemove', function(d) {
-                    var mouse = d3.mouse(mapObject.map.node()).map(function(d) {
-                        return parseInt(d);
-                    });
-                    var country = mapVariablesService.getCountryByISO(d.properties.iso_a3);
-                    if(country !== null && country.iso !== mapObject.focusCountry.iso){
-                    	var mapWidth = parseInt(mapObject.map.style("width"));
-                    	var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
+	    	    	if(mapObject.type === "cartogram"){
+	    	    		var mouse = d3.mouse(mapObject.map.node()).map(function(d) {
+	    	    		    return parseInt(d);
+	    	    		});
+	    	    		var country = mapVariablesService.getCountryByISO(d.properties.iso_a3);
+	    	    		if(country !== null && country.iso !== mapObject.focusCountry.iso){
+	    	    			var mapWidth = parseInt(mapObject.map.style("width"));
+	    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
 
-                    	mapObject.tooltip.classed('show', true)
-                    	    .attr('style', 'left:' + (tooltipLeft) +
-                    	            'px; top:' + (mouse[1] - 35) + 'px')
-                    	    .html(
-                    	    	"<div class='title'>"+country.name+""+
-                    	    	"<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>"+
-                    	    	"<div class='item'>Common Official Language: No</div>"+
-                    	    	"<div class='item'>Colonial Linkage: Yes</div>"+
-                    	    	"<div class='item'>Trade Agreement: Yes</div>"+
-                    	    	"<div class='item'>Regional Bloc: Yes</div>"+
-                    	    	"<div class='item'>Physical Distance: No</div>"+
-                    	    	"<div class='item'>Common Border: No</div>"+
-                    	    	"<div class='item'>Ratio of Per Capita Income: No</div>"
-                    	    );
-                    }
+	    	    			mapObject.tooltip.classed('show', true)
+	    	    			    .attr('style', 'left:' + (tooltipLeft) +
+	    	    			            'px; top:' + (mouse[1] - 35) + 'px')
+	    	    			    .html(
+	    	    			    	"<div class='title'>"+country.name+""+
+	    	    			    	"<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>"+
+	    	    			    	"<div class='item'>Common Official Language: No</div>"+
+	    	    			    	"<div class='item'>Colonial Linkage: Yes</div>"+
+	    	    			    	"<div class='item'>Trade Agreement: Yes</div>"+
+	    	    			    	"<div class='item'>Regional Bloc: Yes</div>"+
+	    	    			    	"<div class='item'>Physical Distance: No</div>"+
+	    	    			    	"<div class='item'>Common Border: No</div>"+
+	    	    			    	"<div class='item'>Ratio of Per Capita Income: No</div>"
+	    	    			    );
+	    	    		}
+	    	    	}
                 })
                 .on('mouseout', function() {
                     mapObject.tooltip.classed('show', false);
@@ -322,7 +322,36 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    })
 	    	    .attr("r", function(d){
 	    	    	return mapObject.valueScale(mapObject.getValue(d));
-	    	    });
+	    	    })
+	    	    .on('mousemove', function(d) {
+    	    		var mouse = d3.mouse(mapObject.map.node()).map(function(d) {
+    	    		    return parseInt(d);
+    	    		});
+    	    		var dataFeature = getDataFeature(d.iso);
+    	    		var country = mapVariablesService.getCountryByISO(dataFeature.properties.iso_a3);
+    	    		if(country !== null){
+    	    			var mapWidth = parseInt(mapObject.map.style("width"));
+    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
+
+    	    			mapObject.tooltip.classed('show', true)
+    	    			    .attr('style', 'left:' + (tooltipLeft) +
+    	    			            'px; top:' + (mouse[1] - 35) + 'px')
+    	    			    .html(
+    	    			    	"<div class='title'>"+country.name+
+    	    			    	"<div class='item'></div></div>"+
+    	    			    	"<div class='item'>Common Official Language: No</div>"+
+    	    			    	"<div class='item'>Colonial Linkage: Yes</div>"+
+    	    			    	"<div class='item'>Trade Agreement: Yes</div>"+
+    	    			    	"<div class='item'>Regional Bloc: Yes</div>"+
+    	    			    	"<div class='item'>Physical Distance: No</div>"+
+    	    			    	"<div class='item'>Common Border: No</div>"+
+    	    			    	"<div class='item'>Ratio of Per Capita Income: No</div>"
+    	    			    );
+    	    		}	
+                })
+                .on('mouseout', function() {
+                    mapObject.tooltip.classed('show', false);
+                });
 	    }
 
 	    function fetchFlags(){
@@ -371,7 +400,36 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				})
 				.attr("width", "20px")
 				.attr("height", "15px")
-				.attr("preserveAspectRatio", "none");
+				.attr("preserveAspectRatio", "none")
+	    	    .on('mousemove', function(d) {
+    	    		var mouse = d3.mouse(mapObject.map.node()).map(function(d) {
+    	    		    return parseInt(d);
+    	    		});
+    	    		var dataFeature = getDataFeature(d.iso);
+    	    		var country = mapVariablesService.getCountryByISO(dataFeature.properties.iso_a3);
+    	    		if(country !== null){
+    	    			var mapWidth = parseInt(mapObject.map.style("width"));
+    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
+
+    	    			mapObject.tooltip.classed('show', true)
+    	    			    .attr('style', 'left:' + (tooltipLeft) +
+    	    			            'px; top:' + (mouse[1] - 35) + 'px')
+    	    			    .html(
+    	    			    	"<div class='title'>"+country.name+
+    	    			    	"<div class='item'></div></div>"+
+    	    			    	"<div class='item'>Common Official Language: No</div>"+
+    	    			    	"<div class='item'>Colonial Linkage: Yes</div>"+
+    	    			    	"<div class='item'>Trade Agreement: Yes</div>"+
+    	    			    	"<div class='item'>Regional Bloc: Yes</div>"+
+    	    			    	"<div class='item'>Physical Distance: No</div>"+
+    	    			    	"<div class='item'>Common Border: No</div>"+
+    	    			    	"<div class='item'>Ratio of Per Capita Income: No</div>"
+    	    			    );
+    	    		}	
+                })
+                .on('mouseout', function() {
+                    mapObject.tooltip.classed('show', false);
+                });
 	    }
 
 	    function addLegend(percentiles){
@@ -519,15 +577,19 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    
 	    function doZoom() {
+	    	var t = d3.event.translate,
+	    	    s = d3.event.scale;
+	    	  	t[0] = Math.min(mapObject.width / 2 * (s - 1), Math.max(mapObject.width / 2 * (1 - s), t[0]));
+	    	  	t[1] = Math.min(mapObject.height / 2 * (s - 1) + 230 * s, Math.max(mapObject.height / 2 * (1 - s) - 230 * s, t[1]));
 
-	      // Zoom and keep the stroke width proportional
-	      mapObject.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-	      mapObject.mapFeatures.style("stroke-width", 0.5 / d3.event.scale + "px");
-	      mapObject.mapCircles.style("stroke-width", 0.8 / d3.event.scale + "px");
-	      mapObject.mapFlags.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
+			// Zoom and keep the stroke width proportional
+			mapObject.layer.attr("transform", "translate(" + t + ")scale(" + s + ")");
+			d3.selectAll('.mapFeature').style("stroke-width", 0.5 / s + "px");
+			d3.selectAll('.circle').style("stroke-width", 0.8 / s + "px");
+			d3.selectAll('.flag').style("transform", "translate(" + t + ")scale(" + s + ")");
 
-	      // Hide the tooltip after zooming
-	      // hideTooltip();
+			mapObject.zoom.translate(t);
+			mapObject.tooltip.classed('show', false);
 	    }
 
 	    // Point p1 focus - p2 relative

@@ -15,9 +15,7 @@ angular.module('app').directive('nyuCagemaps', function () {
 
         $scope.updateData = function(){
             angular.forEach(dataset, function(d,i){
-                if(d.iso === "CAN"){
-                    d.total_percent = $scope.newData;
-                }
+                d.total_percent = $scope.newData * d.total_percent;
             });
 
             MapChartsService.updateData(dataset);
