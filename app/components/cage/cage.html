@@ -217,7 +217,11 @@
 				<custom-select class="content margin-all" options="countryMarkers" selected="countryMarkerActive" on-select=""></custom-select>
 				<h3 class="color-blue margin-controller margin-h">Distance Shown</h3>
 				<custom-select class="content margin-all" options="tableHeader" selected="distanceShownActive" on-select=""></custom-select>
-				<div class="map-area map-area content margin-h"></div>
+				<div class="map-area map-area content margin-h">
+					<div id="map-container">
+						<svg id="map"></svg>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>	
