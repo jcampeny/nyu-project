@@ -1,5 +1,5 @@
 //Controller general de las 6 vistas del data-viz
-angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize, CsvService, PopupService){
+angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize, CsvService, PopupService, DataVaultService){
     return {
         restrict : 'E',
         templateUrl : function(e, a){
@@ -29,7 +29,18 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.selectedYears = {start: '2015', end: '2015'};
             
 
-            $scope.countries = mapVariablesService.getData('country');
+            // $scope.countries = mapVariablesService.getData('country');
+            $scope.countries = {};
+            DataVaultService.getCountries().then(function(result){
+                $scope.countries = {
+                    "Individual Countries" : result.data.content.individual,
+                    "Region"               : result.data.content.region,
+                    "Continent"            : result.data.content.continent,
+                    "Income level"         : result.data.content.income,
+                    "Development level"    : result.data.content.development
+                };
+            });
+
             $scope.indicators = mapVariablesService.getData('indicators');
             $scope.years = mapVariablesService.getData('years');
             $scope.colorByClassification = mapVariablesService.getData('colorByClassification');
@@ -42,7 +53,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             **************/
             $scope.selectedAreaMapGR ={ //General Radio
                 size : 'scale', //(scale | no-scale)
-                color : 'another', //(no-color | share | classification | another)
+                color : 'share', //(no-color | share | classification | another)
                 marker : 'no-markers' // (no-markers | flags | bubbles)
             };
             $scope.selectedAreaMapScale = {
@@ -84,7 +95,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
                     s.viewController.popUpState == 'userUpgradePremium' || 
                     s.viewController.popUpState == 'userRegisterTerms' ||
                     s.viewController.popUpState == 'userSettings';
-            }
+            };
 
             /************************
             **USER LOGIN CALLBACK**

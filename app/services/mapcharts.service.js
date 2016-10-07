@@ -44,9 +44,15 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	mapObject.height = height;
 	    }
 
-	    function setColorScale(){
-	    	mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
-	    	      .map(function(rgb) { return d3.hsl(rgb); });
+	    function setColorScale(type){
+	    	if(type === "share"){
+	    		mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
+	    		      .map(function(rgb) { return d3.hsl(rgb); });	
+	    	}else if(type === "no-color"){
+	    		mapObject.colorScale = ["#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D"]
+	    		      .map(function(rgb) { return d3.hsl(rgb); });	
+	    	}
+	    	
 	    }
 
 	    function setDataset(data, country, percentiles){
@@ -117,6 +123,9 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 			mapObject.mapWatermark = mapObject.map.append("g")
 				.attr("id", "mapWatermark")
 				.attr("transform","translate("+(mapObject.width - 105)+","+(mapObject.height-50)+")");
+
+			mapObject.mapWatermarkGlobe = mapObject.map.append("g")
+				.attr("id", "mapWatermarkGlobe");
 
 			mapObject.tooltip = d3.select('#map-container').append('div')
 				.attr("id", "mapTooltip");
@@ -210,7 +219,12 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    })
 	    	    .attr("fill", function(d){ 
 	    	    	if(mapObject.type === "cartogram"){
-	    	    		return mapObject.colorFunction(mapObject.dataNest[getId(d)]) || "#CBCBCB";	
+	    	    		if(getId(d).toUpperCase() === mapObject.focusCountry.iso){
+	    	    			return "#96281B";
+	    	    		}else{
+	    	    			return mapObject.colorFunction(mapObject.dataNest[getId(d)]) || "#CBCBCB";		
+	    	    		}
+	    	    		
 	    	    	}else{
 	    	    		return "transparent";
 	    	    	}
@@ -531,6 +545,14 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    		.attr('y',10)
 	    		.attr('text-anchor','start')
 	    		.text("Source: www.ghemawat.com");
+
+			mapObject.mapWatermarkGlobe
+				.append('svg:image')
+				.attr('x', 10)
+				.attr('y', 10)
+				.attr('width', 39)
+				.attr('height', 39)
+    			.attr('xlink:href','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAnCAYAAACMo1E1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABFpJREFUeNrEWEF20zAQdV13nWzppmXDg1XCimUMHKC+QdMTYNYscE+Ae4P0BA0HAJwTYFZAoeC0ULbNgpL20YaZvlH4DJJjp+Gh99S4six9/Zn50mhpMpl4dcuLl4N1+mk+fNDJj4+/Nek5Hh4ePTk9/RFAtzdUC6oZ1T71LerOs1QHHIHq0g9XBtS9c/uWmbx1ePTF+/79tOxzBpsSyN5CwRGokH540DWZJCRgngHGD8TcT8WcqwypJlVAloIjUMxQSnUTVh/SwCdkTgbWMe3v9z+MLy8n96BfS7HWUsMPqEY8lmt+fwawDIANAVgCwK7aCdgYPg8FkCk8zk2qu9DG3xc0T7sWOPmgUKuNBBgHQ4ztq6s3/li9sMG+OZKmRxJA3HZfFsSlwcBdAH0HYz350JQdjkx5TuDdNgHLbQNL/wSaUmlnFtti1lKANuYyxdjITCKsbUJ7WubQBCQFljoGADNLNQQzG4BNJzh6mVgctwdOi+ZMtTkdBdmLFfiuYrBvjVYR1s+WwW8aASXmTsCkO1Sn4A4+Fd3z8/M1Y241xlN41u+a4pOmbBmZQV2y6c4bABYpP8QBvZWVwCNwNjBeCVAX07/BiS90LB0RcATPd3UgvH23P9U9WtCSZbszVnlO7yNLILJJN1joeSdi9nybL6jgQO26CgRXhJYERgGBETq6xfrZt7Ci5cCTzX3NArhOMc7esMmGLMAER4v7+PRH+xJuL6bgYPmc4HLHeC43CgOJuG1Lx8Ji0uswh+OtV3GjQBQ7m3OSOn7HIlvKHJuW+ozEkm2/4thT5igYCu/6pVnB/GtLX78eV2GtDX45sHX4XBy2xuNxs6wPyNWoxHenczG4yQKY8CqchGuXQG3w+bzMXVxctsBcC2EukI78T07+ZBVIPPW6+qgdInScE42V8pI+03F8WEGnhOEMgLbnMZE6DhUz/PtqX0dwVSduzulC7VngZA827lP4yvZRjT32OuBc/obzZ7464HUrbD3/EhzO3/flNPvcCB+Z9q/JpY/JpjpyEKhbDCsjW/YvuXELz5EBJB8b5rAnqZ9t2zIfxxLB07IcLDcvfl7gRC4pyi3vPVsyND2mqyT5f4rwkFhb1yLMyF/B/48tvtGDc90WRt347CwFZu+r6N4D8Y0s0b9nO3QG4FcZsbcDuQE7Z4gZFr1nAM9MYNC7LojwCZ5AVEaHmVxmuVXw4Ajfd+WtCTg+s5Ap5+9BFr8peews4Y21LylgLbjW6DrzVmEpAgAGYBvepzMyNu0GJhB2TZRagI1slzq+RTYK0TINMIbVD0FWYgdrESjAyDAo7YUCFsJ1x+wrMDFZX90ADMT0vMLXmCqSz6UQ7XeFmYYKrkQpwlAYy2vfz4m/JTqBlkFPcPX7Hw8K0jlkowHPheWag4W/W3Y/V+lmU3aNpEwHa+gcLyzGqFzInbCAjMGX6oAbiJQs9k7YYe5ItqWrSuAaAM6cdM2FdjbPbfovAQYAz2ZGGjGgCeEAAAAASUVORK5CYII=');
 	    }
 
 	    function getId(d){

@@ -12,6 +12,15 @@ angular.module('app')
 		});
 	}
 
+	function getCountries(){
+		return $http.post('/php/woocommerce/cartogram-get-data.php', {
+			user : $rootScope.actualUser,
+			item : {
+				reason : 'countries'
+			}
+		});
+	}
+
 	function getCartogramYears(code, iso){
 		return $http.post('/php/woocommerce/cartogram-get-data.php', {
 			user : $rootScope.actualUser,
@@ -36,7 +45,8 @@ angular.module('app')
 	return {
 		getCartogramIndicator  : getCartogramIndicator,
 		getCartogramYears      : getCartogramYears,
-		getCartogramIndicators : getCartogramIndicators
+		getCartogramIndicators : getCartogramIndicators,
+		getCountries		   : getCountries
 	};
 }]);
    

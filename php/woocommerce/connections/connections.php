@@ -1,8 +1,9 @@
 <?php
 
 class ConnectionController {
-	private $host = 'local';
+	//private $host = 'local';
 	//private $host = 'nyu';
+	private $host = 'aws_nyu';
 
     public $servername;
 	public $username;
@@ -35,6 +36,18 @@ class ConnectionController {
 				$this->ck = 'ck_25e59e85acaac57b69613f68b88bb97e861418b0';
 				$this->cs = 'cs_08b1557d3d9c2f1662fee2ddc6764afec3968ce9';
 				break;
+
+			case 'aws_nyu':
+				$this->servername = "nyu-general.c5opksnh3gku.us-west-2.rds.amazonaws.com";
+				$this->username = "nyunewweb";
+				$this->password = "k1zCbksPR1cHhxOs%L";
+				$this->dbname = "nyu_new_web";
+
+				$this->url = 'http://52.32.163.154/wordpress/';
+				$this->ck = 'ck_2688b2332d1d6055cc5cf0c202fd70e4bac3a4b2';
+				$this->cs = 'cs_09664563dff479a07e66c82a9dd5d338f707b7c3';
+				break;
+
 
 			default:
 				break;

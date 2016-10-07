@@ -27,20 +27,29 @@ if ($item_data->reason == 'years'){
 	}
 
 } else if ($item_data->reason == 'indicators'){
-	/*try {
-		$indicators  = getIndicators ($user, $item_data->iso);
+	try {
+		$indicators  = getIndicators($user, $item_data->iso);
 	    $response_array['status'] = 'success';
 		$response_array['content'] = $indicators;
 	} catch (Exception $e) {
 		$response_array['status'] = 'error';
 		$response_array['content'] = $e->getMessage();
-	}*/
+	}
 
-	$response_array['status'] = 'success';
-	$response_array['content'] = array(
-		"name" => 'GCI', 
-		"children" => 'm.exports'
-	);
+	// $response_array['status'] = 'success';
+	// $response_array['content'] = array(
+	// 	"name" => 'GCI', 
+	// 	"children" => 'm.exports'
+	// );
+} else if ($item_data->reason == 'countries'){
+	try {
+		$countries  = getCountries($user);
+	    $response_array['status'] = 'success';
+		$response_array['content'] = $countries;
+	} catch (Exception $e) {
+		$response_array['status'] = 'error';
+		$response_array['content'] = $e->getMessage();
+	}
 }
 
 print json_encode($response_array);
@@ -122,7 +131,7 @@ function getIndicators ($user, $iso) {
 
 	//Check valid user
 	if($user->status != "success")
-		throw new Exception($user->error);
+		// throw new Exception($user->error);
 	
 
 	//Check Role
@@ -167,6 +176,74 @@ function getIndicators ($user, $iso) {
 	}else{
 		throw new Exception("Can't get table's name");
 	}
+}
 
+
+function getCountries($user){
+	$countries = array(
+		"individual"  => array(),
+		"region"      => array(),
+		"continent"   => array(),
+		"income"      => array(),
+		"development" => array()
+	);
+
+	$user_role = $user->get_role();
+	$role_minimum = 0;
+	
+	// Create connection
+	$conn = new mysqli(
+		'nyu-general.c5opksnh3gku.us-west-2.rds.amazonaws.com', 
+		'nyunewweb', 
+		'k1zCbksPR1cHhxOs%L', 
+		'datavault'
+	);
+	
+	// Check connection
+	if ($conn->connect_error !== NULL) 
+	    throw new Exception("Connection failed: " . $conn->connect_error);
+	
+
+	//Check valid user
+	if($user->status != "success")
+		// throw new Exception($user->error);
+	
+
+	//Check Role
+	if($user_role < $role_minimum)
+		throw new Exception("Role not valid");
+	
+	//get tables
+	$sql_get_countries = 'SELECT `iso`,`country`,`region`,`continent`,`wb.income` as `income`,`imf.official` as `development` FROM MatchCountry';
+
+	if ($resultado = $conn->query($sql_get_countries)) {
+	    $response_array['status'] = 'success';
+	    
+		while ($row = $resultado->fetch_object()){
+			//get todos los indicadores de cada una de las tablas obtenidas
+	        $c = new stdClass();
+	        $c->iso = $row->iso;
+	        $c->name = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->country));
+
+	        array_push($countries['individual'],$c);
+	        
+	        if(!in_array($row->region,$countries['region'])){
+	        	array_push($countries['region'], $row->region);
+	        }
+	        if(!in_array($row->continent,$countries['continent'])){
+	        	array_push($countries['continent'], $row->continent);
+	        }
+	        if(!in_array($row->income,$countries['income'])){
+	        	array_push($countries['income'], $row->income);
+	        }
+	        if(!in_array($row->development,$countries['development'])){
+	        	array_push($countries['development'], $row->development);
+	        }
+	    }
+	    $conn->close();
+	    return $countries;
+	}else{
+		throw new Exception("Can't get countries data");
+	}
 
 }
