@@ -91,12 +91,14 @@
 			<div class="option-section">
 				<!-- size -->
 				<div class="size-section">
-					<h3 class="margin-no-bottom color-blue">Size Selections 
+					<h3 class="margin-no-bottom color-blue">Size Selections
 						<span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-size');">EDIT</span>
 					</h3>
 				    <div class="content no-padding margin-h">
-				    	<a href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country');">
+				    	<a ng-if="selectedAreaMapGR.size == 'scale'" href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country');">
 				    		<span ng-repeat="country in selectedCountry.items">{{country}}</span></a>
+				    	<a ng-if="selectedAreaMapGR.size == 'no-scale'" href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country-check');">
+				    		<span ng-repeat="country in selectedCountry.items"> {{country}}</span></a>
 				    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'indicators');">
 							<span ng-repeat="indicator in selectedIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
 				    	</a>
