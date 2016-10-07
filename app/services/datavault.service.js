@@ -5,15 +5,38 @@ angular.module('app')
 		return $http.post('/php/woocommerce/data-vault.php', {
 			user : $rootScope.actualUser,
 			item : {
-				code : code,
+				code : 'm.exports',
 				iso : iso,
 				year : year
 			}
 		});
 	}
 
+	function getCartogramYears(code, iso){
+		return $http.post('/php/woocommerce/cartogram-get-data.php', {
+			user : $rootScope.actualUser,
+			item : {
+				code : 'm.exports',
+				iso : iso,
+				reason : 'years'
+			}
+		});
+	}
+
+	function getCartogramIndicators(iso){
+		return $http.post('/php/woocommerce/cartogram-get-data.php', {
+			user : $rootScope.actualUser,
+			item : {
+				iso : iso,
+				reason : 'indicators'
+			}
+		});
+	}
+
 	return {
-		getCartogramIndicator: getCartogramIndicator
+		getCartogramIndicator  : getCartogramIndicator,
+		getCartogramYears      : getCartogramYears,
+		getCartogramIndicators : getCartogramIndicators
 	};
 }]);
    
