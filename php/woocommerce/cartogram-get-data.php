@@ -148,7 +148,7 @@ function getIndicators ($user, $iso) {
 		while ($row = $resultado->fetch_object()){
 			//get todos los indicadores de cada una de las tablas obtenidas
 	        $sql_get_indicator = "
-	        	SELECT m.name
+	        	SELECT m.name, m.code
 	        	FROM Metadata m  
 	        	RIGHT JOIN $row->table g 
 	        	ON m.code = g.code 
@@ -162,7 +162,10 @@ function getIndicators ($user, $iso) {
         	   	$children = array();
 
         		while ($row_indicator = $resultado_indicator->fetch_object()){
-					array_push($children, $row_indicator->name);
+        			$i = new stdClass();
+        			$i->name = $row_indicator->name;
+        			$i->code = $row_indicator->code;
+					array_push($children, $i);
         	    }
 
         	    array_push($indicators, array("name" => $row->table, "children" => $children));

@@ -1,6 +1,38 @@
 
 angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", function(ArrayService, mapVariablesService) {
 	    var mapObject = {};
+	    var configColors = {
+	    	region : {
+				"South & Central Asia"       : "#913D88",
+				"Europe"                     : "#2D3E50",
+				"Middle East & N. Africa"    : "#4A80C2",
+				"East Asia & Pacific"        : "#EF4937",
+				"Sub-Saharan Africa"         : "#2C638A",
+				"S. & C. America, Caribbean" : "#F7BE3A",
+				"North America"              : "#28B999"
+		    },
+		    continent : {
+    			"Asia"          :"#913D88",
+    			"Europe"        :"#2D3E50",
+    			"Africa"        :"#4A80C2",
+    			"Oceania"       :"#EF4937",
+    			"North America" :"#28B999",
+    			"South America" :"#F7BE3A"
+    	    },
+    	    development : {
+    	    	"Emerging Economies" : "#913D88",
+				"Advanced Economies" : "#2D3E50"
+    	    },
+    	    income : {
+				"Low-income economies"          : "#913D88",
+				"High-income economies"         : "#2D3E50",
+				"Upper-middle-income economies" : "#4A80C2",
+				"Lower-middle-income economies" : "#EF4937"
+    	    }
+	    };
+
+
+	    var multipleColors = ["#913D88","#2D3E50","#4A80C2","#EF4937","#2C638A","#F7BE3A","#28B999"];
 
 	    function getMapObject(){
 	    	return mapObject;
@@ -44,18 +76,64 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	mapObject.height = height;
 	    }
 
-	    function setColorScale(type){
+	    function setColorScale(type, value){
 	    	if(type === "share"){
 	    		mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
 	    		      .map(function(rgb) { return d3.hsl(rgb); });	
 	    	}else if(type === "no-color"){
 	    		mapObject.colorScale = ["#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D"]
 	    		      .map(function(rgb) { return d3.hsl(rgb); });	
+	    	}else if(type === "clasification"){
+	    		mapObject.colorScale = ["#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D", "#26334D"]
+	    		      .map(function(rgb) { return d3.hsl(rgb); });	
 	    	}
 	    	
 	    }
 
-	    function setDataset(data, country, percentiles){
+	    function setColorScaleLinear(domain, property){
+	    	var color = d3.scale.linear()
+	    	  .range(mapObject.colorScale)
+	    	  .domain(domain)
+	    	  .clamp(true);
+	    	
+	    	setColorFunction(function(d){
+	    	  if(d){
+	    	    return color(parseFloat(d[property]));
+	    	  }else{
+	    	    return "";
+	    	  }
+	    	});
+	    }
+
+	    function setColorScaleOrdinal(colorClasification){
+	    	var domain = [];
+	    	var range = [];
+
+	    	for(var name in configColors[colorClasification]){
+	    		domain.push(name);
+	    		range.push(configColors[colorClasification][name]);
+	    	}
+
+	    	var color = d3.scale.ordinal()
+	    	  .range(range)
+	    	  .domain(domain);
+	    	
+	    	setColorFunction(function(d){
+	    	  if(d){
+	    	  	var country = mapVariablesService.getCountryByISO(d.iso);
+	    	  	if(country !== null){
+	    	  		return color(country[colorClasification]);
+	    	  	}else{
+	    	  		return "";	
+	    	  	}
+	    	    
+	    	  }else{
+	    	    return "";
+	    	  }
+	    	});
+	    }
+
+	    function setDataset(data, country){
 	    	mapObject.dataset = data;
 
 	    	var values = data
@@ -75,22 +153,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	var maxValue = d3.max(data,function(d){return parseFloat(mapObject.getValue(d));});
 	    	var minValue = d3.min(data,function(d){return parseFloat(mapObject.getValue(d));});
 	    	setValueScale([minValue, maxValue], [1.2, 0]);
-
-	    	if(mapObject.type === "cartogram"){
-		    	var color = d3.scale.linear()
-		    	  .range(mapObject.colorScale)
-		    	  // .domain(lo < 0 ? [lo, 0, hi] : [lo, (lo+hi)/2, hi]);
-		    	  .domain(percentiles)
-		    	  .clamp(true);
-		    	
-		    	setColorFunction(function(d){
-		    	  if(d){
-		    	    return color(parseFloat(d.total_percent));
-		    	  }else{
-		    	    return "";
-		    	  }
-		    	});
-		    }
 	    }
 
 	    function iniMapLayers(){
@@ -111,10 +173,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 			mapObject.mapFlags = mapObject.layer.append("g")
 				.attr("id", "mapFlags");
-
-			mapObject.tooltip = d3.select("#map-container")
-				.append("div")
-				.attr("class", "ttip hidden");
 
 			mapObject.mapLegend = mapObject.map.append("g")
 				.attr("id", "mapLeyend")
@@ -175,30 +233,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
         function setTopology(topology, objects){
 			mapObject.dataFeatures = topojson.feature(topology, objects).features;
-
-			// if(!mapObject.dataFeatures){
-			// 	var tempArray = objects.map(function(f) {
-	  //       		if(f.type === "Polygon"){
-	  //       			return {
-	  //       				type: "Feature",
-	  //       				id: f.properties.iso_a3,
-	  //       				properties: mapObject.dataNest[f.properties.iso_a3],
-	  //       				geometry: {
-	  //       					type: f.type,
-	  //       					coordinates: topojson.feature(topology, f).geometry.coordinates
-	  //       				}
-	  //       			};
-	  //       		}
-	  //         	});
-
-	  //         	mapObject.dataFeatures = [];
-
-			// 	for (var i = 0; i < tempArray.length; i++) {
-			// 		if (tempArray[i]) {
-			// 			mapObject.dataFeatures.push(tempArray[i]);
-			// 		}
-			// 	}
-			// }
         }
 
 	    function setFocusCountry(iso){
@@ -285,8 +319,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    function updateData(data){
 	    	if(mapObject.type === "cartogram"){
-	    		// d3.selectAll('.mapFeature')
-	    		// 	.style("opacity","0");
 
 				d3.selectAll('.mapFeature')
 					.data(mapObject.dataFeatures, function(d){return getId(d);})
@@ -294,16 +326,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 						return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
 					})
 					.attr("d", mapObject.path);
-
-				// d3.selectAll('.mapFeature')
-				// 	.style("opacity","1")
-				// 	.transition()
-				// 	.delay(400)
-				// 	.duration(400)
-				// 	.attr("fill", function(d){ 
-				// 		return mapObject.colorFunction(mapObject.dataNest[getId(d)]);
-				// 	});
-
 
 			}else if(mapObject.type === "flags"){
 				updateFlags(data);
@@ -452,7 +474,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
                 });
 	    }
 
-	    function addLegend(percentiles){
+	    function addLegend(percentiles, property){
 	    	if(mapObject.type === "cartogram"){
 	    		var percArray = percentiles.reverse();
 	    		var legendWidth = mapObject.width/3;
@@ -468,7 +490,9 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    			.attr('width',rectWidth+'px')
 	    			.attr('height','12px')
 	    			.attr('fill',function(d,i){
-	    				return mapObject.colorFunction({total_percent:d});
+	    				var obj = {};
+	    				obj[property] = d;
+	    				return mapObject.colorFunction(obj);
 	    			});
 
     			mapObject.mapLegend.selectAll('.legend-item-text')
@@ -512,10 +536,57 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 			}
 	    }
 
+	    function addLegendMultiple(colorClasification){
+	    	if(mapObject.type === "cartogram"){
+	    		var index = 0;
+	    		for(var name in configColors[colorClasification]){
+	    			domain.push(name);
+	    			range.push(configColors[colorClasification][name]);
+
+	    			var legendItem = mapObject.mapLegend.selectAll('.legend-item')
+	    				.append('g')
+	    				.attr('class','legend-item')
+	    				.attr('translate');
+
+	    			index++;
+	    		}
+	    		
+	    		mapObject.mapLegend.selectAll('.legend-item')
+	    			.data(percArray)
+	    			.enter()
+	    			.append('rect')
+	    			.attr('class','legend-item')
+	    			.attr('x',function(d,i){ return i*rectWidth;})
+	    			.attr('y',10)
+	    			.attr('width',rectWidth+'px')
+	    			.attr('height','12px')
+	    			.attr('fill',function(d,i){
+	    				return mapObject.colorFunction({total_percent:d});
+	    			});
+
+    			mapObject.mapLegend.selectAll('.legend-item-text')
+    				.data(percArray)
+    				.enter()
+    				.append('text')
+    				.attr('class','legend-item-text')
+    				.attr('x',function(d,i){ return (i+1)*rectWidth;})
+    				.attr('y',5)
+    				.attr('text-anchor','middle')
+    				.text(function(d,i){
+    					if(i<percArray.length-1){
+    						return Math.round(parseFloat(d))+'%';	
+    					}else{
+    						return "";
+    					}
+    				});
+			}
+	    }
+
 	    function deleteMapLayers(){
 	    	d3.select("svg #layer").remove();
 	    	d3.select("svg #mapLeyend").remove();
 	    	d3.select("svg #mapWatermark").remove();
+	    	d3.select("svg #mapWatermarkGlobe").remove();
 	    	d3.select('#mapTooltip').remove();
 	    }
 
@@ -689,30 +760,33 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    }
 
 	    return({
-			getMapObject     : getMapObject,
-			resetMapObject   : resetMapObject,
-			setType			 : setType,
-			setSize          : setSize,
-			setColorScale	 : setColorScale,
-			setDataset		 : setDataset,
-			iniMapLayers     : iniMapLayers,
-			setZoom          : setZoom,
-			setProjection    : setProjection,
-			setDataNest		 : setDataNest,
-			setTopology		 : setTopology,
-			setFocusCountry	 : setFocusCountry,
-			resetMap         : resetMap,
-			setColorFunction : setColorFunction,
-			updateData       : updateData,
-			setValueScale	 : setValueScale,
-			setValueFunction : setValueFunction,
-			addCircles		 : addCircles,
-			addFlags		 : addFlags,
-			fetchFlags		 : fetchFlags,
-			addLegend		 : addLegend,
-			deleteMapLayers  : deleteMapLayers,
-			setClickFunction : setClickFunction,
-			setConfigVar	 : setConfigVar
+			getMapObject         : getMapObject,
+			resetMapObject       : resetMapObject,
+			setType              : setType,
+			setSize              : setSize,
+			setColorScale        : setColorScale,
+			setColorScaleLinear  : setColorScaleLinear,
+			setColorScaleOrdinal : setColorScaleOrdinal,
+			setDataset           : setDataset,
+			iniMapLayers         : iniMapLayers,
+			setZoom              : setZoom,
+			setProjection        : setProjection,
+			setDataNest          : setDataNest,
+			setTopology          : setTopology,
+			setFocusCountry      : setFocusCountry,
+			resetMap             : resetMap,
+			setColorFunction     : setColorFunction,
+			updateData           : updateData,
+			setValueScale        : setValueScale,
+			setValueFunction     : setValueFunction,
+			addCircles           : addCircles,
+			addFlags             : addFlags,
+			fetchFlags           : fetchFlags,
+			addLegend            : addLegend,
+			addLegendMultiple	 : addLegendMultiple,
+			deleteMapLayers      : deleteMapLayers,
+			setClickFunction     : setClickFunction,
+			setConfigVar         : setConfigVar
 		});
 
 

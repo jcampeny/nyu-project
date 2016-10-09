@@ -9,12 +9,15 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       year               : "=",
       distortion         : "=",
       color              : "=",
+      colorClasification : "=",
+      anotherIndicator   : "=",
       countryCompTooltip : "="
     },
     link: function (scope, element, attrs, controller) {
       scope.mapWidth = $('#map-container').width();
       scope.mapHeight = $('#map-container').height();  
-      controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.countryCompTooltip);
+      // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
+      callRender();
 
       scope.$watch('countryCompTooltip',function(newVal, oldVal){
         controller.changeMapOption("compTooltips", newVal);
@@ -22,19 +25,39 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
 
       scope.$watch('country',function(newVal, oldVal){
         if(newVal[0] !== oldVal[0]){
-          controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.countryCompTooltip);
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
+          callRender();
         }
       });
 
       scope.$watch('distortion',function(newVal, oldVal){
         if(newVal !== oldVal){
-          controller.renderMap(scope.country, scope.indicator, scope.year, null, newVal, scope.color, scope.countryCompTooltip);
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, newVal, scope.color, scope.colorClasification, scope.countryCompTooltip);
+          callRender();
         }
       });
 
       scope.$watch('color',function(newVal, oldVal){
         if(newVal !== oldVal){
-          controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, newVal, scope.countryCompTooltip);
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, newVal, scope.colorClasification, scope.countryCompTooltip);
+          callRender();
+        }
+      });
+
+      scope.$watch('anotherIndicator',function(newVal, oldVal){
+        if(newVal.country.name !== oldVal.country.name || 
+            newVal.indicators.items.name !== oldVal.indicators.items.name || 
+            newVal.years.start !== oldVal.years.start ||
+            newVal.years.end !== oldVal.years.end){
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, newVal, scope.countryCompTooltip);
+        callRender();
+        }
+      },true);
+
+      scope.$watch('colorClasification',function(newVal, oldVal){
+        if(newVal !== oldVal){
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, newVal, scope.countryCompTooltip);
+          callRender();
         }
       });
 
@@ -45,14 +68,20 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
               scope.mapWidth = $('#map-container').width();
               scope.mapHeight = $('#map-container').height();  
 
-              controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.countryCompTooltip);
+              // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
+              callRender();
             }
           }
       );
+
+      function callRender(){
+        controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.anotherIndicator, scope.countryCompTooltip);
+      }
     },
-    controller: function ($scope, $timeout, MapChartsService, mapVariablesService) {
+    controller: function ($scope, $timeout, $uibModal, MapChartsService, mapVariablesService) {
         var dataset, country = "", countryName = "", self = this;
-        
+        var lastValidCountry = "United States";
+
         // MapChartsService.fetchFlags();
         MapChartsService.resetMapObject();
         MapChartsService.setType("cartogram");
@@ -61,7 +90,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           MapChartsService.setConfigVar(option,value);
         };
 
-        this.renderMap = function(country, indicator, year, countryIso, distortion, color, countryCompTooltip){
+        this.renderMap = function(country, indicator, year, countryIso, distortion, color, colorClasification, anotherIndicator, countryCompTooltip){
           if(countryIso){
             if(mapVariablesService.getCountryByISO(countryIso) === null){
               return;
@@ -74,13 +103,16 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           }
 
           if(!country || !indicator || !year){
+            $scope.errorPopup();
+            $scope.country = [lastValidCountry];
             return;
+            
           }
-          
-          MapChartsService.setColorScale(color);
+
+          MapChartsService.setColorScale(color,colorClasification);
           MapChartsService.setClickFunction(function(newCountry){
             $scope.country = [mapVariablesService.getCountryByISO(newCountry).name];
-            self.renderMap(null, indicator, year, newCountry, distortion, color, countryCompTooltip);
+            self.renderMap(null, indicator, year, newCountry, distortion, color, colorClasification, countryCompTooltip);
           });
           MapChartsService.deleteMapLayers();
           MapChartsService.setSize($scope.mapWidth, $scope.mapHeight);
@@ -98,9 +130,17 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           }
           // d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
           d3.json(mapFile, function(topology) {
+              if(!topology){
+                $scope.errorPopup();
+                $scope.country = [lastValidCountry];
+                return;
+              }
+              lastValidCountry = mapVariablesService.getCountryByISO(country).name;
 
               // Read the data for the cartogram
-              DataVaultService.getCartogramIndicator('m.exports', country, year).then(function(result){
+              var dataVaultRequest = {indicator: "m.exports", country: country, year:year};
+
+              DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                 dataset = [];
 
                 var data = result.data.data.sort(function(a,b){
@@ -125,6 +165,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     d.iso = d.iso2;
                     d.total_percent = parseFloat(d.value) / worldValues[d.iso2] * 100;
                     d.total_received = parseFloat(d.value) / totalCountry * 100;
+                    d.value = parseFloat(d.value);
                     dataset.push(d);
                   }
                 });
@@ -132,30 +173,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                 dataset = dataset.sort(function(a,b){
                   return parseFloat(a.total_percent) - parseFloat(b.total_percent);
                 });
-                angular.forEach(dataset,function(d,i){
-                  if(d.total_received > skipThreshold && nonZeroValues === 0){
-                    nonZeroValues = dataset.length - i;
-                  }
-                });
-                var skipValues = dataset.length - nonZeroValues;
-                var percentiles = {
-                  "p2"  : skipValues + Math.round(nonZeroValues * 98 / 100),
-                  "p4"  : skipValues + Math.round(nonZeroValues * 96 / 100),
-                  "p8"  : skipValues + Math.round(nonZeroValues * 92 / 100),
-                  "p16" : skipValues + Math.round(nonZeroValues * 84 / 100),
-                  "p32" : skipValues + Math.round(nonZeroValues * 68 / 100),
-                  "p64" : skipValues + Math.round(nonZeroValues * 46 / 100)
-                };
-
-                var percentilesValues = [
-                  0,
-                  dataset[percentiles.p64].total_percent,
-                  dataset[percentiles.p32].total_percent,
-                  dataset[percentiles.p16].total_percent,
-                  dataset[percentiles.p8].total_percent,
-                  dataset[percentiles.p4].total_percent,
-                  dataset[percentiles.p2].total_percent
-                ];
+                
                   
                 MapChartsService.setValueFunction(function(d){
                     if(d){
@@ -165,16 +183,75 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     }
                 });                    
 
-                  var maxValue = d3.max(dataset,function(d){return parseFloat(d.total_percent);});
-                  var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
-                  dataset.push({iso: country,partner:countryName, partner_percent:"#N/A",total:"0",total_percent:maxValue});
+                var maxValueAbsolut = d3.max(dataset,function(d){return parseFloat(d.value);});
+                var minValueAbsolut = d3.min(dataset,function(d){return parseFloat(d.value);});
 
-                  MapChartsService.setDataset(dataset, country, percentilesValues);
+                var maxValue = d3.max(dataset,function(d){return parseFloat(d.total_percent);});
+                var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
+                dataset.push({iso: country,partner:countryName, partner_percent:"#N/A",total:"0",total_percent:maxValue, value: maxValueAbsolut});
+
+                if(color === "classification"){
+                  MapChartsService.setColorScaleOrdinal(colorClasification);
+                  // MapChartsService.addLegendMultiple(colorClasification);
+                  renderMap();
+
+                }else if(color === "another"){
+                  if(color === "another"){
+                    dataVaultRequest.indicator = "m.exports";//anotherIndicator.indicators.items[0].code;
+                    dataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
+                    dataVaultRequest.year = anotherIndicator.years.start;
+                    DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
+                      var dataset = result.data.data;
+                      dataset = dataset.sort(function(a,b){
+                        return parseFloat(a.value) - parseFloat(b.value);
+                      });
+                      var percentilesValues = calculatePercentiles(dataset, "value", "value");
+                      MapChartsService.setColorScaleLinear(percentilesValues,"value");  
+                      MapChartsService.addLegend(percentilesValues, "value");
+                      renderMap();
+                    });
+                  }
+
+                }else if(color === "share" || color === "no-color"){
+                  var percentilesValues = calculatePercentiles(dataset, "total_received", "total_percent");
+                  MapChartsService.setColorScaleLinear(percentilesValues,"total_percent");  
+                  MapChartsService.addLegend(percentilesValues, "total_percent");
+                  renderMap();
+                }
+
+                function calculatePercentiles(dataset, propertyPerc, propertyVal){
+                  angular.forEach(dataset,function(d,i){
+                    if(parseFloat(d[propertyPerc]) > skipThreshold && nonZeroValues === 0){
+                      nonZeroValues = dataset.length - i;
+                    }
+                  });
+                  var skipValues = dataset.length - nonZeroValues;
+                  var percentiles = {
+                    "p2"  : skipValues + Math.round(nonZeroValues * 98 / 100),
+                    "p4"  : skipValues + Math.round(nonZeroValues * 96 / 100),
+                    "p8"  : skipValues + Math.round(nonZeroValues * 92 / 100),
+                    "p16" : skipValues + Math.round(nonZeroValues * 84 / 100),
+                    "p32" : skipValues + Math.round(nonZeroValues * 68 / 100),
+                    "p64" : skipValues + Math.round(nonZeroValues * 46 / 100)
+                  };
+
+                  return [
+                    0,
+                    parseFloat(dataset[percentiles.p64][propertyVal]),
+                    parseFloat(dataset[percentiles.p32][propertyVal]),
+                    parseFloat(dataset[percentiles.p16][propertyVal]),
+                    parseFloat(dataset[percentiles.p8][propertyVal]),
+                    parseFloat(dataset[percentiles.p4][propertyVal]),
+                    parseFloat(dataset[percentiles.p2][propertyVal])
+                  ];
+                }
+                
+                function renderMap(){
+                  MapChartsService.setDataset(dataset, country);
                   MapChartsService.setTopology(topology, topology.objects[mapFileName]);
                   MapChartsService.resetMap();
+                }
                   
-                  
-                  MapChartsService.addLegend(percentilesValues);
               });
           });
         };
@@ -194,6 +271,19 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           
           
         // };
+
+        $scope.errorPopup = function(){
+          $uibModal.open({
+                templateUrl: '../app/components/data-viz/templates/popup.html',
+                controller: "ModalCtlr",
+                size: 's'
+              });
+        };
     }
   };
+});
+angular.module('app').controller("ModalCtlr",function($scope, $uibModalInstance){
+  $scope.ok = function () {
+      $uibModalInstance.close();
+    };
 });

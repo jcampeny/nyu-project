@@ -73,7 +73,7 @@
 		<!-- LATERAL SETTINGS MENU -->
 		<div class="settings-menu content margin-all">
 			<!-- NAV MENU -->
-			<div class="nav-menu">
+			<!-- <div class="nav-menu">
 				<a ui-sref="dataViz.areaMap" class="cta" 
 					ng-class="(viewController.state == 'dataViz.areaMap') ? 'cta-darkest-blue' : 'cta-light-gray'">AREA MAP</a>
 				<a ui-sref="dataViz.flowMap" class="cta" 
@@ -86,7 +86,7 @@
 					ng-class="(viewController.state == 'dataViz.treemap') ? 'cta-darkest-blue' : 'cta-light-gray'">TREEMAP</a>
 				<a ui-sref="dataViz.barChart" class="cta" 
 					ng-class="(viewController.state == 'dataViz.barChart') ? 'cta-darkest-blue' : 'cta-light-gray'">BAR CHART</a>
-			</div>
+			</div> -->
 			<!-- OPTION SECTION -->
 			<div class="option-section">
 				<!-- size -->
@@ -98,14 +98,14 @@
 				    	<a ng-if="selectedAreaMapGR.size == 'scale'" href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country');">
 				    		<span ng-repeat="country in selectedCountry.items">{{country}}</span></a>
 				    	<a ng-if="selectedAreaMapGR.size == 'no-scale'" href="#" class="country custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'country-check');">
-				    		<span ng-repeat="country in selectedCountry.items"> {{country}}</span></a>
+				    		<span ng-repeat="country in selectedCountry.items">{{country}}<span ng-if="!$last">, </span></span></a>
 				    	<a href="#" class="indicators custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'indicators');">
 							<span ng-repeat="indicator in selectedIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
 				    	</a>
 				    	<a href="#" class="years custom-link-extender" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'years');">{{selectedYears.end}}</a>
 				    	<p ng-show="selectedAreaMapGR.size == 'no-scale'">No size distortion</p>
 				    	<p ng-show="selectedAreaMapGR.size == 'scale'">Scale countries to indicator values</p>
-				    	<p>Scale Focal Country/Countries to {{selectedAreaMapScale.percent}}% of Map Area (0-100%)</p>  	
+				    	<!-- <p>Scale Focal Country/Countries to {{selectedAreaMapScale.percent}}% of Map Area (0-100%)</p>  	 -->
 				    </div>					
 				</div>
 				<hr>
@@ -123,16 +123,16 @@
 				</div>
 				<hr>
 				<!-- marker -->
-				<div class="marker-section">
-					<h3 class="margin-no-bottom color-blue">Marker Selections
+				<!-- <div class="marker-section"> -->
+					<!-- <h3 class="margin-no-bottom color-blue">Marker Selections -->
 						<!-- <span class="caption float-right" ng-click="viewController.reset(); viewController.popUpController(false, 'settings', 'general-marker');">EDIT</span> -->
-					</h3>
-					<div class="content no-padding margin-h">
-						<p ng-show="selectedAreaMapGR.marker == 'no-markers'">No markers</p>
-						<p ng-show="selectedAreaMapGR.marker == 'flags'">Flags</p>
-						<p ng-show="selectedAreaMapGR.marker == 'bubbles'">Bubbles Proportional to an Indicator</p> 
-					</div>					
-				</div>
+					<!-- </h3> -->
+					<!-- <div class="content no-padding margin-h"> -->
+						<!-- <p ng-show="selectedAreaMapGR.marker == 'no-markers'">No markers</p> -->
+						<!-- <p ng-show="selectedAreaMapGR.marker == 'flags'">Flags</p> -->
+						<!-- <p ng-show="selectedAreaMapGR.marker == 'bubbles'">Bubbles Proportional to an Indicator</p>  -->
+					<!-- </div>					 -->
+				<!-- </div> -->
 				<hr>
 				<label class="custom-input content margin-h padding-xs-top fw-normal">
 					<input  type="checkbox" name="comparisonTooltips" value="comparisonTooltips" ng-model="comparisonTooltips.state">
@@ -165,13 +165,16 @@
 		</div>
 		<!-- MAP SECTION -->
 		<div class="map-section content margin-top">
+		{{selectedAreaMapAC}}
 			<nyu-cartogram 
-				country="selectedCountry.items" 
-				indicator="selectedIndicators.items" 
-				year="selectedYears.start" 
-				distortion="selectedAreaMapGR.size" 
-				color="selectedAreaMapGR.color"
-				country-comp-tooltip="comparisonTooltips.state"
+				country              = "selectedCountry.items" 
+				indicator            = "selectedIndicators.items" 
+				year                 = "selectedYears.start" 
+				distortion           = "selectedAreaMapGR.size" 
+				color                = "selectedAreaMapGR.color"
+				color-clasification  = "selectedAreaMapCBC.id"
+				another-indicator    = "selectedAreaMapAC"
+				country-comp-tooltip = "comparisonTooltips.state"
 			></nyu-cartogram>
 		</div>
 	</div>

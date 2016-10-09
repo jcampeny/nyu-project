@@ -1,5 +1,5 @@
 //Controller general de las 6 vistas del data-viz
-angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVariablesService, screenSize, CsvService, PopupService, DataVaultService){
+angular.module('app').directive('nyuDataViz', function($rootScope, $state,$interval, mapVariablesService, screenSize, CsvService, PopupService, DataVaultService){
     return {
         restrict : 'E',
         templateUrl : function(e, a){
@@ -28,21 +28,25 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.selectedIndicators = {items : [{name: 'Exports', parent: 'Merchandise Trade'}/*,{name: 'Imports', parent: 'Merchandise Trade'}*/]};
             $scope.selectedYears = {start: '2015', end: '2015'};
             
+            // $scope.countries = mapVariablesService.countries;
+            $scope.countries = function(){
+                return mapVariablesService.getData("country");
+            };
 
-            // $scope.countries = mapVariablesService.getData('country');
-            $scope.countries = {};
-            DataVaultService.getCountries().then(function(result){
-                $scope.countries = {
-                    "Individual Countries" : result.data.content.individual,
-                    "Region"               : result.data.content.region,
-                    "Continent"            : result.data.content.continent,
-                    "Income level"         : result.data.content.income,
-                    "Development level"    : result.data.content.development
-                };
-            });
+            $scope.cartogramIndicators = {
+                "Trade" : {
+                    "Merchandise Trade" : [{name: 'Exports', default: true}]
+                }
+            };
+            $scope.indicators = function(){
+                return mapVariablesService.getData('indicatorsOther');
+            };
 
-            $scope.indicators = mapVariablesService.getData('indicators');
-            $scope.years = mapVariablesService.getData('years');
+            $scope.cartogramYears = {start : '2015',end : '2015'};
+            $scope.years = function(){
+                return mapVariablesService.getData('yearsOther');
+            };
+
             $scope.colorByClassification = mapVariablesService.getData('colorByClassification');
 
             $scope.comparisonTooltips = {
@@ -62,12 +66,12 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state, mapVa
             $scope.selectedAreaMapCBC = {name : 'Region', id:'region'}; //ColorByClassification
             $scope.selectedAreaMapAC = { //Another Color Indicator
                 country : {name : "Spain", items : ["Spain"]},
-                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'},{name: 'Imports', parent: 'Merchandise Trade'}]},
+                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'}]},
                 years : {start: '2005', end: '2015'}
             };
             $scope.selectedAreaMapBubble = { //Bubbles Proportional to an Indicator
                 country : {name : "Spain", items : ["Spain"]},
-                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'},{name: 'Imports', parent: 'Merchandise Trade'}]},
+                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'}]},
                 years : {start: '2005', end: '2015'}
             };
             $scope.selectedAreaMapOCV = { //Other color variables

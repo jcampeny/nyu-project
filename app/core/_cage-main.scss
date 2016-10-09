@@ -122,7 +122,7 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 		opacity: 0.2;
 		pointer-events: none;
 	}
-	dd-radio-item, dd-item{
+	dd-radio-item, dd-item, dd-item-array{
 		&.standard{
 			ul{
 				cursor: pointer;

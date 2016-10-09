@@ -15,7 +15,9 @@ angular.module('app').directive('nyuAreaMap', function (mapVariablesService) {
         ******************/
         $scope.countries             = $scope.parent.countries;
         $scope.indicators            = $scope.parent.indicators;
+        $scope.cartogramIndicators   = $scope.parent.cartogramIndicators;
         $scope.years                 = $scope.parent.years;
+        $scope.cartogramYears        = $scope.parent.cartogramYears;
         $scope.colorByClassification = $scope.parent.colorByClassification;
 
         $scope.selectedCountry               = $scope.parent.selectedCountry;
