@@ -223,7 +223,11 @@ function getCountries($user){
 			//get todos los indicadores de cada una de las tablas obtenidas
 	        $c = new stdClass();
 	        $c->iso = $row->iso;
-	        $c->name = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->country));
+			$c->name        = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->country));
+			$c->region      = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->region));
+			$c->continent   = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->continent));
+			$c->income      = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->income));
+			$c->development = iconv('UTF-8', 'UTF-8//IGNORE', utf8_encode($row->development));
 
 	        array_push($countries['individual'],$c);
 	        
