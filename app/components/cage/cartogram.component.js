@@ -193,7 +193,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                 if(color === "classification"){
                   MapChartsService.setColorScaleOrdinal(colorClasification);
                   // MapChartsService.addLegendMultiple(colorClasification);
-                  renderMap();
+                  setAndRenderMap(dataset,country);
 
                 }else if(color === "another"){
                   if(color === "another"){
@@ -201,14 +201,26 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                     dataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
                     dataVaultRequest.year = anotherIndicator.years.start;
                     DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
-                      var dataset = result.data.data;
+                      var dataset = [];
+
+                      angular.forEach(result.data.data, function(d){
+                        if(d.iso1 === dataVaultRequest.country && d.iso2 !== "World"){
+                          d.iso = d.iso2;
+                          d.value = parseFloat(d.value);
+                          dataset.push(d);
+                        }
+                      });
+
+                      dataset.push({iso: dataVaultRequest.country,partner:"", partner_percent:"#N/A",total:"0",total_percent:0, value: 0});
+
                       dataset = dataset.sort(function(a,b){
                         return parseFloat(a.value) - parseFloat(b.value);
                       });
+
                       var percentilesValues = calculatePercentiles(dataset, "value", "value");
                       MapChartsService.setColorScaleLinear(percentilesValues,"value");  
                       MapChartsService.addLegend(percentilesValues, "value");
-                      renderMap();
+                      setAndRenderMap(dataset,dataVaultRequest.country);
                     });
                   }
 
@@ -216,7 +228,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                   var percentilesValues = calculatePercentiles(dataset, "total_received", "total_percent");
                   MapChartsService.setColorScaleLinear(percentilesValues,"total_percent");  
                   MapChartsService.addLegend(percentilesValues, "total_percent");
-                  renderMap();
+                  setAndRenderMap(dataset, country);
                 }
 
                 function calculatePercentiles(dataset, propertyPerc, propertyVal){
@@ -246,7 +258,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                   ];
                 }
                 
-                function renderMap(){
+                function setAndRenderMap(dataset, country){
                   MapChartsService.setDataset(dataset, country);
                   MapChartsService.setTopology(topology, topology.objects[mapFileName]);
                   MapChartsService.resetMap();

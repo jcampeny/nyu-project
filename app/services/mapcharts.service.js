@@ -77,7 +77,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    }
 
 	    function setColorScale(type, value){
-	    	if(type === "share"){
+	    	if(type === "share" || type === "another"){
 	    		mapObject.colorScale = ["#2A6285", "#3982A1", "#A0D3D3", "#FFFFDA", "#FCBB82", "#EA9252", "#D64601", "#D64601"]
 	    		      .map(function(rgb) { return d3.hsl(rgb); });	
 	    	}else if(type === "no-color"){
