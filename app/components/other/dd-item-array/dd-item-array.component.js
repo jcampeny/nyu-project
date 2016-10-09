@@ -10,13 +10,18 @@ angular.module('app').directive('ddItemArray', function () {
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
         $scope.dropDownCollapsed = [];
-
+        
         $scope.toggleSelection = function(item) {
-            if ($scope.result.items.indexOf(item) > -1) {
-                $scope.result.items.splice($scope.result.items.indexOf(item), 1);
+            var customItem = {
+                name : item,
+                parent : ''
+            };
+
+            if ($scope.result.items.indexOf(customItem) > -1) {
+                $scope.result.items.splice($scope.result.items.indexOf(customItem), 1);
             }
             else {
-                $scope.result.items.push(item);
+                $scope.result.items.push(customItem);
             }
         };
 

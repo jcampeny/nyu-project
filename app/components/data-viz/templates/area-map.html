@@ -29,10 +29,13 @@
 				<div class="col-xs-8 no-padding color-blue comma-container">
 					<span ng-repeat="indicator in temporalIndicators.items">{{indicator.parent}} {{indicator.name}}</span>
 				</div>
-				<div class="col-xs-4 no-padding text-align-right">
+				<div class="col-xs-4 no-padding text-align-right"  ng-if="temporalGeneralRadio.size == 'scale'">
 					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'indicators');">SELECT</a>
 					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('indicators');">SELECT</a>
-					
+				</div>
+				<div class="col-xs-4 no-padding text-align-right" ng-if="temporalGeneralRadio.size == 'no-scale'">
+					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'indicators-check');">SELECT</a>
+					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('indicators-check');">SELECT</a>
 				</div>
 			</div>	
 			<!-- Country -->
@@ -198,6 +201,19 @@
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
 		<dd-item-item class="standard" variables="cartogramIndicators" result="popUpIndicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpIndicators" 
+			temporal="temporalIndicators" 
+			selected="selectedIndicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div> 
+	<!-- SPECIFIC INDICATORS CHECK-->
+	<div ng-if="viewController.popUpView == 'indicators-check'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators" select-type="checkbox"></dd-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -408,6 +424,19 @@
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
 		<dd-item-item class="standard" variables="cartogramIndicators" result="popUpIndicators"></dd-item-item>
+		<hr>
+		<cta-controller meta-data="indicators"
+			pop-up="popUpIndicators" 
+			temporal="temporalIndicators" 
+			selected="selectedIndicators" 
+			view-controller="viewController">	
+		</cta-controller>
+	</div> 
+	<!-- AUXILIAR INDICATORS CHECK-->
+	<div ng-if="viewController.auxView == 'indicators-check'">
+		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
+		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
+		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators"></dd-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 

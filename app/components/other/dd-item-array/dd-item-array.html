@@ -6,11 +6,11 @@
 		<ul>
 			<li ng-repeat="(inputItemKey, inputItem) in dropDown.children" uib-collapse="!dropDownCollapsed[dropDownKey]">
 				<label ng-if="selectType == 'radio'">
-					<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem.code" ng-model="result.name">
+					<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem" ng-model="result.items[0]">
 					<span class="custom-radio">{{inputItem.name}}</span>
 				</label>
 				<label ng-if="selectType == 'checkbox'">
-					<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.code" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)">
+					<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.code" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)"> 
 					<span class="custom-checkbox">{{inputItem.name}}</span>
 				</label>
 			</li>
