@@ -124,6 +124,15 @@
 						<p ng-show="selectedAreaMapGR.color == 'share'">Color by Share of Partner in Opposite Direction</p>
 						<p ng-show="selectedAreaMapGR.color == 'classification'">Color by Classification: {{selectedAreaMapCBC.name}}</p>
 						<p ng-show="selectedAreaMapGR.color == 'another'">Select Another Indicator for Coloring</p> 
+						<p ng-show="selectedAreaMapGR.color == 'another'">
+							<span ng-repeat="country in selectedAreaMapAC.country.items">{{country}}</span>
+							<br>
+							<span ng-repeat="indicator in selectedAreaMapAC.indicators.items">{{indicator.parent}} {{indicator.name}}<span ng-if="!$last">, </span></span>
+							<br>
+							<span class="content">{{selectedAreaMapAC.years.start}} </span>
+							<span> to </span>
+							<span class="content"> {{selectedAreaMapAC.years.end}}</span>
+						</p> 
 					</div>				
 				</div>
 				<hr>
