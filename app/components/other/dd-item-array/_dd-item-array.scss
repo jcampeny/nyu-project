@@ -1,0 +1,53 @@
+dd-item-array{
+	&.standard{
+		ul{
+			cursor: pointer;
+			margin: 0; padding: 0;
+			li{
+				list-style: none;
+				color: #000000;
+				span:first-child{
+					display:block;
+					background-color: $light-gray;
+					color: #000000;
+					border-bottom: 1px solid #E2E4E3;
+					padding: 0.6em;
+					@include transition(all 0.2s ease-in-out);
+					i{float: right;}
+				}
+				&:first-child{
+					span:first-child{
+						&:first-child{border-top: 1px solid #E2E4E3;}
+						}
+					}
+
+				&.active{
+					span:first-child{
+						color: $cage-blue-text;							
+					}
+				}
+				ul{
+					li{//radio container
+						list-style: none;
+						padding: 0.4em 0.6em;
+						&:first-child{padding-top: 0.6em;}
+						&:last-child{padding-bottom: 0.6em;}
+						label {
+							@include radio();@include checkbox();
+						}
+						ul{
+							li{
+								padding: 0 1.8em;
+								&:first-child{padding-top: 0%;}
+								&:last-child{padding-bottom: 0%;}
+								label{
+									@include checkbox();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
