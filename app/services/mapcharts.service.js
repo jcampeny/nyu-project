@@ -1,38 +1,37 @@
 
 angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", function(ArrayService, mapVariablesService) {
 	    var mapObject = {};
+
+	    var multipleColors = ["#2D3E50","#62BBCD","#016A64","#674172","#4C77BB","#D14E57","#63A359"];
 	    var configColors = {
 	    	region : {
-				"South & Central Asia"       : "#913D88",
-				"Europe"                     : "#2D3E50",
-				"Middle East & N. Africa"    : "#4A80C2",
-				"East Asia & Pacific"        : "#EF4937",
-				"Sub-Saharan Africa"         : "#2C638A",
-				"S. & C. America, Caribbean" : "#F7BE3A",
-				"North America"              : "#28B999"
+				"South & Central Asia"       : multipleColors[0],
+				"Europe"                     : multipleColors[1],
+				"Middle East & N. Africa"    : multipleColors[2],
+				"East Asia & Pacific"        : multipleColors[3],
+				"Sub-Saharan Africa"         : multipleColors[4],
+				"S. & C. America, Caribbean" : multipleColors[5],
+				"North America"              : multipleColors[6]
 		    },
 		    continent : {
-    			"Asia"          :"#913D88",
-    			"Europe"        :"#2D3E50",
-    			"Africa"        :"#4A80C2",
-    			"Oceania"       :"#EF4937",
-    			"North America" :"#28B999",
-    			"South America" :"#F7BE3A"
+    			"Asia"          :multipleColors[0],
+    			"Europe"        :multipleColors[1],
+    			"Africa"        :multipleColors[2],
+    			"Oceania"       :multipleColors[3],
+    			"North America" :multipleColors[6],
+    			"South America" :multipleColors[5]
     	    },
     	    development : {
-    	    	"Emerging Economies" : "#913D88",
-				"Advanced Economies" : "#2D3E50"
+    	    	"Emerging Economies" : multipleColors[0],
+				"Advanced Economies" : multipleColors[1]
     	    },
     	    income : {
-				"Low-income economies"          : "#913D88",
-				"High-income economies"         : "#2D3E50",
-				"Upper-middle-income economies" : "#4A80C2",
-				"Lower-middle-income economies" : "#EF4937"
+				"Low-income economies"          : multipleColors[0],
+				"High-income economies"         : multipleColors[1],
+				"Upper-middle-income economies" : multipleColors[2],
+				"Lower-middle-income economies" : multipleColors[3]
     	    }
 	    };
-
-
-	    var multipleColors = ["#913D88","#2D3E50","#4A80C2","#EF4937","#2C638A","#F7BE3A","#28B999"];
 
 	    function getMapObject(){
 	    	return mapObject;
@@ -404,6 +403,10 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
                 .on('mouseout', function() {
                     mapObject.tooltip.classed('show', false);
                 });
+
+                if(mapObject.hasDistortion){
+                	fitMap();	
+                }
 	    }
 
 	    function setColorFunction(colorFunction){
@@ -778,12 +781,42 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				
 	    }
 
-	    
+	    var lastScale = 1;
+	    var lastTranslate = [0,0];
 	    function doZoom() {
 	    	var t = d3.event.translate,
 	    	    s = d3.event.scale;
-	    	  	t[0] = Math.min(mapObject.width / 2 * (s - 1), Math.max(mapObject.width / 2 * (1 - s), t[0]));
-	    	  	t[1] = Math.min(mapObject.height / 2 * (s - 1) + 230 * s, Math.max(mapObject.height / 2 * (1 - s) - 230 * s, t[1]));
+
+	    	if(mapObject.hasDistortion){
+	    		// var initialScaleConfig = getDistortedInitialScaleConfig();
+	    		// t = [t[0] , t[1]];
+	    		// t[0] = Math.min(initialScaleConfig.dx / 2 * (s - 1), Math.max(initialScaleConfig.dx / 2 * (1 - s), t[0]));
+	    		// t[1] = Math.min(mapObject.height / 2 * (s - 1) + 230 * s, Math.max(mapObject.height / 2 * (1 - s) - 230 * s, t[1]));
+	    		if(initConfig.translate[0] !== 0  && initConfig.translate[1] !== 0){
+	    			t[0] += initConfig.translate[0];
+	    			t[1] += initConfig.translate[1];	
+	    		}
+	    		// if(s !== lastScale){
+	    		// 	t[0] = initConfig.translate[0];
+	    		// 	t[1] = initConfig.translate[1];		
+	    		// }else{
+	    		// 	t[0] = (t[0] / s) + initConfig.translate[0];
+	    		// 	t[1] = (t[1] / s) + initConfig.translate[1];	
+	    		// }
+	    		
+	    		
+	    		initConfig.translate = [0,0];
+	    		s = d3.event.scale * initConfig.scale;
+	    	}
+	    	// t[0] = Math.min(mapObject.width / 2 * (s - 1), Math.max(mapObject.width / 2 * (1 - s), t[0]));
+	    	// t[1] = Math.min(mapObject.height / 2 * (s - 1) + 230 * s, Math.max(mapObject.height / 2 * (1 - s) - 230 * s, t[1]));
+	    	if(t[0] > mapObject.width / 2){t[0] = mapObject.width / 2;}
+	    	if(t[0] < -1 * (mapObject.width * s * 1.3)){t[0] = -1 * (mapObject.width * s *1.3);}
+
+	    	if(t[1] > mapObject.height / 2){t[1] = mapObject.height / 2;}
+			if(t[1] < -1 * (mapObject.height / 2) * s * 1.3){t[1] = -1 * (mapObject.height / 2) * s * 1.3;}	    	
+
+	    	console.log(t);
 
 			// Zoom and keep the stroke width proportional
 			mapObject.layer.attr("transform", "translate(" + t + ")scale(" + s + ")");
@@ -873,6 +906,32 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    	return itIs;
 	    }
+
+	    var initConfig = {
+			dx        : 0,
+			dy        : 0,
+			x         : 0,
+			y         : 0,
+			scale     : 1,
+			translate : [0,0]
+    	};
+        function getDistortedInitialScaleConfig(){
+        	var bounds = d3.select('#mapFeatures').node().getBBox();
+        	initConfig.dx = bounds.width;
+        	initConfig.dy = bounds.height;
+        	initConfig.x = bounds.width / 2;
+        	initConfig.y = bounds.height / 2;
+        	initConfig.scale = 0.9 / Math.max(initConfig.dx / mapObject.width, initConfig.dy / mapObject.height);
+        	initConfig.translate = [mapObject.width / 2 - initConfig.scale * initConfig.x, mapObject.height / 2 - initConfig.scale * initConfig.y];
+
+        	return initConfig;
+        }
+
+        function fitMap(){
+        	var initialConfig = getDistortedInitialScaleConfig();
+
+        	mapObject.layer.attr("transform", "translate(" + initialConfig.translate + ")scale(" + initialConfig.scale + ")");
+        }
 
 	    return({
 			getMapObject              : getMapObject,
