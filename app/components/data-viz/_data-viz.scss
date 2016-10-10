@@ -126,7 +126,7 @@ nyu-data-viz{
 				//options layout
 				.option-section{
 					overflow-y: scroll;
-					height: calc(100vh - 330px);
+					height: calc(100vh - 250px);
 					@include custom-scroll();
 
 					span.caption{cursor:pointer;}
@@ -234,7 +234,8 @@ nyu-data-viz{
 		}
 		//MAP SECTION
 		.map-section{
-			background-color: $emerald-green;
+			position: relative;
+			//background-color: $emerald-green;
 			height: calc(100vh - 260px);
 			@media (max-width: $break-mobile) and (max-height: 420px){ //HORIZONTAL
 				height: calc(100vh - 140px);

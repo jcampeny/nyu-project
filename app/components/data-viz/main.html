@@ -19,7 +19,17 @@
 
 		<!-- MAP SECTION -->
 		<div class="map-section">
-			<nyu-cartogram country="selectedCountry.items" indicator="selectedIndicators.items" year="selectedYears.start"></nyu-cartogram>
+			<nyu-cartogram 
+				country              = "selectedCountry.items" 
+				indicator            = "selectedIndicators.items" 
+				year                 = "selectedYears.start" 
+				distortion           = "selectedAreaMapGR.size" 
+				color                = "selectedAreaMapGR.color"
+				color-clasification  = "selectedAreaMapCBC.id"
+				another-indicator    = "selectedAreaMapAC"
+				color-options		 = "selectedAreaMapOCV"
+				country-comp-tooltip = "comparisonTooltips.state"
+			></nyu-cartogram>
 		</div>
 		
 		<!-- OPTION SECTION -->
