@@ -125,8 +125,11 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           MapChartsService.setZoom();
           MapChartsService.setProjection(null);
           MapChartsService.setConfigVar("compTooltips",countryCompTooltip);
-          MapChartsService.setConfigVar("colorBlending",colorOptions.blending);
-          MapChartsService.setConfigVar("colorMax",colorOptions.maximum);
+
+          if(colorOptions){
+            MapChartsService.setConfigVar("colorBlending",colorOptions.blending);
+            MapChartsService.setConfigVar("colorMax",colorOptions.maximum);  
+          }
 
           var mapFileName = 'Exports_'+year+'_'+country;
           var mapFile = '/localdata/vizdata/cartograms/Exports_'+year+'_'+country+'.json';
@@ -134,6 +137,9 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
             mapFile = '/localdata/vizdata/countries_50.json';
             mapFileName = 'countries_50_geo';
             MapChartsService.setProjection("equirectangular");
+            MapChartsService.setConfigVar("hasDistortion",false);
+          }else{
+            MapChartsService.setConfigVar("hasDistortion",true);
           }
           // d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
           d3.json(mapFile, function(topology) {
