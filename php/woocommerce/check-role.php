@@ -7,7 +7,7 @@ $postdata = file_get_contents("php://input");
 $user_data = json_decode($postdata);
 
 $user = new User($user_data->name, $user_data->pass);
-$role_minimum = ROLES_PERMISSIONS[$user_data->reason];
+$role_minimum = $ROLES_PERMISSIONS[$user_data->reason];
 
 $response_array['status'] = 'success'; 
 
