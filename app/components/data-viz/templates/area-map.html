@@ -48,10 +48,10 @@
 					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'country');">SELECT</a>
 					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('country');">SELECT</a>
 				</div>
-				<div class="col-xs-4 no-padding text-align-right" ng-if="temporalGeneralRadio.size == 'no-scale'">
+				<!-- <div class="col-xs-4 no-padding text-align-right" ng-if="temporalGeneralRadio.size == 'no-scale'">
 					<a ng-if="root.isMobile" href="#" class="cta cta-dark-blue" ng-click="viewController.popUpController(true, 'settings', 'country-check');">SELECT</a>
 					<a ng-if="root.isDesktop" href="#" class="cta cta-dark-blue" ng-click="viewController.showAuxView('country-check');">SELECT</a>
-				</div>
+				</div> -->
 				
 			</div>	
 			<!-- Years -->
@@ -174,7 +174,7 @@
 	<div ng-if="viewController.popUpView == 'country'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="1" variables="countries()" result="popUpCountry" dataType="country"></select-tag-input>
-		<dd-item class="standard" variables="countries()" result="popUpCountry" select-type="radio"></dd-item>
+		<dd-item class="standard" variables="{'Individual Countries':countries()['Individual Countries']}" result="popUpCountry" select-type="radio"></dd-item>
 		<hr>
 		<cta-controller meta-data="country"
 			pop-up="popUpCountry" 
@@ -184,7 +184,7 @@
 		</cta-controller>
 	</div>	
 	<!-- SPECIFIC COUNTRY CHECK -->
-	<div ng-if="viewController.popUpView == 'country-check'">
+	<!-- <div ng-if="viewController.popUpView == 'country-check'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="6" variables="countries()" result="popUpCountry" dataType="country"></select-tag-input>
 		<dd-item class="standard" variables="countries()" result="popUpCountry" select-type="checkbox"></dd-item>
@@ -195,7 +195,7 @@
 			selected="selectedCountry" 
 			view-controller="viewController">	
 		</cta-controller>
-	</div>	
+	</div>	 -->
 	<!-- SPECIFIC INDICATORS -->
 	<div ng-if="viewController.popUpView == 'indicators'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
@@ -213,7 +213,7 @@
 	<div ng-if="viewController.popUpView == 'indicators-check'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators" select-type="checkbox"></dd-item-array>
+		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators" select-type="radio"></dd-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -296,7 +296,7 @@
 	<div ng-if="viewController.popUpView == 'another-color-country'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="1" variables="countries()" result="popUpAnotherColor.country" dataType="country"></select-tag-input>
-		<dd-item class="standard" variables="countries()" result="popUpAnotherColor.country" select-type="radio"></dd-item>
+		<dd-item class="standard" variables="countries()" result="popUpAnotherColor.country" select-type="checkbox"></dd-item>
 		<hr>
 		<cta-controller meta-data="country"
 			pop-up="popUpAnotherColor.country" 
@@ -449,7 +449,7 @@
 	<div ng-if="viewController.auxView == 'country'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="1" variables="countries()" result="popUpCountry" dataType="country"></select-tag-input>
-		<dd-item class="standard" variables="countries()" result="popUpCountry" select-type="radio"></dd-item>
+		<dd-item class="standard" variables="{'Individual Countries':countries()['Individual Countries']}" result="popUpCountry" select-type="radio"></dd-item>
 		<hr>
 		<cta-controller meta-data="country"
 			pop-up="popUpCountry" 
@@ -459,7 +459,7 @@
 		</cta-controller>
 	</div>	
 	<!-- AUXILIAR COUNTRY CHECK-->
-	<div ng-if="viewController.auxView == 'country-check'">
+	<!-- <div ng-if="viewController.auxView == 'country-check'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
 		<select-tag-input class="block margin-sm-h" max-tags="6" variables="countries()" result="popUpCountry" dataType="country"></select-tag-input>
 		<dd-item class="standard" variables="countries()" result="popUpCountry" select-type="checkbox"></dd-item>
@@ -470,7 +470,7 @@
 			selected="selectedCountry" 
 			view-controller="viewController">	
 		</cta-controller>
-	</div>
+	</div> -->
 	<!-- AUXILIAR YEARS -->
 	<div ng-if="viewController.auxView == 'years'">
 		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
@@ -545,8 +545,8 @@
 	<!-- another color country popup -->
 	<div ng-if="viewController.auxView == 'another-color-country'">
 		<h3 class="color-blue margin-no-bottom">Country / Aggregate</h3>
-		<select-tag-input class="block margin-sm-h" max-tags="1" variables="countries()" result="popUpAnotherColor.country" dataType="country"></select-tag-input>
-		<dd-item class="standard" variables="countries()" result="popUpAnotherColor.country" select-type="radio"></dd-item>
+		<select-tag-input class="block margin-sm-h" max-tags="5" variables="countries()" result="popUpAnotherColor.country" dataType="country"></select-tag-input>
+		<dd-item class="standard" variables="countries()" result="popUpAnotherColor.country" select-type="checkbox"></dd-item>
 		<hr>
 		<cta-controller meta-data="country"
 			pop-up="popUpAnotherColor.country" 

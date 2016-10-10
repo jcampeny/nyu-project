@@ -66,7 +66,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state,$inter
             $scope.selectedAreaMapCBC = {name : 'Region', id:'region'}; //ColorByClassification
             $scope.selectedAreaMapAC = { //Another Color Indicator
                 country : {name : "Spain", items : ["Spain"]},
-                indicators : {items : [{name: 'Exports', parent: 'Merchandise Trade'}]},
+                indicators : {items : [{name: "Merchandise exports", code: "m.exports"}]},
                 years : {start: '2005', end: '2015'}
             };
             $scope.selectedAreaMapBubble = { //Bubbles Proportional to an Indicator

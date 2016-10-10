@@ -40,11 +40,7 @@ angular.module('app')
             {name : 'Development Level (IMF)',   id : 'development'}
         ];
 
-        json.indicatorsOther = {
-            "Trade" : {
-                "Merchandise Trade" : [{name: 'Exports', default: true}]
-            }
-        };
+        json.indicatorsOther = [{name: "Merchandise exports", code: "m.exports"}];
 
         json.yearsOther = {
             start : '2015',
@@ -54,11 +50,11 @@ angular.module('app')
 
         DataVaultService.getCountries().then(function(result){
             json.country = {
-                "Individual Countries" : result.data.content.individual,
-                "Region"               : result.data.content.region,
-                "Continent"            : result.data.content.continent,
-                "Income level"         : result.data.content.income,
-                "Development level"    : result.data.content.development
+                "Individual Countries" : result.data.content.individual
+                // "Region"               : result.data.content.region,
+                // "Continent"            : result.data.content.continent,
+                // "Income level"         : result.data.content.income,
+                // "Development level"    : result.data.content.development
             };
         });
 

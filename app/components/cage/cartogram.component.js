@@ -11,6 +11,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       color              : "=",
       colorClasification : "=",
       anotherIndicator   : "=",
+      colorOptions       : "=",
       countryCompTooltip : "="
     },
     link: function (scope, element, attrs, controller) {
@@ -26,8 +27,8 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       scope.$watch('country',function(newVal, oldVal){
         if(newVal[0] !== oldVal[0]){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
-          callRender();
         }
+        callRender();
       });
 
       scope.$watch('distortion',function(newVal, oldVal){
@@ -46,7 +47,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
 
       scope.$watch('anotherIndicator',function(newVal, oldVal){
         if(newVal.country.name !== oldVal.country.name || 
-            newVal.indicators.items.name !== oldVal.indicators.items.name || 
+            newVal.indicators.items[0].name !== oldVal.indicators.items[0].name || 
             newVal.years.start !== oldVal.years.start ||
             newVal.years.end !== oldVal.years.end){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, newVal, scope.countryCompTooltip);
@@ -60,6 +61,10 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           callRender();
         }
       });
+
+      scope.$watch('colorOptions',function(){
+        callRender();
+      },true);
 
       scope.$watch(
           function(){return angular.element(window)[0].innerWidth;},
@@ -75,7 +80,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       );
 
       function callRender(){
-        controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.anotherIndicator, scope.countryCompTooltip);
+        controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.anotherIndicator, scope.colorOptions, scope.countryCompTooltip);
       }
     },
     controller: function ($scope, $timeout, $uibModal, MapChartsService, mapVariablesService) {
@@ -90,7 +95,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           MapChartsService.setConfigVar(option,value);
         };
 
-        this.renderMap = function(country, indicator, year, countryIso, distortion, color, colorClasification, anotherIndicator, countryCompTooltip){
+        this.renderMap = function(country, indicator, year, countryIso, distortion, color, colorClasification, anotherIndicator, colorOptions, countryCompTooltip){
           if(countryIso){
             if(mapVariablesService.getCountryByISO(countryIso) === null){
               return;
@@ -120,6 +125,8 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
           MapChartsService.setZoom();
           MapChartsService.setProjection(null);
           MapChartsService.setConfigVar("compTooltips",countryCompTooltip);
+          MapChartsService.setConfigVar("colorBlending",colorOptions.blending);
+          MapChartsService.setConfigVar("colorMax",colorOptions.maximum);
 
           var mapFileName = 'Exports_'+year+'_'+country;
           var mapFile = '/localdata/vizdata/cartograms/Exports_'+year+'_'+country+'.json';
@@ -196,8 +203,65 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                   setAndRenderMap(dataset,country);
 
                 }else if(color === "another"){
-                  if(color === "another"){
-                    dataVaultRequest.indicator = "m.exports";//anotherIndicator.indicators.items[0].code;
+                  if(anotherIndicator.country.items.length > 1){
+                    MapChartsService.setSubType('multiple-focus');
+                    dataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
+                    dataVaultRequest.country = [];
+                    angular.forEach(anotherIndicator.country.items,function(d){
+                      dataVaultRequest.country.push(mapVariablesService.getCountryISO(d));
+                    });
+                    
+                    dataVaultRequest.year = anotherIndicator.years.start;
+                    DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
+                      var dataset = [];
+                      var worldValues = {};
+
+                      // angular.forEach(result.data.data, function(d){
+                      //   if(d.iso1 !== "World" && d.iso2 === "World"){
+                      //     worldValues[d.iso1] = parseFloat(d.value);
+                      //   }
+                      // });
+
+                      worldValues[dataVaultRequest.country[0]] = getWorldValue(result.data.data, dataVaultRequest.country[0]);
+                      worldValues[dataVaultRequest.country[1]] = getWorldValue(result.data.data, dataVaultRequest.country[1]);
+
+
+                      angular.forEach(result.data.data, function(d){
+                        if(d.iso1 !== "World" && d.iso2 !== "World"){
+                          var countryData = d;
+                          countryData.values = {};
+                          countryData.valuesPerc = {};
+
+                          angular.forEach(dataset, function(datasetCountry){
+                            if(datasetCountry.iso === d.iso2){
+                              countryData = datasetCountry;
+                            }
+                          });
+
+                          countryData.iso = d.iso2;
+                          countryData.values[d.iso1] = parseFloat(d.value);
+                          countryData.valuesPerc[d.iso1] = parseFloat(d.value)/worldValues[d.iso1];
+                          dataset.push(d);
+                        }
+                      });
+
+                      angular.forEach(dataVaultRequest.country,function(d){
+                        dataset.push({iso: d,partner:"", partner_percent:"#N/A",total:"0",total_percent:0, value: 0});  
+                      });
+
+                      // dataset = dataset.sort(function(a,b){
+                      //   return parseFloat(a.value) - parseFloat(b.value);
+                      // });
+
+                      // var percentilesValues = calculatePercentiles(dataset, "value", "value");
+                      // MapChartsService.setColorScaleLinear(percentilesValues,"value");  
+                      MapChartsService.setMultipleCountriesScale(dataVaultRequest.country);
+                      MapChartsService.setColorScaleMultiple(dataVaultRequest.country);
+                      // MapChartsService.addLegend(percentilesValues, "value");
+                      setAndRenderMap(dataset,dataVaultRequest.country);
+                    });
+                  }else{
+                    dataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
                     dataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
                     dataVaultRequest.year = anotherIndicator.years.start;
                     DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
@@ -264,6 +328,15 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                   MapChartsService.resetMap();
                 }
                   
+                function getWorldValue(data, country){
+                  return d3.sum(data,function(d){
+                    if(d.iso1 === country){
+                      return parseFloat(d.value);
+                    }else{
+                      return 0;
+                    }
+                  });
+                }
               });
           });
         };

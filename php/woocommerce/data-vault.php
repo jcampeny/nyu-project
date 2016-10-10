@@ -53,6 +53,20 @@ if ($conn->connect_error !== NULL) {
 // $user = new User($user_data->name, $user_data->pass);
 $user_role = 0;
 
+$queryCountry = "";
+if(is_array($item_data->iso)){
+	$queryCountry = "iso1 in(";
+	$coma = "";
+	foreach($item_data->iso as $c){
+		$queryCountry .= $coma."'$c'";
+		$coma = ",";
+	}
+
+	$queryCountry .= ")";
+}else{
+	$queryCountry = "iso1='$item_data->iso'";
+}
+
 // $conn = getConnection();
 
 $response_array['status'] = 'error';
@@ -65,7 +79,7 @@ $role_minimum = 0;
 
 		$sql = "SELECT * FROM GCI 
 				WHERE code='$item_data->code'
-				AND (iso1='$item_data->iso' or iso1='World')
+				AND ($queryCountry or iso1='World')
 				AND year=$item_data->year";
 
 		if ($resultado = $conn->query($sql)) {

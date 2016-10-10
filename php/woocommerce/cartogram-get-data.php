@@ -184,11 +184,11 @@ function getIndicators ($user, $iso) {
 
 function getCountries($user){
 	$countries = array(
-		"individual"  => array(),
-		"region"      => array(),
-		"continent"   => array(),
-		"income"      => array(),
-		"development" => array()
+		"individual"  => array()
+		// "region"      => array(),
+		// "continent"   => array(),
+		// "income"      => array(),
+		// "development" => array()
 	);
 
 	$user_role = $user->get_role();
@@ -234,18 +234,18 @@ function getCountries($user){
 
 	        array_push($countries['individual'],$c);
 	        
-	        if(!in_array($row->region,$countries['region'])){
-	        	array_push($countries['region'], $row->region);
-	        }
-	        if(!in_array($row->continent,$countries['continent'])){
-	        	array_push($countries['continent'], $row->continent);
-	        }
-	        if(!in_array($row->income,$countries['income'])){
-	        	array_push($countries['income'], $row->income);
-	        }
-	        if(!in_array($row->development,$countries['development'])){
-	        	array_push($countries['development'], $row->development);
-	        }
+	        // if(!in_array($row->region,$countries['region'])){
+	        // 	array_push($countries['region'], $row->region);
+	        // }
+	        // if(!in_array($row->continent,$countries['continent'])){
+	        // 	array_push($countries['continent'], $row->continent);
+	        // }
+	        // if(!in_array($row->income,$countries['income'])){
+	        // 	array_push($countries['income'], $row->income);
+	        // }
+	        // if(!in_array($row->development,$countries['development'])){
+	        // 	array_push($countries['development'], $row->development);
+	        // }
 	    }
 	    $conn->close();
 	    return $countries;
