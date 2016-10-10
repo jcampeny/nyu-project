@@ -2,7 +2,7 @@
 angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", function(ArrayService, mapVariablesService) {
 	    var mapObject = {};
 
-	    var multipleColors = ["#2D3E50","#2D6489","#62BBCD","#016A64","#E45425","#A72865","#47398F"];
+	    var multipleColors = ["#2D3E50","#62BBCD","#016A64","#674172","#4C77BB","#D14E57","#63A359"];
 	    var configColors = {
 	    	region : {
 				"South & Central Asia"       : multipleColors[0],
@@ -781,7 +781,8 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				
 	    }
 
-	    
+	    var lastScale = 1;
+	    var lastTranslate = [0,0];
 	    function doZoom() {
 	    	var t = d3.event.translate,
 	    	    s = d3.event.scale;
@@ -792,9 +793,17 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    		// t[0] = Math.min(initialScaleConfig.dx / 2 * (s - 1), Math.max(initialScaleConfig.dx / 2 * (1 - s), t[0]));
 	    		// t[1] = Math.min(mapObject.height / 2 * (s - 1) + 230 * s, Math.max(mapObject.height / 2 * (1 - s) - 230 * s, t[1]));
 	    		if(initConfig.translate[0] !== 0  && initConfig.translate[1] !== 0){
-	    			t[0] = initConfig.translate[0];
-	    			t[1] = initConfig.translate[1];	
+	    			t[0] += initConfig.translate[0];
+	    			t[1] += initConfig.translate[1];	
 	    		}
+	    		// if(s !== lastScale){
+	    		// 	t[0] = initConfig.translate[0];
+	    		// 	t[1] = initConfig.translate[1];		
+	    		// }else{
+	    		// 	t[0] = (t[0] / s) + initConfig.translate[0];
+	    		// 	t[1] = (t[1] / s) + initConfig.translate[1];	
+	    		// }
+	    		
 	    		
 	    		initConfig.translate = [0,0];
 	    		s = d3.event.scale * initConfig.scale;
