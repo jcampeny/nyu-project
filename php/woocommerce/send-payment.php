@@ -18,11 +18,11 @@ $data = array(
 	'general' => array(
         "cmd" => "_cart",
         "upload" => "1",
-        "business" => "jordicampeny13@hotmail.com",
-        "shopping_url" => "http://test-nyu.elkanodata.com/",
+        "business" => "business@nyu.com",
+        "shopping_url" => "http://52.32.163.154/",
         "currency_code" => "EUR",
-        "return" => "http://nyu.com/",
-        "notify_url" => "http://test-nyu.elkanodata.com/php/woocommerce/ipn.php",
+        "return" => "http://52.32.163.154/",
+        "notify_url" => "http://52.32.163.154/php/woocommerce/ipn.php",
         "rm" => "2",//1-GET 2-POST  
     ), 
 	'product' => array(

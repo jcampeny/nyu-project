@@ -1,5 +1,41 @@
 <?php
-    require_once 'encrypt_ekd/encrypt_ekd.php';
+
+
+
+    require 'controller.php';
+
+    require_once 'db-connection.php';
+
+                    /**********************
+                ****UPDATE PURCHASE****
+                ***********************/
+                $conn = getConnection();
+                $purchase_date_1 = date("Y-m-d");
+               //$sql = "UPDATE nyu_purchase 
+               //    SET state = $payment_status, paypal_request = $paypal_request, purchase_date = $purchase_date 
+               //    WHERE id = $_POST['custom']";
+                //$id_user = 8;
+                //$id_product = 4;
+                $id_purchase = $_POST["custom"];
+                $payment_status = $_POST["payment_status"];
+                $paypal_request = json_encode($_POST);
+
+                /*$sql = "INSERT INTO nyu_purchase (id_user, id_product, state, paypal_request, purchase_date, total_cyle) 
+                    VALUES ($id_user_1, $id_product_1, $payment_status_1, $paypal_request_1, $purchase_date_1, 0);";*/
+                /*$sql = "INSERT INTO nyu_purchase (id_user, id_product, state, paypal_request, purchase_date, total_cycle) 
+                        VALUES ($id_user, $id_product, '$payment_status', '$paypal_request', '$purchase_date_1', 0)";*/
+                $sql = "UPDATE nyu_purchase
+                        SET state = '$payment_status', paypal_request = '$paypal_request'
+                        WHERE id = $id_purchase";
+                        
+                $resultado = $conn->query($sql);
+                echo $purchase_date_1;
+                $conn->close();
+
+
+
+
+ /*   require_once 'encrypt_ekd/encrypt_ekd.php';
     require 'controller.php';
     include 'validate-user.php';
     require_once 'db-connection.php';
@@ -63,7 +99,7 @@
                 /**********************
                 ****UPDATE PURCHASE****
                 ***********************/
-                $conn = getConnection();
+                /*$conn = getConnection();
                 $paypal_request = json_encode($_POST);
                 $purchase_date = date("Y-m-d");
                 $sql = "UPDATE nyu_purchase 
