@@ -426,8 +426,8 @@ custom-view{
 				color:#FFFFFF;
 			}
 			&.cta-darkest-blue{
-				background-color: $darkest-blue;
-				color:#FFFFFF;
+				background-color: transparent;
+				color:$darkest-blue;
 			}
 			&.cta-light-gray{
 				background-color: $darkest-blue;
