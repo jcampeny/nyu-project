@@ -1,8 +1,8 @@
 
-angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", function(ArrayService, mapVariablesService) {
+angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesService", 'DataVaultService', function(ArrayService, mapVariablesService, DataVaultService) {
 	    var mapObject = {};
 
-	    var multipleColors = ["#2D3E50","#62BBCD","#016A64","#674172","#4C77BB","#D14E57","#63A359"];
+	    var multipleColors = ["#2D3E50","#62BBCD","#007D6F","#6D4075","#4C77BB","#D14E57","#63A359"];
 	    var configColors = {
 	    	region : {
 				"South & Central Asia"       : multipleColors[0],
@@ -65,7 +65,8 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				focusCountry  	 : null,
 				clickFunction 	 : null,
 				tooltipValueName : null,
-				valueName		 : null
+				valueName		 : null,
+				distVars 		 : null
 		    };
 	    }
 
@@ -209,11 +210,18 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 			mapObject.mapLegend = mapObject.map.append("g")
 				.attr("id", "mapLeyend")
-				.attr("transform","translate("+(mapObject.width/3)+","+(mapObject.height-25)+")");
+				.attr("transform",function(){
+					var left = mapObject.width/3;
+					if(mapObject.width < 654){
+						left = mapObject.width * 0.025;
+					}
+
+					return "translate("+(left)+","+(mapObject.height-25)+")";
+				});
 
 			mapObject.mapWatermark = mapObject.map.append("g")
 				.attr("id", "mapWatermark")
-				.attr("transform","translate("+(mapObject.width - 105)+","+(mapObject.height-50)+")");
+				.attr("transform","translate("+(mapObject.width - 135)+","+(mapObject.height-60)+")");
 
 			mapObject.mapWatermarkGlobe = mapObject.map.append("g")
 				.attr("id", "mapWatermarkGlobe");
@@ -276,6 +284,10 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    		});
 	    	}else{
 	    		mapObject.focusCountry = mapObject.dataNest[iso.toUpperCase()];
+	    		mapObject.distVars = [];
+	    		DataVaultService.getCountriesDistVars(iso).then(function(result){
+	    			mapObject.distVars = result.data.content;
+	    		});
 	    	}
 	    }
 
@@ -382,16 +394,21 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    				tooltipContent += "<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>";	
 	    	    			}
 
-    	    			    if(mapObject.compTooltips){
-    	    			    	tooltipContent += 
-    	    			    		"<div class='item'>Common Official Language: No</div>"+
-    	    			    		"<div class='item'>Colonial Linkage: Yes</div>"+
-    	    			    		"<div class='item'>Trade Agreement: Yes</div>"+
-    	    			    		"<div class='item'>Regional Bloc: Yes</div>"+
-    	    			    		"<div class='item'>Physical Distance: No</div>"+
-    	    			    		"<div class='item'>Common Border: No</div>"+
-    	    			    		"<div class='item'>Ratio of Per Capita Income: No</div>";
-    	    			    }
+	    	    			if(mapObject.distVars !== null){
+		    	    			var distVars = mapObject.distVars[mapObject.focusCountry.iso+"_"+country.iso];
+
+	    	    			    if(mapObject.compTooltips){
+	    	    			    	tooltipContent += 
+	    	    			    		"<div class='item'>Common Official Language: "+(distVars.common_language=='1'?'Yes':"No")+"</div>"+
+	    	    			    		"<div class='item'>Colonial Linkage: "+(distVars.colonial_linkage=='1'?'Yes':"No")+"</div>"+
+	    	    			    		// "<div class='item'>Trade Agreement: Yes</div>"+
+	    	    			    		// "<div class='item'>Regional Bloc: Yes</div>"+
+	    	    			    		"<div class='item'>Physical Distance: "+(parseInt(distVars.physical_dist)+'km')+"</div>"+
+	    	    			    		"<div class='item'>Common Border: "+(distVars.common_border=='1'?'Yes':"No")+"</div>";
+	    	    			    		// "<div class='item'>Ratio of Per Capita Income: No</div>";
+	    	    			    }
+	    	    			}
+	    	    			
 
 	    	    			mapObject.tooltip.classed('show', true)
 	    	    			    .attr('style', 'left:' + (tooltipLeft) +
@@ -579,10 +596,31 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    function addLegend(percentiles, property){
 	    	if(mapObject.type === "cartogram"){
-	    		var percArray = percentiles.reverse();
-	    		var legendWidth = mapObject.width/3;
+	    		var percArray = angular.copy(percentiles);
+	    		percArray = percArray.reverse();
+	    		var legendWidth = mapObject.width/2;
+	    		if(mapObject.width < 654){
+	    			legendWidth = mapObject.width * 0.9;
+	    		}
 	    		var rectWidth = legendWidth/9;
 	    		
+	    		var percArrayLabels = angular.copy(percentiles);
+	    		var fixedDecimals = 0;
+	    		angular.forEach(percArrayLabels, function(p, i){
+	    			if(i < percArrayLabels.length-1){
+	    				if(Math.round(p) ==  Math.round(percArrayLabels[i+1])){
+	    					fixedDecimals = 2;
+	    					percArrayLabels[i] = parseFloat(percentiles[i]).toFixed(2);
+	    					percArrayLabels[i+1] = percentiles[i+1].toFixed(2);
+	    				}else{
+	    					percArrayLabels[i] = parseFloat(p).toFixed(fixedDecimals);
+	    					if(i == percArrayLabels.length-2){
+	    						percArrayLabels[i+1] = percentiles[i+1].toFixed(fixedDecimals);
+	    					}
+	    				}
+	    			}
+	    		});
+
 	    		mapObject.mapLegend.selectAll('.legend-item')
 	    			.data(percArray)
 	    			.enter()
@@ -598,8 +636,9 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    				return mapObject.colorFunction(obj);
 	    			});
 
+	    		percArrayLabels = percArrayLabels.reverse();
     			mapObject.mapLegend.selectAll('.legend-item-text')
-    				.data(percArray)
+    				.data(percArrayLabels)
     				.enter()
     				.append('text')
     				.attr('class','legend-item-text')
@@ -607,8 +646,8 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
     				.attr('y',5)
     				.attr('text-anchor','middle')
     				.text(function(d,i){
-    					if(i<percArray.length-1){
-    						return Math.round(parseFloat(d))+'%';	
+    					if(i<percArrayLabels.length-1){
+    						return (parseFloat(d)>100?abbreviateNumber(d):d+'%');	
     					}else{
     						return "";
     					}
@@ -640,49 +679,82 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    }
 
 	    function addLegendMultiple(colorClasification){
-	    	if(mapObject.type === "cartogram"){
-	    		var index = 0;
-	    		for(var name in configColors[colorClasification]){
-	    			domain.push(name);
-	    			range.push(configColors[colorClasification][name]);
+    		var index = 0;
+    		var domain = [];
+    		var range = [];
+    		var leyendItemHeight = 12;
+    		var rectWidth = mapObject.height * 0.05;
 
-	    			var legendItem = mapObject.mapLegend.selectAll('.legend-item')
-	    				.append('g')
-	    				.attr('class','legend-item')
-	    				.attr('translate');
+    		for(var name in configColors[colorClasification]){
+    			domain.push(name);
+    			range.push(configColors[colorClasification][name]);
+    		}
 
-	    			index++;
-	    		}
-	    		
-	    		mapObject.mapLegend.selectAll('.legend-item')
-	    			.data(percArray)
-	    			.enter()
-	    			.append('rect')
-	    			.attr('class','legend-item')
-	    			.attr('x',function(d,i){ return i*rectWidth;})
-	    			.attr('y',10)
-	    			.attr('width',rectWidth+'px')
-	    			.attr('height','12px')
-	    			.attr('fill',function(d,i){
-	    				return mapObject.colorFunction({total_percent:d});
-	    			});
+    		var y = mapObject.height - 10 - (leyendItemHeight * domain.length) - (5 * domain.length);
 
-    			mapObject.mapLegend.selectAll('.legend-item-text')
-    				.data(percArray)
-    				.enter()
-    				.append('text')
-    				.attr('class','legend-item-text')
-    				.attr('x',function(d,i){ return (i+1)*rectWidth;})
-    				.attr('y',5)
-    				.attr('text-anchor','middle')
-    				.text(function(d,i){
-    					if(i<percArray.length-1){
-    						return Math.round(parseFloat(d))+'%';	
-    					}else{
-    						return "";
-    					}
-    				});
-			}
+    		mapObject.mapLegend.attr("transform","translate(20, "+y+")");
+
+    		var legendItem = mapObject.mapLegend.selectAll('.legend-item')
+    			.data(domain)
+    			.enter()
+    			.append('g')
+    			.attr('class','legend-item')
+    			.attr('transform',function(d,i){
+    				return "translate(0,"+(i * (leyendItemHeight + 5))+")";
+    			});
+
+    		legendItem.append('rect')
+    			.attr('class', 'legend-item-rect')
+    			.attr('x','0')
+    			.attr('y','0')
+    			.attr('width',rectWidth+'px')
+    			.attr('height','12px')
+    			.attr('fill',function(d,i){ return range[i]; });
+
+    		legendItem.append('text')
+				.attr('class','legend-item-text')
+				.attr('x',rectWidth + 5)
+				.attr('y',0)
+				.attr('dy', 10)
+				.attr('text-anchor','start')
+				.text(function(d,i){ return domain[i]; });
+	    }
+
+	    function addLegendMultipleCountries(countries){
+    		var index = 0;
+    		var domain = [];
+    		var range = [];
+    		var leyendItemHeight = 12;
+    		var rectWidth = mapObject.height * 0.05;
+
+    		var y = mapObject.height - 10 - (leyendItemHeight * countries.length) - (5 * countries.length);
+
+    		mapObject.mapLegend.attr("transform","translate(20, "+y+")");
+
+    		var legendItem = mapObject.mapLegend.selectAll('.legend-item')
+    			.data(countries)
+    			.enter()
+    			.append('g')
+    			.attr('class','legend-item')
+    			.attr('transform',function(d,i){
+    				return "translate(0,"+(i * (leyendItemHeight + 5))+")";
+    			});
+
+    		legendItem.append('rect')
+    			.attr('class', 'legend-item-rect')
+    			.attr('x','0')
+    			.attr('y','0')
+    			.attr('width',rectWidth+'px')
+    			.attr('height','12px')
+    			.attr('fill',function(d,i){ return mapObject.colorScale[d]; });
+
+    		legendItem.append('text')
+				.attr('class','legend-item-text')
+				.attr('x',rectWidth + 5)
+				.attr('y',0)
+				.attr('dy', 10)
+				.attr('text-anchor','start')
+				.text(function(d,i){ return mapVariablesService.getCountryByISO(d).name; });
 	    }
 
 	    function deleteMapLayers(){
@@ -703,7 +775,6 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    /* PRIVATES */
 	    function addWatermark(){
-
 	    	mapObject.mapWatermark
 	    		.append('text')
 	    		.attr('class','watermark-text')
@@ -716,7 +787,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    		.append('text')
 	    		.attr('class','watermark-text')
 	    		.attr('x',0)
-	    		.attr('y',10)
+	    		.attr('y',12)
 	    		.attr('text-anchor','start')
 	    		.text("Source: www.ghemawat.com");
 
@@ -816,7 +887,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	if(t[1] > mapObject.height / 2){t[1] = mapObject.height / 2;}
 			if(t[1] < -1 * (mapObject.height / 2) * s * 1.3){t[1] = -1 * (mapObject.height / 2) * s * 1.3;}	    	
 
-	    	console.log(t);
+	    	// console.log(t);
 
 			// Zoom and keep the stroke width proportional
 			mapObject.layer.attr("transform", "translate(" + t + ")scale(" + s + ")");
@@ -934,38 +1005,39 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
         }
 
 	    return({
-			getMapObject              : getMapObject,
-			resetMapObject            : resetMapObject,
-			setType                   : setType,
-			setSubType				  : setSubType,
-			setSize                   : setSize,
-			setColorScale             : setColorScale,
-			setColorScaleLinear       : setColorScaleLinear,
-			setColorScaleOrdinal      : setColorScaleOrdinal,
-			setColorScaleMultiple	  : setColorScaleMultiple,
-			setMultipleCountriesScale : setMultipleCountriesScale,
-			setDataset                : setDataset,
-			iniMapLayers              : iniMapLayers,
-			setZoom                   : setZoom,
-			setProjection             : setProjection,
-			setDataNest               : setDataNest,
-			setTopology               : setTopology,
-			setFocusCountry           : setFocusCountry,
-			resetMap                  : resetMap,
-			setColorFunction          : setColorFunction,
-			updateData                : updateData,
-			setValueScale             : setValueScale,
-			setValueFunction          : setValueFunction,
-			addCircles                : addCircles,
-			addFlags                  : addFlags,
-			fetchFlags                : fetchFlags,
-			addLegend                 : addLegend,
-			addLegendMultiple         : addLegendMultiple,
-			deleteMapLayers           : deleteMapLayers,
-			setClickFunction          : setClickFunction,
-			setConfigVar              : setConfigVar,
-			setTooltipValueName       : setTooltipValueName,
-			setValueName              : setValueName
+			getMapObject               : getMapObject,
+			resetMapObject             : resetMapObject,
+			setType                    : setType,
+			setSubType				   : setSubType,
+			setSize                    : setSize,
+			setColorScale              : setColorScale,
+			setColorScaleLinear        : setColorScaleLinear,
+			setColorScaleOrdinal       : setColorScaleOrdinal,
+			setColorScaleMultiple	   : setColorScaleMultiple,
+			addLegendMultipleCountries : addLegendMultipleCountries,
+			setMultipleCountriesScale  : setMultipleCountriesScale,
+			setDataset                 : setDataset,
+			iniMapLayers               : iniMapLayers,
+			setZoom                    : setZoom,
+			setProjection              : setProjection,
+			setDataNest                : setDataNest,
+			setTopology                : setTopology,
+			setFocusCountry            : setFocusCountry,
+			resetMap                   : resetMap,
+			setColorFunction           : setColorFunction,
+			updateData                 : updateData,
+			setValueScale              : setValueScale,
+			setValueFunction           : setValueFunction,
+			addCircles                 : addCircles,
+			addFlags                   : addFlags,
+			fetchFlags                 : fetchFlags,
+			addLegend                  : addLegend,
+			addLegendMultiple          : addLegendMultiple,
+			deleteMapLayers            : deleteMapLayers,
+			setClickFunction           : setClickFunction,
+			setConfigVar               : setConfigVar,
+			setTooltipValueName        : setTooltipValueName,
+			setValueName               : setValueName
 		});
 
 
@@ -1071,4 +1143,21 @@ function int_to_hex(num)
     if (hex.length == 1)
         hex = '0' + hex;
     return hex;
+}
+
+function abbreviateNumber(value) {
+    var newValue = value;
+    if (value >= 101) {
+        var suffixes = ["", "k", "m", "b","t"];
+        var suffixNum = Math.floor( (""+value).length/3 );
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+            if (dotLessShortValue.length <= 2) { break; }
+        }
+        if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
+        newValue = shortValue+suffixes[suffixNum];
+    }
+    return newValue;
 }

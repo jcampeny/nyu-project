@@ -50,6 +50,16 @@ if ($item_data->reason == 'years'){
 		$response_array['status'] = 'error';
 		$response_array['content'] = $e->getMessage();
 	}
+
+}else if ($item_data->reason == 'distvars'){
+	try {
+		$distvars  = getDistVars($user, $item_data->iso);
+	    $response_array['status'] = 'success';
+		$response_array['content'] = $distvars;
+	} catch (Exception $e) {
+		$response_array['status'] = 'error';
+		$response_array['content'] = $e->getMessage();
+	}
 }
 
 print json_encode($response_array);
@@ -148,7 +158,7 @@ function getIndicators ($user, $iso) {
 		while ($row = $resultado->fetch_object()){
 			//get todos los indicadores de cada una de las tablas obtenidas
 	        $sql_get_indicator = "
-	        	SELECT m.name, m.code
+	        	SELECT m.name, m.code, m.sources
 	        	FROM Metadata m  
 	        	RIGHT JOIN $row->table g 
 	        	ON m.code = g.code 
@@ -165,6 +175,7 @@ function getIndicators ($user, $iso) {
         			$i = new stdClass();
         			$i->name = $row_indicator->name;
         			$i->code = $row_indicator->code;
+        			$i->source = $row_indicator->sources;
 					array_push($children, $i);
         	    }
 
@@ -253,4 +264,47 @@ function getCountries($user){
 		throw new Exception("Can't get countries data");
 	}
 
+}
+
+function getDistVars ($user, $country) {
+	$user_role = $user->get_role();
+	$role_minimum = 0;
+
+	// Create connection
+	$conn = new mysqli(
+		'nyu-general.c5opksnh3gku.us-west-2.rds.amazonaws.com', 
+		'nyunewweb', 
+		'k1zCbksPR1cHhxOs%L', 
+		'datavault'
+	);
+
+	//get tables
+	$sql_get_distvars = '
+		SELECT iso1,iso2,comlang_off as "common_language", colony as "colonial_linkage", distw as "physical_dist", contig as "common_border"
+		FROM CEPIIGeoDist
+		WHERE iso1 = "'.$country.'"
+	';
+	$vars = array();
+
+
+	if ($resultado = $conn->query($sql_get_distvars)) {
+	    $response_array['status'] = 'success';
+
+		while ($row = $resultado->fetch_object()){
+			$v = new stdClass();
+			$v->iso1 = $row->iso1;
+			$v->iso2 = $row->iso2;
+			$v->common_language = $row->common_language;
+			$v->colonial_linkage = $row->colonial_linkage;
+			$v->physical_dist = $row->physical_dist;
+			$v->common_border = $row->common_border;
+
+			$vars[$v->iso1."_".$v->iso2] = $v;
+	    }
+
+	    $conn->close();
+	    return $vars;
+	}else{
+		throw new Exception("Can't get table's name");
+	}
 }

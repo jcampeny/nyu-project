@@ -109,10 +109,25 @@ angular.module('app')
             return countryAggregateNames[agg];
         }
 
+        function getIndicatorOtherByCode(code){
+            var indicator = null;
+
+            angular.forEach(json.indicatorsOther, function(i){
+                angular.forEach(i.children,function(ic){
+                    if(ic.code === code){
+                        indicator = ic;
+                    }    
+                });
+            });
+
+            return indicator;
+        }
+
         return {
             getData                 : getData,
             getCountryISO           : getCountryISO,
             getCountryByISO         : getCountryByISO,
-            getCountryAggregateName : getCountryAggregateName
+            getCountryAggregateName : getCountryAggregateName,
+            getIndicatorOtherByCode : getIndicatorOtherByCode
         };
     });

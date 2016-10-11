@@ -25,21 +25,21 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
       });
 
       scope.$watch('country',function(newVal, oldVal){
-        if(newVal[0] !== oldVal[0]){
+        if(!angular.equals(newVal, oldVal)){
+          callRender();
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
         }
-        callRender();
-      });
+      },true);
 
       scope.$watch('distortion',function(newVal, oldVal){
-        if(newVal !== oldVal){
+        if(!angular.equals(newVal, oldVal)){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, newVal, scope.color, scope.colorClasification, scope.countryCompTooltip);
           callRender();
         }
       });
 
       scope.$watch('color',function(newVal, oldVal){
-        if(newVal !== oldVal){
+        if(!angular.equals(newVal, oldVal)){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, newVal, scope.colorClasification, scope.countryCompTooltip);
           callRender();
         }
@@ -51,19 +51,21 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
             newVal.years.start !== oldVal.years.start ||
             newVal.years.end !== oldVal.years.end){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, newVal, scope.countryCompTooltip);
-        callRender();
+          callRender();
         }
       },true);
 
       scope.$watch('colorClasification',function(newVal, oldVal){
-        if(newVal !== oldVal){
+        if(!angular.equals(newVal, oldVal)){
           // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, newVal, scope.countryCompTooltip);
           callRender();
         }
       });
 
-      scope.$watch('colorOptions',function(){
-        callRender();
+      scope.$watch('colorOptions',function(newVal, oldVal){
+        if(!angular.equals(newVal, oldVal)){
+          callRender();
+        }
       },true);
 
       scope.$watch(
@@ -86,6 +88,8 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
     controller: function ($scope, $timeout, $uibModal, MapChartsService, mapVariablesService) {
         var dataset, country = "", countryName = "", self = this;
         var lastValidCountry = "United States";
+
+        $scope.dataSource = "";
 
         // MapChartsService.fetchFlags();
         MapChartsService.resetMapObject();
@@ -151,10 +155,11 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
               lastValidCountry = mapVariablesService.getCountryByISO(country).name;
 
               // Read the data for the cartogram
-              var dataVaultRequest = {indicator: "m.exports", country: country, year:year};
+              var dataVaultRequest = {indicator: "m.exports", country: country, year:[year, year]};
 
               DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                 dataset = [];
+                printDataSource();
 
                 var data = result.data.data.sort(function(a,b){
                   return parseFloat(a.value) - parseFloat(b.value);
@@ -205,7 +210,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
 
                 if(color === "classification"){
                   MapChartsService.setColorScaleOrdinal(colorClasification);
-                  // MapChartsService.addLegendMultiple(colorClasification);
+                  MapChartsService.addLegendMultiple(colorClasification);
                   setAndRenderMap(dataset,country);
 
                 }else if(color === "another"){
@@ -217,10 +222,12 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                       dataVaultRequest.country.push(mapVariablesService.getCountryISO(d));
                     });
                     
-                    dataVaultRequest.year = anotherIndicator.years.start;
+                    dataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
                     DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                       var dataset = [];
                       var worldValues = {};
+
+                      $scope.dataSource += ", "+mapVariablesService.getIndicatorOtherByCode(dataVaultRequest.indicator).source;
 
                       // angular.forEach(result.data.data, function(d){
                       //   if(d.iso1 !== "World" && d.iso2 === "World"){
@@ -263,13 +270,13 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                       // MapChartsService.setColorScaleLinear(percentilesValues,"value");  
                       MapChartsService.setMultipleCountriesScale(dataVaultRequest.country);
                       MapChartsService.setColorScaleMultiple(dataVaultRequest.country);
-                      // MapChartsService.addLegend(percentilesValues, "value");
+                      MapChartsService.addLegendMultipleCountries(dataVaultRequest.country);
                       setAndRenderMap(dataset,dataVaultRequest.country);
                     });
                   }else{
                     dataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
                     dataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
-                    dataVaultRequest.year = anotherIndicator.years.start;
+                    dataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
                     DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                       var dataset = [];
 
@@ -297,7 +304,11 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                 }else if(color === "share" || color === "no-color"){
                   var percentilesValues = calculatePercentiles(dataset, "total_received", "total_percent");
                   MapChartsService.setColorScaleLinear(percentilesValues,"total_percent");  
-                  MapChartsService.addLegend(percentilesValues, "total_percent");
+
+                  if(color === "share"){
+                    MapChartsService.addLegend(percentilesValues, "total_percent");  
+                  }
+                  
                   setAndRenderMap(dataset, country);
                 }
 
@@ -342,6 +353,18 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
                       return 0;
                     }
                   });
+                }
+
+                function printDataSource(){
+                  $timeout(function(){
+                    var indicator = mapVariablesService.getIndicatorOtherByCode(dataVaultRequest.indicator);
+                    if(indicator === null){
+                      printDataSource();
+                    }else{
+                      $scope.dataSource += indicator.source;  
+                    }
+                    
+                  },2000);
                 }
               });
           });
