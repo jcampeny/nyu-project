@@ -40,11 +40,15 @@ var app = angular.module("app",['templates-dist', 'ui.router', 'ui.bootstrap', '
         	});
         }
 
+        $rootScope.ieRedirect = false;
 
 		DataService.downloadMedia();
 
 		$rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
-
+			if($('html').hasClass('is-ie9') && !$rootScope.ieRedirect && fromState.url =="^" && toState.url == "404"){
+				$state.go("app.home");
+				$rootScope.ieRedirect = true;
+			}
 	    	$rootScope.headerOpened = false;
 	    	$rootScope.currentState = toState.name;
 	    	$rootScope.mobileShowFilters = false;

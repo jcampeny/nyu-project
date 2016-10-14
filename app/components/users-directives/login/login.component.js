@@ -54,9 +54,8 @@ angular.module('app').directive('userLogin', function (errorService) {
                             $scope.errorHandler.setError(response.data.content);
                         }
                         $scope.loading = false;
-                    })
-                    .catch( function( error ) {
-                        $scope.errorHandler.setError(error.data.message);
+                    })["catch"]( function(err){
+                        $scope.errorHandler.setError(err.data.message);
                         $scope.loading = false;
                     });                   
             }else{

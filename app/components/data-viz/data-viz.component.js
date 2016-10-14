@@ -63,6 +63,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state,$inter
                     ]
                 }
             ];
+
             $scope.indicators = function(){
                 return mapVariablesService.getData('indicatorsOther');
             };

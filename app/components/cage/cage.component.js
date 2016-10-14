@@ -70,7 +70,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
                         "classvar": subSection.classvar,
                         "name": subSection.name,
                         "varname": subSection.varname,
-                        "default": subSection.default,
+                        "default": subSection["default"],
                         "value" : Math.round(Math.pow(2,((Math.random())*6) - 3) * Math.pow(10 , 3)) / Math.pow(10,3)
                     };
                     if(typeof $scope.selectedDistanceVariables.items[key][subSection.source] == "undefined"){
@@ -85,25 +85,25 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
         $scope.indicators = {
             "Trade" : {
                 "Merchandise Trade" : [
-                    {name: 'Exports', default: false},
-                    {name: 'Imports', default: false}
+                    {name: 'Exports', "default": false},
+                    {name: 'Imports', "default": false}
                 ],
                 "Services Trade" : [
-                    {name: 'Exports', default: false},
-                    {name: 'Imports', default: false}
+                    {name: 'Exports', "default": false},
+                    {name: 'Imports', "default": false}
                 ],
                 "Test" : [
-                    {name: 'test', default: false}
+                    {name: 'test', "default": false}
                 ]
             },
             "Capital" : {
                 "FDI stocks" : [
-                    {name: 'Outward flows', default: false},
-                    {name: 'Inward flows', default: false}
+                    {name: 'Outward flows', "default": false},
+                    {name: 'Inward flows', "default": false}
                 ],
                 "FDI flows" : [
-                    {name: 'Outward stocks', default: false},
-                    {name: 'Inward stocks', default: false}
+                    {name: 'Outward stocks', "default": false},
+                    {name: 'Inward stocks', "default": false}
                 ]
             }
         };
@@ -194,7 +194,7 @@ angular.module('app').directive('nyuCage', function (deviceDetector, $window, $r
             var found = false;
             angular.forEach(sliders, function(slider){
                 angular.forEach(slider, function(sliderItem){
-                    if(sliderItem.default) found = true;
+                    if(sliderItem["default"]) found = true;
                 });
             });
             return found;

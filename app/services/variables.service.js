@@ -24,7 +24,7 @@ angular.module('app')
 
         json.indicators = {
             "Trade" : {
-                "Merchandise Trade" : [{name: 'Exports', default: true}]
+                "Merchandise Trade" : [{name: 'Exports', "default": true}]
             }
         };
 
