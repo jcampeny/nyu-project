@@ -129,7 +129,8 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}" class="has-submenu">Maps</a>
+					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}" ui-sref="dataViz.areaMap">Maps</a>
+					<!--<a href="#" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}" class="has-submenu">Maps</a>
 					<ul class="submenu">
 						<li><a ui-sref="dataViz.areaMap">Area Map</a></li>
 						<li><a ui-sref="dataViz.flowMap">Flow Map</a></li>
@@ -137,7 +138,7 @@
 						<li><a ui-sref="dataViz.scatterplot">Scatterplot</a></li>
 						<li><a ui-sref="dataViz.treemap">Treemap</a></li>
 						<li><a ui-sref="dataViz.barChart">Bar chart</a></li>
-					</ul>
+					</ul>-->
 				</li>
 				<li>
 					<a href="#" ng-class="{'active': getCurrentStateGroup() == 'cage'}" class="has-submenu">CAGE Comparator&trade;</a>
@@ -203,7 +204,8 @@
 					</ul>
 				</li>
 				<li ng-click="toggleCollapsed('dataviz')">
-					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}">Maps</a>
+					<a ng-class="{'active': getCurrentStateGroup() == 'dataviz'}" ui-sref="dataViz.areaMap">Maps</a>
+					<!--<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'dataviz'}">Maps</a>
 					<ul class="submenu" uib-collapse="collapsed != 'dataviz'">
 						<li><a ui-sref="dataViz.areaMap">Area Map</a></li>
 						<li><a ui-sref="dataViz.flowMap">Flow Map</a></li>
@@ -211,7 +213,7 @@
 						<li><a ui-sref="dataViz.scatterplot">Scatterplot</a></li>
 						<li><a ui-sref="dataViz.treemap">Treemap</a></li>
 						<li><a ui-sref="dataViz.barChart">Bar chart</a></li>
-					</ul>
+					</ul>-->
 				</li>
 				<li ng-click="toggleCollapsed('cage')">
 					<a class="has-submenu" ng-class="{'active': getCurrentStateGroup() == 'cage'}">CAGE Comparator&trade;</a>
