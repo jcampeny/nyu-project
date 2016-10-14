@@ -114,7 +114,8 @@ footer {
 }
 ng-cage-footer{
 	footer{
-		padding: 20px 0px 20px 0px;
+		margin-top: 20px;
+		padding: 15px 0px 15px 0px;
 		background-color: #ffffff;
 		color: $cage-footer-color;
 		@media (max-width: $break-mobile) and (max-height: 420px){

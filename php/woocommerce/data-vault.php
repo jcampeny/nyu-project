@@ -77,10 +77,12 @@ $role_minimum = 0;
 // if($user->status == "success"){
 	if($user_role >= $role_minimum){
 
-		$sql = "SELECT * FROM GCI 
+		$sql = "SELECT code,iso1,iso2,sum(value) as value 
+				FROM GCI 
 				WHERE code='$item_data->code'
 				AND ($queryCountry or iso1='World')
-				AND year=$item_data->year";
+				AND year between ".$item_data->year[0]." and ".$item_data->year[0]."
+				GROUP BY iso1,iso2";
 
 		if ($resultado = $conn->query($sql)) {
 		    $response_array['status'] = 'success';

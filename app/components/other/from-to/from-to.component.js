@@ -5,7 +5,8 @@ angular.module('app').directive('fromTo', function () {
     controllerAs: 'fromTo',
     scope : {
     	variables : '=',
-        result : '='
+        result : '=',
+        disabled: '='
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
         //check years

@@ -42,11 +42,22 @@ angular.module('app')
 		});
 	}
 
+	function getCountriesDistVars(countries){
+		return $http.post('/php/woocommerce/cartogram-get-data.php', {
+			user : $rootScope.actualUser,
+			item : {
+				iso : countries,
+				reason : 'distvars'
+			}
+		});
+	}
+
 	return {
 		getCartogramIndicator  : getCartogramIndicator,
 		getCartogramYears      : getCartogramYears,
 		getCartogramIndicators : getCartogramIndicators,
-		getCountries		   : getCountries
+		getCountries		   : getCountries,
+		getCountriesDistVars   : getCountriesDistVars
 	};
 }]);
    
