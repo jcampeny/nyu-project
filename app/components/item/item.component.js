@@ -8,7 +8,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
     		subentity : '@'
         },
 
-        controller: function ($scope) {
+        controller: function ($scope, $rootScope) {
 
         	$scope.item = null;
         	$scope.related = [];
@@ -24,7 +24,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
             var limitRelated = (dataFile == 'books') ? 20 : 3;
             //Si hay posts en el service
             postController = DataService.getPosts();
-            console.log();
+
             if(postController.length > 0){
                 angular.forEach(postController, function(postsItem){
                     if(postsItem.state == dataFile){
@@ -49,6 +49,7 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
             function getItFromDB(){
                 DataService.all(dataFile + '/' +$stateParams.id, "all", 0, true).then(function(posts){
                     $scope.item = posts;
+                    getPdf (posts);
                     if(dataFile != 'books'){
                         $scope.related = DataService.getRelatedPost(posts);
                     }else{
@@ -64,6 +65,18 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                     
                 }, function(){$state.go('app.notfound');});
             }
+            function getPdf (posts) {
+                var aItem = {
+                    id : $stateParams.id
+                };
+                DataService.getPdfXls(aItem).then(function(item){
+                        posts.pdf_link = item.pdf_link;
+                        posts.xls_link = item.xls_link;
+                        DataService.setPosts(posts, $scope.entity, true);
+                        $rootScope.change++;
+                });                 
+            }
+        
 
         	$scope.hasTopImg = function(){
         		return EntitiesService.hasTopImg($scope.entity);
@@ -135,11 +148,12 @@ angular.module('app').directive('nyuItem', function ( $http, EntitiesService, Ar
                 };
             scope.audioPlaying = false;
             scope.id = $stateParams.id;
+            var aItem = {
+                id : scope.id,
+                audio : ''
+            }; 
             if(scope.entity == 'podcasts'){
-                var aItem = {
-                    id : scope.id,
-                    audio : ''
-                };                    
+                   
                 DataService.getPdfXls(aItem).then(function(itemW){
                     scope.audio = itemW.audio;
                     if(scope.audio){

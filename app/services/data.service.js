@@ -388,7 +388,7 @@
                 
             }else if(nameTag == 'audience'){
                 decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tags.text : '?_embed&filter['+nameTag+']='+tags.text;
-                console.log(decoratedFilter);
+
             }else if(nameTag != 'search'){
                 angular.forEach(tags, function(tag){
                     decoratedFilter += (filterString !== '') ? '&filter['+nameTag+']='+tag.text : '?_embed&filter['+nameTag+']='+tag.text;
