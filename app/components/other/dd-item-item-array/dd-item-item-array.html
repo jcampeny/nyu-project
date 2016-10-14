@@ -1,0 +1,24 @@
+<ul>
+	<li ng-repeat="(dropDownKey, dropDown) in variables" ng-click="dropDownCollapsed[dropDownKey] = !dropDownCollapsed[dropDownKey]" ng-class="{'active' : dropDownCollapsed[dropDownKey]}">
+		<span>{{dropDown.name}}
+			<i class="fa" ng-class="(dropDownCollapsed[dropDownKey]) ? 'fa-angle-up' : 'fa-angle-down'" aria-hidden="true"></i>
+		</span>
+		<ul>
+			<li ng-repeat="(parentItemKey, parentItem) in dropDown.children" uib-collapse="!dropDownCollapsed[dropDownKey]">
+				<p>{{parentItem.name}}</p>
+				<ul>
+					<li ng-repeat="(inputItemKey, inputItem) in parentItem.children">
+						<label ng-if="selectType == 'radio'">
+							<input  type="radio" name="{{inputItem.name}}" ng-value="inputItem" ng-model="result.items[0]">
+							<span class="custom-radio">{{inputItem.name}}</span>
+						</label>
+						<label ng-if="selectType == 'checkbox'">
+							<input  type="checkbox" name="{{inputItem.name}}" value="inputItem.code" ng-checked="result.items.indexOf(inputItem.name) > -1" ng-click="toggleSelection(inputItem.name)"> 
+							<span class="custom-checkbox">{{inputItem.name}}</span>
+						</label>						
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>

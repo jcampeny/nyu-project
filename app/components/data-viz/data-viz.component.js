@@ -32,7 +32,41 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state,$inter
             $scope.countries = function(){
                 return mapVariablesService.getData("country");
             };
-
+            $scope.cartogramIndicators = [
+                {name: "Trade" , children: [
+                        {name: 'Merchandise Trade', children : [
+                                {name: 'Exports', default: true, code: "m.exports", filePrefix: "Exports"},
+                                {name: 'Imports', default: false, code: "m.imports", filePrefix: "MerchImports"}
+                            ]
+                        },
+                    ]
+                },
+                {name: "Capital" , children: [
+                        {name: 'Portfolio', children : [
+                                {name: "Assets Equity stock", default:false, code:"portfolio.assets", filePrefix: "PortfolioAssets"},
+                                {name: "Assets Debt stock", default:false, code:"portfolio.debt", filePrefix: "PortfolioDebt"}
+                            ]
+                        },
+                    ]
+                },
+                {name: "People" , children: [
+                        {name: 'Migration People', children : [
+                                {name: "Emigrations", default: false, code:"emigration", filePrefix: "Emigration"},
+                                {name: "Immigration", default: false, code:"immigration", filePrefix: "Immigration"}
+                            ]
+                        },
+                    ]
+                },
+                {name: "Information" , children: [
+                        {name: 'Printed publications trade', children : [
+                                {name: "exports", default:false, code: "ppubs.exports", filePrefix: "PpubsExports"},
+                                {name: "imports", default:false, code: "ppubs.imports", filePrefix: "PpubsImports"}
+                            ]
+                        },
+                    ]
+                }
+            ];
+/*
             $scope.cartogramIndicators = [
                 {name: "Trade" , children: [
                         {name: 'Merchandise Trade Exports', default: true, code: "m.exports", filePrefix: "Exports"},
@@ -63,7 +97,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state,$inter
                     ]
                 }
             ];
-
+*/
             $scope.indicators = function(){
                 return mapVariablesService.getData('indicatorsOther');
             };
