@@ -35,7 +35,7 @@ angular.module('app').directive('nyuDataViz', function($rootScope, $state,$inter
 
             $scope.cartogramIndicators = {
                 "Trade" : {
-                    "Merchandise Trade" : [{name: 'Exports', default: true}]
+                    "Merchandise Trade" : [{name: 'Exports', "default": true}]
                 }
             };
             $scope.indicators = function(){

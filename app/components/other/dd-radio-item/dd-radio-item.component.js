@@ -23,7 +23,7 @@ angular.module('app').directive('ddRadioItem', function () {
                 angular.forEach(parentValue, function(value, key){
                     angular.forEach(value, function(childValue, childKey){
                         if($('input[name="'+key+childValue.name+'"]').prop('checked')){
-                            childValue.default = true;
+                            childValue["default"] = true;
                             s.result.items.push({
                                 parent : key,
                                 name   : childValue.name
@@ -39,7 +39,7 @@ angular.module('app').directive('ddRadioItem', function () {
             angular.forEach(s.variables, function(parentValue, parentKey){
                 angular.forEach(parentValue, function(value, key){
                     angular.forEach(value, function(childValue, childKey){
-                        childValue.default = false;
+                        childValue["default"] = false;
                         
                     });
                 });
@@ -57,7 +57,7 @@ angular.module('app').directive('ddRadioItem', function () {
 
             angular.forEach(s.variables[parentKey][key], function(itemValue, itemKey){
                 $('input[name="'+key+itemValue.name+'"]').prop('checked', newState);
-                itemValue.default = true;
+                itemValue["default"] = true;
 
             });
             

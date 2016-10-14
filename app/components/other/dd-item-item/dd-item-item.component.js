@@ -23,7 +23,7 @@ angular.module('app').directive('ddItemItem', function () {
                 angular.forEach(parentValue, function(value, key){
                     angular.forEach(value, function(childValue, childKey){
                         if($('input[name="'+key+childValue.name+'"]').prop('checked')){
-                            childValue.default = true;
+                            childValue["default"] = true;
                             s.result.items.push({
                                 parent : key,
                                 name   : childValue.name

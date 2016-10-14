@@ -64,7 +64,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
                         "classvar": subSection.classvar,
                         "name": subSection.name,
                         "varname": subSection.varname,
-                        "default": subSection.default,
+                        "default": subSection["default"],
                         "value" : Math.round(Math.pow(2,((Math.random())*6) - 3) * Math.pow(10 , 3)) / Math.pow(10,3)
                     };
                     if(typeof $scope.selectedDistanceVariables.items[key][subSection.source] == "undefined"){
@@ -123,7 +123,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
                 angular.forEach(cultural, function(cepii){
                     angular.forEach(cepii, function(items){
                         angular.forEach(items, function(item){
-                            if(item.default){
+                            if(item["default"]){
                                 if(itemsToPrint !== ""){comma = ", ";}
                                 itemsToPrint +=  comma + item.name ;
                             } 
