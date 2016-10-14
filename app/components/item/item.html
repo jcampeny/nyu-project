@@ -28,7 +28,7 @@
 							></social-share>
 					</div>
 				</div>
-				<div ng-if="entity !== 'books'&& item" class="item-related show-desktop">
+				<div ng-if="(entity !== 'books' && entity !== 'working') && item" class="item-related show-desktop">
 					<div class="title"><span ng-if="realRelated()">Related</span> {{entityLabels[entity].altName}}</div>
 					<div class="related-items" ng-repeat="r in related">
 						<hr>
@@ -96,7 +96,7 @@
 					</div>
 				</div>// -->
 				<div class="item-content-text" ng-bind-html="item.content===''?item.content_short:item.content"></div>
-			    <a ng-if="item.main_cta !== '' && entity !== 'books'" class="cta cta-light-blue" ng-bind-html="item.main_cta"></a>
+			    <a ng-if="item.main_cta !== '' && entity !== 'books' && entity !== 'blog'" class="cta cta-light-blue" ng-bind-html="item.main_cta"></a>
 				<a ng-if="item.main_cta_2 !== '' && entity !== 'books'" class="cta cta-light-blue cat-2" ng-bind-html="item.mainctatext2"></a>
 				<div ng-if="item">
 					<div class="new-cta"><a target="_blank" href="{{item.pdf_link}}" ng-if="item.pdf_link !== '' && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
