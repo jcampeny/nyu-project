@@ -26,7 +26,8 @@ angular.module('app').directive('ddItemItem', function () {
                             childValue.default = true;
                             s.result.items.push({
                                 parent : key,
-                                name   : childValue.name
+                                name   : childValue.name,
+                                code   : childValue.code
                             });
                         }
                         
