@@ -24,6 +24,13 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
         controller.changeMapOption("compTooltips", newVal);
       });
 
+      scope.$watch('indicator',function(newVal, oldVal){
+        if(!angular.equals(newVal, oldVal)){
+          callRender();
+          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
+        }
+      },true);
+
       scope.$watch('country',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
           callRender();
@@ -135,8 +142,8 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
             MapChartsService.setConfigVar("colorMax",colorOptions.maximum);  
           }
 
-          var mapFileName = 'Exports_'+year+'_'+country;
-          var mapFile = '/localdata/vizdata/cartograms/Exports_'+year+'_'+country+'.json';
+          var mapFileName = indicator[0].filePrefix+'_'+year+'_'+country;
+          var mapFile = '/localdata/vizdata/cartograms/'+indicator[0].filePrefix+'_'+year+'_'+country+'.json';
           if(distortion && distortion === "no-scale"){
             mapFile = '/localdata/vizdata/countries_50.json';
             mapFileName = 'countries_50_geo';
