@@ -56,7 +56,8 @@
 				</div> 
 				<div ng-if="item.picture !== '' && !isEmbedYT()" class="item-image" ng-class="{'item-image-books':entity==='books'}">
 					<img ng-src="{{item.picture}}" />	
-					<a href="{{item.main_cta}}" target="_blank" ng-if="item.main_cta !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>		
+					<a href="{{item.main_cta}}" target="_blank" ng-if="item.main_cta !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Purchase'"></a>	
+					<a href="{{item.other_cta}}" target="_blank" ng-if="item.other_cta !== '' && entity === 'books'" class="cta cta-light-blue" ng-bind-html="'Appendix'"></a>	
 				</div>
 				<div ng-if="isEmbedYT()">
 					<iframe width="100%" height="100%" ng-src="{{videoEmbed}}" frameborder="0" allowfullscreen></iframe>
@@ -99,7 +100,7 @@
 			    <a ng-if="item.main_cta !== '' && entity !== 'books' && entity !== 'blog'" class="cta cta-light-blue" ng-bind-html="item.main_cta"></a>
 				<a ng-if="item.main_cta_2 !== '' && entity !== 'books'" class="cta cta-light-blue cat-2" ng-bind-html="item.mainctatext2"></a>
 				<div ng-if="item">
-					<div class="new-cta"><a target="_blank" href="{{item.pdf_link}}" ng-if="item.pdf_link !== '' && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
+					<div class="new-cta"><a target="_blank" href="{{item.pdf_link}}" ng-if="(item.pdf_link !== '' && item.pdf_link !== undefined) && contentShort !== ''" class="cta cta-dark-blue" ng-bind-html="'View PDF'"></a></div>
 					<div><a target="_blank" href="{{item.xls_link}}" ng-if="item.xls_link !== ''  && entity !== 'books'" class="link-dark-blue xls-link" ng-bind-html="'Download Results (EXCEL)'"></a></div>
 					<div><a target="_blank" href="{{item.pdf_link_extra}}" ng-if="item.pdf_link_extra !== '' && item.pdf_link_extra !== null" class="link-dark-blue" ng-bind-html="'View Online Appendix (PDF)'"></a></div>
 					<div><a target="_blank" href="{{item.ext_link}}" ng-if="item.ext_link !== '' && !isEmbedYT() && item.publicationType != 'VIDEOS'" class="link-dark-blue ext-link" ng-bind-html="'Read more on external site'"></a></div>

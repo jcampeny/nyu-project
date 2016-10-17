@@ -303,3 +303,22 @@
 	}
 
 }
+
+.item-image-books{
+	&:after{
+		content: '';
+		display:block;
+		clear: both;
+	}
+	img, a{
+		float: left;
+	}
+	a{
+		margin-top: 2%;
+		margin-bottom: 2%;
+		@media (max-width: 767px) {
+			margin-right: 2%;
+		}
+	}
+
+}
