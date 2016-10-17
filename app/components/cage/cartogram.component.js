@@ -167,7 +167,9 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
               DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                 dataset = [];
                 printDataSource();
-
+//console.log(result);
+//ROLE VALIDATOR 
+if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 var data = result.data.data.sort(function(a,b){
                   return parseFloat(a.value) - parseFloat(b.value);
                 });
@@ -396,6 +398,13 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService) {
         $scope.errorPopup = function(){
           $uibModal.open({
                 templateUrl: '../app/components/data-viz/templates/popup.html',
+                controller: "ModalCtlr",
+                size: 's'
+              });
+        };
+        $scope.errorRolePopup = function(){
+          $uibModal.open({
+                templateUrl: '../app/components/data-viz/templates/popup-ulvl.html',
                 controller: "ModalCtlr",
                 size: 's'
               });
