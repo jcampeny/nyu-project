@@ -1,4 +1,4 @@
-angular.module('app').directive('nyuCartogram', function (DataVaultService) {
+angular.module('app').directive('nyuCartogram', function (DataVaultService, $rootScope) {
   return {
     restrict: 'E',
     templateUrl: '../app/components/cage/cartogram.html',
@@ -375,6 +375,12 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                     
                   },2000);
                 }
+
+                $rootScope.datasetCSV = {
+                  csv : dataset,
+                  filename : 'test.csv',
+                  header : ['iso1', 'iso2', 'values']
+                };
               });
           });
         };

@@ -13,7 +13,7 @@ angular.module('app').directive('userHeader', function (LoginService, $http, $ro
             log : true,
             share : true,
             help : true,
-            download : false
+            download : true
         };
         //lanza un evento al rootScope, el name equivale al nombre de la scope
         //en el caso de share sera name = share
