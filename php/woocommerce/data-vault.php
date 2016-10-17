@@ -51,7 +51,8 @@ if ($conn->connect_error !== NULL) {
 }
 
 $user = new User($user_data->name, $user_data->pass);
-$user_role = $user->get_role();
+$role = $user->get_role();
+$user_role = ($role) ? $role : 1;
 
 $queryCountry = "";
 if(is_array($item_data->iso)){
@@ -72,41 +73,52 @@ if(is_array($item_data->iso)){
 $response_array['status'] = 'error';
 $response_array['content'] = '';
 
-$role_minimum = 0;
+$role_minimum = 1;
 
-//if($user->status == "success"){
-	$sql = "SELECT g.code,g.iso1,g.iso2,sum(g.value) as value, m.ulevel
-			FROM GCI g
-			RIGHT JOIN Metadata m 
-        	ON m.code = g.code
-			WHERE g.code='$item_data->code'
-			AND ($queryCountry or g.iso1='World')
-			AND g.year between ".$item_data->year[0]." and ".$item_data->year[0]."
-			GROUP BY g.iso1,g.iso2";
+$sql = "SELECT ulevel
+FROM Metadata
+WHERE code = '$item_data->code'";
 
-	if ($resultado = $conn->query($sql)) {
-	    $response_array['status'] = 'success';
-		$response_array['content'] = $resultado;
-		// $response_array['data'] = array();
-
-		while ($row = $resultado->fetch_object()){
-	        $response_array['data'][] = $row;
-	        $role_minimum = ($row->ulevel > $role_minimum) ? $row->ulevel : $role_minimum;
-	    }
-		$conn->close();
-
-		if($user_role < $role_minimum){
-			$response_array['status'] = 'error';
-			$response_array['content'] = 'role-not-valid';
-			$response_array['data'] = '';
-		}
-
+if($resultado = $conn->query($sql)){	
+	$role_minimum = $resultado->fetch_object()->ulevel;
+	if($role_minimum > $user_role){
+		$response_array['status'] = 'error';
+		$response_array['content'] = 'role-not-valid';
+		$response_array['data'] = '';		
 	}else{
-		$response_array['content'] = "Error to get indicator";
+		//if($user->status == "success"){
+			$sql = "SELECT g.code,g.iso1,g.iso2,sum(g.value) as value, m.ulevel
+					FROM GCI g
+					RIGHT JOIN Metadata m 
+		        	ON m.code = g.code
+					WHERE g.code='$item_data->code'
+					AND ($queryCountry or g.iso1='World')
+					AND g.year between ".$item_data->year[0]." and ".$item_data->year[0]."
+					GROUP BY g.iso1,g.iso2";
+
+			if ($resultado = $conn->query($sql)) {
+			    $response_array['status'] = 'success';
+				$response_array['content'] = $resultado;
+				// $response_array['data'] = array();
+
+				while ($row = $resultado->fetch_object()){
+			        $response_array['data'][] = $row;
+			        
+			    }
+				$conn->close();
+
+
+
+			}else{
+				$response_array['content'] = "Error to get indicator";
+			}
+		//}else{
+		//	$response_array['content'] = $user->error;
+		//}
 	}
-//}else{
-//	$response_array['content'] = $user->error;
-//}
+}
+
+
 
 print json_encode($response_array);
 
