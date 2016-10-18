@@ -6,11 +6,11 @@
 		</span>
 		<ul uib-collapse="!dropDownCollapsed[sectionKey]">
 			<li ng-repeat="(subsectionKey, subsection) in section" >
-				<span class="subsection" ng-click="subSectionCollapsed[subsectionKey] = !subSectionCollapsed[subsectionKey];">
-					<i class="fa" ng-class="(!subSectionCollapsed[subsectionKey]) ? 'fa-caret-right' : 'fa-sort-desc'" aria-hidden="true"></i>
+				<span class="subsection" ng-click="subSectionCollapsed[subsectionKey + $index] = !subSectionCollapsed[subsectionKey + $index];">
+					<i class="fa" ng-class="(!subSectionCollapsed[subsectionKey + $index]) ? 'fa-caret-right' : 'fa-sort-desc'" aria-hidden="true"></i>
 					{{subsectionKey}}
 				</span>
-				<ul class="subsection" uib-collapse="!subSectionCollapsed[subsectionKey]">
+				<ul class="subsection" uib-collapse="!subSectionCollapsed[subsectionKey + $index]">
 					<li ng-repeat="item in subsection" >
 						<label>
 							<input  type="checkbox" name="{{item.name}}" ng-model="item.default" ng-click="onCheck(item)">
