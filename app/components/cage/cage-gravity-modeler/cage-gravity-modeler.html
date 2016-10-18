@@ -190,8 +190,7 @@
 			<hr>
 			<div class="row content margin-all cta-selection">
 				<a  class="cta cta-darkest-blue float-left"
-				    ng-click="viewController.state = 'view'; 
-				   			 bindTemporalScopes('Indicators', 'DistanceVariables', 'Years', 'Size', 'Estimator', 'Effects', 'Options');">CALCULATE</a>
+				    ng-click="calculate()">CALCULATE</a>
 				<a  class="cta cta-light-gray float-right"
 					ng-click="viewController.state = 'view';" 
 					ng-if="firstCalculated">CANCEL</a>		
@@ -411,8 +410,7 @@
 				</div>
 				<hr>
 				<div class="cta-section content margin-all">
-					<a href="#" class="cta cta-darkest-blue" ng-click="viewController.state = 'view'; 
-				   		bindTemporalScopes('Indicators', 'DistanceVariables', 'Years', 'Size', 'Estimator', 'Effects', 'Options');">CALCULATE</a>
+					<a href="#" class="cta cta-darkest-blue" ng-click="calculate()">CALCULATE</a>
 				</div>
 			</div>
 			<a href="#" class="custom-link-extender">Advanced: Export Gravity Model Results to Distance Analysis</a>
@@ -460,15 +458,20 @@
 			</div>
 		</div>
 		<!-- TABLE SECTION -->
-		<div class="table-section content margin-top" ng-if="viewController.state == 'view'">
+		<div class="table-section content margin-top" >
 			<!-- TABLE -->
-			<table class="table content margin-no-bottom">
+			<div class="loading" ng-if="loading">Loading</div>
+			<table class="table content margin-no-bottom" ng-if="viewController.state == 'view'">
 				<tr><th></th><th ng-repeat="item in valueToDisplay">{{item.name}}</th></tr>
 				<tr ng-repeat="itemObj in tableResult">
-					<td ng-repeat="(key, item) in itemObj">{{item}}</td>
+					<td>{{itemObj.varName}}</td>
+					<td ng-repeat="item in itemObj.varData">
+						{{item.value}}
+						<div class="standard-error" ng-if="selectedOptions.robust">({{item.error}})</div>
+					</td>
 				</tr>
 			</table>
-			<div class="caption margin-h">
+			<div class="caption margin-h" ng-if="viewController.state == 'view'">
 				***p&lt;0.01 <br>
 				**p&lt;0.05 <br>
 				*p&lt;0.1 <br>

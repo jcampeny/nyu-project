@@ -821,7 +821,7 @@
          "classvar": "dvars",
          "name": "TA/RB depending on flow",
          "varname": "rta",
-         "default": true
+         "default": false
       }
    ],
    "Economic": [
@@ -879,7 +879,7 @@
          "classvar": "dvars",
          "name": "Ratio of pc income (max / min) -- logged",
          "varname": "lpcgdp_rat",
-         "default": true
+         "default": false
       },
       {
          "source": "Restricted datasets",
@@ -1205,7 +1205,7 @@
          "classvar": "svars",
          "name": "Logged size depending on flow",
          "varname": "lsize",
-         "default": true
+         "default": false
       }
    ],
    "NA": [
@@ -1214,21 +1214,21 @@
          "classvar": "fevars",
          "name": "Reporter fixed effects",
          "varname": "factor(iso1)",
-         "default": true
+         "default": false
       },
       {
          "source": "Fixed Effects",
          "classvar": "fevars",
          "name": "Partner fixed effects",
          "varname": "factor(iso2)",
-         "default": true
+         "default": false
       },
       {
          "source": "Fixed Effects",
          "classvar": "fevars",
          "name": "Year fixed effects",
          "varname": "factor(year)",
-         "default": true
+         "default": false
       },
       {
          "source": "Fixed Effects",

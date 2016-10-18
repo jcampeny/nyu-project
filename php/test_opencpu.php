@@ -25,7 +25,7 @@ $header = array('Content-Type:application/json');
 $ch = curl_init();
 
 $data = json_encode(array(
-	"dataset" => curl_escape($ch,"SELECT gci.*,cepi.comlang_off, cepi.colony, LN(cepi.distw) as ldistw, cepi.contig, LN(oe_1.value*oe_2.value) as lgdp1xgdp2, 0 as lgdppcratio FROM GCI gci INNER JOIN CEPIIGeoDist cepi ON cepi.iso1 = gci.iso1 AND cepi.iso2 = gci.iso2 INNER JOIN OxfordEconomics oe_1 ON oe_1.iso = gci.iso1 AND oe_1.year = gci.year INNER JOIN OxfordEconomics oe_2 ON oe_2.iso = gci.iso2 AND oe_2.year = gci.year WHERE gci.code='m.exports' AND gci.year>=2005 AND gci.year <= 2015 LIMIT 1000"),
+	"dataset" => curl_escape($ch,"SELECT gci.*,cepi.comlang_off, cepi.colony, LN(cepi.distw) as ldistw, cepi.contig, LN(oe_1.value*oe_2.value) as lgdp1xgdp2, 0 as lgdppcratio FROM GCI gci INNER JOIN CEPIIGeoDist cepi ON cepi.iso1 = gci.iso1 AND cepi.iso2 = gci.iso2 INNER JOIN OxfordEconomics oe_1 ON oe_1.iso = gci.iso1 AND oe_1.year = gci.year  AND oe_1.code='GDP$!' INNER JOIN OxfordEconomics oe_2 ON oe_2.iso = gci.iso2 AND oe_2.year = gci.year AND oe_2.code='GDP$!' WHERE gci.code='m.exports' AND gci.year>=2014 AND gci.year <= 2015"),
 	// "dataset" => "SELECT gci.*,cepi.comlang_off, cepi.colony, LN(cepi.distw) as ldistw, cepi.contig, LN(oe_1.value*oe_2.value) as lgdp1xgdp2, 0 as lgdppcratio FROM GCI gci INNER JOIN CEPIIGeoDist cepi ON NOT(cepi.iso1<>gci.iso1) AND NOT(cepi.iso2 <> gci.iso2) INNER JOIN OxfordEconomics oe_1 ON NOT(oe_1.iso <> gci.iso1) AND NOT(oe_1.year <> gci.year) INNER JOIN OxfordEconomics oe_2 ON NOT(oe_2.iso <> gci.iso2) AND NOT(oe_2.year <> gci.year) WHERE NOT(gci.code<>'m.exports') AND gci.year>2004 AND gci.year < 2016 LIMIT 100",
 	"dep.vars" => "value",
 	"distance.vars" => array("comlang_off", "colony", "ldistw", "contig"),
