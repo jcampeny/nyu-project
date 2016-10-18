@@ -13,7 +13,7 @@
 				<ul class="subsection" uib-collapse="!subSectionCollapsed[subsectionKey]">
 					<li ng-repeat="item in subsection" >
 						<label>
-							<input  type="checkbox" name="{{item.name}}" ng-model="item.default">
+							<input  type="checkbox" name="{{item.name}}" ng-model="item.default" ng-click="onCheck(item)">
 							<span class="custom-checkbox">{{item.name}}</span>
 						</label>
 					</li>

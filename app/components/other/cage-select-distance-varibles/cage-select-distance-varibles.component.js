@@ -4,7 +4,8 @@ angular.module('app').directive('cageSelectDistanceVaribles', function () {
     templateUrl: '../app/components/other/cage-select-distance-varibles/cage-select-distance-varibles.html',
     controllerAs: 'cageSelectDistanceVaribles',
     scope : {
-    	variables : '='
+    	variables : '=',
+        result : '='
     },
     controller: function ($scope, LoginService, $http, $rootScope) {
 
@@ -17,6 +18,18 @@ angular.module('app').directive('cageSelectDistanceVaribles', function () {
         $scope.toggleCollapsed = function(scopeKey, newValue){
             $scope.dropDownCollapsed[scopeKey] = newValue; 
         };
+
+        $scope.onCheck = function(item){
+            if(item.default){
+                $scope.result.push(item);
+            }else{
+                angular.forEach($scope.result, function(selectedItem, index){
+                    if(angular.equals(selectedItem, item)){
+                        $scope.result.splice(index, 1);  
+                    }
+                });
+            }
+        }
 
     }
   };

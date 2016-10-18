@@ -31,7 +31,7 @@
 		</div>
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 		<div ng-if="viewController.popUpState == 'distanceVariables'">
-			<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"></cage-select-distance-varibles>
+			<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="selectedDistanceVariables.items"></cage-select-distance-varibles>
 			<hr>
 			<div class="row content margin-all cta-selection">
 				<a  class="cta cta-darkest-blue"
@@ -242,7 +242,7 @@
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 		<div ng-if="viewController.popUpState == 'distanceVariables'" class="distance-variables">
-			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items"></cage-select-distance-varibles>
+			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items" result="selectedDistanceVariables.items"></cage-select-distance-varibles>
 			<hr>
 			<div class="row content margin-all cta-selection">
 				<a  class="cta cta-darkest-blue caption float-left"
@@ -445,7 +445,7 @@
 				</div>
 				<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 				<div ng-if="viewController.popUpState == 'distanceVariables'">
-					<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"></cage-select-distance-varibles>
+					<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="selectedDistanceVariables.items"></cage-select-distance-varibles>
 					<hr>
 					<div class="row content margin-all cta-selection">
 						<a  class="cta cta-darkest-blue"

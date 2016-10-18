@@ -33,7 +33,8 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
         $scope.calculate = function(){
             $scope.viewController.state = 'selection';
             $scope.loading = true;
-            $scope.bindTemporalScopes('Indicators', 'DistanceVariables', 'Years', 'Size', 'Estimator', 'Effects', 'Options');
+            $scope.bindTemporalScopes('Indicators',/* 'DistanceVariables', */'Years', 'Size', 'Estimator', 'Effects', 'Options');
+            console.log($scope.selectedDistanceVariables, $scope.selectedDistanceVariables);
             OpenCPUService.gm({
                     "dataset"   : "SELECT gci.*,cepi.comlang_off, cepi.colony, LN(cepi.distw) as ldistw, cepi.contig, LN(oe_1.value*oe_2.value) as lgdp1xgdp2, 0 as lgdppcratio FROM GCI gci INNER JOIN CEPIIGeoDist cepi ON cepi.iso1 = gci.iso1 AND cepi.iso2 = gci.iso2 INNER JOIN OxfordEconomics oe_1 ON oe_1.iso = gci.iso1 AND oe_1.year = gci.year  AND oe_1.code='GDP$!' INNER JOIN OxfordEconomics oe_2 ON oe_2.iso = gci.iso2 AND oe_2.year = gci.year AND oe_2.code='GDP$!' WHERE gci.code='m.exports' AND gci.year>=2014 AND gci.year <= 2015",
                     "dep.vars"  : "value",
@@ -106,7 +107,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
           url: 'localdata/content/distance-variables.json',
           method: 'GET'
         }).then(function(response){
-            
+            var itemDefaults = [];
             angular.forEach(response.data, function(section, key){
                 $scope.selectedDistanceVariables.items[key] = {};
                 angular.forEach(section, function(subSection){
@@ -117,6 +118,8 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
                         "default": subSection["default"],
                         "value" : Math.round(Math.pow(2,((Math.random())*6) - 3) * Math.pow(10 , 3)) / Math.pow(10,3)
                     };
+
+                    if(itemItem.default){itemDefaults.push(itemItem);}
                     if(typeof $scope.selectedDistanceVariables.items[key][subSection.source] == "undefined"){
                         $scope.selectedDistanceVariables.items[key][subSection.source] = [];
                     }
@@ -125,6 +128,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
             });
             $scope.temporalDistanceVariables = angular.copy($scope.selectedDistanceVariables);
             $scope.popUpDistanceVariables = angular.copy($scope.selectedDistanceVariables);
+            $scope.selectedDistanceVariables = {items: itemDefaults};
         });
 
 
