@@ -1,0 +1,19 @@
+<div class="modal-body share-popup">
+    <h3 class="no-margin color-blue">SHARE</h3>
+    <div class="share-link-container block margin-top">
+		<label for="share-link" class="block">LINK</label>
+	    <input type="text" name="share-link" id="share-link" ng-model="root.shareLink">
+	</div>
+	<div class="mobile-social btns-gray">
+		<span class="btn-caption block color-black margin-bottom">SOCIAL MEDIA & MAIL</span>
+		<social-share 
+			title="{{title}}"
+			content="{{content}}" 
+			picture="{{item.picture}}"
+			type = "item"
+		></social-share>
+	</div>
+</div>
+<div class="modal-footer">
+	<a class="cta cta-dark-blue" ng-click="close()">CANCEL</a>
+</div>

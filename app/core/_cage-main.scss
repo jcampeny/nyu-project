@@ -1,4 +1,4 @@
-nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modeler{
+nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modeler, .download-popup, .share-popup{
 	
 	.margin-controller{
 		&.margin-all{margin: $margin-size $margin-size;}
@@ -95,6 +95,10 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 		display:block;
 	}
 
+	.block-i{display: block !important;}
+	.color-black-i{color: #000000 !important;}
+
+	.color-black{color: #000000 !important; display: block !important;}
 	.color-white{color: #FFFFFF;}
 	.color-blue{color: $cage-blue-text;}
 	.color-pankaj-gray{color: $pankaj-gray;}
@@ -117,10 +121,25 @@ nyu-cage, nyu-maps, .data-viz-view, nyu-cage-comparator, nyu-cage-gravity-modele
 		@include radio();
 		@include checkbox();
 	}
-
+	a.download-link{
+		display: block;
+		color: black;
+		text-decoration: underline;
+		text-align: center;
+		margin: 10px 0;
+		&:hover{
+			color: #2E80FF;
+		}
+	}
 	.un-activated-form{
 		opacity: 0.2;
 		pointer-events: none;
+	}
+	.share-link-container{
+		label{}
+		input{
+			width: 100%;
+		}
 	}
 	dd-radio-item, dd-item, dd-item-array, dd-item-item-array{
 		&.standard{

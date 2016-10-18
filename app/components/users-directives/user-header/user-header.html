@@ -17,7 +17,7 @@
 </svg>
 
 <!-- SHARE -->
-<svg id="user" width="26px" height="26px" ng-if="validUser.share" ng-click="headerItemClick('share')">
+<svg id="user" width="26px" height="26px" ng-if="validUser.share" ng-click="sharePopup()">
 	<!-- general circle -->
 	<circle stroke-width="{{strokeWidth}}" fill="none" stroke="{{color}}" stroke-miterlimit="10" cx="12.958" cy="12.813" r="12.249"/>
 	<!-- ICON -->
@@ -37,7 +37,7 @@
 </svg>
 
 <!-- DOWNLOAD ng-click="headerItemClick('download')" -->
-<svg id="user" width="26px" height="26px" ng-if="validUser.download" ng-csv="root.datasetCSV.csv" csv-header="root.datasetCSV.header" filename="{{root.datasetCSV.filename}}">
+<svg id="user" width="26px" height="26px" ng-if="validUser.download" ng-click="downloadPopup()">
 	<!-- general circle -->
 	<circle stroke-width="{{strokeWidth}}" fill="none" stroke="{{color}}" stroke-miterlimit="10" cx="13.061" cy="12.83" r="12.11"/>
 		<!--arrow-->
