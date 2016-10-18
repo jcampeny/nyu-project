@@ -31,11 +31,11 @@
 		</div>
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 		<div ng-if="viewController.popUpState == 'distanceVariables'">
-			<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="selectedDistanceVariables.items"></cage-select-distance-varibles>
+			<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="temporalSelectedDistanceVariables.items"></cage-select-distance-varibles>
 			<hr>
 			<div class="row content margin-all cta-selection">
 				<a  class="cta cta-darkest-blue"
-				    ng-click="temporalDistanceVariables.items = popUpDistanceVariables.items; 
+				    ng-click="bindSelectedDistanceVariables();
 				   			 viewController.closePopUp();">UPDATE SELECTION</a>
 				<a  class="cta cta-light-gray"
 					ng-click="viewController.closePopUp();">CANCEL</a>		
@@ -128,7 +128,7 @@
 			<div class="row content margin-no-bottom">
 				<div class="col-xs-12 no-padding content padding-xs-bottom">Distance Variables</div>
 				<div class="col-xs-8 no-padding color-blue">
-						{{printDistanceVariables(temporalDistanceVariables)}}
+						{{printDistanceVariables(selectedDistanceVariables)}}
 				</div>
 				<div class="col-xs-4 no-padding text-align-right">
 					<a href="#" class="cta cta-dark-blue" ng-click="viewController.toggleView(true, 'distanceVariables')">SELECT</a>
@@ -242,11 +242,11 @@
 	<div class="view-popup row" ng-if="viewController.open" ng-class="viewController.popUpSize">
 		<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 		<div ng-if="viewController.popUpState == 'distanceVariables'" class="distance-variables">
-			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items" result="selectedDistanceVariables.items"></cage-select-distance-varibles>
+			<cage-select-distance-varibles class="standard block margin-all" variables="temporalDistanceVariables.items" result="temporalSelectedDistanceVariables.items"></cage-select-distance-varibles>
 			<hr>
 			<div class="row content margin-all cta-selection">
 				<a  class="cta cta-darkest-blue caption float-left"
-				    ng-click="selectedDistanceVariables.items = temporalDistanceVariables.items; 
+				    ng-click="bindSelectedDistanceVariables(); 
 				   			 viewController.closePopUp();">UPDATE SELECTION</a>
 				<a  class="cta cta-light-gray caption float-right"
 					ng-click="viewController.closePopUp();">CANCEL</a>		
@@ -339,12 +339,15 @@
 					<div ng-click="viewController.toggleView(false, 'distanceVariables');">
 						<span>Distance Variables</span>
 						<div ng-show="displayDistanceVariables" class="caption margin-sm-top">
-						<span ng-repeat="cultural in temporalDistanceVariables">
+						<!--<span ng-repeat="cultural in selectedDistanceVariables">
 							<span ng-repeat="cepii in cultural">
 								<span ng-repeat="items in cepii">
 									<span ng-repeat="item in items" ng-if="item.default">{{item.name}} <br></span>
 								</span>
 							</span>
+						</span>-->
+						<span ng-repeat="items in selectedDistanceVariables.items">
+							<span ng-repeat="item in items">{{item.name}} <br></span>
 						</span>
 						</div>					
 					</div>
@@ -445,11 +448,11 @@
 				</div>
 				<!-- POPUP DISTANCE VARIABLES TO SHOW-->
 				<div ng-if="viewController.popUpState == 'distanceVariables'">
-					<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="selectedDistanceVariables.items"></cage-select-distance-varibles>
+					<cage-select-distance-varibles class="standard" variables="popUpDistanceVariables.items"  result="temporalSelectedDistanceVariables.items"></cage-select-distance-varibles>
 					<hr>
 					<div class="row content margin-all cta-selection">
 						<a  class="cta cta-darkest-blue"
-						    ng-click="temporalDistanceVariables.items = popUpDistanceVariables.items; 
+						    ng-click="bindSelectedDistanceVariables(); 
 						   			 viewController.popUpState ='';">UPDATE SELECTION</a>
 						<a  class="cta cta-light-gray"
 							ng-click="viewController.popUpState ='';">CANCEL</a>		

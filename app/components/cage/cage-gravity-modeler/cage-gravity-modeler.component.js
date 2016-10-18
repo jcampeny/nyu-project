@@ -6,7 +6,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
     controller: function ($scope, LoginService, $http, OpenCPUService) {
         $scope.root = $rootScope;
         $scope.firstCalculated = false;
-        
+        $scope.temporalSelectedDistanceVariables = {};
 
         var varNames = {
             "comlang_off" :"Common official language", 
@@ -28,13 +28,16 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
                 $scope['selected'+argument] = angular.copy($scope[from+argument]);
             });
         };
+        $scope.bindSelectedDistanceVariables = function () {
+            $scope.selectedDistanceVariables = angular.copy($scope.temporalSelectedDistanceVariables); 
+        };
 
         $scope.loading = false;
         $scope.calculate = function(){
             $scope.viewController.state = 'selection';
             $scope.loading = true;
             $scope.bindTemporalScopes('Indicators',/* 'DistanceVariables', */'Years', 'Size', 'Estimator', 'Effects', 'Options');
-            console.log($scope.selectedDistanceVariables, $scope.selectedDistanceVariables);
+
             OpenCPUService.gm({
                     "dataset"   : "SELECT gci.*,cepi.comlang_off, cepi.colony, LN(cepi.distw) as ldistw, cepi.contig, LN(oe_1.value*oe_2.value) as lgdp1xgdp2, 0 as lgdppcratio FROM GCI gci INNER JOIN CEPIIGeoDist cepi ON cepi.iso1 = gci.iso1 AND cepi.iso2 = gci.iso2 INNER JOIN OxfordEconomics oe_1 ON oe_1.iso = gci.iso1 AND oe_1.year = gci.year  AND oe_1.code='GDP$!' INNER JOIN OxfordEconomics oe_2 ON oe_2.iso = gci.iso2 AND oe_2.year = gci.year AND oe_2.code='GDP$!' WHERE gci.code='m.exports' AND gci.year>=2014 AND gci.year <= 2015",
                     "dep.vars"  : "value",
@@ -129,6 +132,7 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
             $scope.temporalDistanceVariables = angular.copy($scope.selectedDistanceVariables);
             $scope.popUpDistanceVariables = angular.copy($scope.selectedDistanceVariables);
             $scope.selectedDistanceVariables = {items: itemDefaults};
+            $scope.temporalSelectedDistanceVariables = angular.copy($scope.selectedDistanceVariables);
         });
 
 
@@ -173,18 +177,19 @@ angular.module('app').directive('nyuCageGravityModeler', function (deviceDetecto
         s.printDistanceVariables = function(distanceVariables){
             var itemsToPrint = "";
             var comma = "";
-            angular.forEach(distanceVariables, function(cultural){
-                angular.forEach(cultural, function(cepii){
-                    angular.forEach(cepii, function(items){
-                        angular.forEach(items, function(item){
-                            if(item["default"]){
+            //angular.forEach(distanceVariables, function(cultural){
+                //angular.forEach(cultural, function(cepii){
+                    //angular.forEach(cepii, function(items){
+                        //angular.forEach(items, function(item){
+                        angular.forEach(distanceVariables.items, function(item){
+                            //if(item["default"]){
                                 if(itemsToPrint !== ""){comma = ", ";}
                                 itemsToPrint +=  comma + item.name ;
-                            } 
+                            //} 
                         });
-                    });
-                });
-            });
+                    //});
+                //});
+            //});
             return itemsToPrint;
         };
 
