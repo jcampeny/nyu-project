@@ -317,8 +317,8 @@
 		<div class="settings-menu content margin-all">
 			<div class="option-section">
 				<!-- Indicators-->
-				<div class="option-item indicators">
-					<div  ng-click="viewController.toggleView(false, 'indicators')">
+				<div class="option-item indicators" ng-click="viewController.toggleView(false, 'indicators')">
+					<div>
 						<span>Dependent Variable Indicator (International Flow / Stock)</span>
 						<div ng-show="displayIndicators" class="caption margin-sm-top">
 							<span ng-repeat="indicatorItem in temporalIndicators.items">
@@ -327,16 +327,18 @@
 						</div>						
 					</div>
 
-					<span class="see-more" ng-click="displayIndicators = !displayIndicators;">
+					<span class="see-more" ng-click="displayIndicators = !displayIndicators;  $event.stopPropagation();">
 						<span ng-show="!displayIndicators">SEE</span>
 						<span ng-show="displayIndicators">HIDE</span> SELECTION
 					</span>
 				</div>
 				<!-- Years-->
-				<div class="option-item years" ng-click="viewController.toggleView(false, 'years')">Year(s) <br> {{temporalYears.end}}</div>
+				<div class="option-item years" ng-click="viewController.toggleView(false, 'years')">
+				Year(s) <br> 
+				<span ng-if="temporalYears.end != temporalYears.start">{{temporalYears.start}} to </span>{{temporalYears.end}}</div>
 				<!-- Distance Variables-->
-				<div class="option-item distance-variables">
-					<div ng-click="viewController.toggleView(false, 'distanceVariables');">
+				<div class="option-item distance-variables"  ng-click="viewController.toggleView(false, 'distanceVariables');">
+					<div>
 						<span>Distance Variables</span>
 						<div ng-show="displayDistanceVariables" class="caption margin-sm-top">
 						<!--<span ng-repeat="cultural in selectedDistanceVariables">
@@ -351,7 +353,7 @@
 						</span>
 						</div>					
 					</div>
-					<span class="see-more" ng-click="displayDistanceVariables = !displayDistanceVariables;">
+					<span class="see-more" ng-click="displayDistanceVariables = !displayDistanceVariables; $event.stopPropagation();">
 						<span ng-show="!displayDistanceVariables">SEE</span>
 						<span ng-show="displayDistanceVariables">HIDE</span> SELECTION
 					</span>

@@ -92,7 +92,7 @@ nyu-cage-gravity-modeler{
 						@include transform(translateY(-50%));
 					}
 					span.see-more{
-						display: block;
+						display: inline-block;
 						font-size: 10px;
 						color: $pankaj-gray;
 						padding-top: $margin-size-xs;
