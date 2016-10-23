@@ -390,22 +390,22 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    			var tooltipContent = 
 	    	    				"<div class='title'>"+country.name+"";
     	    			    	
-	    	    			if(mapObject.dataNest[d.properties.iso_a3].total_received){
+	    	    			if(mapObject.dataNest[d.properties.iso_a3] && mapObject.dataNest[d.properties.iso_a3].total_received){
 	    	    				tooltipContent += "<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>";	
 	    	    			}
 
 	    	    			if(mapObject.distVars !== null){
 		    	    			var distVars = mapObject.distVars[mapObject.focusCountry.iso+"_"+country.iso];
 
-	    	    			    if(mapObject.compTooltips){
+	    	    			    if(distVars && mapObject.compTooltips){
 	    	    			    	tooltipContent += 
 	    	    			    		"<div class='item'>Common Official Language: "+(distVars.common_language=='1'?'Yes':"No")+"</div>"+
 	    	    			    		"<div class='item'>Colonial Linkage: "+(distVars.colonial_linkage=='1'?'Yes':"No")+"</div>"+
-	    	    			    		// "<div class='item'>Trade Agreement: Yes</div>"+
-	    	    			    		// "<div class='item'>Regional Bloc: Yes</div>"+
+	    	    			    		"<div class='item'>Trade Agreement: "+(distVars.trade_agreements=='1'?'Yes':"No")+"</div>"+
+	    	    			    		"<div class='item'>Regional Bloc: "+(distVars.regional_bloc=='1'?'Yes':"No")+"</div>"+
 	    	    			    		"<div class='item'>Physical Distance: "+(parseInt(distVars.physical_dist)+'km')+"</div>"+
-	    	    			    		"<div class='item'>Common Border: "+(distVars.common_border=='1'?'Yes':"No")+"</div>";
-	    	    			    		// "<div class='item'>Ratio of Per Capita Income: No</div>";
+	    	    			    		"<div class='item'>Common Border: "+(distVars.common_border=='1'?'Yes':"No")+"</div>"+
+	    	    			    		"<div class='item'>Ratio of Per Capita Income: "+(Math.round(parseFloat(distVars.gdp_ratio)*100)/100)+"</div>";
 	    	    			    }
 	    	    			}
 	    	    			

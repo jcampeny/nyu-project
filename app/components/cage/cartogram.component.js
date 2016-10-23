@@ -96,7 +96,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
         var dataset, country = "", countryName = "", self = this;
         var lastValidCountry = "United States";
 
-        $scope.dataSource = "";
+        $scope.dataSource = [];
 
         // MapChartsService.fetchFlags();
         MapChartsService.resetMapObject();
@@ -143,7 +143,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
           }
 
           var mapFileName = indicator[0].filePrefix+'_'+year+'_'+country;
-          var mapFile = '/localdata/vizdata/cartograms/'+indicator[0].filePrefix+'_'+year+'_'+country+'.json';
+          var mapFile = '/localdata/vizdata/cartograms/'+mapFileName+'.json';
           if(distortion && distortion === "no-scale"){
             mapFile = '/localdata/vizdata/countries_50.json';
             mapFileName = 'countries_50_geo';
@@ -162,11 +162,12 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
               lastValidCountry = mapVariablesService.getCountryByISO(country).name;
 
               // Read the data for the cartogram
-              var dataVaultRequest = {indicator: "m.exports", country: country, year:[year, year]};
+              var dataVaultRequest = {indicator: indicator[0].code, country: country, year:[year, year]};
 
               DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                 dataset = [];
-                printDataSource();
+                $scope.dataSource = [];
+                printDataSource(dataVaultRequest.indicator);
 //console.log(result);
 //ROLE VALIDATOR 
 if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
@@ -190,8 +191,8 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 angular.forEach(data, function(d){
                   if(d.iso1 === country && d.iso2 !== "World"){
                     d.iso = d.iso2;
-                    d.total_percent = parseFloat(d.value) / worldValues[d.iso2] * 100;
-                    d.total_received = parseFloat(d.value) / totalCountry * 100;
+                    d.total_percent = (worldValues[d.iso2] > 0)?parseFloat(d.value) / worldValues[d.iso2] * 100:0;
+                    d.total_received = (totalCountry > 0)?parseFloat(d.value) / totalCountry * 100:0;
                     d.value = parseFloat(d.value);
                     dataset.push(d);
                   }
@@ -223,20 +224,23 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                   setAndRenderMap(dataset,country);
 
                 }else if(color === "another"){
+                  var anotherDataVaultRequest = {};
+
                   if(anotherIndicator.country.items.length > 1){
                     MapChartsService.setSubType('multiple-focus');
-                    dataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
-                    dataVaultRequest.country = [];
+
+                    anotherDataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
+                    anotherDataVaultRequest.country = [];
                     angular.forEach(anotherIndicator.country.items,function(d){
-                      dataVaultRequest.country.push(mapVariablesService.getCountryISO(d));
+                      anotherDataVaultRequest.country.push(mapVariablesService.getCountryISO(d));
                     });
                     
-                    dataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
-                    DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
+                    anotherDataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
+                    DataVaultService.getCartogramIndicator(anotherDataVaultRequest.indicator, anotherDataVaultRequest.country, anotherDataVaultRequest.year).then(function(result){
                       var dataset = [];
                       var worldValues = {};
 
-                      $scope.dataSource += ", "+mapVariablesService.getIndicatorOtherByCode(dataVaultRequest.indicator).source;
+                      printDataSource(anotherDataVaultRequest.indicator);
 
                       // angular.forEach(result.data.data, function(d){
                       //   if(d.iso1 !== "World" && d.iso2 === "World"){
@@ -244,8 +248,8 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                       //   }
                       // });
 
-                      worldValues[dataVaultRequest.country[0]] = getWorldValue(result.data.data, dataVaultRequest.country[0]);
-                      worldValues[dataVaultRequest.country[1]] = getWorldValue(result.data.data, dataVaultRequest.country[1]);
+                      worldValues[anotherDataVaultRequest.country[0]] = getWorldValue(result.data.data, anotherDataVaultRequest.country[0]);
+                      worldValues[anotherDataVaultRequest.country[1]] = getWorldValue(result.data.data, anotherDataVaultRequest.country[1]);
 
 
                       angular.forEach(result.data.data, function(d){
@@ -267,7 +271,7 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                         }
                       });
 
-                      angular.forEach(dataVaultRequest.country,function(d){
+                      angular.forEach(anotherDataVaultRequest.country,function(d){
                         dataset.push({iso: d,partner:"", partner_percent:"#N/A",total:"0",total_percent:0, value: 0});  
                       });
 
@@ -277,27 +281,29 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
 
                       // var percentilesValues = calculatePercentiles(dataset, "value", "value");
                       // MapChartsService.setColorScaleLinear(percentilesValues,"value");  
-                      MapChartsService.setMultipleCountriesScale(dataVaultRequest.country);
-                      MapChartsService.setColorScaleMultiple(dataVaultRequest.country);
-                      MapChartsService.addLegendMultipleCountries(dataVaultRequest.country);
-                      setAndRenderMap(dataset,dataVaultRequest.country);
+                      MapChartsService.setMultipleCountriesScale(anotherDataVaultRequest.country);
+                      MapChartsService.setColorScaleMultiple(anotherDataVaultRequest.country);
+                      MapChartsService.addLegendMultipleCountries(anotherDataVaultRequest.country);
+                      setAndRenderMap(dataset,anotherDataVaultRequest.country);
                     });
                   }else{
-                    dataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
-                    dataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
-                    dataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
-                    DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
+                    anotherDataVaultRequest.indicator = anotherIndicator.indicators.items[0].code;
+                    anotherDataVaultRequest.country = mapVariablesService.getCountryISO(anotherIndicator.country.items[0]);
+                    anotherDataVaultRequest.year = [anotherIndicator.years.start, anotherIndicator.years.end];
+                    DataVaultService.getCartogramIndicator(anotherDataVaultRequest.indicator, anotherDataVaultRequest.country, anotherDataVaultRequest.year).then(function(result){
                       var dataset = [];
 
+                      printDataSource(anotherDataVaultRequest.indicator);
+
                       angular.forEach(result.data.data, function(d){
-                        if(d.iso1 === dataVaultRequest.country && d.iso2 !== "World"){
+                        if(d.iso1 === anotherDataVaultRequest.country && d.iso2 !== "World"){
                           d.iso = d.iso2;
                           d.value = parseFloat(d.value);
                           dataset.push(d);
                         }
                       });
 
-                      dataset.push({iso: dataVaultRequest.country,partner:"", partner_percent:"#N/A",total:"0",total_percent:0, value: 0});
+                      dataset.push({iso: anotherDataVaultRequest.country,partner:"", partner_percent:"#N/A",total:"0",total_percent:0, value: 0});
 
                       dataset = dataset.sort(function(a,b){
                         return parseFloat(a.value) - parseFloat(b.value);
@@ -306,7 +312,7 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                       var percentilesValues = calculatePercentiles(dataset, "value", "value");
                       MapChartsService.setColorScaleLinear(percentilesValues,"value");  
                       MapChartsService.addLegend(percentilesValues, "value");
-                      setAndRenderMap(dataset,dataVaultRequest.country);
+                      setAndRenderMap(dataset,anotherDataVaultRequest.country);
                     });
                   }
 
@@ -364,13 +370,34 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                   });
                 }
 
-                function printDataSource(){
+                function addDataSource(indicator){
+                  var indicatorSources = indicator.source.split("|");
+
+                  if($scope.dataSource.length == 0){
+                    $scope.dataSource.push(indicatorSources[0]);
+                  }
+
+                  angular.forEach(indicatorSources, function(is){
+                    var esta = false;
+                    angular.forEach($scope.dataSource, function(ds){
+                      if(ds.indexOf(is) >= 0 || is.indexOf(ds) >= 0){
+                        esta = true;
+                      }
+                    });
+                    if(!esta){
+                      $scope.dataSource.push(is);
+                    }
+                    
+                  }); 
+                }
+
+                function printDataSource(indicatorCode){
                   $timeout(function(){
-                    var indicator = mapVariablesService.getIndicatorOtherByCode(dataVaultRequest.indicator);
+                    var indicator = mapVariablesService.getIndicatorOtherByCode(indicatorCode);
                     if(indicator === null){
-                      printDataSource();
+                      printDataSource(indicatorCode);
                     }else{
-                      $scope.dataSource += indicator.source;  
+                      addDataSource(indicator);
                     }
                     
                   },2000);
