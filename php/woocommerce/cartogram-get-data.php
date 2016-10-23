@@ -149,7 +149,7 @@ function getIndicators ($user, $iso) {
 		throw new Exception("Role not valid");
 	
 	//get tables
-	$sql_get_tables = 'SELECT m.table FROM Metadata m GROUP BY m.table';
+	$sql_get_tables = 'SELECT m.table FROM Metadata m WHERE datatree like "Activities|Standard Datasets%" or datatree like "Size|Standard datasets%" GROUP BY m.table';
 	$indicators = [];
 
 	if ($resultado = $conn->query($sql_get_tables)) {
@@ -280,9 +280,11 @@ function getDistVars ($user, $country) {
 
 	//get tables
 	$sql_get_distvars = '
-		SELECT iso1,iso2,comlang_off as "common_language", colony as "colonial_linkage", distw as "physical_dist", contig as "common_border"
-		FROM CEPIIGeoDist
-		WHERE iso1 = "'.$country.'"
+		SELECT gd.iso1, gd.iso2, comlang_off as "common_language", colony as "colonial_linkage", distw as "physical_dist", contig as "common_border", ta.rta_update as "trade_agreements", ta.regionalbloc as "regional_bloc", dgpr.value as "gdp_ratio"
+		FROM CEPIIGeoDist gd
+		INNER JOIN TradeAgreements ta ON gd.iso1 = ta.iso1 AND gd.iso2 = ta.iso2 AND ta.year="2016"
+		INNER JOIN GDPPCRatio dgpr ON gd.iso1 = dgpr.iso1 AND gd.iso2 = dgpr.iso2
+		WHERE gd.iso1 = "'.$country.'"  GROUP BY iso1, iso2
 	';
 	$vars = array();
 
@@ -292,12 +294,15 @@ function getDistVars ($user, $country) {
 
 		while ($row = $resultado->fetch_object()){
 			$v = new stdClass();
-			$v->iso1 = $row->iso1;
-			$v->iso2 = $row->iso2;
-			$v->common_language = $row->common_language;
+			$v->iso1             = $row->iso1;
+			$v->iso2             = $row->iso2;
+			$v->common_language  = $row->common_language;
 			$v->colonial_linkage = $row->colonial_linkage;
-			$v->physical_dist = $row->physical_dist;
-			$v->common_border = $row->common_border;
+			$v->physical_dist    = $row->physical_dist;
+			$v->common_border    = $row->common_border;
+			$v->trade_agreements = $row->trade_agreements;
+			$v->regional_bloc    = $row->regional_bloc;
+			$v->gdp_ratio        = $row->gdp_ratio;
 
 			$vars[$v->iso1."_".$v->iso2] = $v;
 	    }
