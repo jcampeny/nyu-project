@@ -39,34 +39,36 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 
 	    function resetMapObject(){
 	    	mapObject = {
-	    		type 		  	 : null,
-	    		subtype			 : null,
-	    		dataset 	  	 : null,
-	    		dataNest 	  	 : null,
-				width         	 : 0,
-				height        	 : 0,
-				body          	 : null,
-				map           	 : null,
-				layer         	 : null,
-				mapFeatures   	 : null,
-				mapCircles	  	 : null,
-				mapFlags	  	 : null,
-				mapLegend	  	 : null,
-				dataFeatures  	 : null,
-				tooltip       	 : null,
-				zoom          	 : null,
-				projection    	 : null,
-				path          	 : null,
-				colorScale 	  	 : null,
-				colorFunction 	 : null,
-				valueScale 	  	 : null,
-				getValue	  	 : null,
-				countryFlags  	 : null,
-				focusCountry  	 : null,
-				clickFunction 	 : null,
-				tooltipValueName : null,
-				valueName		 : null,
-				distVars 		 : null
+				type               : null,
+				subtype            : null,
+				dataset            : null,
+				dataNest           : null,
+				width              : 0,
+				height             : 0,
+				body               : null,
+				map                : null,
+				layer              : null,
+				mapFeatures        : null,
+				mapCircles         : null,
+				mapFlags           : null,
+				mapLegend          : null,
+				dataFeatures       : null,
+				tooltip            : null,
+				zoom               : null,
+				projection         : null,
+				path               : null,
+				colorScale         : null,
+				colorFunction      : null,
+				valueScale         : null,
+				getValue           : null,
+				countryFlags       : null,
+				focusCountry       : null,
+				clickFunction      : null,
+				tooltipValueName   : null,
+				valueName          : null,
+				distVars           : null,
+				mainIndicator      : null,
+				secondaryIndicator : null
 		    };
 	    }
 
@@ -195,6 +197,13 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 				.attr("preserveAspectRatio", "xMidYMid")
 	    	    .attr("viewBox", "0 0 " + mapObject.width + " " + mapObject.height);
 
+	    	mapObject.map.append("rect")
+	    		.attr("x",0)
+	    		.attr("y",0)
+	    		.attr("width",mapObject.width)
+	    		.attr("height", mapObject.height)
+	    		.attr("fill","#FFFFFF");
+
 	    	mapObject.layer = mapObject.map.append("g")
 	    	    .attr("id", "layer");
 	    	
@@ -299,6 +308,9 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    		.data(mapObject.dataFeatures, function(d){return getId(d);})
 	    		.enter()
 	    	  	.append("path")
+	    	  	.filter(function(d){
+	    	  		return getId(d) !== "___";
+	    	  	})
 	    	    .attr("class", "mapFeature")
 	    	    .attr("id", function(d) {
 	    	      	return getId(d);
@@ -383,37 +395,52 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    		    return parseInt(d);
 	    	    		});
 	    	    		var country = mapVariablesService.getCountryByISO(d.properties.iso_a3);
-	    	    		if(country !== null && !isFocusCountry(country.iso)){
+	    	    		if(country !== null){
 	    	    			var mapWidth = parseInt(mapObject.map.style("width"));
 	    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
+	    	    			var tooltipContent = "";
 
-	    	    			var tooltipContent = 
-	    	    				"<div class='title'>"+country.name+"";
-    	    			    	
-	    	    			if(mapObject.dataNest[d.properties.iso_a3] && mapObject.dataNest[d.properties.iso_a3].total_received){
-	    	    				tooltipContent += "<div class='item'>"+Math.round(mapObject.dataNest[d.properties.iso_a3].total_received)+"%</div></div>";	
-	    	    			}
+	    	    			if(!isFocusCountry(country.iso)){
+		    	    			tooltipContent = "<div class='title'>"+country.name+"";
 
-	    	    			if(mapObject.distVars !== null){
-		    	    			var distVars = mapObject.distVars[mapObject.focusCountry.iso+"_"+country.iso];
+		    	    			if(mapObject.tooltipIndicator){
+		    	    				if(mapObject.dataNest[d.properties.iso_a3] && mapObject.dataNest[d.properties.iso_a3][mapObject.tooltipIndicator.property]){
+		    	    					var tooltipTotal = Math.round(mapObject.dataNest[d.properties.iso_a3][mapObject.tooltipIndicator.property]);
+		    	    					if(mapObject.tooltipIndicator.unit == "percent"){
+		    	    						tooltipContent += "<div class='item'>"+(tooltipTotal>0?tooltipTotal:"< 1")+"%</div>";
+		    	    					}else if(mapObject.tooltipIndicator.unit == "absolute"){
+		    	    						tooltipContent += "<div class='item'>"+(abbreviateNumber(tooltipTotal))+"</div>";
+		    	    						
+		    	    					}
+		    	    					
+		    	    				}	
+		    	    			}
+		    	    			tooltipContent += "</div>";
 
-	    	    			    if(distVars && mapObject.compTooltips){
-	    	    			    	tooltipContent += 
-	    	    			    		"<div class='item'>Common Official Language: "+(distVars.common_language=='1'?'Yes':"No")+"</div>"+
-	    	    			    		"<div class='item'>Colonial Linkage: "+(distVars.colonial_linkage=='1'?'Yes':"No")+"</div>"+
-	    	    			    		"<div class='item'>Trade Agreement: "+(distVars.trade_agreements=='1'?'Yes':"No")+"</div>"+
-	    	    			    		"<div class='item'>Regional Bloc: "+(distVars.regional_bloc=='1'?'Yes':"No")+"</div>"+
-	    	    			    		"<div class='item'>Physical Distance: "+(parseInt(distVars.physical_dist)+'km')+"</div>"+
-	    	    			    		"<div class='item'>Common Border: "+(distVars.common_border=='1'?'Yes':"No")+"</div>"+
-	    	    			    		"<div class='item'>Ratio of Per Capita Income: "+(Math.round(parseFloat(distVars.gdp_ratio)*100)/100)+"</div>";
-	    	    			    }
-	    	    			}
-	    	    			
+		    	    			if(mapObject.distVars !== null){
+			    	    			var distVars = mapObject.distVars[mapObject.focusCountry.iso+"_"+country.iso];
+
+		    	    			    if(distVars && mapObject.compTooltips){
+		    	    			    	tooltipContent += 
+		    	    			    		"<div class='item'>Common Official Language: "+(distVars.common_language=='1'?'Yes':"No")+"</div>"+
+		    	    			    		"<div class='item'>Colonial Linkage: "+(distVars.colonial_linkage=='1'?'Yes':"No")+"</div>"+
+		    	    			    		"<div class='item'>Trade Agreement: "+(distVars.trade_agreements=='1'?'Yes':"No")+"</div>"+
+		    	    			    		"<div class='item'>Regional Bloc: "+(distVars.regional_bloc=='1'?'Yes':"No")+"</div>"+
+		    	    			    		"<div class='item'>Physical Distance: "+(parseInt(distVars.physical_dist)+'km')+"</div>"+
+		    	    			    		"<div class='item'>Common Border: "+(distVars.common_border=='1'?'Yes':"No")+"</div>"+
+		    	    			    		"<div class='item'>Ratio of Per Capita Income: "+(Math.round(parseFloat(distVars.gdp_ratio)*100)/100)+"</div>";
+		    	    			    }
+		    	    			}
+	    	    			}else{	
+	    	    				tooltipContent = "<div class='title'>Focal country: "+country.name+"";
+
+	    	    			}		    	    			
 
 	    	    			mapObject.tooltip.classed('show', true)
 	    	    			    .attr('style', 'left:' + (tooltipLeft) +
 	    	    			            'px; top:' + (mouse[1] - 35) + 'px')
 	    	    			    .html(tooltipContent);
+
 	    	    		}
 	    	    	}
                 })
