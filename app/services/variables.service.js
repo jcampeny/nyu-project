@@ -28,6 +28,17 @@ angular.module('app')
             }
         };
 
+        json.cartogramAvailableIndicators = [
+            {name: "Trade" , children: [
+                    {name: 'Merchandise Trade', children : [
+                            {name: 'Exports', default: true, code: "m.exports", filePrefix: "Exports"},
+                            {name: 'Imports', default: false, code: "m.imports", filePrefix: "MerchImports"}
+                        ]
+                    },
+                ]
+            }
+        ];
+
         json.years = {
             start : '2015',
             end : '2015'
@@ -49,8 +60,18 @@ angular.module('app')
 
 
         DataVaultService.getCountries().then(function(result){
+            var countries = result.data.content;
+
+            for(var countryType in countries){
+                countries[countryType].sort(function(a,b){
+                    if(a.name > b.name) return 1;
+                    if(b.name > a.name) return -1;
+                    return 0;
+                });
+            }
+
             json.country = {
-                "Individual Countries" : result.data.content.individual
+                "Individual Countries" : countries.individual
                 // "Region"               : result.data.content.region,
                 // "Continent"            : result.data.content.continent,
                 // "Income level"         : result.data.content.income,
@@ -72,6 +93,12 @@ angular.module('app')
         }
         loadYearOther(defaultIndicator.code, defaultCountry.iso);
 
+        function loadCartogramAvailableIndicators(){
+            DataVaultService.getCartogramAvailableIndicators().then(function(result){
+                json.cartogramAvailableIndicators = result.data.content;
+            });
+        }
+        loadCartogramAvailableIndicators();
         
         function getData(name,subname){
             if(!subname){

@@ -60,6 +60,16 @@ if ($item_data->reason == 'years'){
 		$response_array['status'] = 'error';
 		$response_array['content'] = $e->getMessage();
 	}
+
+}else if($item_data->reason == 'cartogram-available-indicators'){
+	try {
+		$indicators  = getCartogramAvailableIndicators($user);
+	    $response_array['status'] = 'success';
+		$response_array['content'] = $indicators;
+	} catch (Exception $e) {
+		$response_array['status'] = 'error';
+		$response_array['content'] = $e->getMessage();
+	}
 }
 
 print json_encode($response_array);
@@ -183,6 +193,120 @@ function getIndicators ($user, $iso) {
         	}/*else{
         		throw new Exception("Can't get indicators".$conn->error);
         	}*/
+	    }
+
+	    $conn->close();
+	    return $indicators;
+	}else{
+		throw new Exception("Can't get table's name");
+	}
+}
+
+function getCartogramAvailableIndicators($user){
+	$indicators = [];
+
+	$user_role = $user->get_role();
+	$role_minimum = 0;
+
+	// Create connection
+	$conn = new mysqli(
+		'nyu-general.c5opksnh3gku.us-west-2.rds.amazonaws.com', 
+		'nyunewweb', 
+		'k1zCbksPR1cHhxOs%L', 
+		'datavault'
+	);
+
+	// Check connection
+	if ($conn->connect_error !== NULL) 
+	    throw new Exception("Connection failed: " . $conn->connect_error);
+	
+
+	//Check valid user
+	if($user->status != "success")
+		// throw new Exception($user->error);
+	
+
+	//Check Role
+	if($user_role < $role_minimum)
+		throw new Exception("Role not valid");
+	
+	//get tables
+	$sql_get_tables = 'SELECT m.*, c.* 
+		FROM Metadata m 
+		INNER JOIN Cartograms c ON c.indicator_code = m.code
+		WHERE m.datatree like "Activities|Standard Datasets%" or m.datatree like "Size|Standard datasets%"';
+	
+
+	$main_categories = array("Trade", "Capital", "Information", "People", "Size");
+
+	foreach ($main_categories as $cat) {
+		$dummy_cat = new stdClass();
+		$dummy_cat->name = $cat;
+		$dummy_cat->children = array();
+
+		array_push($indicators, $dummy_cat);
+	}
+
+	if ($resultado = $conn->query($sql_get_tables)) {
+	    $response_array['status'] = 'success';
+
+		while ($row = $resultado->fetch_object()){
+			$datatree = explode("|",$row->datatree);
+
+			//REALLY TOMA LA REFERENCIA o hay que añadir????
+			$esta_1 = false;
+			foreach($indicators as $lvl1){
+				if($lvl1->name == $datatree[2]){
+					$esta_1 = true;
+					$indicators_1 = $lvl1;
+					break;
+				}
+			}
+
+			if(!$esta_1){
+				$indicators_1 = new stdClass();
+				$indicators_1->name = $datatree[2];
+				$indicators_1->children = array();
+				array_push($indicators, $indicators_1);
+			}
+
+			$esta_2 = false;
+			foreach($indicators_1->children as $lvl2){
+				if($lvl2->name == $datatree[3]){
+					$esta_2 = true;
+					$indicators_2 = $lvl2;
+					break;
+				}
+			}
+			if(!$esta_2){
+				$indicators_2 = new stdClass();
+				$indicators_2->name = $datatree[3];
+				$indicators_2->children = array();
+				array_push($indicators_1->children, $indicators_2);
+			}
+			
+
+			$indicator_4 = new stdClass();
+			if(isset($datatree[4]) && $datatree[4] !== ""){
+				$indicator_4->name = $datatree[4];
+				$indicator_4->parent = $datatree[3];	
+			}else{
+				$indicator_4->name = $datatree[3];
+				$indicator_4->parent = $datatree[2];
+			}
+			
+			if($row->indicator_code == "m.exports"){
+				$indicator_4->default = true;
+			}else{
+				$indicator_4->default = false;
+			}
+
+
+			$indicator_4->year_start = $row->year_start;
+			$indicator_4->year_end = $row->year_end;
+			$indicator_4->code = $row->indicator_code;
+			$indicator_4->filePrefix = $row->filePrefix;
+			array_push($indicators_2->children, $indicator_4);
 	    }
 
 	    $conn->close();

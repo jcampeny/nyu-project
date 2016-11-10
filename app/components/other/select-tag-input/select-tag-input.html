@@ -1,6 +1,7 @@
 <tags-input 
 	ng-model="selectedItems" 
 	placeholder="Filter by Country"
+	replace-spaces-with-dashes="false"
 	add-from-autocomplete-only="true">
     <auto-complete 
     	source="getArrayFromCountries($query)"

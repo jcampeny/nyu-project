@@ -400,7 +400,7 @@ angular.module('app').service("MapChartsService",["ArrayService", "mapVariablesS
 	    	    			var tooltipLeft = mouse[0]+215 < mapWidth ? (mouse[0] + 15) : (mouse[0] - 215);
 	    	    			var tooltipContent = "";
 
-	    	    			if(!isFocusCountry(country.iso)){
+	    	    			if(mapObject.focusCountry !== "" && !isFocusCountry(country.iso)){
 		    	    			tooltipContent = "<div class='title'>"+country.name+"";
 
 		    	    			if(mapObject.tooltipIndicator){

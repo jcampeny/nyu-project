@@ -42,6 +42,15 @@ angular.module('app')
 		});
 	}
 
+	function getCartogramAvailableIndicators(){
+		return $http.post('/php/woocommerce/cartogram-get-data.php', {
+			user : $rootScope.actualUser,
+			item : {
+				reason : 'cartogram-available-indicators'
+			}
+		});
+	}
+
 	function getCountriesDistVars(countries){
 		return $http.post('/php/woocommerce/cartogram-get-data.php', {
 			user : $rootScope.actualUser,
@@ -53,11 +62,12 @@ angular.module('app')
 	}
 
 	return {
-		getCartogramIndicator  : getCartogramIndicator,
-		getCartogramYears      : getCartogramYears,
-		getCartogramIndicators : getCartogramIndicators,
-		getCountries		   : getCountries,
-		getCountriesDistVars   : getCountriesDistVars
+		getCartogramIndicator           : getCartogramIndicator,
+		getCartogramYears               : getCartogramYears,
+		getCartogramIndicators          : getCartogramIndicators,
+		getCountries                    : getCountries,
+		getCountriesDistVars            : getCountriesDistVars,
+		getCartogramAvailableIndicators : getCartogramAvailableIndicators
 	};
 }]);
    

@@ -12,13 +12,16 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
       colorClasification : "=",
       anotherIndicator   : "=",
       colorOptions       : "=",
-      countryCompTooltip : "="
+      countryCompTooltip : "=",
+      hasFocalCountry    : "="
     },
     link: function (scope, element, attrs, controller) {
       scope.mapWidth = $('#map-container').width();
       scope.mapHeight = $('#map-container').height();  
-      // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
-      callRender();
+      if(!scope.firstRendered){
+        callRender();  
+      }
+      
 
       scope.$watch('countryCompTooltip',function(newVal, oldVal){
         controller.changeMapOption("compTooltips", newVal);
@@ -27,27 +30,29 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
       scope.$watch('indicator',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
           callRender();
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
         }
       },true);
 
       scope.$watch('country',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
           callRender();
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
+        }
+      },true);
+
+      scope.$watch('year',function(newVal, oldVal){
+        if(!angular.equals(newVal, oldVal)){
+          callRender();
         }
       },true);
 
       scope.$watch('distortion',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, newVal, scope.color, scope.colorClasification, scope.countryCompTooltip);
           callRender();
         }
       });
 
       scope.$watch('color',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, newVal, scope.colorClasification, scope.countryCompTooltip);
           callRender();
         }
       });
@@ -57,14 +62,12 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
             newVal.indicators.items[0].name !== oldVal.indicators.items[0].name || 
             newVal.years.start !== oldVal.years.start ||
             newVal.years.end !== oldVal.years.end){
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, newVal, scope.countryCompTooltip);
           callRender();
         }
       },true);
 
       scope.$watch('colorClasification',function(newVal, oldVal){
         if(!angular.equals(newVal, oldVal)){
-          // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, newVal, scope.countryCompTooltip);
           callRender();
         }
       });
@@ -82,21 +85,31 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
               scope.mapWidth = $('#map-container').width();
               scope.mapHeight = $('#map-container').height();  
 
-              // controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.countryCompTooltip);
               callRender();
             }
           }
       );
 
+      var renderTimeout;
       function callRender(){
-        controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.anotherIndicator, scope.colorOptions, scope.countryCompTooltip);
+        scope.firstRendered = true;
+
+        if(renderTimeout){
+          clearTimeout(renderTimeout);
+        }
+
+        renderTimeout = setTimeout(function(){
+          controller.renderMap(scope.country, scope.indicator, scope.year, null, scope.distortion, scope.color, scope.colorClasification, scope.anotherIndicator, scope.colorOptions, scope.countryCompTooltip);
+        },400);
+        
       }
     },
-    controller: function ($scope, $timeout, $uibModal, MapChartsService, mapVariablesService) {
+    controller: function ($scope, $rootScope, $timeout, $uibModal, MapChartsService, mapVariablesService) {
         var dataset, country = "", countryName = "", self = this;
         var lastValidCountry = "United States";
 
-        $scope.dataSource = [];
+        $scope.root = $rootScope;
+        var exportDataset = [];
 
         // MapChartsService.fetchFlags();
         MapChartsService.resetMapObject();
@@ -106,9 +119,16 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
           MapChartsService.setConfigVar(option,value);
         };
 
+        $scope.root.rendering = false;
+
         this.renderMap = function(country, indicator, year, countryIso, distortion, color, colorClasification, anotherIndicator, colorOptions, countryCompTooltip){
+          if($scope.root.rendering){ return; }
+          $scope.root.rendering = true;
+          $scope.dataSource = "";
+
           if(countryIso){
             if(mapVariablesService.getCountryByISO(countryIso) === null){
+              $scope.root.rendering = false;
               return;
             }else{
               country = countryIso;
@@ -121,6 +141,7 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
           if(!country || !indicator || !year){
             $scope.errorPopup();
             $scope.country = [lastValidCountry];
+            $scope.root.rendering = false;
             return;
             
           }
@@ -139,35 +160,54 @@ angular.module('app').directive('nyuCartogram', function (DataVaultService, $roo
 
           if(colorOptions){
             MapChartsService.setConfigVar("colorBlending",colorOptions.blending);
-            MapChartsService.setConfigVar("colorMax",colorOptions.maximum);  
+            MapChartsService.setConfigVar("colorMax",colorOptions.maximum);
           }
 
-          var mapFileName = indicator[0].filePrefix+'_'+year+'_'+country;
+          MapChartsService.setConfigVar("tooltipIndicator",null);
+
+          var mapFileName = indicator[0].filePrefix+'_'+year.start;
+          if($scope.hasFocalCountry){
+            mapFileName += '_'+country;
+          }else{
+            mapFileName += '_Total';
+            country = "";
+
+            if(color === "share"){
+              color = "no-color";
+            }
+          }
+
           var mapFile = '/localdata/vizdata/cartograms/'+mapFileName+'.json';
           if(distortion && distortion === "no-scale"){
             mapFile = '/localdata/vizdata/countries_50.json';
             mapFileName = 'countries_50_geo';
             MapChartsService.setProjection("equirectangular");
             MapChartsService.setConfigVar("hasDistortion",false);
+            
           }else{
             MapChartsService.setConfigVar("hasDistortion",true);
           }
+
           // d3.json('/localdata/vizdata/Exports_DEU_2005-2015/Exports_'+$scope.year+'_DEU.json', function(topology) {
           d3.json(mapFile, function(topology) {
               if(!topology){
                 $scope.errorPopup();
                 $scope.country = [lastValidCountry];
+                $scope.root.rendering = false;
                 return;
               }
-              lastValidCountry = mapVariablesService.getCountryByISO(country).name;
+              if($scope.hasFocalCountry){
+                lastValidCountry = mapVariablesService.getCountryByISO(country).name;
+              }
 
               // Read the data for the cartogram
-              var dataVaultRequest = {indicator: indicator[0].code, country: country, year:[year, year]};
+              var dataVaultRequest = {indicator: indicator[0].code, country: country, year:[year.start, year.end]};
 
               DataVaultService.getCartogramIndicator(dataVaultRequest.indicator, dataVaultRequest.country, dataVaultRequest.year).then(function(result){
                 dataset = [];
-                $scope.dataSource = [];
-                printDataSource(dataVaultRequest.indicator);
+                exportDataset = [];
+                $scope.dataSource = result.data.content.datasource;
+                // printDataSource(dataVaultRequest.indicator);
 //console.log(result);
 //ROLE VALIDATOR 
 if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
@@ -189,10 +229,21 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 });
 
                 angular.forEach(data, function(d){
-                  if(d.iso1 === country && d.iso2 !== "World"){
-                    d.iso = d.iso2;
-                    d.total_percent = (worldValues[d.iso2] > 0)?parseFloat(d.value) / worldValues[d.iso2] * 100:0;
-                    d.total_received = (totalCountry > 0)?parseFloat(d.value) / totalCountry * 100:0;
+                  if($scope.hasFocalCountry){
+                    if(d.iso1 === country && d.iso2 !== "World"){
+                      d.iso = d.iso2;
+                      d.total_percent = (worldValues[d.iso2] > 0)?parseFloat(d.value) / worldValues[d.iso2] * 100:0;
+                      d.total_received = (totalCountry > 0)?parseFloat(d.value) / totalCountry * 100:0;
+                      d.value = parseFloat(d.value);
+                      dataset.push(d);
+                      exportDataset.push({
+                        iso1: d.iso1,
+                        iso2: d.iso2,
+                        year: dataVaultRequest.year[0]+"-"+dataVaultRequest.year[1],
+                        value: d.value
+                      });
+                    }
+                  }else{
                     d.value = parseFloat(d.value);
                     dataset.push(d);
                   }
@@ -218,6 +269,7 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 var minValue = d3.min(dataset,function(d){return parseFloat(d.total_percent);});
                 dataset.push({iso: country,partner:countryName, partner_percent:"#N/A",total:"0",total_percent:maxValue, value: maxValueAbsolut});
 
+
                 if(color === "classification"){
                   MapChartsService.setColorScaleOrdinal(colorClasification);
                   MapChartsService.addLegendMultiple(colorClasification);
@@ -226,6 +278,7 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 }else if(color === "another"){
                   var anotherDataVaultRequest = {};
 
+                  MapChartsService.setConfigVar("tooltipIndicator",{label: anotherIndicator.indicators.items[0].name, "property":"value", unit:"absolute"});
                   if(anotherIndicator.country.items.length > 1){
                     MapChartsService.setSubType('multiple-focus');
 
@@ -240,7 +293,8 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                       var dataset = [];
                       var worldValues = {};
 
-                      printDataSource(anotherDataVaultRequest.indicator);
+                      $scope.dataSource += ", "+result.data.content.datasource;
+                      // printDataSource(anotherDataVaultRequest.indicator);
 
                       // angular.forEach(result.data.data, function(d){
                       //   if(d.iso1 !== "World" && d.iso2 === "World"){
@@ -251,6 +305,12 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                       worldValues[anotherDataVaultRequest.country[0]] = getWorldValue(result.data.data, anotherDataVaultRequest.country[0]);
                       worldValues[anotherDataVaultRequest.country[1]] = getWorldValue(result.data.data, anotherDataVaultRequest.country[1]);
 
+                      exportDataset.push({
+                        iso1: anotherIndicator.indicators.items[0].name,
+                        iso2: "",
+                        eyar: "",
+                        value: ""
+                      });
 
                       angular.forEach(result.data.data, function(d){
                         if(d.iso1 !== "World" && d.iso2 !== "World"){
@@ -268,6 +328,12 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                           countryData.values[d.iso1] = parseFloat(d.value);
                           countryData.valuesPerc[d.iso1] = parseFloat(d.value)/worldValues[d.iso1];
                           dataset.push(d);
+                          exportDataset.push({
+                            iso1: d.iso1,
+                            iso2: d.iso2,
+                            year: anotherDataVaultRequest.year[0]+"-"+anotherDataVaultRequest.year[1],
+                            value: d.value
+                          });
                         }
                       });
 
@@ -293,13 +359,30 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                     DataVaultService.getCartogramIndicator(anotherDataVaultRequest.indicator, anotherDataVaultRequest.country, anotherDataVaultRequest.year).then(function(result){
                       var dataset = [];
 
-                      printDataSource(anotherDataVaultRequest.indicator);
+                      $scope.dataSource += ", "+result.data.content.datasource;
+                      // printDataSource(anotherDataVaultRequest.indicator);
+
+                      exportDataset.push({iso1: "",iso2: "",eyar: "",value: ""});
+                      exportDataset.push({iso1: "",iso2: "",eyar: "",value: ""});
+                      exportDataset.push({
+                        iso1: anotherIndicator.indicators.items[0].name,
+                        iso2: anotherIndicator.country.items[0],
+                        eyar: anotherIndicator.years.start,
+                        value: anotherIndicator.years.end
+                      });
 
                       angular.forEach(result.data.data, function(d){
                         if(d.iso1 === anotherDataVaultRequest.country && d.iso2 !== "World"){
                           d.iso = d.iso2;
                           d.value = parseFloat(d.value);
                           dataset.push(d);
+
+                          exportDataset.push({
+                            iso1: d.iso1,
+                            iso2: d.iso2,
+                            year: anotherDataVaultRequest.year[0]+"-"+anotherDataVaultRequest.year[1],
+                            value: d.value
+                          });
                         }
                       });
 
@@ -317,10 +400,19 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                   }
 
                 }else if(color === "share" || color === "no-color"){
-                  var percentilesValues = calculatePercentiles(dataset, "total_received", "total_percent");
-                  MapChartsService.setColorScaleLinear(percentilesValues,"total_percent");  
+                  var percentilesValues;
+                  if($scope.hasFocalCountry){
+                    percentilesValues = calculatePercentiles(dataset, "total_received", "total_percent");
+                    MapChartsService.setColorScaleLinear(percentilesValues,"total_percent");  
+                  }else{
+                    percentilesValues = calculatePercentiles(dataset, "value", "value");
+                    MapChartsService.setColorScaleLinear(percentilesValues,"value");  
+                    MapChartsService.setConfigVar("tooltipIndicator",{label: indicator[0].name, "property":"value", unit:"absolute"});
+                  }
+                  
 
                   if(color === "share"){
+                    MapChartsService.setConfigVar("tooltipIndicator",{label: "Partner opposite share", "property":"total_received", unit:"percent"});
                     MapChartsService.addLegend(percentilesValues, "total_percent");  
                   }
                   
@@ -356,8 +448,14 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                 
                 function setAndRenderMap(dataset, country){
                   MapChartsService.setDataset(dataset, country);
+
+                  if(mapFileName.indexOf("Exports") === 0 && typeof topology.objects[mapFileName] === "undefined"){
+                    mapFileName = mapFileName.replace("Exports","m.exports");
+                  }
+
                   MapChartsService.setTopology(topology, topology.objects[mapFileName]);
                   MapChartsService.resetMap();
+                  $scope.root.rendering = false;
                 }
                   
                 function getWorldValue(data, country){
@@ -370,43 +468,44 @@ if(result.data.content == 'role-not-valid') {$scope.errorRolePopup();}
                   });
                 }
 
-                function addDataSource(indicator){
-                  var indicatorSources = indicator.source.split("|");
+                // function addDataSource(indicator){
+                //   var indicatorSources = indicator.source.split("|");
 
-                  if($scope.dataSource.length == 0){
-                    $scope.dataSource.push(indicatorSources[0]);
-                  }
+                //   if($scope.dataSource.length === 0){
+                //     $scope.dataSource.push(indicatorSources[0]);
+                //   }
 
-                  angular.forEach(indicatorSources, function(is){
-                    var esta = false;
-                    angular.forEach($scope.dataSource, function(ds){
-                      if(ds.indexOf(is) >= 0 || is.indexOf(ds) >= 0){
-                        esta = true;
-                      }
-                    });
-                    if(!esta){
-                      $scope.dataSource.push(is);
-                    }
+                //   angular.forEach(indicatorSources, function(is){
+                //     var esta = false;
+                //     angular.forEach($scope.dataSource, function(ds){
+                //       if(ds.indexOf(is) >= 0 || is.indexOf(ds) >= 0){
+                //         esta = true;
+                //       }
+                //     });
+                //     if(!esta){
+                //       $scope.dataSource.push(is);
+                //     }
                     
-                  }); 
-                }
+                //   }); 
+                // }
 
-                function printDataSource(indicatorCode){
-                  $timeout(function(){
-                    var indicator = mapVariablesService.getIndicatorOtherByCode(indicatorCode);
-                    if(indicator === null){
-                      printDataSource(indicatorCode);
-                    }else{
-                      addDataSource(indicator);
-                    }
+                // function printDataSource(indicatorCode){
+                //   $timeout(function(){
+                //     var indicator = mapVariablesService.getIndicatorOtherByCode(indicatorCode);
+                //     if(indicator === null){
+                //       printDataSource(indicatorCode);
+                //     }else{
+                //       addDataSource(indicator);
+                //     }
                     
-                  },2000);
-                }
+                //   },2000);
+                // }
 
+                $rootScope.exportedName = indicator[0].name+"_"+year.start+"-"+year.end+'.png';
                 $rootScope.datasetCSV = {
-                  csv : dataset,
-                  filename : 'test.csv',
-                  header : ['iso1', 'iso2', 'values']
+                  csv : exportDataset,
+                  filename : indicator[0].name+"_"+year.start+"-"+year.end+'.csv',
+                  header : ['iso1', 'iso2', 'year', 'value']
                 };
               });
           });

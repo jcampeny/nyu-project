@@ -51,6 +51,11 @@ angular.module('app').controller('popUpDownload', ['$scope', '$rootScope', '$uib
     function($scope, $rootScope, $uibModalInstance) {
         $scope.root = $rootScope;
 
+        $scope.exportPng = function(){
+            saveSvgAsPng(document.getElementById("map"), $rootScope.exportedName);
+            
+        };
+
         $scope.close = function () {
             $uibModalInstance.close();
         };

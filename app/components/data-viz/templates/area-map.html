@@ -200,8 +200,8 @@
 	<div ng-if="viewController.popUpView == 'indicators'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-item-array class="standard" variables="cartogramIndicators" result="popUpIndicators" select-type="radio"></dd-item-item-array>
-		<!-- <dd-item-item class="standard" variables="cartogramIndicators" result="popUpIndicators"></dd-item-item> -->
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpIndicators" select-type="radio"></dd-item-item-array>
+		<!-- <dd-item-item class="standard" variables="cartogramIndicators()" result="popUpIndicators"></dd-item-item> -->
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -214,7 +214,7 @@
 	<div ng-if="viewController.popUpView == 'indicators-check'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators" select-type="radio"></dd-item-array>
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpIndicators" select-type="radio"></dd-item-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -226,7 +226,7 @@
 	<!-- SPECIFIC YEARS -->
 	<div ng-if="viewController.popUpView == 'years'">
 		<h3 class="color-blue margin-no-bottom">Select range for year by year timeline</h3>
-		<from-to class="content margin-all" result="popUpYears" disabled="true"></from-to>
+		<from-to class="content margin-all" result="popUpYears" disabled="false"></from-to>
 		<cta-controller meta-data="years"
 			pop-up="popUpYears" 
 			temporal="temporalYears" 
@@ -284,7 +284,8 @@
 	<div ng-if="viewController.popUpView == 'another-color-indicators'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-array class="standard" variables="indicators()" result="popUpAnotherColor.indicators" select-type="radio"></dd-item-array>
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpAnotherColor.indicators" select-type="radio"></dd-item-item-array>
+		<!-- <dd-item-array class="standard" variables="cartogramIndicators()" result="popUpAnotherColor.indicators" select-type="radio"></dd-item-array> -->
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpAnotherColor.indicators" 
@@ -424,7 +425,7 @@
 	<div ng-if="viewController.auxView == 'indicators'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-item class="standard" variables="cartogramIndicators" result="popUpIndicators"></dd-item-item>
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpIndicators" select-type="radio"></dd-item-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -437,7 +438,7 @@
 	<div ng-if="viewController.auxView == 'indicators-check'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-array class="standard" variables="indicators()" result="popUpIndicators" select-type="radio"></dd-item-array>
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpIndicators" select-type="radio"></dd-item-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpIndicators" 
@@ -534,7 +535,7 @@
 	<div ng-if="viewController.auxView == 'another-color-indicators'">
 		<h3 class="color-blue margin-no-bottom">Indicator (International Flow/Stock)</h3>
 		<div class="caption color-pankaj-gray margin-no-top">Select One Indicator</div>
-		<dd-item-array class="standard" variables="indicators()" result="popUpAnotherColor.indicators" select-type="radio"></dd-item-array>
+		<dd-item-item-array class="standard" variables="cartogramIndicators()" result="popUpAnotherColor.indicators" select-type="radio"></dd-item-item-array>
 		<hr>
 		<cta-controller meta-data="indicators"
 			pop-up="popUpAnotherColor.indicators" 
